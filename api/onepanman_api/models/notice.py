@@ -60,7 +60,7 @@ class Notice(models.Model):
     )
 
     def __str__(self):
-        return '발신 : {}, 수신 : {}, 날짜 : {}'.format(self.sender.name, self.receiver.name, self.date)
+        return '발신 : {}, 수신 : {}, 날짜 : {}'.format(self.sender.username, self.receiver.username, self.date)
 
     class Meta:
         db_table = "NOTICE"

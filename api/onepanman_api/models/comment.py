@@ -76,7 +76,7 @@ class Comment(models.Model):
     )
 
     def __str__(self):
-        return '게시글 : {}, 작성자: {}'.format(self.article.name, self.author.username)
+        return '게시글 : {}, 작성자: {}'.format(self.article.title, self.author.username)
     
     class Meta:
         db_table = "COMMENT"

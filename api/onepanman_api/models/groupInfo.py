@@ -17,7 +17,7 @@ class GroupInfo(models.Model):
     ranking = models.IntegerField(
         "랭킹",
         db_column="RANKING",
-        unique=True,
+        unique=True, 
     )
 
     def __str__(self):

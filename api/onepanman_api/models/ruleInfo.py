@@ -5,6 +5,13 @@ class RuleInfo(models.Model):
     Rule Information
     """
 
+    choice_type = (
+        ('placement', '착수'),
+        ('action', '액션'),
+        ('ending', '엔딩'),
+        ('victory', '승리조건'),
+    )
+
     id = models.AutoField(
         "ID",
         db_column="ID",
@@ -31,6 +38,7 @@ class RuleInfo(models.Model):
         null=False,
         blank=False,
         max_length=30,
+        choices = choice_type,
     )
 
     def __str__(self):

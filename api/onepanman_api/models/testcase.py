@@ -42,7 +42,7 @@ class Testcase(models.Model):
     )
 
     def __str__(self):
-        return '{}의 {}번째 testcase'.format(self.problem.name,self.testcase_index)
+        return '{}의 {}번째 testcase'.format(self.problem.title,self.testcase_index)
 
 
     class Meta:
