@@ -4,7 +4,7 @@ from rules import Rules
 from game_data import GameData
 
 
-class GameManager():
+class GameManager:
     # ex) {placment_rule : [..., ..., ...]}
     def __init__(self, challenger, opposite, placement_rule, action_rule, ending_rule, board_size, board_info):
         self.board = np.zeros((board_size, board_size))
@@ -39,4 +39,3 @@ class GameManager():
 
     def compile_user_code(self):
         pass
-

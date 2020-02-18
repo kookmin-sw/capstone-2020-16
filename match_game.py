@@ -19,18 +19,18 @@ try:
     os.mkdir(problem_data_dir)
 
 except Exception as e:
-    print('error in make game folder :', e)
+    print('error in make match folder :', e)
 
 extension = ['', '.c', '.cpp', '.py', '.java']
 
 
-def match_game(challenger_idx, oppositer_idx, problem_idx):
+def match_game(challenger_idx, oppositer_idx, problem_idx, rules):
     temp = '{0}{1}{2}'.format(challenger_idx, oppositer_idx, problem_idx)
     match_dir = os.path.join(match, temp)
     os.mkdir(match_dir)
 
     # ADD PROBLEM RULE DATA IN CONTAINER
-    json_data = read_rule()
+    json_data = rules
 
     with open(os.path.join(problem_data_dir, '{0}.json'.format(problem_idx)), "w") as json_file:
         json.dump(json_data, json_file)
@@ -59,7 +59,8 @@ def match_game(challenger_idx, oppositer_idx, problem_idx):
     oppositer = UserProgram(oppositer_code_data.language, match_dir, oppositer_code_filename)
 
     game_manager = GameManager(challenger=challenger, oppositer=oppositer,
-                               placement_rule=rule_data['placement'], action_rule=rule_data['action'], ending_rule=data['ending'],
+                               placement_rule=rule_data['placement'], action_rule=rule_data['action'],
+                               ending_rule=data['ending'],
                                board_size=rule_data['board size'], board_info=rule_data['board info'])
 
     match_result = game_manager.play_game()

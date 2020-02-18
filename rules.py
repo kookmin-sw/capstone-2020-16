@@ -4,7 +4,7 @@ from ending_rule import EndingRule
 
 
 class Rules(PlacementRule, ActionRule, EndingRule):
-    def __init__(self, game_data):
-        PlacementRule.__init__(self, game_data)
-        ActionRule.__init__(self, game_data)
-        EndingRule.__init__(self, game_data)
+    def __init__(self):
+        PlacementRule.__init__(self)
+        ActionRule.__init__(self)
+        EndingRule.__init__(self)

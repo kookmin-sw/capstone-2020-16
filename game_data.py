@@ -1,6 +1,6 @@
 
 
-class GameData():
+class GameData:
     def __init__(self, placement_rule, action_rule, ending_rule, board_size, board_info):
         self.placement_rule = placement_rule  # list
         self.action_rule = action_rule  # list

@@ -1,5 +1,6 @@
 placement_rule_num = 5
 
+
 class PlacementRule:
     def __init__(self, placement_rule):
         self.placement_rule = placement_rule    # list
