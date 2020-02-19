@@ -2,34 +2,35 @@ placement_rule_num = 5
 
 
 class PlacementRule:
-    def __init__(self, placement_rule):
-        self.placement_rule = placement_rule    # list
-
-    def check_placment_rule(self):
-        self.check_base_placement_rule()
-
-        if 'othello' in self.placement_rule:
-            self.check_othello_placement_rule()
-
-        if 'segyunjeon move' in self.placement_rule:
-            self.check_segyunjeon_placement_rule_move()
-
-        if 'segyunjeon add' in self.placement_rule:
-            self.check_segyunjeon_placement_rule_add()
-
-        return True
-
-    def check_base_placement_rule(self):    # check if user's placement where the stone is
+    def __init__(self):
         pass
 
-    def check_33_placement_rule(self):
+    def check_placment_rule(self, data, board):
+        new_board = board
+        self.check_base_placement_rule(data, board)
+
+        if 'othello' in data['placement']:
+            self.check_othello_placement_rule(data, board)
+
+        if 'segyunjeon_move' in data['placement']:
+            self.check_segyunjeon_placement_rule_move(data, board)
+
+        if 'segyunjeon_add' in data['placement']:
+            self.check_segyunjeon_placement_rule_add(data, board)
+
+        return True, board
+
+    def check_base_placement_rule(self, data, board):    # check if user's placement where the stone is
         pass
 
-    def check_othello_placement_rule(self):
+    def check_33_placement_rule(self, data, board):
         pass
 
-    def check_segyunjeon_placement_rule_move(self):     # move 2 spaces
+    def check_othello_placement_rule(self, data, board):
         pass
 
-    def check_segyunjeon_placement_rule_add(self):      # add max 1 space
+    def check_segyunjeon_placement_rule_move(self, data, board):     # move 2 spaces
+        pass
+
+    def check_segyunjeon_placement_rule_add(self, data, board):      # add max 1 space
         pass
