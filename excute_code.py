@@ -5,22 +5,21 @@ import psutil
 # from errorCode import *
 
 
-class Execution(object):
-    def __init__(self, limitTime=2000):
-        self.limitTime = limitTime
+class Execution:
+    def __init__(self, limit_time=2000):
+        self.limitTime = limit_time
 
-
-    def executeProgram(self, command, path):
+    def execute_program(self, command, path):
         parentPid = os.getpid()
         pid = os.fork()
 
         # pid == 0 : user program process, pid != 0 : matchingProgram process(user program process check)
         if pid is 0:
-            self.__runProgram(command, parentPid, path)
+            self.__run_program(command, parentPid, path)
 
         else:
             # trace user program & returned result,running time
-            result, time = self.__traceProgram(pid)
+            result, time = self.__trace_program(pid)
 
             # if success, check running time
             if time > self.limitTime:
@@ -46,7 +45,7 @@ class Execution(object):
                 return result, time, False  # return fail reason, running time, result
 
 
-    def __runProgram(self, command, pid, path):
+    def __run_program(self, command, pid, path):
         os.nice(19) # program priority setting
 
         # redirect stdout to text file
@@ -68,7 +67,7 @@ class Execution(object):
         os.execv(command[0], tuple(command[1:]))
 
 
-    def __traceProgram(self, pid):
+    def __trace_program(self, pid):
         while True:
             wpid, status, res = os.wait4(pid, 0)
 

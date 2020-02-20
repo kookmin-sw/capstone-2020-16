@@ -33,7 +33,7 @@ def play_game(match_data):  # match_data is json format
 #   "oppositer_score" : oppositer_score(int)
 #   "challenger_language" : challenger_language(string)
 #   "oppositer_language" : oppositer_language(string)
-#   "turn" : 0 or 1     # 0 : challenger first, 1 : oppositer first
+#   "turn" : "challenger" or "oppositer"
 #   "problem" : problem_idx(int)
 #   "placement" : [idx1, ixd2, ..]
 #   "action" : [idx1, idx2, ..]

@@ -13,8 +13,10 @@ def match_game(match_data):
     match_dir = os.path.join(os.getcwd(), 'match')
     extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}
 
-    challenger_code_filename = 'challenger_{0}{1}'.format(match_data['challenger'], extension[match_data['challenger_language']])
-    oppositer_code_filename = 'oppositer_{0}{1}'.format(match_data['oppositer'], extension[match_data['oppositer_language']])
+    challenger_code_filename = 'challenger_{0}{1}'.format(match_data['challenger'],
+                                                          extension[match_data['challenger_language']])
+    oppositer_code_filename = 'oppositer_{0}{1}'.format(match_data['oppositer'],
+                                                        extension[match_data['oppositer_language']])
 
     challenger_code_path = os.path.join(match_dir, challenger_code_filename)
     oppositer_code_path = os.path.join(match_dir, oppositer_code_filename)
@@ -28,12 +30,12 @@ def match_game(match_data):
     with open(oppositer_code_path, 'w') as f:
         f.write(oppositer_code)
 
-    challenger = UserProgram(match_data['challenger_language'], match_dir, challenger_code_filename)
-    oppositer = UserProgram(match_data['oppositer_language'], match_dir, oppositer_code_filename)
+    challenger = UserProgram(match_data['challenger'], match_data['challenger_language'], match_dir, challenger_code_filename)
+    oppositer = UserProgram(match_data['oppositer'], match_data['oppositer_language'], match_dir, oppositer_code_filename)
 
     game_manager = GameManager(challenger=challenger, oppositer=oppositer,
                                placement_rule=match_data['placement'], action_rule=match_data['action'],
-                               ending_rule=match_data['ending'],
+                               ending_rule=match_data['ending'], turn=match_data['turn'],
                                board_size=match_data['board size'], board_info=match_data['board info'])
 
     match_result = game_manager.play_game()
