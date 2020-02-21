@@ -5,5 +5,5 @@ from onepanman_api.serializers.gruopInfo import GroupInfoSerializer
 
 
 class GroupInfoViewSet(viewsets.ModelViewSet):
-    queryset = GroupInfo
+    queryset = GroupInfo.objects.all()
     serializer_class = GroupInfoSerializer

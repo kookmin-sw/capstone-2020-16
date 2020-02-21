@@ -19,7 +19,7 @@ class RuleInfo(models.Model):
     )
 
     name = models.CharField(
-        "규칙이름",
+        "rule name",
         db_column="NAME",
         unique=True,
         null=False,

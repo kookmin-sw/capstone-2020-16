@@ -46,7 +46,7 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
             data = serializer.validated_data
 
             qs = models.Problem.objects.get(id=int(kwargs['id']))
-            qs.name = data['name']
+            qs.title = data['title']
             qs.description = data['description']
             qs.limit_time = data['limit_time']
             qs.limit_memory = data['limit_memory']

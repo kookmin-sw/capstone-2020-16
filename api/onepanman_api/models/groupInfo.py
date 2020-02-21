@@ -12,6 +12,7 @@ class GroupInfo(models.Model):
         primary_key=True,
         null=False,
         on_delete=models.PROTECT,
+        related_name="groupInfo",
     )
 
     ranking = models.IntegerField(

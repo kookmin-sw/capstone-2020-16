@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os, json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import datetime
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #ROOT_DIR = os.path.dirname(BASE_DIR)
 SECRETS_DIR = os.path.join(BASE_DIR, '.secrets')
@@ -86,10 +88,20 @@ WSGI_APPLICATION = 'onepanman.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'onepanman',
+        'USER': 'root',
+        'PASSWORD': secrets_base["DB_PASSWORD"],
+        'HOST': 'localhost',
+        'PORT': 3307,
+
     }
 }
+
+DATABASE_OPTIONS = {'charset': 'utf8'}
 
 
 # Password validation
@@ -111,10 +123,25 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
+    # 'DEFAULT_PERMISSION_CLASSES' : (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ]
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
+
+# JWT_AUTH = {
+#     'JWT_SECRET_KEY' : SECRET_KEY,
+#     'JWT_ALGORITHM' : 'HS256',   # JWT 암호화에 사용되는 알고리즘
+#     'JWT_ALLOW_REFRESH' : True,  # JWT 토근 갱신 여부
+#     'JWT_EXPIRATION_DELTA' : datetime.timedelta(days=3),  # JWT 토근 유효 기간
+#     'JWT_REFRESH_EXPIRATION_DELTA' : datetime.timedelta(days=7)  # JWT 토근 갱신의 유효 기간
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

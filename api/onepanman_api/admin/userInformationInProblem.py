@@ -8,7 +8,7 @@ class UserInformationInProblemAdmin(admin.ModelAdmin):
     """
     ì½”ë“œ ì •ë³´
     """
-    list_display = ['id', 'user', 'problem', 'score', 'tier']
+    list_display = ['id', 'user', 'problem', 'score', 'tier', 'code']
     
     class Meta:
         model = models.UserInformationInProblem

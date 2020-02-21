@@ -14,7 +14,7 @@ class Language(models.Model):
     )
 
     name = models.CharField(
-        '언어이름',
+        'language name',
         db_column='NAME',
         null=False,
         blank=False,

@@ -4,6 +4,8 @@ from django.db import models
 from onepanman_api.models import Language
 
 
+DEFAULT_ID = 1
+
 class UserInfo(models.Model):
     """
     User Information
@@ -15,6 +17,7 @@ class UserInfo(models.Model):
         db_column="USER",
         primary_key=True,
         on_delete=models.PROTECT,
+        related_name='user_userInfo_user',
     )
 
     language = models.ForeignKey(
@@ -23,7 +26,14 @@ class UserInfo(models.Model):
         db_column="LANGUAGE",
         on_delete=models.PROTECT,
         related_name="language_userInfo_language",
-        default=0,
+        default= DEFAULT_ID,
+    )
+
+    nickname = models.CharField(
+        "닉네임",
+        db_column="NICKNAME",
+        max_length=40,
+        default="Anonymous"
     )
 
     heart = models.IntegerField(
@@ -31,13 +41,6 @@ class UserInfo(models.Model):
         db_column="HEART",
         null=False,
         default=5,
-    )
-
-    theme = models.IntegerField(
-        "테마정보",
-        db_column="THEME",
-        null=False,
-        default=0,
     )
 
     isCodeOpen = models.BooleanField(
@@ -52,6 +55,7 @@ class UserInfo(models.Model):
         verbose_name="그룹",
         db_column="GROUP",
         null=True,
+        blank=True,
         on_delete=models.PROTECT,
         related_name="group_userInfo_group",
     )
@@ -62,7 +66,11 @@ class UserInfo(models.Model):
         auto_now_add=True,
     )
 
-    objects = models.Manager()
+    profileImage = models.TextField(
+        "프로필 사진",
+        db_column="PROFILEIMAGE",
+        default="기본사진경로 넣기",
+    )
 
     def __str__(self):
         return '이름 : {}, 주 사용언어 : {}'.format(self.user.username, self.language.name)

@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from onepanman_api.models import Problem, Code
+from . import Problem, Code
 
+DEFAULT_ID = 1
 
 class UserInformationInProblem(models.Model):
     """
@@ -36,6 +37,7 @@ class UserInformationInProblem(models.Model):
         blank=False,
         on_delete=models.PROTECT,
         related_name="problem_userInformationInProblem_problem",
+        default=DEFAULT_ID,
     )
 
     score = models.IntegerField(
@@ -58,7 +60,7 @@ class UserInformationInProblem(models.Model):
         verbose_name="대표 코드",
         db_column="CODE",
         on_delete=models.PROTECT,
-        default=0,
+        default=DEFAULT_ID,
     )
 
     def __str__(self):

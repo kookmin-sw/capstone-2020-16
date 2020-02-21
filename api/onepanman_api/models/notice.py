@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+DEFAULT_ID = 1
+
 class Notice(models.Model):
     """
     Notice
@@ -19,7 +21,7 @@ class Notice(models.Model):
         db_column="SENDER",
         on_delete=models.PROTECT,
         related_name="user_notice_sender",
-        default=0,
+        default=DEFAULT_ID,
     )
 
     receiver = models.ForeignKey(
@@ -28,7 +30,7 @@ class Notice(models.Model):
         db_column="RECEIVER",
         on_delete=models.PROTECT,
         related_name="user_notice_receiver",
-        default=0,
+        default=DEFAULT_ID,
     )
 
     title = models.CharField(

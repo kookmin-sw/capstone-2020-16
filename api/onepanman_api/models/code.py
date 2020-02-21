@@ -47,7 +47,7 @@ class Code(models.Model):
     )
 
     name = models.CharField(
-        "코드이름",
+        "codename",
         db_column="NAME",
         max_length=20,
     )
