@@ -5,7 +5,7 @@ class PlacementRule:
     def __init__(self):
         self.message = 'OK'
 
-    def check_placment_rule(self, data, board, placement):
+    def check_placement_rule(self, data, board, placement):
         row, col = placement
         self.check_base_placement_rule(data, board, placement)
 

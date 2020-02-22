@@ -35,11 +35,7 @@ class GameManager:
 
         self.compile_user_code()    # not finish
 
-        #   make record folder, write initial board
-        match_record_path = os.path.join(os.getcwd(), 'record')
-        os.mkdir(match_record_path)
-        with open(os.path.join(match_record_path, 'record.txt'), 'w') as f:
-            f.write(self.board)
+        self.board_record += str(self.board) + '\n'
 
         while not is_ending:
             if total_turn > total_turn_limit:
@@ -64,7 +60,7 @@ class GameManager:
                 if apply_action == 'OK':
                     self.board = new_board
                     self.add_data(new_board, user_placement)
-                    check_ending = self.rules.check_ending(self.game_data, self.board)
+                    check_ending = self.rules.check_ending(self.game_data, self.board), user_placement
 
                     if check_ending:
                         match_result = self.rules.check_winner(self.game_data, self.board)

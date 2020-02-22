@@ -1,5 +1,5 @@
 import os
-import python-ptr
+import ptrace
 import resource
 import psutil
 # from errorCode import *
@@ -7,7 +7,7 @@ import psutil
 
 class Execution:
     def __init__(self, limit_time=2000):
-        self.limitTime = limit_time
+        self.limit_time = limit_time
 
     def execute_program(self, command, path):
         parentPid = os.getpid()
@@ -22,9 +22,9 @@ class Execution:
             result, time = self.__trace_program(pid)
 
             # if success, check running time
-            if time > self.limitTime:
+            if time > self.limit_time:
                 os.remove(os.path.join(path, str(parentPid) + '.txt'))
-                return TIME_OVER, time, False
+                return "TIME_OVER", time, False
 
             elif result is True:
                 try:
@@ -36,14 +36,13 @@ class Execution:
                     return pos, time, True  # return next place position, running tiem, result
 
                 except Execution as e:
-                    print e, '!!!!!!111'
-                    return SERVER_ERROR, time, False
+                    print(e, '!!!!!!')
+                    return "SERVER_ERROR", time, False
 
             # fail
             else:
                 os.remove(os.path.join(path, str(parentPid) + '.txt'))
                 return result, time, False  # return fail reason, running time, result
-
 
     def __run_program(self, command, pid, path):
         os.nice(19) # program priority setting
@@ -59,7 +58,7 @@ class Execution:
 
         # cpu using time limit
         soft, hard = resource.getrlimit(resource.RLIMIT_CPU)
-        resource.setrlimit(resource.RLIMIT_CPU, ((self.limitTime/1000)+1, hard))
+        resource.setrlimit(resource.RLIMIT_CPU, ((self.limit_time / 1000) + 1, hard))
 
         ptrace.traceme()
 
@@ -77,12 +76,13 @@ class Execution:
 
             # abnormal termination
             elif os.WIFSIGNALED(status):
+                # noinspection PyBroadException
                 try:
                     ptrace.kill(pid)
                 except Exception as e:
                     pass
 
-                return RUNTIME_ERROR, res[0]
+                return "RUNTIME_ERROR", res[0]
 
             else:
                 ptrace.syscall(pid, 0)

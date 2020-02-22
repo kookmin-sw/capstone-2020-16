@@ -1,27 +1,26 @@
-import time, datetime
+import time
+import datetime
 import docker
 import json
 import multiprocessing
 import time
 import os
-from celery import Celery, g
+from celery import Celery
 
 
 # celery app
 app = Celery('tasks', broker='redis://localhost:6379')
 
-
 # cpu_info
 cpu_num = multiprocessing.cpu_count()
 
-
 # docker image
-docker_img = "image"
+docker_img = "app"
 
 
 @app.task
-def play_game(match_data):  # match_data is json format
-
+# def play_game(match_data):  # match_data is json formatz
+def play_game():
     run_container()
 
 # match_data
@@ -44,11 +43,12 @@ def play_game(match_data):  # match_data is json format
 
 
 def run_container():
+    print('aaaa')
     client = docker.from_env()
     containers_num = len(client.containers.list())
     
     while containers_num >= cpu_num:
         time.sleep(1)
-        print('not enough cpu_num. waitting.....')
+        print('not enough cpu_num. waiting.....')
 
-    client.containers.run(docker_img, command=None, auto_remove=True)
+    client.containers.run(image=docker_img, command='echo hello world', auto_remove=False, tty=True, stdin_open=True)
