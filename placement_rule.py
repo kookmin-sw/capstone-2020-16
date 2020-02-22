@@ -3,10 +3,10 @@ placement_rule_num = 5
 
 class PlacementRule:
     def __init__(self):
-        pass
+        self.message = 'OK'
 
     def check_placment_rule(self, data, board, placement):
-        new_board = board
+        row, col = placement
         self.check_base_placement_rule(data, board, placement)
 
         if 'othello' in data['placement']:
@@ -18,10 +18,20 @@ class PlacementRule:
         if 'segyunjeon_add' in data['placement']:
             self.check_segyunjeon_placement_rule_add(data, board, placement)
 
-        return True, new_board
+        if self.message == 'OK':
+            board[row][col] = 1
+            new_board = board
 
+        return self.message, new_board
+
+    # noinspection PyMethodMayBeStatic
     def check_base_placement_rule(self, data, board, placement):    # check if user's placement where the stone is
-        pass
+        row, col = placement
+        if (row < 0 or row > data.board_size) or (col < 0 or col > data.board_size):
+            self.message = f'out of the board : {row, col}'
+
+        if board[row][col] != 0:
+            self.message = f'There is already a stone : {row, col}'
 
     def check_33_placement_rule(self, data, board, placement):
         pass

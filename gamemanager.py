@@ -21,7 +21,8 @@ class GameManager:
         self.rules = Rules()
         self.execution = Execution()
 
-        self.record = ''
+        self.board_record = ''
+        self.placement_record = ''
 
         self.limit_time = 2000
 
@@ -30,7 +31,7 @@ class GameManager:
         total_turn = 0
         total_turn_limit = self.game_data.board_size ** 3
         is_ending = False
-        result = ''
+        match_result = ''
 
         self.compile_user_code()    # not finish
 
@@ -43,8 +44,8 @@ class GameManager:
         while not is_ending:
             if total_turn > total_turn_limit:
                 print("total_turn over")
-                result = 'draw'
-                return result
+                match_result = 'draw'
+                return match_result
 
             #   user code execute
             user_placement = None
@@ -56,25 +57,30 @@ class GameManager:
                 self.check_turn = 'challenger'
 
             check_placement, new_board = self.rules.check_placment_rule(self.game_data, self.board, user_placement)
-            if check_placement:
+            if check_placement == 'OK':
                 self.board = new_board
-                apply_action, new_board = self.rules.apply_action_rule(self.game_data, self.board)
+                apply_action, new_board = self.rules.apply_action_rule(self.game_data, self.board, user_placement)
 
-                if apply_action:
+                if apply_action == 'OK':
                     self.board = new_board
-                    self.add_data(check_placement, new_board)
+                    self.add_data(new_board, user_placement)
                     check_ending = self.rules.check_ending(self.game_data, self.board)
 
                     if check_ending:
-                        check_winner = self.rules.check_winner(self.game_data, self.board)
+                        match_result = self.rules.check_winner(self.game_data, self.board)
+                        is_ending = True
 
+            else:
+                pass
 
-
-
-        return result
+            #   change player
+            self.board *= -1
+        return match_result, self.board_record, self.placement_record
 
     def compile_user_code(self):
         pass
 
-    def add_data(self, placement, board):
+    def add_data(self, board, placement):
+        self.board_record += str(board).strip() + '\n'
+        self.placement_record += str(board).strip() + '\n'
 

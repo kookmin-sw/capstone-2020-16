@@ -4,7 +4,8 @@ import json
 
 from gamemanager import GameManager
 from utils.code_query import select_code
-from utils.user_info_in_problem_query import update_user_info_in_problem
+from utils.util_user_info_in_problem import update_user_info_in_problem
+from utils.util_match import update_match_data
 from userprogram import UserProgram
 from db_manager import DBManager
 
@@ -38,7 +39,7 @@ def match_game(match_data):
                                ending_rule=match_data['ending'], turn=match_data['turn'],
                                board_size=match_data['board size'], board_info=match_data['board info'])
 
-    match_result = game_manager.play_game()
+    match_result, board_record, placement_record = game_manager.play_game()
 
     challenger_score = match_data['challenger_score']
     oppositer_score = match_data['oppositer_score']
@@ -61,6 +62,9 @@ def match_game(match_data):
                                 score=challenger_score)
     update_user_info_in_problem(user_idx=match_data['oppositer'], problem_idx=match_data['problem'],
                                 score=oppositer_score)
+
+    #   update match data
+    update_match_data(match_result, board_record, placement_record)
 
 
 if __name__ == '__main__':
