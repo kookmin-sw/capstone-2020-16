@@ -8,6 +8,7 @@ from . import routers, views
 
 router = routers.AppRouter()
 router.register('article', views.api.article.ArticleViewSet, 'article')
+router.register('articlefull', views.api.article.ArticleCommentViewSet, 'articlefull')
 router.register('code', views.api.code.CodeViewSet, 'code')
 router.register('comment', views.api.comment.CommentViewSet, 'comment')
 router.register('friend', views.api.friend.FriendViewSet, 'friend')

@@ -25,14 +25,14 @@ class Comment(models.Model):
         null=False,
         blank=False,
         on_delete=models.CASCADE,
-        related_name="article_comment_article"
+        related_name="comment",
     )
 
     comment_index = models.IntegerField(
         "댓글 번호",
         db_column="COMMENT_INDEX",
         null=False,
-        default=0,
+        default=1,
     )
 
     comment = models.TextField(

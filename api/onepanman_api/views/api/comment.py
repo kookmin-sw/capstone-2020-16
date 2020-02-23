@@ -5,5 +5,5 @@ from onepanman_api.serializers.comment import CommentSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer

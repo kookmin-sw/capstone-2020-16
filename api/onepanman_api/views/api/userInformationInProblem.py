@@ -6,7 +6,9 @@ from onepanman_api.serializers.userInformationInProblem import UserInformationIn
 
 
 class UserInformationInProblemViewSet(viewsets.ModelViewSet):
-    queryset = UserInformationInProblem.objects.all()
+    queryset = UserInformationInProblem.objects.all().order_by('problem', '-score')
     serializer_class = UserInformationInProblemSerializer
-    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = ['user', 'problem', 'tier']
+    filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
+    filter_fields = ('user', 'problem', 'tier', 'score')
+    # ordering_fields = ('user', 'problem', 'score')
+    # ordering = ('user',)

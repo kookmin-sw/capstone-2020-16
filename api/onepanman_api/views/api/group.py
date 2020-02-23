@@ -9,5 +9,5 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class GroupFullInfoViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
+    queryset = Group.objects.all().order_by('groupInfo__ranking')
     serializer_class = GroupFullInfoSerializer
