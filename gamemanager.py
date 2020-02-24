@@ -44,13 +44,15 @@ class GameManager:
                 match_result = 'draw'
                 return match_result
 
+            self.make_input_data()
+
             #   user code execute
             user_placement = None
             if self.check_turn == 'challenger':
-                user_placement = self.execution.execute_program(self.challenger.play, self.challenger.save_path)
+                user_placement, time, run_result = self.execution.execute_program(self.challenger.play, self.challenger.save_path)
                 self.check_turn = 'oppositer'
             elif self.check_turn == 'oppositer':
-                user_placement = self.execution.execute_program(self.opposite.play, self.opposite.save_path)
+                user_placement, time, run_result = self.execution.execute_program(self.opposite.play, self.opposite.save_path)
                 self.check_turn = 'challenger'
 
             check_placement, new_board = self.rules.check_placment_rule(self.game_data, self.board, user_placement)
@@ -85,3 +87,7 @@ class GameManager:
         self.board_record += str(board).strip() + '\n'
         self.placement_record += str(board).strip() + '\n'
 
+    def make_input_data(self):
+        board = str(self.board).strip() + '\n'
+        with open(os.path.join(self.challenger.save_path, 'input.txt'), 'w') as f:
+            f.write(board)

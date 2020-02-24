@@ -13,7 +13,9 @@ class UserProgram:
         self.file_path = os.path.join(self.save_path, filename)
 
     def compile(self):
-        compile_message = select_compile_message(self.language)
+        # compile_message = select_compile_message(self.language)
+        # dummy_data
+        compile_message = ['/usr/bin/gcc', '/usr/bin/gcc', '-o']
 
         if 'PYTHON' in self.language:
             pass
@@ -24,6 +26,9 @@ class UserProgram:
             return compile_message[self.language]
 
     def play(self):
-        pass
+
+        # dummy_data
+        return ['/usr/bin/python3', '/usr/bin/python3', self.save_path, '<', self.input_path]
+
         # run program with execution object & return result
         # return playMessage[self.language]

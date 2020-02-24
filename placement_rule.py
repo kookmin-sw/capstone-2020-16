@@ -32,10 +32,10 @@ class PlacementRule:
     # noinspection PyMethodMayBeStatic
     def check_base_placement_rule(self, data, board, placement):    # check if user's placement where the stone is
         x, y = placement
-        if (row < 0 or row > data.board_size) or (col < 0 or col > data.board_size):
+        if (x < 0 or x > data.board_size) or (y < 0 or y > data.board_size):
             self.message = f'out of the board : {x, y}'
 
-        if board[row][col] != 0:
+        if board[x][y] != 0:
             self.message = f'There is already a stone : {x, y}'
 
     def check_33_placement_rule(self, data, board, placement):
