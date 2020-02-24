@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class ActionRule:
     def __init__(self):
         self.message = 'OK'

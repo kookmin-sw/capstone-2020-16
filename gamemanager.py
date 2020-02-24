@@ -27,11 +27,12 @@ class GameManager:
         self.limit_time = 2000
 
     def play_game(self):
-        user_turn = 0    # 0 : first player turn, 1 : later player turn
+        user_turn = 1    # 1 : first player turn, -1 : later player turn
         total_turn = 0
         total_turn_limit = self.game_data.board_size ** 3
         is_ending = False
         match_result = ''
+        winner = 0
 
         self.compile_user_code()    # not finish
 
@@ -60,17 +61,21 @@ class GameManager:
                 if apply_action == 'OK':
                     self.board = new_board
                     self.add_data(new_board, user_placement)
-                    check_ending = self.rules.check_ending(self.game_data, self.board), user_placement
+                    is_ending, winner = self.rules.check_ending(self.game_data, self.board, user_placement)
 
-                    if check_ending:
-                        match_result = self.rules.check_winner(self.game_data, self.board)
-                        is_ending = True
-
+                else:
+                    print('action error')
             else:
-                pass
+                print('placement error')
+
+            if user_turn == winner:
+                match_result = 'WIN'
+            else:
+                match_result = 'LOSE'
 
             #   change player
             self.board *= -1
+            user_turn += -1
         return match_result, self.board_record, self.placement_record
 
     def compile_user_code(self):

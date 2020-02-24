@@ -1,0 +1,17 @@
+{
+  "challenger" : 1,
+  "oppositer" : 2,
+  "challenger_code" : 1,
+  "oppositer_code" : 2,
+  "challenger_score" : 100,
+  "oppositer_score" : 150,
+  "challenger_language" : "C",
+  "oppositer_language" : "C",
+  "turn" : "challenger",
+  "problem" : 1,
+  "placement" : ["omog"],
+  "action" : ["omog"],
+  "ending" : ["omog"],
+  "board_size" : 8,
+  "board_info" : []
+}

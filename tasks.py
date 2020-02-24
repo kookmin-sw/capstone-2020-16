@@ -43,7 +43,7 @@ def play_game():
 
 
 def run_container():
-    print('aaaa')
+    print('run container')
     client = docker.from_env()
     containers_num = len(client.containers.list())
     
