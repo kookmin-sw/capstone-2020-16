@@ -85,7 +85,7 @@ class GameManager:
 
     def add_data(self, board, placement):
         self.board_record += str(board).strip() + '\n'
-        self.placement_record += str(board).strip() + '\n'
+        self.placement_record += str(placement).strip() + '\n'
 
     def make_input_data(self):
         board = str(self.board).strip() + '\n'
