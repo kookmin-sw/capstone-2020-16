@@ -7,17 +7,14 @@ from utils.code_query import select_code
 from utils.util_user_info_in_problem import update_user_info_in_problem
 from utils.util_match import update_match_data
 from userprogram import UserProgram
-from db_manager import DBManager
 
 
 def match_game(match_data):
-    match_dir = os.path.join(os.getcwd(), 'match')
+    match_dir = os.getcwd()     # os.path.join(os.getcwd(), 'match')
     extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}
 
-    challenger_code_filename = 'challenger_{0}{1}'.format(match_data['challenger'],
-                                                          extension[match_data['challenger_language']])
-    oppositer_code_filename = 'oppositer_{0}{1}'.format(match_data['oppositer'],
-                                                        extension[match_data['oppositer_language']])
+    challenger_code_filename = 'challenger{0}'.format(extension[match_data['challenger_language']])
+    oppositer_code_filename = 'oppositer{0}'.format(extension[match_data['oppositer_language']])
 
     challenger_code_path = os.path.join(match_dir, challenger_code_filename)
     oppositer_code_path = os.path.join(match_dir, oppositer_code_filename)
@@ -25,6 +22,9 @@ def match_game(match_data):
     challenger_code = select_code(match_data['challenger'], match_data['problem'])
     oppositer_code = select_code(match_data['oppositer'], match_data['problem'])
 
+    # dummy_data
+    challenger_code = '(2,3)'
+    oppositer_code = '(1,2)'
     with open(challenger_code_path, 'w') as f:
         f.write(challenger_code)
 
@@ -68,17 +68,17 @@ def match_game(match_data):
 
 
 if __name__ == '__main__':
-    json_data = json.loads(sys.argv[1])
+    # json_data = json.loads(sys.argv[1])
+    #
 
-    DBManager.init()  # not finish
-
-    try:
-        match = os.path.join(os.getcwd(), 'match')
-        os.mkdir(match)
-
-    except Exception as e:
-        print('error in make match folder :', e)
-
+    # try:
+    #     match = os.path.join(os.getcwd(), 'match')
+    #     os.mkdir(match)
+    #
+    # except Exception as e:
+    #     print('error in make match folder :', e)
+    with open('dummy_data.json') as json_file:
+        json_data = json.load(json_file)
     match_game(json_data)
 
 

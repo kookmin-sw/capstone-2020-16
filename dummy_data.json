@@ -12,6 +12,6 @@
   "placement" : ["omog"],
   "action" : ["omog"],
   "ending" : ["omog"],
-  "board_size" : 8,
-  "board_info" : []
+  "board size" : 8,
+  "board info" : []
 }

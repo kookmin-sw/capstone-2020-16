@@ -27,7 +27,7 @@ class EndingRule:
                 new_value = board[x][y]
                 direction_count[i] += 1
                 if direction_count[i] == 5:
-                    self.message = True
+                    self.message = 'OK'
                     return self.message, value
 
             while (0 < x < game_data.board_size) and (0 < y < game_data.board_size) and (new_value == value):
@@ -38,7 +38,7 @@ class EndingRule:
                 new_value = board[x][y]
                 direction_count[i] += 1
                 if direction_count[i] == 5:
-                    self.message = True
+                    self.message = 'OK'
                     return self.message, value
 
         return False, 0
