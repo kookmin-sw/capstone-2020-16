@@ -50,11 +50,11 @@ class Execution:
 
         # redirect stdout to text file
 
-        redirection_stdout = os.open(os.path.join(path + 'output.txt'), os.O_RDWR | os.O_CREAT)
+        redirection_stdout = os.open(os.path.join(path + '/output.txt'), os.O_RDWR | os.O_CREAT)
         os.dup2(redirection_stdout, 1)
 
         if '<' in command:
-            redirection_stdin = os.open(os.path.join(path, 'input.txt'), os.O_RDONLY)
+            redirection_stdin = os.open(os.path.join(path, '/input.txt'), os.O_RDONLY)
             os.dup2(redirection_stdin, 0)
 
         # cpu using time limit
