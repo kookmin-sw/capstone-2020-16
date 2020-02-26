@@ -28,5 +28,5 @@ class UserProgram:
     def play(self):
 
         # dummy_data
-        play_message = ['/usr/bin/python3', 'python3', self.save_path, '<', self.input_path]
+        play_message = ['/usr/bin/python3', 'python3', self.file_path, '<', self.input_path]
         return play_message

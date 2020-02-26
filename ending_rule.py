@@ -10,13 +10,13 @@ class EndingRule:
             self.check_ending_omog(game_data, board, placement)
 
     def check_ending_omog(self, game_data, board, placement):
-        direction = np.array([[1, 0], [-1, 0], [1, 1], [-1, -1], [0, 1], [0, -1], [-1, 1], [1, -1]])    # ㅡ, \, ㅣ, /
+        direction = np.array([[1, 0], [-1, 0], [1, 1], [-1, -1], [0, 1], [0, -1], [-1, 1], [1, -1]])
         value = board[placement[0], placement[1]]
         new_value = value
         x = placement[1] - 1
         y = placement[0] - 1
 
-        direction_count = [1, 1, 1, 1]  # ㅡ, \, ㅣ, /
+        direction_count = [1, 1, 1, 1]
 
         for i in range(4):
             while (0 < x < game_data.board_size) and (0 < y < game_data.board_size) and (new_value == value):

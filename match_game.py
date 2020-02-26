@@ -9,7 +9,7 @@ from utils.util_match import update_match_data
 from userprogram import UserProgram
 
 
-def match_game(match_data):
+def match(match_data):
     match_dir = os.getcwd()     # os.path.join(os.getcwd(), 'match')
     extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}
 
@@ -23,7 +23,7 @@ def match_game(match_data):
     oppositer_code = select_code(match_data['oppositer'], match_data['problem'])
 
     # dummy_data
-    challenger_code = '(2,3)'
+    challenger_code = 'print(\'2 2 > 3 3\')'
     oppositer_code = '(1,2)'
     with open(challenger_code_path, 'w') as f:
         f.write(challenger_code)
@@ -67,7 +67,7 @@ def match_game(match_data):
     update_match_data(match_result, board_record, placement_record)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # json_data = json.loads(sys.argv[1])
     #
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     #     print('error in make match folder :', e)
     with open('dummy_data.json') as json_file:
         json_data = json.load(json_file)
-    match_game(json_data)
+    match(json_data)
 
 
 

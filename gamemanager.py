@@ -49,11 +49,14 @@ class GameManager:
             #   user code execute
             user_placement = None
             if self.check_turn == 'challenger':
-                user_placement = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
+                try:
+                    user_placement = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
+                    print(type(user_placement))
+                except Exception as e:
+                    print(e)
             elif self.check_turn == 'oppositer':
                 user_placement = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
-
-            print('user placement :', user_placement)
+            # print('user placement :', user_placement)
             check_placement, new_board = self.rules.check_placement_rule(self.game_data, self.board, user_placement)
             try:
                 if check_placement == 'OK':

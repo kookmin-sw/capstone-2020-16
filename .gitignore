@@ -3,7 +3,9 @@ test.py
 test.txt
 test2.py
 challenger.c
+challenger.py
 oppositer.c
+oppositer.py
 dummy_data.json
 input.txt
 output.txt

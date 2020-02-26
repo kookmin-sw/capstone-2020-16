@@ -9,6 +9,7 @@ class PlacementRule:
         self.message = 'OK'
 
     def check_placement_rule(self, data, board, placement):
+        print(placement)
         x, y = placement
         new_board = None
 

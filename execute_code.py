@@ -1,6 +1,6 @@
 import os
 import signal
-import ptrace
+# import ptrace
 import resource
 # from errorCode import *
 
@@ -20,6 +20,7 @@ class Execution:
         os.execv(command[0], tuple(command[1:]))
 
         with open(os.path.join(path + '/output.txt')) as fp:
+            # print('aa')
             pos = fp.readline()
 
         return pos
