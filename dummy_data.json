@@ -5,13 +5,13 @@
   "oppositer_code" : 2,
   "challenger_score" : 100,
   "oppositer_score" : 150,
-  "challenger_language" : "C",
-  "oppositer_language" : "C",
+  "challenger_language" : "PYTHON",
+  "oppositer_language" : "PYTHON",
   "turn" : "challenger",
   "problem" : 1,
   "placement" : ["omog"],
   "action" : ["omog"],
   "ending" : ["omog"],
   "board size" : 8,
-  "board info" : []
+  "board info" : [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 }

@@ -67,7 +67,7 @@ def match_game(match_data):
     update_match_data(match_result, board_record, placement_record)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # json_data = json.loads(sys.argv[1])
     #
 

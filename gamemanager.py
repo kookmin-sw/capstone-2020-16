@@ -49,9 +49,9 @@ class GameManager:
             #   user code execute
             user_placement = None
             if self.check_turn == 'challenger':
-                user_placement, time, run_result = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
+                user_placement = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
             elif self.check_turn == 'oppositer':
-                user_placement, time, run_result = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
+                user_placement = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
 
             print('user placement :', user_placement)
             check_placement, new_board = self.rules.check_placement_rule(self.game_data, self.board, user_placement)
