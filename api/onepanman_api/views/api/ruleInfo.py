@@ -5,5 +5,5 @@ from onepanman_api.serializers.ruleInfo import RuleInfoSerializer
 
 
 class RuleInfoViewSet(viewsets.ModelViewSet):
-    queryset = RuleInfo
+    queryset = RuleInfo.objects.all()
     serializer_class = RuleInfoSerializer

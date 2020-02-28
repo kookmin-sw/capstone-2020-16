@@ -123,25 +123,25 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_PERMISSION_CLASSES' : (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
-# JWT_AUTH = {
-#     'JWT_SECRET_KEY' : SECRET_KEY,
-#     'JWT_ALGORITHM' : 'HS256',   # JWT 암호화에 사용되는 알고리즘
-#     'JWT_ALLOW_REFRESH' : True,  # JWT 토근 갱신 여부
-#     'JWT_EXPIRATION_DELTA' : datetime.timedelta(days=3),  # JWT 토근 유효 기간
-#     'JWT_REFRESH_EXPIRATION_DELTA' : datetime.timedelta(days=7)  # JWT 토근 갱신의 유효 기간
-# }
+JWT_AUTH = {
+    'JWT_SECRET_KEY': SECRET_KEY,
+    'JWT_ALGORITHM': 'HS256',   # JWT 암호화에 사용되는 알고리즘
+    'JWT_ALLOW_REFRESH': True,  # JWT 토근 갱신 여부
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=3),  # JWT 토근 유효 기간
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7)  # JWT 토근 갱신의 유효 기간
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

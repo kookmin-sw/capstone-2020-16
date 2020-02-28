@@ -11,7 +11,8 @@ from .ruleInfo import RuleInfoAdmin
 from .testcase import TestcaseAdmin
 from .userInfo import UserInfoAdmin
 from .userInformationInProblem import UserInformationInProblemAdmin
+from .problem_ruleInfo import ProblemRuleInfoAdmin
 
 __all__ = ['ProblemAdmin', 'ArticleAdmin', 'CodeAdmin', 'CommentAdmin', 'FriendAdmin', 'GameAdmin',
            'GroupInfoAdmin', 'LanguageAdmin', 'NoticeAdmin', 'RuleInfoAdmin', 'TestcaseAdmin', 'UserInfoAdmin',
-           'UserInformationInProblemAdmin']
+           'UserInformationInProblemAdmin', 'ProblemRuleInfoAdmin']

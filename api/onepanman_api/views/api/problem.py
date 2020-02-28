@@ -24,7 +24,7 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
             data = serializer.validated_data
             print(self.request.user, request.user)
             instance = models.Problem.objects.create(editor=self.request.user,
-                                                     name=data['name'],
+                                                     title=data['title'],
                                                      description=data['description'],
                                                      limit_time=data['limit_time'],
                                                      limit_memory=data['limit_memory'],

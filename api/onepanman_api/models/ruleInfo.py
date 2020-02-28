@@ -9,7 +9,6 @@ class RuleInfo(models.Model):
         ('placement', '착수'),
         ('action', '액션'),
         ('ending', '엔딩'),
-        ('victory', '승리조건'),
     )
 
     id = models.AutoField(

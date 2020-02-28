@@ -11,6 +11,15 @@ class UserInformationInProblem(models.Model):
     User - Problem
     """
 
+    choice_tier = (
+        ('Bronze', 'Bronze'),
+        ('Silver', 'Silver'),
+        ('Gold', 'Gold'),
+        ('Platinum', 'Platinum'),
+        ('Diamond', 'Diamond'),
+        ('Challenger', 'Challenger')
+    )
+
     id = models.AutoField(
         "ID",
         db_column="ID",
@@ -53,6 +62,7 @@ class UserInformationInProblem(models.Model):
         null=False,
         default="Bronze",
         max_length=20,
+        choices=choice_tier,
     )
 
     code = models.ForeignKey(
