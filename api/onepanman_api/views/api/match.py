@@ -1,23 +1,22 @@
+from .game import GameViewSet
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from onepanman_api.models import UserInformationInProblem, Code, ProblemRuleInfo, RuleInfo, Problem
 import random
 import requests
+import json
 
 
 class GetCoreResponse(Response):
 
     def close(self):
-        super().close()
+        matchInfo = self.data
 
-        # testing
-        url = "http://127.0.0.1:8000/api/v1/user/1"
-        response = requests.get(url)
-        res_status = response.status_code
-        res_data = response.text
-        print("status : {} , text : {} ".format(res_status, res_data))
-
+        # 여기에 celery 호출하는 코드!
+        """
+        result = play_game.delay()
+        """
 
 class Match(APIView):
 
@@ -100,6 +99,48 @@ class Match(APIView):
 
         return matchInfo
 
+    def get_GameId(self, notIdInfo):
+        matchInfo = notIdInfo
+
+        data = {
+            "problem": matchInfo['problem'],
+            "challenger": matchInfo['challenger'],
+            "opposite": matchInfo['opposite'],
+            "challenger_code": matchInfo['challenger_code'],
+            "opposite_code": matchInfo['opposite_code'],
+            "record": "0",
+        }
+
+        # get jwt token
+        token_url = "http://127.0.0.1:8000/api/v1/token/authorize/"
+        login_data = {
+            "username": "woomurf",
+            "password": "djemals1",
+        }
+        response = requests.post(data=login_data, url=token_url)
+
+        text = response.text
+        jwt = json.loads(text)
+        jwt = jwt['token']
+
+        # create game data
+        header = {
+            "Authorization": "jwt " + jwt,
+        }
+
+        Authorization = "jwt " + jwt
+
+        game_url = "http://127.0.0.1:8000/api/v1/game/"
+
+        response = requests.post(url=game_url, data=data, headers=header)
+        game_id = json.loads(response.text)['id']
+        print("result : {}".format(game_id))
+
+        matchInfo["id"] = game_id
+        # 여기서 celery 호출하는 코드 !
+
+        return matchInfo
+
     def get(self, request, version):
         try:
             data = request.data
@@ -109,10 +150,11 @@ class Match(APIView):
             codeid = data['codeid']
 
             matchInfo = self.match(userid, problemid, codeid)
+            matchInfo = self.get_GameId(matchInfo)
 
             return GetCoreResponse(matchInfo)
 
-        except Exception as e :
+        except Exception as e:
             print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
 

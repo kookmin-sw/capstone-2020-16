@@ -46,10 +46,11 @@ class Game(models.Model):
         null=False,
     )
 
-    winner = models.IntegerField(
+    winner = models.CharField(
         "승리자",
         db_column='WINNER',
-        default=0,
+        default="None",         # challenger, opposite, draw, None
+        max_length=50,
     )
 
     date = models.DateTimeField(

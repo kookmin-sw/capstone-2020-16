@@ -18,6 +18,7 @@ class UserFullInfoViewSet(viewsets.ModelViewSet):
     serializer_class = UserFullInfoSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        Match.match(6,3,12)
+        match = Match()
+        match.match(userid=6, problemid=3, codeid=12)
 
         return super().retrieve(request, *args, **kwargs)
