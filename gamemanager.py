@@ -15,10 +15,10 @@ class GameManager:
 
         self.challenger = challenger
         self.opposite = oppositer
+        self.first_turn = turn
         self.check_turn = turn
 
         self.game_data = GameData(placement_rule, action_rule, ending_rule, board_size, board_info)
-
         self.rules = Rules()
         self.execution = Execution()
 
@@ -47,54 +47,91 @@ class GameManager:
             self.make_input_data()
 
             #   user code execute
-            user_placement = None
-            if self.check_turn == 'challenger':
-                try:
-                    user_placement = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
-                    print(type(user_placement))
-                except Exception as e:
-                    print(e)
-            elif self.check_turn == 'oppositer':
-                user_placement = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
-            # print('user placement :', user_placement)
-            check_placement, new_board = self.rules.check_placement_rule(self.game_data, self.board, user_placement)
+            output = None
             try:
+                if self.check_turn == 'challenger':
+                    output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
+                elif self.check_turn == 'oppositer':
+                    output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
+            except Exception as e:
+                print(f'program error in execute user program : {e}')
+            # print('user placement :', user_placement)
+            user_placement = self.parsing_user_output(output)
+
+            check_placement = ''
+            new_board = ''
+            try:
+                check_placement, new_board = self.rules.check_placement_rule(self.game_data, self.board, user_placement)
+                print('cheee', check_placement)
+            except Exception as e:
+                print(f'check placement program error : {e}')
+
                 if check_placement == 'OK':
                     self.board = new_board
-                    apply_action, new_board = self.rules.apply_action_rule(self.game_data, self.board, user_placement)
-
+                    apply_action = ''
                     try:
-                        if apply_action == 'OK':
-                            self.board = new_board
-                            self.add_data(new_board, user_placement)
-                            is_ending, winner = self.rules.check_ending(self.game_data, self.board, user_placement)
-
+                        apply_action, new_board = self.rules.apply_action_rule(self.game_data, self.board, user_placement)
                     except Exception as e:
-                        print('check action error :', e)
+                        print(f'apply action program error : {e}')
 
-            except Exception as e:
-                print('check placement error :', e)
+                    if apply_action == 'OK':
+                        self.board = new_board
+                        try:
+                            is_ending, winner = self.rules.check_ending(self.game_data, self.board, user_placement)
+                        except Exception as e:
+                            print(f'check ending program error : {e}')
+                    else:
+                        print(f'apply action error {apply_action}')
+                else:
+                    print(f'check placement error {check_placement}')
 
-            if is_ending == 'OK':
+            if is_ending is True:
                 if winner == 'challenger':
                     match_result = 'WIN'
                 else:
                     match_result = 'LOSE'
+                break
 
             #   change player
-            self.board *= -1
-            self.check_turn = 'challenger' if self.check_turn == 'oppositer' else 'oppositer'
+
+            self.change_turn(output)
 
         return match_result, self.board_record, self.placement_record
 
     def compile_user_code(self):
         pass
 
-    def add_data(self, board, placement):
-        self.board_record += str(board).strip() + '\n'
-        self.placement_record += str(placement).strip() + '\n'
+    def add_data(self, board, output):
+        self.placement_record += str(output).strip() + '\n'
+
+        for line in board:
+            for i in line:
+                self.board_record += (str(i) + ' ')
+
+        self.board_record += '\n'
 
     def make_input_data(self):
         board = str(self.board).strip() + '\n'
         with open(os.path.join(self.challenger.save_path, 'input.txt'), 'w') as f:
             f.write(board)
+
+    def change_turn(self, output):
+        if self.first_turn == self.check_turn:
+            self.add_data(self.board, output)
+            self.board *= -1
+
+        else:
+            self.board *= -1
+            self.add_data(self.board, output)
+
+        self.check_turn = 'challenger' if self.check_turn == 'oppositer' else 'oppositer'
+
+    def parsing_user_output(self, output):
+        placement = []
+        if '>' in output:
+            pass
+
+        else:
+            placement = [int(i) for i in output.split()]
+
+        return placement

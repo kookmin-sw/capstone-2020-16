@@ -3,11 +3,14 @@ import numpy as np
 
 class EndingRule:
     def __init__(self):
-        self.message = ''
+        self.ending_message = ''
 
     def check_ending(self, game_data, board, placement):
         if 'omog' in game_data['ending']:
             self.check_ending_omog(game_data, board, placement)
+
+        if self.ending_message is True:
+            return True
 
     def check_ending_omog(self, game_data, board, placement):
         direction = np.array([[1, 0], [-1, 0], [1, 1], [-1, -1], [0, 1], [0, -1], [-1, 1], [1, -1]])
@@ -27,8 +30,8 @@ class EndingRule:
                 new_value = board[x][y]
                 direction_count[i] += 1
                 if direction_count[i] == 5:
-                    self.message = 'OK'
-                    return self.message, value
+                    self.ending_message = 'OK'
+                    return self.ending_message, value
 
             while (0 < x < game_data.board_size) and (0 < y < game_data.board_size) and (new_value == value):
                 x += direction[(i*2)+1][1]
@@ -38,7 +41,7 @@ class EndingRule:
                 new_value = board[x][y]
                 direction_count[i] += 1
                 if direction_count[i] == 5:
-                    self.message = 'OK'
-                    return self.message, value
+                    self.ending_message = 'OK'
+                    return self.ending_message, value
 
         return False, 0
