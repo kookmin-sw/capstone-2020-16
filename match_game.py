@@ -70,14 +70,7 @@ def match(match_data):
 
 if __name__ == '__main__':
     # json_data = json.loads(sys.argv[1])
-    #
 
-    # try:
-    #     match = os.path.join(os.getcwd(), 'match')
-    #     os.mkdir(match)
-    #
-    # except Exception as e:
-    #     print('error in make match folder :', e)
     with open('dummy_data.json') as json_file:
         json_data = json.load(json_file)
     match(json_data)
