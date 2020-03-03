@@ -9,7 +9,11 @@ oppositer.py
 dummy_data.json
 input.txt
 output.txt
-
+board.txt
+ex.txt
+op.txt
+placement.txt
+result.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
