@@ -4,13 +4,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import ChatPanelToggleButton from 'app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton';
+// import ChatPanelToggleButton from 'app/fuse-layouts/shared-components/chatPanel/ChatPanelToggleButton';
 import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
-import QuickPanelToggleButton from 'app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton';
+// import QuickPanelToggleButton from 'app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton';
 import UserMenu from 'app/fuse-layouts/shared-components/UserMenu';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
+// import LanguageSwitcher from '../../shared-components/LanguageSwitcher';
 
 const useStyles = makeStyles(theme => ({
 	separator: {
@@ -55,19 +55,6 @@ function ToolbarLayout1(props) {
 
 						<FuseSearch />
 
-						<Hidden lgUp>
-							<div className={classes.separator} />
-
-							<ChatPanelToggleButton />
-						</Hidden>
-
-						<div className={classes.separator} />
-
-						<LanguageSwitcher />
-
-						<div className={classes.separator} />
-
-						<QuickPanelToggleButton />
 					</div>
 
 					{config.navbar.display && config.navbar.position === 'right' && (
