@@ -7,5 +7,4 @@ class ActionRule:
 
     def apply_action_rule(self, game_data, board, placement):
         new_board = board
-        print(f'apply {self.action_message, new_board}')
         return self.action_message, new_board

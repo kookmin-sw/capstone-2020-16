@@ -23,8 +23,9 @@ def match(match_data):
     oppositer_code = select_code(match_data['oppositer'], match_data['problem'])
 
     # dummy_data
-    challenger_code = 'print(\'2 2\')'
-    oppositer_code = '(1,2)'
+    challenger_code = 'print(\'3 3\')'
+    oppositer_code = 'print(\'4 4\')'
+
     with open(challenger_code_path, 'w') as f:
         f.write(challenger_code)
 
@@ -39,8 +40,13 @@ def match(match_data):
                                ending_rule=match_data['ending'], turn=match_data['turn'],
                                board_size=match_data['board size'], board_info=match_data['board info'])
 
-    print('match')
     match_result, board_record, placement_record = game_manager.play_game()
+    with open('result.txt', 'w') as f:
+        f.write(match_result)
+    with open('result.txt', 'a') as f:
+        f.write(board_record)
+    with open('result.txt', 'a') as f:
+        f.write(placement_record)
 
     challenger_score = match_data['challenger_score']
     oppositer_score = match_data['oppositer_score']

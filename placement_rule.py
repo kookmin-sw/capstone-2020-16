@@ -11,7 +11,6 @@ class PlacementRule:
     def check_placement_rule(self, data, board, placement):
         x, y = placement
         new_board = None
-
         self.check_base_placement_rule(data, board, placement)
         if 'othello' in data.placement_rule:
             self.check_othello_placement_rule(data, board, placement)
@@ -26,14 +25,11 @@ class PlacementRule:
             board[x][y] = 1
             new_board = board
 
-        print(self.placement_message)
         return self.placement_message, new_board
 
     # noinspection PyMethodMayBeStatic
     def check_base_placement_rule(self, data, board, placement):    # check if user's placement where the stone is
         x, y = placement
-        print('gggg',x,y)
-        print(board)
         if (x < 0 or x > data.board_size) or (y < 0 or y > data.board_size):
             self.placement_message = f'out of the board : {x, y}'
 

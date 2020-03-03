@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import re
 import sys
 
 from rules import Rules
@@ -8,10 +9,13 @@ from execute_code import Execution
 
 
 class GameManager:
-    # ex) {placement_rule : [..., ..., ...]}
     def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, turn, board_size, board_info):
-        # self.board = np.zeros((board_size, board_size))
-        self.board = board_info
+        self.board = np.zeros((board_size, board_size), dtype='i')
+        self.board_info = board_info
+        self.board_size = board_size
+        self.board_record = ''
+
+        # self.board = board_info
 
         self.challenger = challenger
         self.opposite = oppositer
@@ -22,7 +26,6 @@ class GameManager:
         self.rules = Rules()
         self.execution = Execution()
 
-        self.board_record = ''
         self.placement_record = ''
 
         self.limit_time = 2000
@@ -34,9 +37,10 @@ class GameManager:
         match_result = ''
         winner = 0
 
+        self.board_record += str(self.board_info) + '\n'
+        self.parsing_board_info(self.board_info, self.board_size)
+        print(self.board)
         self.compile_user_code()    # not finish
-
-        self.board_record += str(self.board) + '\n'
 
         while not is_ending:
             if total_turn > total_turn_limit:
@@ -44,7 +48,7 @@ class GameManager:
                 match_result = 'draw'
                 return match_result
 
-            self.make_input_data()
+            self.make_board_data()
 
             #   user code execute
             output = None
@@ -53,48 +57,54 @@ class GameManager:
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
                 elif self.check_turn == 'oppositer':
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
+                    with open('op.txt', 'w') as f:
+                        f.write('ok')
             except Exception as e:
                 print(f'program error in execute user program : {e}')
-            # print('user placement :', user_placement)
             user_placement = self.parsing_user_output(output)
 
-            check_placement = ''
-            new_board = ''
             try:
                 check_placement, new_board = self.rules.check_placement_rule(self.game_data, self.board, user_placement)
-                print('cheee', check_placement)
             except Exception as e:
                 print(f'check placement program error : {e}')
+                break   #
 
-                if check_placement == 'OK':
+            if check_placement == 'OK':
+                self.board = new_board
+                apply_action = ''
+                try:
+                    apply_action, new_board = self.rules.apply_action_rule(self.game_data, self.board, user_placement)
+                except Exception as e:
+                    print(f'apply action program error : {e}')
+
+                if apply_action == 'OK':
                     self.board = new_board
-                    apply_action = ''
                     try:
-                        apply_action, new_board = self.rules.apply_action_rule(self.game_data, self.board, user_placement)
+                        is_ending, winner = self.rules.check_ending(self.game_data, self.board, user_placement)
                     except Exception as e:
-                        print(f'apply action program error : {e}')
-
-                    if apply_action == 'OK':
-                        self.board = new_board
-                        try:
-                            is_ending, winner = self.rules.check_ending(self.game_data, self.board, user_placement)
-                        except Exception as e:
-                            print(f'check ending program error : {e}')
-                    else:
-                        print(f'apply action error {apply_action}')
+                        print(f'check ending program error : {e}')
                 else:
-                    print(f'check placement error {check_placement}')
+                    print(f'apply action error {apply_action}')
+                    break   #
+            else:
+                print(f'check placement error {check_placement}')
+                break   #
 
+            self.add_record(output)
+            match_result = 'no'
             if is_ending is True:
-                if winner == 'challenger':
-                    match_result = 'WIN'
-                else:
-                    match_result = 'LOSE'
+                if winner == 1:
+                    match_result = self.check_turn
+                elif winner == -1:
+                    if self.check_turn == 'challenger':
+                        match_result = 'oppositer'
+                    else:
+                        match_result = 'challenger'
+
                 break
 
             #   change player
-
-            self.change_turn(output)
+            self.check_turn = 'challenger' if self.check_turn == 'oppositer' else 'oppositer'
 
         return match_result, self.board_record, self.placement_record
 
@@ -110,12 +120,12 @@ class GameManager:
 
         self.board_record += '\n'
 
-    def make_input_data(self):
+    def make_board_data(self):
         board = str(self.board).strip() + '\n'
-        with open(os.path.join(self.challenger.save_path, 'input.txt'), 'w') as f:
+        with open(os.path.join(self.challenger.save_path, 'board.txt'), 'w') as f:
             f.write(board)
 
-    def change_turn(self, output):
+    def add_record(self, output):
         if self.first_turn == self.check_turn:
             self.add_data(self.board, output)
             self.board *= -1
@@ -123,8 +133,6 @@ class GameManager:
         else:
             self.board *= -1
             self.add_data(self.board, output)
-
-        self.check_turn = 'challenger' if self.check_turn == 'oppositer' else 'oppositer'
 
     def parsing_user_output(self, output):
         placement = []
@@ -135,3 +143,9 @@ class GameManager:
             placement = [int(i) for i in output.split()]
 
         return placement
+
+    def parsing_board_info(self, board_info, board_size):
+        numbers = board_info.split()
+        for i in range(board_size):
+            for j in range(board_size):
+                self.board[i][j] = int(numbers[i*board_size + j])

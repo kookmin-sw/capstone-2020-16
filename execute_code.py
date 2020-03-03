@@ -10,20 +10,19 @@ class Execution:
         self.limit_time = limit_time
 
     def execute_program(self, command, path):
-        # redirection_stdout = os.open(os.path.join(path + '/output.txt'), os.O_RDWR | os.O_CREAT)
-        # os.dup2(redirection_stdout, 1)
-        #
-        # if '<' in command:
-        #     redirection_stdin = os.open(os.path.join(path, 'input.txt'), os.O_RDONLY)
-        #     os.dup2(redirection_stdin, 0)
+        redirection_stdout = os.open(os.path.join(path + '/placement.txt'), os.O_RDWR | os.O_CREAT)
+        os.dup2(redirection_stdout, 1)
 
-        # os.execv(command[0], tuple(command[1:]))
+        if '<' in command:
+            redirection_stdin = os.open(os.path.join(path, 'board.txt'), os.O_RDONLY)
+            os.dup2(redirection_stdin, 0)
 
-        with open(os.path.join(path + '/output.txt')) as fp:
+        os.execv(command[0], tuple(command[1:]))
+
+        with open(os.path.join(path + '/placement.txt')) as fp:
             # print('aa')
             pos = fp.readline()
         return pos
-
 
     # def execute_program(self, command, path):   # path = '~/match
     #     parent_pid = os.getpid()
