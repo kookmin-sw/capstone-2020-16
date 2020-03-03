@@ -8,7 +8,7 @@ const AnalyticsDashboardAppConfig = {
 	},
 	routes: [
 		{
-			path: '/apps/dashboards/analy',
+			path: '/apps/home',
 			component: React.lazy(() => import('./AnalyticsDashboardApp'))
 		}
 	]

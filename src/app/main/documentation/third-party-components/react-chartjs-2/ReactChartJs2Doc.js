@@ -150,7 +150,7 @@ function ReactChartJs2Doc() {
 
 					<ul>
 						<li className="mb-8">
-							<Link to="/apps/dashboards/analytics">Analytics Dashboard</Link>
+							<Link to="/apps/home">Analytics Dashboard</Link>
 						</li>
 					</ul>
 				</div>

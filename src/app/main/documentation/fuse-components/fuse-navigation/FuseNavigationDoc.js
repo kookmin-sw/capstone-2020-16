@@ -124,17 +124,17 @@ function FuseNavigationDoc(props) {
 					<FuseHighlight component="pre" className="language-json">
 						{`
                                      {
-                                        'id'       : 'dashboards',
-                                        'title'    : 'Dashboards',
+                                        'id'       : 'home',
+                                        'title'    : 'home',
                                         'type'     : 'collapse',
                                         'icon'     : 'dashboard',
-                                        'url'      : '/apps/dashboards/project' //optional
+                                        'url'      : '/apps/home/project' //optional
                                         'children' : [
                                             {
                                                 'id'   : 'project',
                                                 'title': 'Project',
                                                 'type' : 'item',
-                                                'url'  : '/apps/dashboards/project'
+                                                'url'  : '/apps/home/project'
                                             }
                                         ]
                                       }
@@ -150,7 +150,7 @@ function FuseNavigationDoc(props) {
                                     'id'   : 'project',
                                     'title': 'Project',
                                     'type' : 'item',
-                                    'url'  : '/apps/dashboards/project'
+                                    'url'  : '/apps/home/project'
                                 }
                                 `}
 					</FuseHighlight>
@@ -166,7 +166,7 @@ function FuseNavigationDoc(props) {
                                     'id'   : 'project',
                                     'title': 'Project',
                                     'type' : 'item',
-                                    'url'  : '/apps/dashboards/project',
+                                    'url'  : '/apps/home/project',
                                     'exact': true
                                 }
                                 `}
@@ -195,7 +195,7 @@ function FuseNavigationDoc(props) {
                                     'id'   : 'project',
                                     'title': 'Project',
                                     'type' : 'item',
-                                    'url'  : '/apps/dashboards/project'
+                                    'url'  : '/apps/home/project'
                                 }
                                 {
                                     'type': 'divider
@@ -204,7 +204,7 @@ function FuseNavigationDoc(props) {
                                     'id'   : 'project',
                                     'title': 'Project',
                                     'type' : 'item',
-                                    'url'  : '/apps/dashboards/project'
+                                    'url'  : '/apps/home/project'
                                 }
                                 `}
 					</FuseHighlight>

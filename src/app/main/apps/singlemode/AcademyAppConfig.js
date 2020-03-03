@@ -7,16 +7,16 @@ const AcademyAppConfig = {
 	},
 	routes: [
 		{
-			path: '/apps/academy/courses/:courseId/:courseHandle?',
+			path: '/apps/singlemode/courses/:courseId/:courseHandle?',
 			component: React.lazy(() => import('./course/Course'))
 		},
 		{
-			path: '/apps/academy/courses',
+			path: '/apps/singlemode/courses',
 			component: React.lazy(() => import('./courses/Courses'))
 		},
 		{
-			path: '/apps/academy',
-			component: () => <Redirect to="/apps/academy/courses" />
+			path: '/apps/singlemode',
+			component: () => <Redirect to="/apps/singlemode/courses" />
 		}
 	]
 };

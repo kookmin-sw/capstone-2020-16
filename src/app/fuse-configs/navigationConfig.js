@@ -19,16 +19,16 @@ const navigationConfig = [
 		children: [
 			
 			{
-				id: 'dashboards',
+				id: 'HOME',
 				title: 'HOME',
 				translate: 'HOME',
 				type: 'item',
 				icon: 'dashboard',
-				url: '/apps/dashboards/analy'
+				url: '/apps/home'
 				
 			},
 			{
-				id: 'academy',
+				id: 'singlemode',
 				title: 'GAME',
 				translate: 'GAME',
 				type: 'collapse',
@@ -38,19 +38,19 @@ const navigationConfig = [
 						id: 'game-singlemode',
 						title: 'Single Mode',
 						type: 'item',
-						url: '/apps/academy'
+						url: '/apps/singlemode'
 					},
 					{
 						id: 'game-battlemode',
 						title: 'Battle Mode',
 						type: 'item',
-						url: '/apps/academy'
+						url: '/apps/singlemode'
 					},
 					{
 						id: 'game-replay',
 						title: 'Replay',
 						type: 'item',
-						url: '/apps/academy'
+						url: '/apps/singlemode'
 					},
 					// {
 					// 	id: 'project-dashboard',
@@ -60,6 +60,34 @@ const navigationConfig = [
 					// }
 				]
 			},
+			{
+				id: 'notes',
+				title: 'Community',
+				translate: 'COMMUNITY',
+				type: 'item',
+				icon: 'note',
+				url: '/apps/notes'
+			},
+			{
+				id: 'chat',
+				title: 'CHAT',
+				translate: 'CHAT',
+				type: 'item',
+				icon: 'chat',
+				url: '/apps/chat',
+				badge: {
+					title: 13,
+					bg: 'rgb(9, 210, 97)',
+					fg: '#FFFFFF'
+				}
+			},
+			{
+				id: 'faq',
+				title: 'HELP',
+				type: 'item',
+				icon: 'help',
+				url: '/pages/faq'
+			}
 			// {
 			// 	id: 'calendar',
 			// 	title: 'Calendar',
@@ -156,19 +184,7 @@ const navigationConfig = [
 			// 	icon: 'account_box',
 			// 	url: '/apps/contacts/all'
 			// },
-			{
-				id: 'chat',
-				title: 'CHAT',
-				translate: 'CHAT',
-				type: 'item',
-				icon: 'chat',
-				url: '/apps/chat',
-				badge: {
-					title: 13,
-					bg: 'rgb(9, 210, 97)',
-					fg: '#FFFFFF'
-				}
-			},
+
 			// {
 			// 	id: 'scrumboard',
 			// 	title: 'Scrumboard',
@@ -177,21 +193,8 @@ const navigationConfig = [
 			// 	icon: 'assessment',
 			// 	url: '/apps/scrumboard'
 			// },
-			{
-				id: 'notes',
-				title: 'Community',
-				translate: 'Community',
-				type: 'item',
-				icon: 'note',
-				url: '/apps/notes'
-			},
-			{
-				id: 'faq',
-				title: 'HELP',
-				type: 'item',
-				icon: 'help',
-				url: '/pages/faq'
-			}
+
+
 		]
 	},
 	{

@@ -270,8 +270,8 @@ function FuseAuthorizationDoc() {
                                     {
                                         path     : '/',
                                         exact    : true,
-                                        component: () => <Redirect to="/apps/dashboards/analy"/>
-                                    },
+                                        component: () => <Redirect to="/apps/home"/>
+                                    }
                                     {
                                         component: () => <Redirect to="/pages/errors/error-404"/>
                                     }
@@ -370,7 +370,7 @@ function FuseAuthorizationDoc() {
                                      */
                             
                                     history.location.state = {
-                                        redirectUrl: user.redirectUrl // for example 'apps/academy'
+                                        redirectUrl: user.redirectUrl // for example 'apps/singlemode'
                                     }
                             
                                     /*

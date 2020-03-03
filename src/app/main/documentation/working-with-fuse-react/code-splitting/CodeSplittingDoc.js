@@ -67,7 +67,7 @@ function CodeSplittingDoc() {
                                 },
                                 routes  : [
                                     {
-                                        path     : '/apps/dashboards/analytics',
+                                        path     : '/apps/home',
                                         component: React.lazy(() => import('./AnalyticsDashboardApp'))
                                     }
                                 ]
@@ -93,7 +93,7 @@ function CodeSplittingDoc() {
                                         },
                                         routes  : [
                                             {
-                                                path     : '/apps/dashboards/analytics',
+                                                path     : '/apps/home',
                                                 component: AnalyticsDashboardApp
                                             }
                                         ]
