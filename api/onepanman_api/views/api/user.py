@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from onepanman_api.models import UserInfo
+from onepanman_api.serializers import UserInfoSerializer
 from onepanman_api.views.api.match import Match
 from rest_framework import viewsets, status
 import os
@@ -16,9 +18,3 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserFullInfoViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserFullInfoSerializer
-
-    def retrieve(self, request, *args, **kwargs):
-        match = Match()
-        match.match(userid=6, problemid=3, codeid=12)
-
-        return super().retrieve(request, *args, **kwargs)

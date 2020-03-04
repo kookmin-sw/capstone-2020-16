@@ -41,6 +41,7 @@ class Match(APIView):
         queryset_up = UserInformationInProblem.objects.all().filter(problem=problemid).order_by('-score')
         challenger = queryset_up.filter(user=userid)
 
+        # 유저가 이 문제가 처음일 경우
         if len(challenger) < 1:
             challenger = self.create_instance(userid, problemid, codeid)
 
@@ -52,7 +53,6 @@ class Match(APIView):
         else :
             challenger = challenger[0]
             create_challenger = False
-
 
         queryset_up = queryset_up.exclude(user=userid)
 

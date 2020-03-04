@@ -72,6 +72,19 @@ class UserInfo(models.Model):
         default="기본사진경로 넣기",
     )
 
+    tier = models.CharField(
+        "등급",
+        db_column="TIER",
+        max_length=50,
+        default="Bronze",
+    )
+
+    tier_score = models.IntegerField(
+        "등급 점수",
+        db_column="TIER_SCORE",
+        default=0,
+   )
+
     def __str__(self):
         return '이름 : {}, 주 사용언어 : {}'.format(self.user.username, self.language.name)
 
