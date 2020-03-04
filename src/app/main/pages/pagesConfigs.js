@@ -11,7 +11,7 @@ import ResetPasswordPageConfig from './auth/reset-password/ResetPasswordPageConf
 import ComingSoonPageConfig from './coming-soon/ComingSoonPageConfig';
 import Error404PageConfig from './errors/404/Error404PageConfig';
 import Error500PageConfig from './errors/500/Error500PageConfig';
-import FaqPageConfig from './faq/FaqPageConfig';
+import FaqPageConfig from './help/FaqPageConfig';
 import CompactInvoicePageConfig from './invoices/compact/CompactInvoicePageConfig';
 import ModernInvoicePageConfig from './invoices/modern/ModernInvoicePageConfig';
 import KnowledgeBasePageConfig from './knowledge-base/KnowledgeBaseConfig';

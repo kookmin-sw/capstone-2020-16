@@ -82,11 +82,11 @@ const navigationConfig = [
 				}
 			},
 			{
-				id: 'faq',
+				id: 'help',
 				title: 'HELP',
 				type: 'item',
 				icon: 'help',
-				url: '/pages/faq'
+				url: '/pages/help'
 			}
 			// {
 			// 	id: 'calendar',
