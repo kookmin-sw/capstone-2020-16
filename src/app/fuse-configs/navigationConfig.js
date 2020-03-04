@@ -28,7 +28,7 @@ const navigationConfig = [
 				
 			},
 			{
-				id: 'singlemode',
+				id: 'game',
 				title: 'GAME',
 				translate: 'GAME',
 				type: 'collapse',
@@ -38,19 +38,19 @@ const navigationConfig = [
 						id: 'game-singlemode',
 						title: 'Single Mode',
 						type: 'item',
-						url: '/apps/singlemode'
+						url: '/apps/game/singlemode'
 					},
 					{
 						id: 'game-battlemode',
 						title: 'Battle Mode',
 						type: 'item',
-						url: '/apps/singlemode'
+						url: '/apps/game/battlemode'
 					},
 					{
 						id: 'game-replay',
 						title: 'Replay',
 						type: 'item',
-						url: '/apps/singlemode'
+						url: '/apps/game/singlemode'
 					},
 					// {
 					// 	id: 'project-dashboard',

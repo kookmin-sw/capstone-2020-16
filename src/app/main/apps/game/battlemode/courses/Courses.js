@@ -207,7 +207,7 @@ function Courses(props) {
 												<Divider />
 												<CardActions className="justify-center">
 													<Button
-														to={`/apps/singlemode/courses/${course.id}/${course.slug}`}
+														to={`/apps/game/battlemode/courses/${course.id}/${course.slug}`}
 														component={Link}
 														className="justify-start px-32"
 														color="secondary"

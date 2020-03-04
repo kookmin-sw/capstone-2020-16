@@ -1,4 +1,5 @@
-import AcademyAppConfig from './singlemode/AcademyAppConfig';
+import AcademyAppConfig from './game/singlemode/AcademyAppConfig';
+import AcademyAppConfig2 from './game/battlemode/AcademyAppConfig2';
 import CalendarAppConfig from './calendar/CalendarAppConfig';
 import ChatAppConfig from './chat/ChatAppConfig';
 import ContactsAppConfig from './contacts/ContactsAppConfig';
@@ -23,6 +24,7 @@ const appsConfigs = [
 	ECommerceAppConfig,
 	ScrumboardAppConfig,
 	AcademyAppConfig,
+	AcademyAppConfig2,
 	NotesAppConfig
 ];
 

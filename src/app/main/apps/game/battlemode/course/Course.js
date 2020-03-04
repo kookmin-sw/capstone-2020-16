@@ -84,7 +84,7 @@ function Course(props) {
 							<Icon>menu</Icon>
 						</IconButton>
 					</Hidden>
-					<IconButton to="/apps/singlemode/courses" component={Link}>
+					<IconButton to="/apps/game/battlemode/courses" component={Link}>
 						<Icon>{theme.direction === 'ltr' ? 'arrow_back' : 'arrow_forward'}</Icon>
 					</IconButton>
 					{course && <Typography className="flex-1 text-20 mx-16">{course.title}</Typography>}
@@ -131,7 +131,7 @@ function Course(props) {
 											<Icon>{theme.direction === 'ltr' ? 'chevron_right' : 'chevron_left'}</Icon>
 										</Fab>
 									) : (
-										<Fab className={classes.successFab} to="/apps/singlemode/courses" component={Link}>
+										<Fab className={classes.successFab} to="/apps/game//courses" component={Link}>
 											<Icon>check</Icon>
 										</Fab>
 									)}
