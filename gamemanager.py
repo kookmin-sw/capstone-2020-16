@@ -2,6 +2,7 @@ import numpy as np
 import os
 import re
 import sys
+import time
 
 from rules import Rules
 from game_data import GameData
@@ -39,7 +40,6 @@ class GameManager:
 
         self.board_record += str(self.board_info) + '\n'
         self.parsing_board_info(self.board_info, self.board_size)
-        print(self.board)
         self.compile_user_code()    # not finish
 
         while not is_ending:
@@ -52,17 +52,21 @@ class GameManager:
 
             #   user code execute
             output = None
+
             try:
+                if os.path.isfile("placement.txt"):
+                    os.remove("placement.txt")
+                    # print('delete placement.txt')
                 if self.check_turn == 'challenger':
+                    print('cc')
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
                 elif self.check_turn == 'oppositer':
+                    print('oo')
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
-                    with open('op.txt', 'w') as f:
-                        f.write('ok')
+
             except Exception as e:
                 print(f'program error in execute user program : {e}')
             user_placement = self.parsing_user_output(output)
-
             try:
                 check_placement, new_board = self.rules.check_placement_rule(self.game_data, self.board, user_placement)
             except Exception as e:
@@ -70,6 +74,7 @@ class GameManager:
                 break   #
 
             if check_placement == 'OK':
+
                 self.board = new_board
                 apply_action = ''
                 try:
@@ -91,7 +96,7 @@ class GameManager:
                 break   #
 
             self.add_record(output)
-            match_result = 'no'
+
             if is_ending is True:
                 if winner == 1:
                     match_result = self.check_turn
@@ -102,7 +107,6 @@ class GameManager:
                         match_result = 'challenger'
 
                 break
-
             #   change player
             self.check_turn = 'challenger' if self.check_turn == 'oppositer' else 'oppositer'
 
@@ -138,7 +142,6 @@ class GameManager:
         placement = []
         if '>' in output:
             pass
-
         else:
             placement = [int(i) for i in output.split()]
 
