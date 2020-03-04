@@ -26,11 +26,11 @@ def match(match_data):
     challenger_code = 'print(\'3 3\')'
     oppositer_code = 'print(\'4 4\')'
 
-    with open(challenger_code_path, 'w') as f:
-        f.write(challenger_code)
-
-    with open(oppositer_code_path, 'w') as f:
-        f.write(oppositer_code)
+    # with open(challenger_code_path, 'w') as f:
+    #     f.write(challenger_code)
+    #
+    # with open(oppositer_code_path, 'w') as f:
+    #     f.write(oppositer_code)
 
     challenger = UserProgram(match_data['challenger'], match_data['challenger_language'], match_dir, challenger_code_filename)
     oppositer = UserProgram(match_data['oppositer'], match_data['oppositer_language'], match_dir, oppositer_code_filename)

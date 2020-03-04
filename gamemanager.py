@@ -49,7 +49,7 @@ class GameManager:
                 return match_result
 
             self.make_board_data()
-
+            print(self.board)
             #   user code execute
             output = None
 
