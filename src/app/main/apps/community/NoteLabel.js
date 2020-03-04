@@ -23,7 +23,7 @@ function NoteLabel(props) {
 				onClick: ev => {
 					ev.stopPropagation();
 				},
-				to: `/apps/notes/labels/${label.handle}/${label.id}`
+				to: `/apps/community/labels/${label.handle}/${label.id}`
 		  }
 		: {};
 

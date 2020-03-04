@@ -7,7 +7,7 @@ import ProjectDashboardAppConfig from './home/project/ProjectDashboardAppConfig'
 import ECommerceAppConfig from './e-commerce/ECommerceAppConfig';
 import FileManagerAppConfig from './file-manager/FileManagerAppConfig';
 import MailAppConfig from './mail/MailAppConfig';
-import NotesAppConfig from './notes/NotesAppConfig';
+import NotesAppConfig from './community/NotesAppConfig';
 import ScrumboardAppConfig from './scrumboard/ScrumboardAppConfig';
 import TodoAppConfig from './todo/TodoAppConfig';
 

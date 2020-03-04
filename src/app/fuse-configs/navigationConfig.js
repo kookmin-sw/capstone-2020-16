@@ -61,12 +61,12 @@ const navigationConfig = [
 				]
 			},
 			{
-				id: 'notes',
+				id: 'community',
 				title: 'Community',
 				translate: 'COMMUNITY',
 				type: 'item',
 				icon: 'note',
-				url: '/apps/notes'
+				url: '/apps/community'
 			},
 			{
 				id: 'chat',

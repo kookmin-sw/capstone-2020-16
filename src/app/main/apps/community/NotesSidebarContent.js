@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import * as Actions from 'app/main/apps/notes/store/actions';
+import * as Actions from 'app/main/apps/community/store/actions';
 import clsx from 'clsx';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -55,7 +55,7 @@ function NotesSidebarContent(props) {
 						<ListItem
 							button
 							component={NavLinkAdapter}
-							to="/apps/notes"
+							to="/apps/community"
 							exact
 							activeClassName="active"
 							className={classes.listItem}
@@ -68,7 +68,7 @@ function NotesSidebarContent(props) {
 						<ListItem
 							button
 							component={NavLinkAdapter}
-							to="/apps/notes/reminders"
+							to="/apps/community/reminders"
 							exact
 							activeClassName="active"
 							className={classes.listItem}
@@ -87,7 +87,7 @@ function NotesSidebarContent(props) {
 								key={label.id}
 								button
 								component={NavLinkAdapter}
-								to={`/apps/notes/labels/${label.handle}/${label.id}`}
+								to={`/apps/community/labels/${label.handle}/${label.id}`}
 								exact
 								activeClassName="active"
 								className={classes.listItem}
@@ -114,7 +114,7 @@ function NotesSidebarContent(props) {
 						<ListItem
 							button
 							component={NavLinkAdapter}
-							to="/apps/notes/archive"
+							to="/apps/community/archive"
 							activeClassName="active"
 							className={classes.listItem}
 						>
