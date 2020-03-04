@@ -94,10 +94,10 @@ class Problem(models.Model):
         default=8,
     )
 
-    board_shape = models.IntegerField(
-        "보드 모양",
-        db_column="BOARD_SHAPE",
-        default=0,
+    board_info = models.TextField(
+        "시작 보드 정보",
+        db_column="BOARD_INFO",
+        default="0",
     )
 
     def __str__(self):

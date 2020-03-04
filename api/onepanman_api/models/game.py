@@ -9,6 +9,11 @@ class Game(models.Model):
     Game
     """
 
+    turn_choice = (
+        ("challenger", "challenger"),
+        ("opposite", "opposite")
+    )
+
     id = models.AutoField(
         "ID",
         db_column="ID",
@@ -76,6 +81,14 @@ class Game(models.Model):
         on_delete=models.PROTECT,
         related_name="code_game_opposite_code",
 
+    )
+
+    turn = models.CharField(
+        "선수",
+        db_column="TURN",
+        choices=turn_choice,
+        default="challenger",
+        max_length=50,
     )
 
     def __str__(self):

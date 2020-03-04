@@ -6,4 +6,4 @@ from .. import models
 class UserInformationInProblemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.UserInformationInProblem
-        fields = ['user', 'problem', 'score', 'tier', 'code']
+        fields = ['id', 'user', 'problem', 'score', 'tier', 'code']
