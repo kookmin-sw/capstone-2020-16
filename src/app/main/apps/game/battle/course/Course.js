@@ -84,7 +84,7 @@ function Course(props) {
 							<Icon>menu</Icon>
 						</IconButton>
 					</Hidden>
-					<IconButton to="/apps/game/battlemode/courses" component={Link}>
+					<IconButton to="/apps/game/battle/courses" component={Link}>
 						<Icon>{theme.direction === 'ltr' ? 'arrow_back' : 'arrow_forward'}</Icon>
 					</IconButton>
 					{course && <Typography className="flex-1 text-20 mx-16">{course.title}</Typography>}

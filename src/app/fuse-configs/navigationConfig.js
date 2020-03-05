@@ -35,22 +35,22 @@ const navigationConfig = [
 				icon: 'school',
 				children: [
 					{
-						id: 'game-singlemode',
-						title: 'Single Mode',
+						id: 'game-problem',
+						title: 'Problem',
 						type: 'item',
-						url: '/apps/game/singlemode'
+						url: '/apps/game/problem'
 					},
 					{
-						id: 'game-battlemode',
-						title: 'Battle Mode',
+						id: 'game-battle',
+						title: 'Battle',
 						type: 'item',
-						url: '/apps/game/battlemode'
+						url: '/apps/game/battle'
 					},
 					{
 						id: 'game-replay',
 						title: 'Replay',
 						type: 'item',
-						url: '/apps/game/singlemode'
+						url: '/apps/game/problem'
 					},
 					// {
 					// 	id: 'project-dashboard',

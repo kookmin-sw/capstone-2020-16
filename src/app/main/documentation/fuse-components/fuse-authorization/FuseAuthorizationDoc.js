@@ -370,7 +370,7 @@ function FuseAuthorizationDoc() {
                                      */
                             
                                     history.location.state = {
-                                        redirectUrl: user.redirectUrl // for example 'apps/game/singlemode'
+                                        redirectUrl: user.redirectUrl // for example 'apps/game/'
                                     }
                             
                                     /*

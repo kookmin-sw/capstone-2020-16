@@ -7,16 +7,16 @@ const AcademyAppConfig2 = {
 	},
 	routes: [
 		{
-			path: '/apps/game/battlemode/courses/:courseId/:courseHandle?',
+			path: '/apps/game/battle/courses/:courseId/:courseHandle?',
 			component: React.lazy(() => import('./course/Course'))
 		},
 		{
-			path: '/apps/game/battlemode/courses',
+			path: '/apps/game/battle/courses',
 			component: React.lazy(() => import('./courses/Courses'))
 		},
 		{
-			path: '/apps/game/battlemode',
-			component: () => <Redirect to="/apps/game/battlemode/courses" />
+			path: '/apps/game/battle',
+			component: () => <Redirect to="/apps/game/battle/courses" />
 		}
 	]
 };
