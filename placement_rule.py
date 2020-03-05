@@ -11,9 +11,9 @@ class PlacementRule:
     def check_placement_rule(self, data, board, placement):
         x, y = placement
         new_board = None
-        print('######')
-        print(board)
-        print(placement)
+        # print('######')
+        # print(board)
+        # print(placement)
         self.check_base_placement_rule(data, board, placement)
         if 'othello' in data.placement_rule:
             self.check_othello_placement_rule(data, board, placement)
@@ -25,7 +25,7 @@ class PlacementRule:
             self.check_segyunjeon_placement_rule_add(data, board, placement)
 
         if self.placement_message == 'OK':
-            board[y][x] = 1
+            board[x][y] = 1
             new_board = board
 
         return self.placement_message, new_board
@@ -36,9 +36,9 @@ class PlacementRule:
         if (x < 0 or x > data.board_size) or (y < 0 or y > data.board_size):
             self.placement_message = f'out of the board : {x, y}'
 
-        if board[y][x] != 0:
-            print(board)
-            print(y, x, board[y][x])
+        if board[x][y] != 0:
+            # print(board)
+            # print(y, x, board[y][x])
             self.placement_message = f'There is already a stone : {x, y}'
 
     def check_33_placement_rule(self, data, board, placement):

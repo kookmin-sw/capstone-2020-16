@@ -74,7 +74,6 @@ class GameManager:
                 break   #
 
             if check_placement == 'OK':
-
                 self.board = new_board
                 apply_action = ''
                 try:
@@ -125,9 +124,13 @@ class GameManager:
         self.board_record += '\n'
 
     def make_board_data(self):
-        board = str(self.board).strip() + '\n'
         with open(os.path.join(self.challenger.save_path, 'board.txt'), 'w') as f:
-            f.write(board)
+            temp = ''
+            for line in self.board:
+                for i in line:
+                    temp += (str(i) + ' ')
+                temp += '\n'
+            f.write(temp)
 
     def add_record(self, output):
         if self.first_turn == self.check_turn:
