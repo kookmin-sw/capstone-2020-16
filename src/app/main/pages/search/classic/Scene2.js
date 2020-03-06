@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import axios from 'axios'
 
 class Scene2 extends Phaser.Scene {
     constructor() {
@@ -6,8 +7,25 @@ class Scene2 extends Phaser.Scene {
     }
   
     create() {
-        
+
       this.iter = 0; // used for itarations
+
+      const jsonUrl = 'assets/JSON/board.json';
+
+      // var boardStatus = {
+      //   chacksoo: [],
+      //   placement: []
+      // }
+
+      axios.get(jsonUrl)
+        .then(data => {
+          // boardStatus.chacksoo = data.chacksoo.split(' '),
+          // boardStatus.placement = data.placement.split(' ')
+          console.log(`data.chacksoo=>${data.chaksoo}`)
+        })
+        .catch(error => {
+          console.log(`error>>>>>${error}`)
+        });
   
       // add the background in the center of the scene
       this.background = this.add.image(0, 0, "background").setScale(0.7);
@@ -63,8 +81,13 @@ class Scene2 extends Phaser.Scene {
       // rotate the ships
       var children = this.saitamaGroup.getChildren();
       var children2 = this.garowGroup.getChildren();
+      var boadStatus = this.boadStatus;
+
       for (var i = 0; i < children.length; i++) {
-        // children[i].rotation += 0.1;
+        // console.log('helllo')
+        // console.log(`chaksoo>>${this.boadStatus.chacksoo}`);
+        // console.log(`placement>>${this.boadStatus.placement}`);
+        // // children[i].rotation += 0.1;
         children[i].setScale(0.18);
         children2[i].setScale(0.18);
   
@@ -81,7 +104,7 @@ class Scene2 extends Phaser.Scene {
       }
   
       // increment the iteration
-      this.iter += 0.01;
+      this.iter += 1;
   
     }
   }
