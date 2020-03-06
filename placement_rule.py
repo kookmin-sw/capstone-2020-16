@@ -8,12 +8,20 @@ placement_rule_num = 5
 class PlacementRule:
     def __init__(self):
         self.placement_message = 'OK'
-        self.placement_rule_list = [self.check_base_placement_rule, ]
+        self.placement_rule_type_list = [self.move, self.add, self.move_and_add]
+        self.placement_rule_dir_list = [self.width, self.height, self.diagonal, self.cross, self.eight_dir]
+        self.placement_rule_distance_list = [self.]
 
     def check_placement_rule(self, data, board, placement):
-        x, y = placement
+        if '>' in placement:
+            x = list(map(int, placement.split('>')[0].split()))[0]
+            y = list(map(int, placement.split('>')[0].split()))[1]
+        else :
+            x, y = placement
         obj_number = board[x][y]
+        self.check_base_placement_rule()
         if obj_number == 1:
+            for i in
             pass
 
         elif obj_number == 2:
@@ -33,8 +41,6 @@ class PlacementRule:
             self.placement_message = f'out of the board : {x, y}'
 
         if board[x][y] != 0:
-            # print(board)
-            # print(y, x, board[y][x])
             self.placement_message = f'There is already a stone : {x, y}'
 
     # 착수 종류
@@ -43,6 +49,10 @@ class PlacementRule:
 
     def add(self):  # 새로운 돌 추가
         pass
+
+    def move_and_add(self):
+        pass
+
 
     # 착수 방향
     def width(self):  # 가로
@@ -53,6 +63,13 @@ class PlacementRule:
 
     def diagonal(self):  # 대각선
         pass
+
+    def cross(self):
+        pass
+
+    def eight_dir(self):
+        pass
+
 
     # 거리
     def distance_move(self):  # 이동시 거리
