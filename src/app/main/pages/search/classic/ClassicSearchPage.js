@@ -1,102 +1,109 @@
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import FusePageSimple from '@fuse/core/FusePageSimple';
-import Button from '@material-ui/core/Button';
-import { blue, green } from '@material-ui/core/colors';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles, ThemeProvider, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
-import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
-
-const useStyles = makeStyles({
-	title: {
-		color: blue[800]
-	},
-	url: {
-		color: green[800]
-	}
-});
+import React from 'react';
+import Phaser from 'phaser'
 
 function ClassicSearchPage() {
-	const classes = useStyles();
-	const theme = useTheme();
-	const [data, setData] = useState([]);
+	const config= {
+		width: 896,
+		height: 896,
+		backgroundColor: 0x000000,
+		scene: [Scene1, Scene2],
+		pixelArt: true
+	};
+	const game = new Phaser.Game(config);
+	function constructor() {
+		super("bootGame");
+	};
+	function preload() {
+		this.load.image("background", "assets/images/board.jpg");
+		this.load.image("ship", "assets/images/ship.png");
+		this.load.image("saitama", "assets/images/saitama2.png");
+		this.load.image("garow", "assets/images/garow.png");
+	};
+	function create() {
+		this.add.text(20, 20, "Loading game...");
+		this.scene.start("playGame");
 
-	useEffect(() => {
-		axios.get('/api/search').then(res => {
-			setData(res.data);
+		this.iter = 0; // used for itarations
+
+		// add the background in the center of the scene
+		this.background = this.add.image(0, 0, "background").setScale(0.7);
+		this.background.setOrigin(0.5, 0.5);
+		this.background.x = config.width/2;
+		this.background.y = config.height/2;
+
+		// make a group of ships
+		this.saitamaGroup = this.make.group({
+			key: "saitama",
+			frameQuantity: 64,
+			max: 64
 		});
-	}, []);
 
+		this.garowGroup = this.make.group({
+			key: "garow",
+			frameQuantity: 64,
+			max: 64
+		});
+
+		// align the group of ships in a grid
+		Phaser.Actions.GridAlign(this.saitamaGroup.getChildren(), {
+			// 가로 세로 갯수
+			width: 8,
+			height: 8,
+			// 이미지 하나 당 공간
+			cellWidth: 92,
+			cellHeight: 92,
+			// 이미지 시작 지점
+			position: Phaser.Display.Align.TOP_LEFT,
+			x: -80,
+			y: -88
+		});
+
+		Phaser.Actions.GridAlign(this.garowGroup.getChildren(), {
+			// 가로 세로 갯수
+			width: 8,
+			height: 8,
+			// 이미지 하나 당 공간
+			cellWidth: 92,
+			cellHeight: 92,
+			// 이미지 시작 지점
+			position: Phaser.Display.Align.TOP_LEFT,
+			x: -80,
+			y: -88
+		});
+	};
+
+	function update() {
+
+		// rotate the ships
+		var children = this.saitamaGroup.getChildren();
+		var children2 = this.garowGroup.getChildren();
+		for (var i = 0; i < children.length; i++) {
+		  // children[i].rotation += 0.1;
+		  children[i].setScale(0.18);
+		  children2[i].setScale(0.18);
+	
+		  if(i%2 === 0){
+			children[i].visible = true;
+			children[i].x = children[i].x + Math.cos(this.iter * 10) * 10;
+			children2[i].visible = false;
+		  }
+		  else {
+			children[i].visible = false;
+			children2[i].x = children2[i].x - Math.cos(this.iter * 10) * 10;
+			children2[i].visible = true;
+		  }
+		}
+	
+		// increment the iteration
+		this.iter += 0.01;
+	
+	}
 	return (
-		<FusePageSimple
-			header={
-				<div className="flex flex-1 items-center p-16 sm:p-24 max-w-md">
-					<ThemeProvider theme={theme}>
-						<Paper className="flex items-center h-44 w-full px-16" elevation={1}>
-							<Input
-								placeholder="Search..."
-								disableUnderline
-								fullWidth
-								inputProps={{
-									'aria-label': 'Search'
-								}}
-							/>
-							<Icon color="action">search</Icon>
-						</Paper>
-					</ThemeProvider>
-				</div>
-			}
-			content={
-				<div className="p-16 pt-0 sm:p-24 sm:pt-0 max-w-md">
-					<FuseAnimate delay={200}>
-						<Typography color="textSecondary" className="text-13 mt-12 mb-24">
-							{data.length} results
-						</Typography>
-					</FuseAnimate>
-
-					<FuseAnimateGroup
-						enter={{
-							animation: 'transition.slideUpBigIn'
-						}}
-					>
-						{data.map(item => (
-							<div className="mb-28" key={item.id}>
-								<Typography className={clsx(classes.title, 'text-18 cursor-pointer')}>
-									{item.title}
-								</Typography>
-								<Typography className={clsx(classes.url)}>{item.url}</Typography>
-								<Typography className="text-13">{item.excerpt}</Typography>
-							</div>
-						))}
-					</FuseAnimateGroup>
-					<div className="flex justify-center mt-32">
-						<div className="flex item-center">
-							<IconButton className="w-32">
-								<Icon className="text-20">
-									{theme.direction === 'ltr' ? 'chevron_left' : 'chevron_right'}
-								</Icon>
-							</IconButton>
-							<Button className="font-normal min-w-32 h-48 p-0 px-8">1</Button>
-							<Button className="font-normal min-w-32 h-48 p-0 px-8">2</Button>
-							<Button className="font-normal min-w-32 h-48 p-0 px-8">3</Button>
-							<Button className="font-normal min-w-32 h-48 p-0 px-8">4</Button>
-							<Button className="font-normal min-w-32 h-48 p-0 px-8">5</Button>
-							<IconButton className="w-32">
-								<Icon className="text-20">
-									{theme.direction === 'ltr' ? 'chevron_right' : 'chevron_left'}
-								</Icon>
-							</IconButton>
-						</div>
-					</div>
-				</div>
-			}
-		/>
+		<div classname="webGL">
+			<div>
+				
+			</div>
+		</div>
 	);
 }
 
