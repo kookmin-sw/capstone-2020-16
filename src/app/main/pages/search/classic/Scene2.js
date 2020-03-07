@@ -1,6 +1,17 @@
 import Phaser from 'phaser'
 import axios from 'axios'
 
+const boardStatus = {
+  chacksoo: [],
+  placement: []
+};
+
+function sleep (delay) {
+  var start = new Date().getTime();
+  while (new Date().getTime() < start + delay);
+}
+
+
 class Scene2 extends Phaser.Scene {
     constructor() {
       super("playGame");
@@ -9,22 +20,18 @@ class Scene2 extends Phaser.Scene {
     create() {
 
       this.iter = 0; // used for itarations
+      this.boardIdx = 0;
 
       const jsonUrl = 'assets/JSON/board.json';
 
-      // var boardStatus = {
-      //   chacksoo: [],
-      //   placement: []
-      // }
-
       axios.get(jsonUrl)
         .then(data => {
-          // boardStatus.chacksoo = data.chacksoo.split(' '),
-          // boardStatus.placement = data.placement.split(' ')
-          console.log(`data.chacksoo=>${data.chaksoo}`)
+          boardStatus.chacksoo = data.data.board.chacksoo.split(' ');
+          boardStatus.placement = data.data.board.placement.split(' ');
+          // console.log(`boardStatus.chacksoo=>${boardStatus.chacksoo}`);
         })
         .catch(error => {
-          console.log(`error>>>>>${error}`)
+          console.log(`error>>>>>${error}`);
         });
   
       // add the background in the center of the scene
@@ -81,32 +88,40 @@ class Scene2 extends Phaser.Scene {
       // rotate the ships
       var children = this.saitamaGroup.getChildren();
       var children2 = this.garowGroup.getChildren();
-      var boadStatus = this.boadStatus;
 
       for (var i = 0; i < children.length; i++) {
-        // console.log('helllo')
-        // console.log(`chaksoo>>${this.boadStatus.chacksoo}`);
-        // console.log(`placement>>${this.boadStatus.placement}`);
         // // children[i].rotation += 0.1;
         children[i].setScale(0.18);
         children2[i].setScale(0.18);
-  
-        if(i%2 === 0){
-          children[i].visible = true;
-          children[i].x = children[i].x + Math.cos(this.iter * 10) * 10;
+
+        if(boardStatus.chacksoo[this.boardIdx*64 + i] === "0"){
+          children[i].visible = false;
           children2[i].visible = false;
         }
-        else {
+        else if(boardStatus.chacksoo[this.boardIdx*64 + i] === "1"){
+          children[i].visible = true;
+          children2[i].visible = false;
+        }
+        else if(boardStatus.chacksoo[this.boardIdx*64 + i] === "-1"){
           children[i].visible = false;
-          children2[i].x = children2[i].x - Math.cos(this.iter * 10) * 10;
           children2[i].visible = true;
         }
-      }
+        else{
+          children[i].visible = false;
+          children2[i].visible = false;
+        }
+        
+      };
   
       // increment the iteration
-      this.iter += 1;
-  
-    }
+      this.iter += 0.001;
+      console.log(`this.boardIdx>>${boardStatus.chacksoo}`);
+      this.boardIdx += 1;
+      if(boardStatus.chacksoo[this.boardIdx*64] === undefined){
+        this.boardIdx = 0;
+      }
+      sleep(500);
+    };
   }
   
   export default Scene2;
