@@ -1,3 +1,4 @@
+from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin, UserReadOnly
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from . import mixins
@@ -10,6 +11,8 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
     lookup_url_kwarg = 'id'
     serializer_class = serializers.ProblemSerializer
     http_method_names = ['get', 'post', 'delete', 'put']
+
+    permission_classes = [UserReadOnly]
 
     def list(self, request, *args, **kwargs):
         return self.get_response_list_for(models.Problem.objects.all(), serializers.ProblemSerializer)
@@ -71,3 +74,5 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+

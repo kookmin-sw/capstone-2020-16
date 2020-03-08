@@ -10,18 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-import os, json
+import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import datetime
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#ROOT_DIR = os.path.dirname(BASE_DIR)
 SECRETS_DIR = os.path.join(BASE_DIR, '.secrets')
 SECRETS_BASE = os.path.join(SECRETS_DIR, 'base.json')
 secrets_base = json.loads(open(SECRETS_BASE, 'rt').read())
-
-#print("Base : {} , Secrets : {}".format(BASE_DIR, SECRETS_DIR))
 
 
 # Quick-start development settings - unsuitable for production
@@ -49,7 +47,16 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'redis',
+
+    'rest_auth',
+    'rest_framework.authtoken',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -143,6 +150,8 @@ JWT_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7)  # JWT 토근 갱신의 유효 기간
 }
 
+REST_USE_JWT = True
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -162,5 +171,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = 'rest_framework:login'
-LOGOUT_URL = 'rest_framework:logout'
+# LOGIN_URL = 'rest_framework:login'
+# LOGOUT_URL = 'rest_framework:logout'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

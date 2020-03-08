@@ -1,10 +1,12 @@
 import json
 
 import django_filters
+from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin, UserReadOnly
 from rest_framework import viewsets, status
 
 from onepanman_api.models import UserInformationInProblem, UserInfo
 from onepanman_api.serializers.userInformationInProblem import UserInformationInProblemSerializer
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from django.core import serializers
@@ -17,6 +19,8 @@ class UserInformationInProblemViewSet(viewsets.ModelViewSet):
     filter_fields = ('user', 'problem', 'tier', 'score')
     # ordering_fields = ('user', 'problem', 'score')
     # ordering = ('user',)
+
+    permission_classes = [UserReadOnly]
 
     def update(self, request, *args, **kwargs):
         try:
@@ -120,4 +124,18 @@ class UserInformationInProblemViewSet(viewsets.ModelViewSet):
                 user.tier = "Bronze"
 
             user.save()
+
+    #각 기능 별 권한 설정
+    # def get_permissions(self):
+    #     permission_classes = []
+    #
+    #     if self.action == "create" or self.action == "destroy" \
+    #             or self.action == "update" or self.action == "partial_update":
+    #         permission_classes = [IsAdminUser]  # 관리자만
+    #
+    #     if self.action == "list" or self.action == "retrieve":
+    #         permission_classes = [IsLoggedInUserOrAdmin]  # 유저 or 관리자
+    #
+    #     return [permission() for permission in permission_classes]
+
 

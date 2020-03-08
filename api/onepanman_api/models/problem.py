@@ -100,6 +100,12 @@ class Problem(models.Model):
         default="0",
     )
 
+    rule = models.TextField(
+        "문제 규칙",
+        db_column="RULE",
+        default="empty",
+    )
+
     def __str__(self):
         return '{}_{}'.format(self.editor.username, self.title)
 

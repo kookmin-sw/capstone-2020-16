@@ -1,10 +1,10 @@
 from onepanman_api import serializers
+from onepanman_api.permissions import IsAdminUser, OnlyAdminUser
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from onepanman_api.models import UserInformationInProblem, ProblemRuleInfo, RuleInfo, Problem, Game
 import random
-
 
 
 class GetCoreResponse(Response):
@@ -17,7 +17,10 @@ class GetCoreResponse(Response):
         result = play_game.delay()
         """
 
+
 class Match(APIView):
+
+    permission_classes = [OnlyAdminUser]
 
     # 문제에 해당하는 규칙들을 반환하는 함수
     def getRules(self, problemid, ruleType):
@@ -107,16 +110,16 @@ class Match(APIView):
 
 
         matchInfo = {
-            "challenger": userid,
+            "challenger": challenger.user.pk,
             "opposite": opposite.user.pk,
-            "challenger_code": codeid,
+            "challenger_code": challenger.code.id,
             "opposite_code": opposite.code.id,
             "challenger_score": challenger.score,
             "opposite_score": opposite.score,
             "challenger_language": challenger.code.language.id,
             "opposite_language": opposite.code.language.id,
             "turn": turn,
-            "problem": problemid,
+            "problem": int(problemid),
             "placement": placement,
             "action": action,
             "ending": ending,
@@ -166,7 +169,7 @@ class Match(APIView):
 
         game_id = instance.id
 
-        matchInfo['id'] = game_id
+        matchInfo['match_id'] = game_id
 
         return matchInfo
 
