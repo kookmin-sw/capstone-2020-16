@@ -10,25 +10,33 @@ class PlacementRule:
         self.placement_message = 'OK'
         self.placement_rule_type_list = [self.move, self.add, self.move_and_add]
         self.placement_rule_dir_list = [self.width, self.height, self.diagonal, self.cross, self.eight_dir]
-        self.placement_rule_distance_list = [self.]
+        self.placement_rule_distance_list = [self.distance_move_1, self.distance_move_2, self.distance_move_3, self.distance_add_close, self.distance_add_any]
+        self.placement_rule_option = [self.block_move, self.take_out_and_add, self.only_reverse]
 
     def check_placement_rule(self, data, board, placement):
-        if '>' in placement:
-            x = list(map(int, placement.split('>')[0].split()))[0]
-            y = list(map(int, placement.split('>')[0].split()))[1]
-        else :
-            x, y = placement
-        obj_number = board[x][y]
-        self.check_base_placement_rule()
-        if obj_number == 1:
-            for i in
-            pass
+        try:
+            if '>' in placement:
+                x = list(map(int, placement.split('>')[0].split()))[0]
+                y = list(map(int, placement.split('>')[0].split()))[1]
 
-        elif obj_number == 2:
-            pass
+                x2 = list(map(int, placement.split('>')[1].split()))[0]
+                y2 = list(map(int, placement.split('>')[1].split()))[1]
 
-        elif obj_number == 3:
-            pass
+                obj_number = str(board[x][y])
+            else:
+                n, x, y = placement
+                obj_number = str(n)
+        except Exception as e:
+            print(f'error in parsing user placement in placement rule {e}')
+            return False, board
+
+
+
+        check_type = self.placement_rule_type_list[data.placement_rule[obj_number][0]](placement)
+        if check_type is True:
+            self.check_base_placement_rule(data, board, placement)
+        else:
+            print(f'placement that does not fit the rules of the object {obj_number}.')
 
         new_board = None
 
@@ -44,13 +52,19 @@ class PlacementRule:
             self.placement_message = f'There is already a stone : {x, y}'
 
     # 착수 종류
-    def move(self):  # 이동
-        pass
+    def move(self, placement):  # 이동
+        if '>' in placement:
+            return True
+        else:
+            return False
 
-    def add(self):  # 새로운 돌 추가
-        pass
+    def add(self, placement):  # 새로운 돌 추가
+        if '>' in placement:
+            return False
+        else:
+            return True
 
-    def move_and_add(self):
+    def move_and_add(self, placement):
         pass
 
 
@@ -72,10 +86,19 @@ class PlacementRule:
 
 
     # 거리
-    def distance_move(self):  # 이동시 거리
+    def distance_move_1(self):  # 이동시 거리
         pass
 
-    def distance_add(self):  # 추가시 거리 - 인접 or 어디든
+    def distance_move_2(self):
+        pass
+
+    def distance_move_3(self):
+        pass
+
+    def distance_add_close(self):  # 추가시 거리 - 인접 or 어디든
+        pass
+
+    def distance_add_any(self):
         pass
 
     # 착수 옵션
