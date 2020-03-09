@@ -71,7 +71,7 @@ class GameManager:
                 check_placement, new_board = self.rules.check_placement_rule(self.game_data, self.board, user_placement)
             except Exception as e:
                 print(f'check placement program error : {e}')
-                break   #
+                break   # TODO
 
             if check_placement == 'OK':
                 self.board = new_board
