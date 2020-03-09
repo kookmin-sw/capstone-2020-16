@@ -41,20 +41,26 @@ function AnalyticsDashboardApp() {
 
 						{/* <div className="flex flex-col sm:flex sm:flex-row pb-32">
 							<div className="widget flex w-full sm:w-1/3 p-16">
-								<Widget2 data={widgets.widget2} />
-							</div>
+							{/* <Router>
+								<div>
+									<Link component={RouterLink} to="apps/game/problemIdx">
+										<Widget2 data={widgets.widget2} />
+									</Link>
+								</div>
+							</Router> */}
+					
 
-							<div className="widget flex w-full sm:w-1/3 p-16">
+							{/* <div className="widget flex w-full sm:w-1/3 p-16">
 								<Widget3 data={widgets.widget3} />
 							</div>
 
 							<div className="widget w-full sm:w-1/3 p-16">
 								<Widget4 data={widgets.widget4} />
-							</div>
-						</div> */}
+							</div> */}
+						
 
 						<FuseAnimate delay={600}>
-							<Typography className="px-16 pb-8 tex-18 font-300">
+							<Typography className="px-18 pb-8 tex-30 font-900">
 								<h1>Community</h1>
 							</Typography>
 						</FuseAnimate>
@@ -97,8 +103,8 @@ function AnalyticsDashboardApp() {
 
 						<div className="mb-32 w-full sm:w-1/2 md:w-full">
 							<FuseAnimate delay={600}>
-								<Typography className="px-16 pb-8 text-18 font-300 lg:pt-0">
-									<h2>RANK</h2>
+								<Typography className="px-16 pb-8 text-18 font-900 lg:pt-0">
+									<h1>RANK</h1>
 								</Typography>
 							</FuseAnimate>
 							<div className="widget w-full p-16">
