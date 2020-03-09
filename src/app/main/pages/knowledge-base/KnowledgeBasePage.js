@@ -20,7 +20,7 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 
-import {Controlled as CodeMirror} from 'react-codemirror2'
+import {UnControlled as CodeMirror} from 'react-codemirror2'
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
@@ -38,12 +38,18 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
+
+
 function KnowledgeBasePage() {
 	const classes = useStyles();
 	const [code, setCode] = useState(
 		"var component = {\nname: \"react-codemirror\",\nauthor: \"Jed Watson\",\nrepo: \"https://github.com/JedWatson/react-codemirror\"}");
+	
+	
 	const [option, setOption] = useState({
-		mode: "javascript"
+		mode: "javascript",
+		theme: 'material',
+		lineNumbers: true
 	});
 
 	// useEffect(() => {
@@ -51,18 +57,18 @@ function KnowledgeBasePage() {
 	// 		setData(res.data);
 	// 	});
 	// }, []);
-	function changeMode(newMode) {
-		console.log(`newMode>>>>>>${newMode}`);
+	function changeMode(event) {
+		console.log(`beforeMode>>>>>>${option.mode}`);
+		console.log(`event.target.value>>>>>>${event.target.value}`);
 		setOption({
-			mode: {newMode}
+			mode: event.target.value
 		});
 	};
-	// function handleOpenDialog(dialogData) {
-	// 	setDialog({
-	// 		open: true,
-	// 		...dialogData
-	// 	});
-	// }
+	
+	function changeCode(event) {
+		console.log(`event.target.value>>>>>>${event}`);
+		setCode(event);
+	};
 
 	return (
 		<div className="w-full">
@@ -86,7 +92,7 @@ function KnowledgeBasePage() {
 			</div>
 
 			<div>
-			<CodeMirror
+			{/* <CodeMirror
 				value={code}
 				options={option}
 				onBeforeChange={(editor, data, value) => {
@@ -95,11 +101,22 @@ function KnowledgeBasePage() {
 				onChange={(editor, data, value) => {
 					console.log(`option>>>>>>>>>>>>>>>${option.mode}`);
 				}}
+				/> */}
+				<CodeMirror
+					value= {code}
+					options={{
+						mode: option.mode,
+						theme: 'material',
+						lineNumbers: true
+					}}
+					onChange={(editor, data, value) => {
+						changeCode(value);
+					}}
 				/>
 				<div style={{ marginTop: 10 }}>
-					<select onChange={changeMode} >
-						<option newMode={"javascript"}>JavaScript</option>
-						<option newMode={"python"}>Python</option>
+					<select onChange={changeMode}>
+						<option value="javascript">JavaScript</option>
+						<option value="python">Python</option>
 					</select>
 				</div>
 			</div>
