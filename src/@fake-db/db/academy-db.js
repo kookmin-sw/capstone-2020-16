@@ -2,6 +2,17 @@ import _ from '@lodash';
 import { amber, blue, blueGrey, green } from '@material-ui/core/colors';
 import mock from '../mock';
 
+// const jsonUrl = 'assets/JSON/problemList.json';
+// axios.get(jsonUrl)
+// 	.then(data => {
+// 		academyDB.categories = data.data.problemList;
+// 		boardStatus.placement = data.data.board.placement.split(' ');
+// 		// console.log(`boardStatus.chacksoo=>${boardStatus.chacksoo}`);
+// 	})
+// 	.catch(error => {
+// 		console.log(`error>>>>>${error}`);
+// 	});
+
 const demoSteps = [
 	{
 		id: '0',
@@ -428,19 +439,19 @@ const academyDB = {
 		{
 			id: 0,
 			value: 'web',
-			label: 'Web',
+			label: '오목',
 			color: blue[500]
 		},
 		{
 			id: 1,
 			value: 'firebase',
-			label: 'Firebase',
+			label: '오델로',
 			color: amber[500]
 		},
 		{
 			id: 2,
 			value: 'cloud',
-			label: 'Cloud',
+			label: '세균전',
 			color: blueGrey[500]
 		},
 		{
@@ -448,7 +459,7 @@ const academyDB = {
 			value: 'android',
 			label: 'Android',
 			color: green[500]
-		}
+		},
 	],
 	courses: [
 		{
@@ -461,7 +472,8 @@ const academyDB = {
 			totalSteps: 11,
 			activeStep: 0,
 			updated: 'Jun 28, 2017',
-			steps: demoSteps
+			steps: demoSteps,
+			thumbnail: "https://img.theqoo.net/img/gvzif.jpg"
 		},
 		{
 			id: '154588a0864d2881124',
@@ -473,7 +485,8 @@ const academyDB = {
 			totalSteps: 11,
 			activeStep: 3,
 			updated: 'Nov 01, 2017',
-			steps: demoSteps
+			steps: demoSteps, 
+			thumbnail: "https://img.theqoo.net/img/WMYMi.jpg"
 		},
 		{
 			id: '15453ba60d3baa5daaf',
@@ -485,7 +498,8 @@ const academyDB = {
 			totalSteps: 11,
 			activeStep: 11,
 			updated: 'Jun 28, 2017',
-			steps: demoSteps
+			steps: demoSteps,
+			thumbnail: "https://img.theqoo.net/img/kPDxb.jpg"
 		},
 		{
 			id: '15453a06c08fb021776',

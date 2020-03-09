@@ -7,9 +7,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import FormControl from '@material-ui/core/FormControl';
-import Icon from '@material-ui/core/Icon';
+// import Icon from '@material-ui/core/Icon';
 import InputLabel from '@material-ui/core/InputLabel';
-import LinearProgress from '@material-ui/core/LinearProgress';
+// import LinearProgress from '@material-ui/core/LinearProgress';
 import MenuItem from '@material-ui/core/MenuItem';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Select from '@material-ui/core/Select';
@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
+import CardMedia from '@material-ui/core/CardMedia';
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -84,16 +85,16 @@ function Courses(props) {
 		setSearchText(event.target.value);
 	}
 
-	function buttonStatus(course) {
-		switch (course.activeStep) {
-			case course.totalSteps:
-				return 'COMPLETED';
-			case 0:
-				return 'START';
-			default:
-				return 'CONTINUE';
-		}
-	}
+	// function buttonStatus(course) {
+	// 	switch (course.activeStep) {
+	// 		case course.totalSteps:
+	// 			return 'COMPLETED';
+	// 		case 0:
+	// 			return 'START';
+	// 		default:
+	// 			return 'CONTINUE';
+	// 	}
+	// }
 
 	return (
 		<div className="flex flex-col flex-auto flex-shrink-0 w-full">
@@ -105,18 +106,17 @@ function Courses(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-						WELCOME TO ACADEMY
+						Game List
 					</Typography>
 				</FuseAnimate>
 				<FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
-							Our courses will step you through the process of building a small application, or adding a
-							new feature to an existing application.
+							Welcome to Single Mode. Choose a Game to Play!
 						</span>
 					</Typography>
 				</FuseAnimate>
-				<Icon className={classes.headerIcon}> school </Icon>
+				{/* <Icon className={classes.headerIcon}> school </Icon> */}
 			</div>
 			<div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
 				<div className="flex flex-col flex-shrink-0 sm:flex-row items-center justify-between py-24">
@@ -183,7 +183,7 @@ function Courses(props) {
 													<Typography className="font-medium truncate" color="inherit">
 														{category.label}
 													</Typography>
-													<div className="flex items-center justify-center opacity-75">
+													{/* <div className="flex items-center justify-center opacity-75">
 														<Icon className="text-20 mx-8" color="inherit">
 															access_time
 														</Icon>
@@ -191,10 +191,10 @@ function Courses(props) {
 															{course.length}
 															min
 														</div>
-													</div>
+													</div> */}
 												</div>
 												<CardContent className="flex flex-col flex-auto items-center justify-center">
-													<Typography className="text-center text-16 font-400">
+													{/* <Typography className="text-center text-16 font-400">
 														{course.title}
 													</Typography>
 													<Typography
@@ -202,37 +202,41 @@ function Courses(props) {
 														color="textSecondary"
 													>
 														{course.updated}
-													</Typography>
+													</Typography> */}
+													<CardMedia>
+														<img src={course.thumbnail} width='150' alt='thumbnail'></img>
+													</CardMedia>
 												</CardContent>
 												<Divider />
 												<CardActions className="justify-center">
 													<Button
-														to={`/apps/game/problem/courses/${course.id}/${course.slug}`}
+														to={`/apps/game/singlemode/courses/${course.id}/${course.slug}`}
 														component={Link}
 														className="justify-start px-32"
 														color="secondary"
 													>
-														{buttonStatus(course)}
+														{/* {buttonStatus(course)} */}
+														START
 													</Button>
 												</CardActions>
-												<LinearProgress
+												{/* <LinearProgress
 													className="w-full"
 													variant="determinate"
 													value={(course.activeStep * 100) / course.totalSteps}
 													color="secondary"
-												/>
+												/> */}
 											</Card>
 										</div>
 									);
 								})}
 							</FuseAnimateGroup>
 						) : (
-							<div className="flex flex-1 items-center justify-center">
-								<Typography color="textSecondary" className="text-24 my-24">
-									No courses found!
+								<div className="flex flex-1 items-center justify-center">
+									<Typography color="textSecondary" className="text-24 my-24">
+										No courses found!
 								</Typography>
-							</div>
-						)),
+								</div>
+							)),
 					[categories, filteredData, theme.palette]
 				)}
 			</div>
