@@ -8,4 +8,4 @@ class ProblemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Problem
         fields = ['id', 'editor', 'title', 'description', 'limit_time', 'limit_memory', 'date', 'level', 'popularity',
-                  'icon', 'thumbnail']
+                  'icon', 'thumbnail', 'rule']

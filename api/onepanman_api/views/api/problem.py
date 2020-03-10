@@ -34,7 +34,10 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
                                                      level=data['level'],
                                                      popularity=data['popularity'],
                                                      icon=data['icon'],
-                                                     thunmbnail=data['thumbnail'])
+                                                     thunmbnail=data['thumbnail'],
+                                                     board_size=data['board_size'],
+                                                     board_info=data['board_info'],
+                                                     rule=data['rule'])
 
             return self.get_response_for(instance, True, serializers.ProblemSerializer)
 
@@ -57,6 +60,9 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
             qs.popularity = data['popularity']
             qs.icon = data['icon']
             qs.thumbnail = data['thumbnail']
+            qs.board_size = data['board_size']
+            qs.board_info = data['board_info']
+            qs.rule = data['rule']
             qs.save()
 
             return self.get_response_for(qs, False, serializers.ProblemSerializer)

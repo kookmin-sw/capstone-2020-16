@@ -12,6 +12,7 @@ from .testcase import Testcase
 from .userInfo import UserInfo
 from .userInformationInProblem import UserInformationInProblem
 from .problem_ruleInfo import ProblemRuleInfo
+from .rule import Rule
 
 __all__ = ['Problem', 'Language', 'Article', 'Code', 'Comment', 'Friend', 'Game', 'GroupInfo',
-           'Notice', 'RuleInfo', 'Testcase', 'UserInfo', 'UserInformationInProblem', 'ProblemRuleInfo']
+           'Notice', 'RuleInfo', 'Testcase', 'UserInfo', 'UserInformationInProblem', 'ProblemRuleInfo', 'Rule']

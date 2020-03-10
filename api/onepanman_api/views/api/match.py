@@ -1,3 +1,5 @@
+import json
+
 from onepanman_api import serializers
 from onepanman_api.permissions import IsAdminUser, OnlyAdminUser
 from rest_framework import status
@@ -23,20 +25,20 @@ class Match(APIView):
     permission_classes = [OnlyAdminUser]
 
     # 문제에 해당하는 규칙들을 반환하는 함수
-    def getRules(self, problemid, ruleType):
-        queryset = ProblemRuleInfo.objects.all().filter(problem=problemid)
-
-        ruleids = []
-        for model_instance in queryset:
-            ruleids.append(model_instance.rule.id)
-
-        rules = RuleInfo.objects.all().filter(type=ruleType, id__in=ruleids)
-
-        result = []
-        for model_instance in rules:
-            result.append(model_instance.id)
-
-        return result
+    # def getRules(self, problemid, ruleType):
+    #     queryset = ProblemRuleInfo.objects.all().filter(problem=problemid)
+    #
+    #     ruleids = []
+    #     for model_instance in queryset:
+    #         ruleids.append(model_instance.rule.id)
+    #
+    #     rules = RuleInfo.objects.all().filter(type=ruleType, id__in=ruleids)
+    #
+    #     result = []
+    #     for model_instance in rules:
+    #         result.append(model_instance.id)
+    #
+    #     return result
 
     # 유저와 문제정보로 상대방을 매칭하고, 매칭 정보를 반환하는 함수
     def match(self, userid, problemid, codeid):
@@ -53,7 +55,7 @@ class Match(APIView):
 
             create_challenger = True
 
-        else :
+        else:
             challenger = challenger[0]
             create_challenger = False
 
@@ -62,45 +64,54 @@ class Match(APIView):
         high_scores = queryset_up.filter(score__gte=challenger.score).order_by('-score')
         low_scores  = queryset_up.filter(score__lte=challenger.score).order_by('-score')
 
-        if len(queryset_up) < 6 : # 게임을 플레이한 사람이 6명 미만인 경우
-            opposite_index = random.randint(0,len(queryset_up))
+        try:
+            if len(queryset_up) < 6:     # 게임을 플레이한 사람이 6명 미만인 경우
+                opposite_index = random.randint(0, len(queryset_up)-1)
 
-            opposite = queryset_up[opposite_index]
+                opposite = queryset_up[opposite_index]
 
-        elif create_challenger:  # challenger가 이 게임이 첫판인 경우
-            middle = int(len(queryset_up) / 2)
-            opposite_index = random.randint(-2, 3) + middle
-            opposite = queryset_up[opposite_index]
+            elif create_challenger:  # challenger가 이 게임이 첫판인 경우
+                middle = int(len(queryset_up) / 2)
+                opposite_index = random.randint(-2, 3) + middle
+                opposite = queryset_up[opposite_index]
 
-        elif len(high_scores) < 3:  # challenger가 top3인 경우 ( 위에 3명이 없는 경우 )
-            opposite_list = high_scores[:]
-            low_range = (3 + (3 - len(high_scores)))
-            opposite_list += low_scores[:low_range]
-            opposite_index = random.randint(0, 5)
+            elif len(high_scores) < 3:  # challenger가 top3인 경우 ( 위에 3명이 없는 경우 )
+                opposite_list = high_scores[:]
+                low_range = (3 + (3 - len(high_scores)))
+                opposite_list += low_scores[:low_range]
+                opposite_index = random.randint(0, 5)
 
-            opposite = opposite_list[opposite_index]
+                opposite = opposite_list[opposite_index]
 
-        elif len(low_scores) < 3:  # challenger가 최하위권인 경우 ( 아래에 3명이 없는 경우 )
-            opposite_list = low_scores[:]
-            high_range = len(high_scores) - (3 + (3 - len(low_scores)))
-            opposite_list += high_scores[high_range:]
-            opposite_index = random.randint(0, 5)
-            #print("low length : {} , high length : {} , index : {} , list length : {} , high range : {}".format(len(low_scores), len(high_scores), opposite_index, len(opposite_list), high_range))
-            opposite = opposite_list[opposite_index]
+            elif len(low_scores) < 3:  # challenger가 최하위권인 경우 ( 아래에 3명이 없는 경우 )
+                opposite_list = low_scores[:]
+                high_range = len(high_scores) - (3 + (3 - len(low_scores)))
+                opposite_list += high_scores[high_range:]
+                opposite_index = random.randint(0, 5)
+                # print("low length : {} , high length : {} , index : {} , list length : {} , high range : {}".format(len(low_scores), len(high_scores), opposite_index, len(opposite_list), high_range))
+                opposite = opposite_list[opposite_index]
 
-        else:
-            opposite_list = high_scores[-3:] + low_scores[:3]
-            opposite_index = random.randint(0,5)
-            opposite = opposite_list[opposite_index]
+            else:
+                opposite_list = high_scores[-3:] + low_scores[:3]
+                opposite_index = random.randint(0,5)
+                opposite = opposite_list[opposite_index]
+
+        except Exception as e:
+            print("매칭 에러 : {}".format(e))
+
 
 
         # 문제 규칙 정보 추가
         problems = Problem.objects.all().filter(id=problemid)
         problem = problems[0]
 
-        placement = self.getRules(problemid, "placement")
-        action    = self.getRules(problemid, "action")
-        ending    = self.getRules(problemid, "ending")
+        try:
+            rule = problem.rule
+            rule = json.loads(rule)
+
+        except Exception as e :
+            print("fail to read rule information : {}".format(e))
+
 
         # first turn
         coin = random.randint(0, 1)
@@ -116,13 +127,13 @@ class Match(APIView):
             "opposite_code": opposite.code.id,
             "challenger_score": challenger.score,
             "opposite_score": opposite.score,
-            "challenger_language": challenger.code.language.id,
-            "opposite_language": opposite.code.language.id,
+            "challenger_language": challenger.code.language.name,
+            "opposite_language": opposite.code.language.name,
             "turn": turn,
             "problem": int(problemid),
-            "placement": placement,
-            "action": action,
-            "ending": ending,
+            "placement": rule["placement"],
+            "action": rule["action"],
+            "ending": rule["ending"],
             "board_size": problem.board_size,
             "board_info": problem.board_info,
             "challenger_instance": challenger.id,

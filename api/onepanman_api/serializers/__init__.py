@@ -14,7 +14,8 @@ from .user import UserSerializer
 from .userInfo import UserInfoSerializer
 from .userInformationInProblem import UserInformationInProblemSerializer
 from .problem_ruleInfo import ProblemRuleInfoSerializer
+from .rule import RuleSerializer
 
 __all__ = ['ProblemSerializer', 'ArticleSerializer', 'CodeSerializer', 'CommentSerializer', 'FriendSerializer', 'GameSerializer',
            'GroupSerializer', 'GroupInfoSerializer', 'LanguageSerializer', 'NoticeSerializer', 'RuleInfoSerializer', 'TestcaseSerializer',
-           'UserSerializer', 'UserInfoSerializer', 'UserInformationInProblemSerializer', 'ProblemRuleInfoSerializer']
+           'UserSerializer', 'UserInfoSerializer', 'UserInformationInProblemSerializer', 'ProblemRuleInfoSerializer', 'RuleSerializer']

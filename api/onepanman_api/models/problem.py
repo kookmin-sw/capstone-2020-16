@@ -103,7 +103,7 @@ class Problem(models.Model):
     rule = models.TextField(
         "문제 규칙",
         db_column="RULE",
-        default="empty",
+        default='{ "placement" : , "action" : , "ending": ,}',
     )
 
     def __str__(self):
