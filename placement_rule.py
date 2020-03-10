@@ -2,15 +2,12 @@
 import numpy as np
 
 
-placement_rule_num = 5
-
-
 class PlacementRule:
     def __init__(self):
         self.placement_message = None
-        self.placement_rule_type_list = [self.move, self.add, self.move_and_add]
-        self.placement_rule_dir_list = [self.width, self.height, self.diagonal, self.cross, self.eight_dir]
-        self.placement_rule_distance_list = [self.distance_move_1, self.distance_move_2, self.distance_move_3, self.distance_add_close, self.distance_add_any]
+        self.placement_rule_type_list = [self.move, self.add]
+        self.placement_rule_move_list = [self.cross, self.diagonal,  self.eight_dir]
+        self.placement_rule_add_list = [self.add_close]
         self.placement_rule_option = [self.block_move, self.take_out_and_add, self.only_reverse]
 
         self.x1 = None
@@ -22,7 +19,34 @@ class PlacementRule:
 
         self.obj_rule = None
 
+        self.board = None
+        self.user_type = None
+        self.placement = None
+        self.data = None
+
     def check_placement_rule(self, data, board, placement):
+        self.setting(data, board, placement)
+
+        placement_type = self.obj_rule[0]  # TODO
+
+        
+        check_type = self.placement_rule_type_list[self.obj_rule[0]](placement)
+        # 룰에 맞는 함수들 모아서 리스트로 묶어서 실행
+        if check_type is True:
+            self.check_base_placement_rule(data, board)
+            if self.placement_message is not None:
+                return self.placement_message, board
+            self.placement_method(self.obj_rule[0], self.obj_rule[1])
+
+        else:
+            self.placement_message = f'placement that does not fit the rules of the object {self.obj_number}.'
+            print(f'placement that does not fit the rules of the object {self.obj_number}.')
+
+        new_board = None
+
+        return self.placement_message, new_board
+
+    def setting(self, data, board, placement):
         try:
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
@@ -32,6 +56,7 @@ class PlacementRule:
                 self.y = list(map(int, placement.split('>')[1].split()))[1]
 
                 self.obj_number = str(board[self.x][self.y])
+                self.user_type = 'move'
             else:
                 self.obj_number = list(map(str, placement.split()))[0]
 
@@ -41,28 +66,15 @@ class PlacementRule:
                 self.x1 = None
                 self.y1 = None
                 self.placement_message = None
+                self.user_type = 'add'
+            self.board = board
+            self.placement = placement
+            self.data = data
+            self.obj_rule = data.placement_rule[self.obj_number]  # ["이동", ["방향","가로","세로"],"옵션"]
+
         except Exception as e:
             print(f'error in parsing user placement in placement rule {e}')
             self.placement_message = f'error in parsing user placement in placement rule {e}'
-            return False, board
-
-        self.obj_rule = data.placement_rule[self.obj_number] # ["이동", ["방향","가로","세로"],"옵션"]
-
-        check_type = self.placement_rule_type_list[self.obj_rule[0]](placement)
-
-        if check_type is True:
-            self.check_base_placement_rule(data, board)
-            if self.placement_message is not None:
-                return self.placement_message, board
-            placement_rule_num(self.obj_rule[0], self.obj_rule[1])
-
-        else:
-            self.placement_message = f'placement that does not fit the rules of the object {self.obj_number}.'
-            print(f'placement that does not fit the rules of the object {self.obj_number}.')
-
-        new_board = None
-
-        return self.placement_message, new_board
 
     # noinspection PyMethodMayBeStatic
     def check_base_placement_rule(self, data, board):  # rule 0 : check if user's placement where the stone is
@@ -91,18 +103,14 @@ class PlacementRule:
         else:
             return True
 
-    def move_and_add(self, placement):
-        return True     # TODO
-
     def placement_method(self, method, option):
         if method == 1:  # move
-            check_dir = self.placement_rule_dir_list[option[0]](option)
+            check_move = self.placement_rule_move_list[option[0]](option)
 
         elif method == 2:  # add
             pass
 
-    # 착수 방향
-
+    # 이동일 때
     def cross(self, option):  # 4방 십자
         distance = option[1]
         if distance == 0:
@@ -129,23 +137,22 @@ class PlacementRule:
         else:
             return False
 
-    def custom(self, option):
-        pass
+    def custom(self, option):  # 가로 y칸, 세로 x칸
+        if abs(self.y - self.y1) == option[1] and abs(self.x - self.x1) == option[2]:
+            return True
+        else:
+            return False
 
-    # 거리
-    def distance_move_1(self):  # 이동시 거리
-        pass
+    # 새로운돌 착수
+    def add_close(self, option):  # 추가시 거리 - 인접
+        if option[1] == 0:  # 4방
+            dirr = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+            for d in dirr:
+                if self.board[self.x + d[0]][self.y + d[1]] > 0:
+                    return True
+            return False
 
-    def distance_move_2(self):
-        pass
-
-    def distance_move_3(self):
-        pass
-
-    def distance_add_close(self):  # 추가시 거리 - 인접 or 어디든
-        pass
-
-    def distance_add_any(self):
+    def add_any(self, option):  # 어디든
         pass
 
     # 착수 옵션
