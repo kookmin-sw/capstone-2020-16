@@ -440,25 +440,29 @@ const academyDB = {
 			id: 0,
 			value: 'web',
 			label: '오목',
-			color: blue[500]
+			color: blue[500],
+			thumbnail: "./assets/images/gameImages/1.jpg",
 		},
 		{
 			id: 1,
 			value: 'firebase',
 			label: '오델로',
-			color: amber[500]
+			color: amber[500],
+			thumbnail: "./assets/images/gameImages/1.jpg",
 		},
 		{
 			id: 2,
 			value: 'cloud',
 			label: '세균전',
-			color: blueGrey[500]
+			color: blueGrey[500],
+			thumbnail: "./assets/images/gameImages/1.jpg",
 		},
 		{
 			id: 3,
 			value: 'android',
 			label: 'Android',
-			color: green[500]
+			color: green[500],
+			thumbnail: "./assets/images/gameImages/1.jpg", 
 		},
 	],
 	courses: [
@@ -473,7 +477,7 @@ const academyDB = {
 			activeStep: 0,
 			updated: 'Jun 28, 2017',
 			steps: demoSteps,
-			thumbnail: "https://img.theqoo.net/img/gvzif.jpg"
+			thumbnail: "./assets/images/gameImages/1.jpg"
 		},
 		{
 			id: '154588a0864d2881124',
