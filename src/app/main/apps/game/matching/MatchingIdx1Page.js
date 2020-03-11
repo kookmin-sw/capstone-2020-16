@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function PricingStyle1Page() {
+export default function MatchingIdx1() {
 	const classes = useStyles();
 
 	return (
@@ -251,5 +251,3 @@ function PricingStyle1Page() {
 		</div>
 	);
 }
-
-export default PricingStyle1Page;

@@ -52,6 +52,12 @@ const navigationConfig = [
 						type: 'item',
 						url: '/apps/game/problem'
 					},
+					{
+						id: 'matching',
+						title: 'Matching',
+						type: 'item',
+						url: '/apps/game/matching'
+					},
 					// {
 					// 	id: 'project-dashboard',
 					// 	title: 'Projectt',
@@ -336,12 +342,6 @@ const navigationConfig = [
 			// 	type: 'collapse',
 			// 	icon: 'attach_money',
 			// 	children: [
-			// 		{
-			// 			id: 'style-1',
-			// 			title: 'Style 1',
-			// 			type: 'item',
-			// 			url: '/pages/pricing/style-1'
-			// 		},
 			// 		{
 			// 			id: 'style-2',
 			// 			title: 'Style 2',

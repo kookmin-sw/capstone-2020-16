@@ -12,11 +12,13 @@ import MailAppConfig from './mail/MailAppConfig';
 import NotesAppConfig from './community/NotesAppConfig';
 import ScrumboardAppConfig from './scrumboard/ScrumboardAppConfig';
 import TodoAppConfig from './todo/TodoAppConfig';
+import MatchingIdx1Config from './game/matching/MatchingIdx1Config'
 
 const appsConfigs = [
 	AnalyticsDashboardAppConfig,
 	ProjectDashboardAppConfig,
 	MailAppConfig,
+	MatchingIdx1Config,
 	TodoAppConfig,
 	FileManagerAppConfig,
 	ContactsAppConfig,
