@@ -8,11 +8,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 
 const useStyles = makeStyles(theme => ({
 	header: {
-		height: 600,
+		height: 500,
 		background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
 		color: theme.palette.primary.contrastText
 	},
@@ -20,13 +23,40 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.primary[800],
 		color: theme.palette.getContrastText(theme.palette.primary[800])
 	},
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	  },
+	  selectEmpty: {
+		marginTop: theme.spacing(2),
+	  },
+
 }));
 
 export default function MatchingIdx1() {
 	const classes = useStyles();
 
+	const [code, setCode] = React.useState('');
+	const [state, setState] = React.useState({
+		code: '',
+		name: 'hai',
+	  });
+
+	const inputLabel = React.useRef(null);
+  	const [labelWidth, setLabelWidth] = React.useState(0);
+  	React.useEffect(() => {
+    setLabelWidth(inputLabel.current.offsetWidth);
+  }, []);
+
+   const handleChange = name => event => {
+    setState({
+      ...state,
+      [name]: event.target.value,
+    });
+  };
+
 	return (
-		<div>
+		<div>	
 			<div className={clsx(classes.header, 'flex')}>
 				<div className="p-24 w-full max-w-2xl mx-auto">
 					<div className="text-center my-128 mx-24">
@@ -74,9 +104,6 @@ export default function MatchingIdx1() {
 											<Typography className="text-72 mx-4 font-light leading-none">
 											<div><img src="assets/images/profile/2.jpg"/></div>
 											</Typography>
-											{/* <Typography variant="subtitle1" color="textSecondary">
-												/ month
-											</Typography> */}
 										</div>
 									</div>
 
@@ -134,19 +161,35 @@ export default function MatchingIdx1() {
 									</div>
 
 									<div className="flex flex-col p-32">
+										<Typography className="text-20"> GameRule </Typography>
 										<Typography color="textSecondary" className="mb-16">
-											Unlimited projects
+											GameRule~~~
 										</Typography>
-										<Typography color="textSecondary" className="mb-16">
-											Unlimited pages
-										</Typography>
-										<Typography color="textSecondary" className="mb-16">
-											Unlimited disk space
-										</Typography>
-										<Typography color="textSecondary">24 / 7 Free support</Typography>
-										<Typography color="textSecondary">Advanced reporting</Typography>
+										<Typography className="text-20"> Select Your Code </Typography>
+										<FormControl variant="outlined" className={classes.formControl}>
+											<InputLabel ref={inputLabel} htmlFor="outlined-code-native-simple">
+												Code
+        									</InputLabel>
+											<Select
+												native
+												value={state.code}
+												onChange={handleChange('code')}
+												labelWidth={labelWidth}
+												inputProps={{
+													name: 'code',
+													id: 'outlined-code-native-simple',
+												}}
+											>
+												<option value="" />
+												<option value={10}>CODE-1</option>
+												<option value={20}>CODE-2</option>
+												<option value={30}>CODE-3</option>
+											</Select>
+										</FormControl>
+										
+										{/* <Typography color="textSecondary">Advanced reporting</Typography>
 										<Typography color="textSecondary">Customizable interface</Typography>
-										<Typography color="textSecondary">CRM Integration</Typography>
+										<Typography color="textSecondary">CRM Integration</Typography> */}
 									</div>
 								</CardContent>
 
@@ -211,12 +254,12 @@ export default function MatchingIdx1() {
 						</div>
 					</FuseAnimateGroup>
 
-					<div className="flex flex-col items-center py-96 text-center sm:ltr:text-left sm:rtl:text-right max-w-xl mx-auto">
+					{/* <div className="flex flex-col items-center py-96 text-center sm:ltr:text-left sm:rtl:text-right max-w-xl mx-auto">
 						<Typography variant="h4" className="pb-32 font-light">
 							Frequently Asked Questions
-						</Typography>
+						</Typography> */}
 
-						<div className="flex flex-wrap w-full">
+						{/* <div className="flex flex-wrap w-full">
 							<div className="w-full sm:w-1/2 p-24">
 								<Typography className="text-20 mb-8">How does free trial work?</Typography>
 								<Typography className="text-16" color="textSecondary">
@@ -225,7 +268,7 @@ export default function MatchingIdx1() {
 								</Typography>
 							</div>
 
-							<div className="w-full sm:w-1/2 p-24">
+							{/* <div className="w-full sm:w-1/2 p-24">
 								<Typography className="text-20 mb-8">Can I cancel any time?</Typography>
 								<Typography className="text-16" color="textSecondary">
 									Aliquam erat volutpat. Etiam luctus massa ex, at tempus tellus blandit quis. Sed
@@ -249,7 +292,7 @@ export default function MatchingIdx1() {
 								</Typography>
 							</div>
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</div>

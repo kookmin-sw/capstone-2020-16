@@ -4,7 +4,7 @@ import React from 'react';
 import ButtonBase from '@material-ui/core/ButtonBase';
 // import { MemoryRouter as Router } from 'react-router';
 // import { Link as RouterLink } from 'react-router-dom';
-// import Link from '@material-ui/core/Link';
+
 
 
 	const images = [
