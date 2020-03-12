@@ -36,7 +36,6 @@ const useStyles = makeStyles(theme => ({
 export default function MatchingIdx1() {
 	const classes = useStyles();
 
-	const [code, setCode] = React.useState('');
 	const [state, setState] = React.useState({
 		code: '',
 		name: 'hai',
@@ -102,7 +101,7 @@ export default function MatchingIdx1() {
 										</Typography> */}
 										<div className="flex items-end">
 											<Typography className="text-72 mx-4 font-light leading-none">
-											<div><img src="assets/images/profile/2.jpg"/></div>
+											<div><img src="assets/images/profile/2.jpg" alt="user profile"/></div>
 											</Typography>
 										</div>
 									</div>
@@ -152,7 +151,7 @@ export default function MatchingIdx1() {
 												color="inherit"
 												className="text-32 mx-4 font-light leading-none"
 											>
-												<div><img src="assets/images/games/4.jpg"/></div>
+												<div><img src="assets/images/games/4.jpg" alt="user profile"/></div>
 											</Typography>
 										</div>
 										{/* <Typography color="inherit" className="mx-4">
@@ -194,7 +193,7 @@ export default function MatchingIdx1() {
 								</CardContent>
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32" >
-									<Button href="https://naver.com" variant="contained" color="primary" className="w-full">
+									<Button href="/apps/game/matching2/MatchingIdx2Page" variant="contained" color="primary" className="w-full">
 										Matching
 									</Button>
 									{/* <Typography color="textSecondary" className="mt-16">
@@ -219,7 +218,7 @@ export default function MatchingIdx1() {
 										</Typography> */}
 										<div className="flex items-end">
 											<Typography className="text-72 mx-4 font-light leading-none">
-											<div><img src="assets/images/profile/2.jpg"/></div>
+											<div><img src="assets/images/profile/2.jpg" alt="user profile"/></div>
 											</Typography>
 											{/* <Typography variant="subtitle1" color="textSecondary">
 												/ month
