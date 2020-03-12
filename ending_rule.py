@@ -13,7 +13,7 @@ class EndingRule:
         else:
             return False, 0
 
-    def check_ending_omog(self, game_data, board, placement):
+    def check_ending_omog(self, game_data, board, placement):  # TODO
         print('######')
 
         direction = np.array([[1, 0], [-1, 0], [1, 1], [-1, -1], [0, 1], [0, -1], [-1, 1], [1, -1]])
