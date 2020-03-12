@@ -4,7 +4,7 @@ import React from 'react';
 import ButtonBase from '@material-ui/core/ButtonBase';
 // import { MemoryRouter as Router } from 'react-router';
 // import { Link as RouterLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 
 
 	const images = [
@@ -106,10 +106,7 @@ import Link from '@material-ui/core/Link';
 			{images.map(image => (
 
 			<ButtonBase
-			component={Link}
-			role="button"
-			href="https://naver.com"
-			// component={Link} to="/apps/game/problem"
+			href="/apps/game/problemIdx"
 			focusRipple
 			key={image.title}
 			className={classes.image}
@@ -122,7 +119,6 @@ import Link from '@material-ui/core/Link';
 				className={classes.imageSrc}
 				style={{
 				backgroundImage: `url(${image.url})`,
-				//backgroundImage: `url(${/apps/game/problem})`,
 				}}
 			/>
 			<span className={classes.imageBackdrop} />

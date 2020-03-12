@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
 
+
 const useStyles = makeStyles(theme => ({
 	header: {
 		height: 600,
@@ -18,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 	cardHeader: {
 		backgroundColor: theme.palette.primary[800],
 		color: theme.palette.getContrastText(theme.palette.primary[800])
-	}
+	},
 }));
 
 export default function MatchingIdx1() {
@@ -31,7 +32,7 @@ export default function MatchingIdx1() {
 					<div className="text-center my-128 mx-24">
 						<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 							<Typography variant="h2" color="inherit" className="font-light">
-								Simple Pricing!
+								Let's Go Battle!
 							</Typography>
 						</FuseAnimate>
 
@@ -41,8 +42,7 @@ export default function MatchingIdx1() {
 								color="inherit"
 								className="opacity-75 mt-16 mx-auto max-w-512"
 							>
-								The most advanced customer support tools with a simple and affordable pricing. And you
-								can always try for 30 days, free!
+								Start Random Matching if you click matching button!
 							</Typography>
 						</FuseAnimate>
 					</div>
@@ -61,20 +61,22 @@ export default function MatchingIdx1() {
 							<Card square>
 								<div className={clsx(classes.cardHeader, 'px-24 py-16')}>
 									<Typography variant="subtitle1" color="inherit">
-										BASIC
+										Player Name
 									</Typography>
 								</div>
 
 								<CardContent className="p-32">
 									<div className="flex justify-center">
-										<Typography variant="h5" color="textSecondary">
+										{/* <Typography variant="h5" color="textSecondary">
 											$
-										</Typography>
+										</Typography> */}
 										<div className="flex items-end">
-											<Typography className="text-72 mx-4 font-light leading-none">4</Typography>
-											<Typography variant="subtitle1" color="textSecondary">
-												/ month
+											<Typography className="text-72 mx-4 font-light leading-none">
+											<div><img src="assets/images/profile/2.jpg"/></div>
 											</Typography>
+											{/* <Typography variant="subtitle1" color="textSecondary">
+												/ month
+											</Typography> */}
 										</div>
 									</div>
 
@@ -82,79 +84,79 @@ export default function MatchingIdx1() {
 
 									<div className="flex flex-col">
 										<Typography variant="subtitle1" className="">
-											<span className="font-bold mx-4">10</span>
-											Projects
+											<span className="font-bold mx-4">Win/Lose</span>
+											13/4
 										</Typography>
 										<Typography variant="subtitle1" className="">
-											<span className="font-bold mx-4">10</span>
-											Pages
+											<span className="font-bold mx-4">Country</span>
+											Kor
 										</Typography>
 										<Typography variant="subtitle1" className="">
-											<span className="font-bold mx-4">100</span>
-											Mb Disk Space
+											<span className="font-bold mx-4">Technology</span>
+											Python
 										</Typography>
 									</div>
 								</CardContent>
 
 								<div className="flex justify-center pb-32">
-									<Button variant="contained" color="secondary" className="w-128">
-										BUY NOW
+									<Button variant="contained" color="primary" className="w-128">
+										View more profile
 									</Button>
 								</div>
 							</Card>
 						</div>
 
 						<div className="w-full max-w-320 sm:w-1/3 p-12">
-							<Card raised square>
-								<div
-									className={clsx(
-										classes.cardHeader,
-										'flex items-center justify-between px-24 py-16'
-									)}
-								>
-									<Typography variant="subtitle1" color="inherit">
-										STANDART
-									</Typography>
-									<Typography variant="caption" color="inherit">
-										Save 15%
+							<Card className="relative" raised>
+								<div className="p-32 text-center">
+									<Typography className="text-32"> Concave </Typography>
+									<Typography color="textSecondary" className="text-16 font-medium">
+										Battle game
 									</Typography>
 								</div>
 
-								<CardContent className="p-32">
-									<div className="flex justify-center">
-										<Typography variant="h5" color="textSecondary">
-											$
-										</Typography>
-										<div className="flex items-end">
-											<Typography className="text-72 mx-4 font-light leading-none">8</Typography>
-											<Typography variant="subtitle1" color="textSecondary">
-												/ month
+								<CardContent className="text-center p-0">
+									<div className={clsx(classes.price, 'flex items-end justify-center py-16 px-32')}>
+										<div className="flex justify-center">
+											{/* <Typography color="inherit" className="font-medium">
+												$
+											</Typography> */}
+											<Typography
+												color="inherit"
+												className="text-32 mx-4 font-light leading-none"
+											>
+												<div><img src="assets/images/games/4.jpg"/></div>
 											</Typography>
 										</div>
+										{/* <Typography color="inherit" className="mx-4">
+											monthly per user
+										</Typography> */}
 									</div>
 
-									<Divider className="my-32" />
-
-									<div className="flex flex-col">
-										<Typography variant="subtitle1" className="">
-											<span className="font-bold mx-4">20</span>
-											Projects
+									<div className="flex flex-col p-32">
+										<Typography color="textSecondary" className="mb-16">
+											Unlimited projects
 										</Typography>
-										<Typography variant="subtitle1" className="">
-											<span className="font-bold mx-4">20</span>
-											Pages
+										<Typography color="textSecondary" className="mb-16">
+											Unlimited pages
 										</Typography>
-										<Typography variant="subtitle1" className="">
-											<span className="font-bold mx-4">200</span>
-											Mb Disk Space
+										<Typography color="textSecondary" className="mb-16">
+											Unlimited disk space
 										</Typography>
+										<Typography color="textSecondary">24 / 7 Free support</Typography>
+										<Typography color="textSecondary">Advanced reporting</Typography>
+										<Typography color="textSecondary">Customizable interface</Typography>
+										<Typography color="textSecondary">CRM Integration</Typography>
 									</div>
 								</CardContent>
 
-								<div className="flex justify-center pb-32">
-									<Button variant="contained" color="secondary" className="w-128">
-										BUY NOW
+								<div className="flex flex-col items-center justify-center pb-32 px-32" >
+									<Button href="https://naver.com" variant="contained" color="primary" className="w-full">
+										Matching
 									</Button>
+									{/* <Typography color="textSecondary" className="mt-16">
+										30 day free trial to startn
+									</Typography> */}
 								</div>
 							</Card>
 						</div>
@@ -163,20 +165,22 @@ export default function MatchingIdx1() {
 							<Card square>
 								<div className={clsx(classes.cardHeader, 'px-24 py-16')}>
 									<Typography variant="subtitle1" color="inherit">
-										ADVANCED
+										?
 									</Typography>
 								</div>
 
 								<CardContent className="p-32">
 									<div className="flex justify-center">
-										<Typography variant="h5" color="textSecondary" className="font-medium">
+										{/* <Typography variant="h5" color="textSecondary" className="font-medium">
 											$
-										</Typography>
+										</Typography> */}
 										<div className="flex items-end">
-											<Typography className="text-72 mx-4 font-light leading-none">12</Typography>
-											<Typography variant="subtitle1" color="textSecondary">
-												/ month
+											<Typography className="text-72 mx-4 font-light leading-none">
+											<div><img src="assets/images/profile/2.jpg"/></div>
 											</Typography>
+											{/* <Typography variant="subtitle1" color="textSecondary">
+												/ month
+											</Typography> */}
 										</div>
 									</div>
 
@@ -184,24 +188,24 @@ export default function MatchingIdx1() {
 
 									<div className="flex flex-col">
 										<Typography variant="subtitle1" className="">
-											<span className="font-bold mx-4">40</span>
-											Projects
+											<span className="font-bold mx-4">Win/Lose</span>
+											?
 										</Typography>
 										<Typography variant="subtitle1" className="">
-											<span className="font-bold mx-4">40</span>
-											Pages
+											<span className="font-bold mx-4">Country</span>
+											?
 										</Typography>
 										<Typography variant="subtitle1" className="">
-											<span className="font-bold mx-4">500</span>
-											Mb Disk Space
+											<span className="font-bold mx-4">Technology</span>
+											?
 										</Typography>
 									</div>
 								</CardContent>
 
 								<div className="flex justify-center pb-32">
-									<Button variant="contained" color="secondary" className="w-128">
-										BUY NOW
-									</Button>
+									{/* <Button variant="contained" color="secondary" className="w-128">
+										View more profile
+									</Button> */}
 								</div>
 							</Card>
 						</div>
