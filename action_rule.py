@@ -25,8 +25,9 @@ class ActionRule:
         self.obj_method = None
 
         self.rule_list = []
-
+        self.dir_list = []
         self.stone_list = []
+
     def apply_action_rule(self, game_data, board, placement):
         self.setting(game_data, board, placement)
         if not game_data.action_rule[self.obj_number]:
@@ -88,22 +89,24 @@ class ActionRule:
         pass
 
     def adjacent(self):
-
+        pass
 
     # direction
     def width(self):
-        pass
+        self.dir_list = [(0, 1), (0, -1)]
 
     def height(self):
-        pass
+        self.dir_list = [(1, 0), (-1, 0)]
 
     def cross(self):
-        pass
+        self.dir_list = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
     def diagonal(self):
-        pass
+        self.dir_list = [(-1, 1), (1, 1), (1, -1), (-1, -1)]
 
-    # method
+    def eight_dir(self):
+        self.dir_list = [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, 1), (1, 1), (1, -1), (-1, -1)]
+
     def reverse(self):
         pass
 

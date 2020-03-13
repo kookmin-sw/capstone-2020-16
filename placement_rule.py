@@ -58,17 +58,20 @@ class PlacementRule:
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
                 self.y1 = list(map(int, placement.split('>')[0].split()))[1]
-
+                if self.check_range(self.x1, self.y1):
+                    raise Exception
                 self.x = list(map(int, placement.split('>')[1].split()))[0]
                 self.y = list(map(int, placement.split('>')[1].split()))[1]
-
+                if self.check_range(self.x, self.y):
+                    raise Exception
                 self.obj_number = str(board[self.x][self.y])
             else:
                 self.obj_number = list(map(str, placement.split()))[0]
 
                 self.x = list(map(int, placement.split()))[1]
                 self.y = list(map(int, placement.split()))[2]
-
+                if self.check_range(self.x, self.y):
+                    raise Exception
                 self.x1 = None
                 self.y1 = None
             self.board = board
@@ -193,24 +196,25 @@ class PlacementRule:
 
     # 새로운돌 착수
     def add_close(self):  # 추가시 거리 - 인접
+        dirr = []
         if self.obj_add_method[0] == 0:  # 4방
             dirr = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-            for d in dirr:
-                if self.board[self.x + d[0]][self.y + d[1]] > 0:
-                    return
             self.placement_message = f'object{self.obj_number} is add close(cross) rule. {self.x, self.y}'
         elif self.obj_add_method[0] == 1:
             dirr = [(-1, 1), (1, 1), (1, -1), (-1, -1)]
-            for d in dirr:
-                if self.board[self.x + d[0]][self.y + d[1]] > 0:
-                    return
             self.placement_message = f'object{self.obj_number} is add close(diagonal) rule. {self.x, self.y}'
         elif self.obj_add_method[0] == 2:
             dirr = [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, 1), (1, 1), (1, -1), (-1, -1)]
-            for d in dirr:
-                if self.board[self.x + d[0]][self.y + d[1]] > 0:
-                    return
             self.placement_message = f'object{self.obj_number} is add close(8 dir) rule. {self.x, self.y}'
+
+        for d in dirr:
+            x = self.x + d[0]
+            y = self.y + d[1]
+            if self.check_range(x, y):
+                break
+            if self.board[x][y] > 0:
+                self.placement_message = None
+                return
 
     def add_any(self):  # 어디든
         pass
@@ -227,16 +231,23 @@ class PlacementRule:
         for d in dirr:
             next_x = self.x + d[0]
             next_y = self.y + d[1]
+            if self.check_range(next_x, next_y):
+                break
             if self.board[next_x][next_y] < 0:
                 for i in range(self.data.board_size):
                     next_x += d[0]
                     next_y += d[1]
-                    if not (next_x < self.data.board_size and next_y < self.data.board_size):
+                    if self.check_range(next_x, next_y):
                         break
                     if self.board[next_x][next_y] > 0:
                         return
 
         self.placement_message = f'Stones can only be placed where they can be turned over. {self.x, self.y}'
 
+    def check_range(self, x, y):
+        if (0 <= x < self.data.board_size) and (0 <= y < self.data.board_size):
+            return False
+        else:
+            return True
 
 
