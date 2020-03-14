@@ -4,7 +4,7 @@ import _ from '@lodash';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+// import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import FormControl from '@material-ui/core/FormControl';
 // import Icon from '@material-ui/core/Icon';
@@ -46,7 +46,7 @@ function Courses(props) {
 	const dispatch = useDispatch();
 	const courses = useSelector(({ academyApp }) => academyApp.courses.data);
 	const categories = useSelector(({ academyApp }) => academyApp.courses.categories);
-
+	
 	const classes = useStyles(props);
 	const theme = useTheme();
 	const [filteredData, setFilteredData] = useState(null);
@@ -193,7 +193,10 @@ function Courses(props) {
 														</div>
 													</div> */}
 												</div>
-												<CardContent className="flex flex-col flex-auto items-center justify-center">
+												<CardMedia className="flex items-center justify-center">
+													<img src={course.thumbnail} width='200' alt='thumbnail'></img>
+												</CardMedia>
+												{/* <CardContent className="flex flex-col flex-auto items-center justify-center"> */}
 													{/* <Typography className="text-center text-16 font-400">
 														{course.title}
 													</Typography>
@@ -203,10 +206,8 @@ function Courses(props) {
 													>
 														{course.updated}
 													</Typography> */}
-													<CardMedia>
-														<img src={course.thumbnail} width='150' alt='thumbnail'></img>
-													</CardMedia>
-												</CardContent>
+													
+												{/* </CardContent> */}
 												<Divider />
 												<CardActions className="justify-center">
 													<Button

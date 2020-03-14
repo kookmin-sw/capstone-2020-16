@@ -490,7 +490,7 @@ const academyDB = {
 			activeStep: 3,
 			updated: 'Nov 01, 2017',
 			steps: demoSteps, 
-			thumbnail: "https://img.theqoo.net/img/WMYMi.jpg"
+			thumbnail: "./assets/images/gameImages/1.jpg"
 		},
 		{
 			id: '15453ba60d3baa5daaf',
@@ -503,7 +503,7 @@ const academyDB = {
 			activeStep: 11,
 			updated: 'Jun 28, 2017',
 			steps: demoSteps,
-			thumbnail: "https://img.theqoo.net/img/kPDxb.jpg"
+			thumbnail: "./assets/images/gameImages/1.jpg"
 		},
 		{
 			id: '15453a06c08fb021776',

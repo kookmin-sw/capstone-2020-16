@@ -1,127 +1,126 @@
+import CodeEditor from './components/CodeEditor';
+import ProblemViewer from './components/ProblemViewer';
+import React from 'react';
 import FuseAnimate from '@fuse/core/FuseAnimate';
-// import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-// import Button from '@material-ui/core/Button';
-// import Card from '@material-ui/core/Card';
-// import CardContent from '@material-ui/core/CardContent';
-// import Dialog from '@material-ui/core/Dialog';
-// import DialogActions from '@material-ui/core/DialogActions';
-// import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-// import DialogTitle from '@material-ui/core/DialogTitle';
-// import Icon from '@material-ui/core/Icon';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import Slide from '@material-ui/core/Slide';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-// import axios from 'axios';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Divider from "@material-ui/core/Divider";
 
-import {UnControlled as CodeMirror} from 'react-codemirror2'
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/material.css');
-require('codemirror/theme/neat.css');
-require('codemirror/mode/python/python.js');
-require('codemirror/mode/javascript/javascript.js');
 
-// const Transition = React.forwardRef(function Transition(props, ref) {
-// 	return <Slide direction="up" ref={ref} {...props} />;
-// });
 
 const useStyles = makeStyles(theme => ({
-	header: {
-		background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-		color: theme.palette.primary.contrastText
-	}
+  header: {
+    background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+    color: theme.palette.primary.contrastText
+  },
+  root: {
+    maxWidth: 345
+  },
+  media: {
+    height: 0,
+    // paddingTop: "56.25%" // 16:9
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest
+    })
+  },
+  expandOpen: {
+    transform: "rotate(180deg)"
+  },
 }));
-
 
 
 function KnowledgeBasePage() {
 	const classes = useStyles();
-	const [code, setCode] = useState(
-		"var component = {\nname: \"react-codemirror\",\nauthor: \"Jed Watson\",\nrepo: \"https://github.com/JedWatson/react-codemirror\"}");
-	
-	
-	const [option, setOption] = useState({
-		mode: "javascript",
-		theme: 'material',
-		lineNumbers: true
-	});
-
-	// useEffect(() => {
-	// 	axios.get('/api/knowledge-base').then(res => {
-	// 		setData(res.data);
-	// 	});
-	// }, []);
-	function changeMode(event) {
-		console.log(`beforeMode>>>>>>${option.mode}`);
-		console.log(`event.target.value>>>>>>${event.target.value}`);
-		setOption({
-			mode: event.target.value
-		});
-	};
-	
-	function changeCode(event) {
-		console.log(`event.target.value>>>>>>${event}`);
-		setCode(event);
-	};
 
 	return (
-		<div className="w-full">
-			<div
-				className={clsx(
-					classes.header,
-					'flex flex-col items-center justify-center text-center p-16 sm:p-24 h-200 sm:h-360'
-				)}
-			>
-				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
-					<Typography color="inherit" className="text-36 sm:text-56 font-light">
-						Code Editor
-					</Typography>
-				</FuseAnimate>
+    <div className="flex flex-col flex-auto flex-shrink-0 w-full">
+      <div
+        className={clsx(
+          classes.header,
+          "relative overflow-hidden flex flex-col flex-shrink-0 items-center justify-center text-center p-16 sm:p-24 h-200 sm:h-288"
+        )}
+      >
+        <FuseAnimate
+          animation="transition.slideUpIn"
+          duration={400}
+          delay={100}
+        >
+          <Typography color="inherit" className="text-24 sm:text-40 font-light">
+            Code Editor
+          </Typography>
+        </FuseAnimate>
+        <FuseAnimate duration={400} delay={600}>
+          <Typography
+            variant="subtitle1"
+            color="inherit"
+            className="mt-8 sm:mt-16 mx-auto max-w-512"
+          >
+            <span className="opacity-75">codemirror editor</span>
+          </Typography>
+        </FuseAnimate>
+      </div>
 
-				<FuseAnimate duration={400} delay={600}>
-					<Typography variant="subtitle1" color="inherit" className="opacity-75 mt-16 mx-auto max-w-512">
-						codemirror editor
-					</Typography>
-				</FuseAnimate>
-			</div>
+      <div className="flex flex-row flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
+        <Card elevation={1} className="flex flex-col h-640">
+          <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
+            <ProblemViewer></ProblemViewer>
+          </div>
+          {/* <CardContent className="flex flex-col flex-auto items-center justify-center">
+            <Typography className="text-center text-16 font-400">
+              dhkdhkd
+            </Typography>
+          </CardContent> */}
+          {/* <Divider />
+          <CardActions className="justify-center">
+            <Button
+              to={`/apps/academy/courses/${course.id}/${course.slug}`}
+              component={Link}
+              className="justify-start px-32"
+              color="secondary"
+            >
+              START
+            </Button>
+          </CardActions> */}
+        </Card>
+        <Divider orientation="vertical" flexItem />
+        <Card elevation={1} className="flex flex-col h-640">
+          <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
+            <CodeEditor className="flex:1"></CodeEditor>
+          </div>
+          {/* <CardContent className="flex flex-col flex-auto items-center justify-center">
+            <Typography className="text-center text-16 font-400">
+              dhkdhkd
+            </Typography>
+          </CardContent> */}
+          {/* <Divider />
+          <CardActions className="justify-center">
+            <Button
+              to={`/apps/academy/courses/${course.id}/${course.slug}`}
+              component={Link}
+              className="justify-start px-32"
+              color="secondary"
+            >
+              START
+            </Button>
+          </CardActions> */}
+        </Card>
+      </div>
 
-			<div>
-			{/* <CodeMirror
-				value={code}
-				options={option}
-				onBeforeChange={(editor, data, value) => {
-					setCode({value});
-				}}
-				onChange={(editor, data, value) => {
-					console.log(`option>>>>>>>>>>>>>>>${option.mode}`);
-				}}
-				/> */}
-				<CodeMirror
-					value= {code}
-					options={{
-						mode: option.mode,
-						theme: 'material',
-						lineNumbers: true
-					}}
-					onChange={(editor, data, value) => {
-						changeCode(value);
-					}}
-				/>
-				<div style={{ marginTop: 10 }}>
-					<select onChange={changeMode}>
-						<option value="javascript">JavaScript</option>
-						<option value="python">Python</option>
-					</select>
-				</div>
-			</div>
-		</div>
-	);
+      {/* <div className="flex flexDirection:row">
+        <div className="flex:1">
+          <ProblemViewer></ProblemViewer>
+        </div>
+        <CodeEditor className="flex:1"></CodeEditor>
+      </div> */}
+    </div>
+  );
 }
 
 export default KnowledgeBasePage;
