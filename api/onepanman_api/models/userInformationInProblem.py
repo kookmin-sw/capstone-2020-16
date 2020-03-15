@@ -73,6 +73,12 @@ class UserInformationInProblem(models.Model):
         default=DEFAULT_ID,
     )
 
+    available_game = models.BooleanField(
+        "게임 가능 유저",
+        db_column="AVAILABLE_GAME",
+        default="True",
+    )
+
     def __str__(self):
         return '{}문제, {}유저의 점수는 {}입니다.'.format(self.problem.title, self.user.username, self.score)
 

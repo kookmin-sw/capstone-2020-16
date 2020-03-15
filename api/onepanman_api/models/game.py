@@ -14,6 +14,13 @@ class Game(models.Model):
         ("opposite", "opposite")
     )
 
+    result_choice = (
+        ("playing", "playing"),
+        ("finish", "finish"),
+        ("challenger_error", "challenger_error"),
+        ("opposite_error", "opposite_error"),
+    )
+
     id = models.AutoField(
         "ID",
         db_column="ID",
@@ -54,7 +61,7 @@ class Game(models.Model):
     winner = models.CharField(
         "승리자",
         db_column='WINNER',
-        default="None",         # challenger, opposite, draw, None
+        default="None",         # challenger, opposite, draw
         max_length=50,
     )
 
@@ -91,8 +98,22 @@ class Game(models.Model):
         max_length=50,
     )
 
+    result = models.CharField(
+        "결과",
+        db_column="RESULT",
+        default="playing",   # playing / finish / challenger_error / opposite_error
+        max_length=50,
+        choices=result_choice,
+    )
+
+    error_msg = models.TextField(
+        "에러메세지",
+        db_column="ERROR_MSG",
+        default="no error",
+    )
+
     def __str__(self):
-        return '{}문제로 {}와 {}가 대전'.format(self.problem.title, self.challenger.username,self.opposite.username)
+        return '{}_{}_{}'.format(self.problem.title, self.challenger.username,self.opposite.username)
 
     class Meta:
         db_table = "GAME"

@@ -43,7 +43,7 @@ class Match(APIView):
     # 유저와 문제정보로 상대방을 매칭하고, 매칭 정보를 반환하는 함수
     def match(self, userid, problemid, codeid):
 
-        queryset_up = UserInformationInProblem.objects.all().filter(problem=problemid).order_by('-score')
+        queryset_up = UserInformationInProblem.objects.all().filter(problem=problemid, available_game=True).order_by('-score')
         challenger = queryset_up.filter(user=userid)
 
         # 유저가 이 문제가 처음일 경우
@@ -109,7 +109,7 @@ class Match(APIView):
             rule = problem.rule
             rule = json.loads(rule)
 
-        except Exception as e :
+        except Exception as e:
             print("fail to read rule information : {}".format(e))
 
 
@@ -220,16 +220,19 @@ class Match(APIView):
             problemid = data['problemid']
             codeid = data['codeid']
 
-
-            matchInfo = self.match(userid, problemid, codeid)
-            matchInfo = self.get_GameId(matchInfo)
-
-            return GetCoreResponse(matchInfo)
-
         except Exception as e:
-            print(e)
+            print("get function {}".format(e))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        matchInfo = self.match(userid, problemid, codeid)
+        matchInfo = self.get_GameId(matchInfo)
+
+        return GetCoreResponse(matchInfo)
+        #
+        # except Exception as e:
+        #     print("get function {}".format(e))
+        #     return Response(status=status.HTTP_400_BAD_REQUEST)
+        #
 
 
 
