@@ -38,7 +38,8 @@ def match(match_data):
     game_manager = GameManager(challenger=challenger, oppositer=oppositer,
                                placement_rule=match_data['placement'], action_rule=match_data['action'],
                                ending_rule=match_data['ending'], turn=match_data['turn'],
-                               board_size=match_data['board size'], board_info=match_data['board info'])
+                               board_size=match_data['board_size'], board_info=match_data['board_info'],
+                               obj_num=match_data['obj_num'])
 
     match_result, board_record, placement_record = game_manager.play_game()
     with open('result.txt', 'w') as f:
@@ -77,7 +78,7 @@ def match(match_data):
 if __name__ == '__main__':
     # json_data = json.loads(sys.argv[1])
 
-    with open('dummy_data.json') as json_file:
+    with open('dummy_data2.json') as json_file:
         json_data = json.load(json_file)
     match(json_data)
 

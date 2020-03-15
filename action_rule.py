@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 
 
@@ -56,8 +57,8 @@ class ActionRule:
             else:
                 self.obj_number = list(map(str, placement.split()))[0]
 
-                self.x = list(map(int, placement.split()))[1]
-                self.y = list(map(int, placement.split()))[2]
+                self.x = list(map(int, placement.split()))[0]
+                self.y = list(map(int, placement.split()))[1]
 
                 self.x1 = None
                 self.y1 = None
@@ -89,7 +90,13 @@ class ActionRule:
         pass
 
     def adjacent(self):
-        pass
+        for d in self.dir_list:
+            next_x = self.x + d[0]
+            next_y = self.y + d[1]
+            if self.check_range(next_x, next_y):
+                break
+            if self.board[next_x][next_y] < 0:
+                self.board[next_x][next_y] *= -1
 
     # direction
     def width(self):
@@ -112,3 +119,9 @@ class ActionRule:
 
     def remove(self):
         pass
+
+    def check_range(self, x, y):
+        if (0 <= x < self.data.board_size) and (0 <= y < self.data.board_size):
+            return False
+        else:
+            return True

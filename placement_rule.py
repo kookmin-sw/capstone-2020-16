@@ -34,9 +34,11 @@ class PlacementRule:
         self.setting(data, board, placement)
 
         # 룰에 맞는 함수들 리스트에 추가
-        self.rule_list.append(self.check_game_type)
+        self.check_game_type()
         self.rule_list.append(self.check_base_placement_rule)
+        print(self.rule_list)
         self.add_rule_method()
+        print(self.rule_list)
         self.add_rule_option()
 
         for function in self.rule_list:
@@ -54,6 +56,7 @@ class PlacementRule:
         return self.placement_message, self.board
 
     def setting(self, data, board, placement):
+        self.data = data
         try:
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
@@ -67,16 +70,14 @@ class PlacementRule:
                 self.obj_number = str(board[self.x][self.y])
             else:
                 self.obj_number = list(map(str, placement.split()))[0]
-
-                self.x = list(map(int, placement.split()))[1]
-                self.y = list(map(int, placement.split()))[2]
+                self.x = list(map(int, placement.split()))[0]
+                self.y = list(map(int, placement.split()))[1]
                 if self.check_range(self.x, self.y):
                     raise Exception
                 self.x1 = None
                 self.y1 = None
             self.board = board
             self.placement = placement
-            self.data = data
             self.rule_list.clear()
             self.obj_rule = data.placement_rule[self.obj_number]  # ["이동", ["방향","가로","세로"],"옵션"]
             self.obj_type = self.obj_rule[0]
@@ -125,8 +126,10 @@ class PlacementRule:
 
     def add_rule_method(self):
         if self.placement_type == 'move':
+            print('move')
             self.rule_list.append(self.placement_rule_move_list[self.obj_move_method[0]])
         elif self.placement_type == 'add':
+            print('add')
             self.rule_list.append(self.placement_rule_add_list[self.obj_add_method[0]])
 
     def add_rule_option(self):
