@@ -4,7 +4,7 @@ import _ from '@lodash';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+// import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import FormControl from '@material-ui/core/FormControl';
 // import Icon from '@material-ui/core/Icon';
@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from '../store/actions';
 import reducer from '../store/reducers';
-import CardMedia from '@material-ui/core/CardMedia';
+// import CardMedia from '@material-ui/core/CardMedia';
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -39,6 +39,10 @@ const useStyles = makeStyles(theme => ({
 		width: 512,
 		height: 512,
 		pointerEvents: 'none'
+	},
+	media: {
+		height: 0,
+		paddingTop: '56.25%', // 16:9
 	}
 }));
 
@@ -46,6 +50,7 @@ function Courses(props) {
 	const dispatch = useDispatch();
 	const courses = useSelector(({ academyApp }) => academyApp.courses.data);
 	const categories = useSelector(({ academyApp }) => academyApp.courses.categories);
+	
 
 	const classes = useStyles(props);
 	const theme = useTheme();
@@ -193,8 +198,9 @@ function Courses(props) {
 														</div>
 													</div> */}
 												</div>
-												<CardContent className="flex flex-col flex-auto items-center justify-center">
-													{/* <Typography className="text-center text-16 font-400">
+												{/* <CardMedia className={classes.media} image="./assets/images/gameImages/1.jpg" title="thumbnail" /> */}
+												{/* <CardContent className="flex flex-col flex-auto items-center justify-center">
+													<Typography className="text-center text-16 font-400">
 														{course.title}
 													</Typography>
 													<Typography
@@ -202,11 +208,11 @@ function Courses(props) {
 														color="textSecondary"
 													>
 														{course.updated}
-													</Typography> */}
-													<CardMedia>
-														<img src={course.thumbnail} width='150' alt='thumbnail'></img>
-													</CardMedia>
-												</CardContent>
+													</Typography>	
+													
+														{/* <img src={course.thumbnail} width='150' alt='thumbnail'></img> */}
+												
+												{/* </CardContent> */} 
 												<Divider />
 												<CardActions className="justify-center">
 													<Button
@@ -245,3 +251,4 @@ function Courses(props) {
 }
 
 export default withReducer('academyApp', reducer)(Courses);
+
