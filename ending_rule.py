@@ -33,13 +33,14 @@ class EndingRule:
         self.rule_list.append(self.ending_condition_list[self.ending_rule])
         if self.ending_option is not None:
             self.rule_list.append(self.ending_option_list[self.ending_option])
-
         for function in self.rule_list:
             function()
             if self.ending_message is not False:
                 return self.ending_message, self.winner
+        return self.ending_message, 0
 
     def setting(self, data, board, placement):
+        self.data = data
         try:
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
@@ -53,24 +54,23 @@ class EndingRule:
                 self.obj_number = str(board[self.x][self.y])
             else:
                 self.obj_number = list(map(str, placement.split()))[0]
-
-                self.x = list(map(int, placement.split()))[0]
-                self.y = list(map(int, placement.split()))[1]
+                self.x = list(map(int, placement.split()))[1]
+                self.y = list(map(int, placement.split()))[2]
                 if self.check_range(self.x, self.y):
                     raise Exception
                 self.x1 = None
                 self.y1 = None
-            self.data = data
+
             self.board = board
             self.placement = placement
             self.rule_list.clear()
             self.ending_rule = data.ending_rule[self.obj_number][0]
-            if len(data.ending[self.obj_number]) > 1:
-                self.ending_option = data.ending[self.obj_number][1]
+            if len(data.ending_rule[self.obj_number]) > 1:
+                self.ending_option = data.ending_rule[self.obj_number][1]
             self.ending_message = False
         except Exception as e:
-            print(f'error in parsing user placement in placement rule {e}')
-            self.ending_message = f'error in parsing user placement in ending rule {e}'
+            print(f'error in parsing user placement in ending rule : {e}')
+            self.ending_message = f'error in parsing user placement in ending rule : {e}'
 
     # 엔딩 조건
     def one_line(self, game_data, board, placement):  # TODO
@@ -132,7 +132,6 @@ class EndingRule:
             self.winner = -1
         else:
             self.winner = 0
-
         self.ending_message = True
 
     def only_one_side(self):

@@ -6,7 +6,7 @@ class ActionRule:
     def __init__(self):
         self.action_message = None
         self.rule_condition = [self.surround, self.adjacent]
-        self.rule_direction = [self.width, self.height, self.cross, self.diagonal]
+        self.rule_direction = [self.width, self.height, self.cross, self.diagonal, self.eight_dir]
         self.rule_method = [self.reverse, self.remove]
 
         self.data = None
@@ -37,14 +37,18 @@ class ActionRule:
         self.add_condition_rule()
         self.add_direction_rule()
         self.add_method_rule()
+
         for function in self.rule_list:
             function()
             if self.action_message is not None:
                 return self.action_message, self.board
 
+        if self.action_message is None:
+            self.action_message = 'OK'
         return self.action_message, self.board
 
     def setting(self, data, board, placement):
+        self.data = data
         try:
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
@@ -57,14 +61,13 @@ class ActionRule:
             else:
                 self.obj_number = list(map(str, placement.split()))[0]
 
-                self.x = list(map(int, placement.split()))[0]
-                self.y = list(map(int, placement.split()))[1]
+                self.x = list(map(int, placement.split()))[1]
+                self.y = list(map(int, placement.split()))[2]
 
                 self.x1 = None
                 self.y1 = None
             self.board = board
             self.placement = placement
-            self.data = data
             self.rule_list.clear()
             if data.action_rule[self.obj_number]:
                 self.obj_rule = data.action_rule[self.obj_number]
@@ -73,8 +76,8 @@ class ActionRule:
                 self.obj_method = self.obj_rule[2]
             self.action_message = None
         except Exception as e:
-            print(f'error in parsing user placement in action rule {e}')
-            self.action_message = f'error in parsing user placement in action rule {e}'
+            print(f'error in parsing user placement in action rule : {e}')
+            self.action_message = f'error in parsing user placement in action rule : {e}'
 
     def add_condition_rule(self):
         self.rule_list.append(self.rule_condition[self.obj_condition])
@@ -94,7 +97,7 @@ class ActionRule:
             next_x = self.x + d[0]
             next_y = self.y + d[1]
             if self.check_range(next_x, next_y):
-                break
+                continue
             if self.board[next_x][next_y] < 0:
                 self.board[next_x][next_y] *= -1
 

@@ -36,20 +36,17 @@ class PlacementRule:
         # 룰에 맞는 함수들 리스트에 추가
         self.check_game_type()
         self.rule_list.append(self.check_base_placement_rule)
-        print(self.rule_list)
         self.add_rule_method()
-        print(self.rule_list)
         self.add_rule_option()
-
         for function in self.rule_list:
             function()
             if self.placement_message is not None:
                 return self.placement_message, self.board
 
-        if self.obj_type == 0:
+        if self.placement_type == 'move':
             self.board[self.x1][self.y1] = 0
             self.board[self.x][self.y] = self.obj_number
-        elif self.obj_type == 1:
+        elif self.placement_type == 'add':
             self.board[self.x][self.y] = self.obj_number
 
         self.placement_message = 'OK'
@@ -57,6 +54,7 @@ class PlacementRule:
 
     def setting(self, data, board, placement):
         self.data = data
+
         try:
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
@@ -69,9 +67,10 @@ class PlacementRule:
                     raise Exception
                 self.obj_number = str(board[self.x][self.y])
             else:
+                print('else', placement)
                 self.obj_number = list(map(str, placement.split()))[0]
-                self.x = list(map(int, placement.split()))[0]
-                self.y = list(map(int, placement.split()))[1]
+                self.x = list(map(int, placement.split()))[1]
+                self.y = list(map(int, placement.split()))[2]
                 if self.check_range(self.x, self.y):
                     raise Exception
                 self.x1 = None
@@ -85,9 +84,12 @@ class PlacementRule:
                 self.obj_move_method = self.obj_rule[1][0]
             if self.obj_rule[1][1]:
                 self.obj_add_method = self.obj_rule[1][1]
+            if self.obj_rule[2]:
+                self.obj_option = self.obj_rule[2]
             self.placement_message = None
         except Exception as e:
-            print(f'error in parsing user placement in placement rule {e}')
+            print(e)
+            print(f'error in parsing user placement in placement rule : {e}')
             self.placement_message = f'error in parsing user placement in placement rule {e}'
 
     # noinspection PyMethodMayBeStatic
@@ -126,15 +128,14 @@ class PlacementRule:
 
     def add_rule_method(self):
         if self.placement_type == 'move':
-            print('move')
             self.rule_list.append(self.placement_rule_move_list[self.obj_move_method[0]])
         elif self.placement_type == 'add':
-            print('add')
             self.rule_list.append(self.placement_rule_add_list[self.obj_add_method[0]])
 
     def add_rule_option(self):
-        for option in self.obj_option:
-            self.rule_list.append(self.placement_rule_option[option])
+        if self.obj_option is not None:
+            for option in self.obj_option:
+                self.rule_list.append(self.placement_rule_option[option])
 
     # 이동일 때
     def cross(self):  # 4방 십자
@@ -200,13 +201,13 @@ class PlacementRule:
     # 새로운돌 착수
     def add_close(self):  # 추가시 거리 - 인접
         dirr = []
-        if self.obj_add_method[0] == 0:  # 4방
+        if self.obj_add_method[1] == 0:  # 4방
             dirr = [(0, 1), (1, 0), (0, -1), (-1, 0)]
             self.placement_message = f'object{self.obj_number} is add close(cross) rule. {self.x, self.y}'
-        elif self.obj_add_method[0] == 1:
+        elif self.obj_add_method[1] == 1:
             dirr = [(-1, 1), (1, 1), (1, -1), (-1, -1)]
             self.placement_message = f'object{self.obj_number} is add close(diagonal) rule. {self.x, self.y}'
-        elif self.obj_add_method[0] == 2:
+        elif self.obj_add_method[1] == 2:
             dirr = [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, 1), (1, 1), (1, -1), (-1, -1)]
             self.placement_message = f'object{self.obj_number} is add close(8 dir) rule. {self.x, self.y}'
 
@@ -214,7 +215,7 @@ class PlacementRule:
             x = self.x + d[0]
             y = self.y + d[1]
             if self.check_range(x, y):
-                break
+                continue
             if self.board[x][y] > 0:
                 self.placement_message = None
                 return
@@ -235,13 +236,13 @@ class PlacementRule:
             next_x = self.x + d[0]
             next_y = self.y + d[1]
             if self.check_range(next_x, next_y):
-                break
+                continue
             if self.board[next_x][next_y] < 0:
                 for i in range(self.data.board_size):
                     next_x += d[0]
                     next_y += d[1]
                     if self.check_range(next_x, next_y):
-                        break
+                        continue
                     if self.board[next_x][next_y] > 0:
                         return
 

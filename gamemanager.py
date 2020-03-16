@@ -4,7 +4,9 @@ import re
 import sys
 import time
 
-from rules import Rules
+from placement_rule import PlacementRule
+from action_rule import ActionRule
+from ending_rule import EndingRule
 from game_data import GameData
 from execute_code import Execution
 
@@ -24,7 +26,10 @@ class GameManager:
         self.check_turn = turn
 
         self.game_data = GameData(placement_rule, action_rule, ending_rule, board_size, board_info, obj_num)
-        self.rules = Rules()
+        self.placement_rule = PlacementRule()
+        self.action_rule = ActionRule()
+        self.ending_rule = EndingRule()
+
         self.execution = Execution()
 
         self.placement_record = ''
@@ -68,28 +73,27 @@ class GameManager:
                 print(f'program error in execute user program : {e}')
             user_placement = self.parsing_user_output(output)
             try:
-                check_placement, new_board = self.rules.check_placement_rule(self.game_data, self.board, output)
+                check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
             except Exception as e:
                 print(f'check placement program error : {e}')
                 break   # TODO
-
             if check_placement == 'OK':
                 self.board = new_board
                 apply_action = ''
                 try:
-                    apply_action, new_board = self.rules.apply_action_rule(self.game_data, self.board, user_placement)
+                    apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
                 except Exception as e:
                     print(f'apply action program error : {e}')
 
                 if apply_action == 'OK':
                     self.board = new_board
                     try:
-                        is_ending, winner = self.rules.check_ending(self.game_data, self.board, user_placement)
+                        is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output)
                     except Exception as e:
                         print(f'check ending program error : {e}')
                 else:
                     print(f'apply action error {apply_action}')
-                    break   #
+                    break  # TODO
             else:
                 print(f'check placement error {check_placement}')
                 break   #
@@ -97,6 +101,7 @@ class GameManager:
             self.add_record(output)
 
             if is_ending is True:
+                print(self.board)
                 if winner == 1:
                     match_result = self.check_turn
                 elif winner == -1:
