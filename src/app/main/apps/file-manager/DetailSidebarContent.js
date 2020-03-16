@@ -62,7 +62,7 @@ function DetailSidebarContent(props) {
 				<table className={clsx(classes.table, 'w-full text-justify')}>
 					<tbody>
 						<tr className="type">
-							<th>Type</th>
+							<th>VS</th>
 							<td>{selectedItem.type}</td>
 						</tr>
 

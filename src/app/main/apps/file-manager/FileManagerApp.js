@@ -37,22 +37,22 @@ function FileManagerApp() {
 			header={
 				<div className="flex flex-col flex-1 p-8 sm:p-12 relative">
 					<div className="flex items-center justify-between">
-						<IconButton
+						{/* <IconButton
 							onClick={ev => {
 								pageLayout.current.toggleLeftSidebar();
 							}}
 							aria-label="open left sidebar"
 						>
 							<Icon>menu</Icon>
-						</IconButton>
-						<FuseAnimate animation="transition.expandIn" delay={200}>
+						</IconButton> */}
+						{/* <FuseAnimate animation="transition.expandIn" delay={200}>
 							<IconButton aria-label="search">
 								<Icon>search</Icon>
 							</IconButton>
-						</FuseAnimate>
+						</FuseAnimate> */}
 					</div>
 					<div className="flex flex-1 items-end">
-						<FuseAnimate animation="transition.expandIn" delay={600}>
+						{/* <FuseAnimate animation="transition.expandIn" delay={600}>
 							<Fab
 								color="secondary"
 								aria-label="add"
@@ -60,7 +60,7 @@ function FileManagerApp() {
 							>
 								<Icon>add</Icon>
 							</Fab>
-						</FuseAnimate>
+						</FuseAnimate> */}
 						<FuseAnimate delay={200}>
 							<div>
 								{selectedItem && (
