@@ -1,16 +1,25 @@
 import Phaser from 'phaser'
 import axios from 'axios'
-
-const boardStatus = {
-  chacksoo: [],
-  placement: []
-};
+import { useSelector } from "react-redux";
 
 function sleep (delay) {
   var start = new Date().getTime();
   while (new Date().getTime() < start + delay);
 }
 
+const jsonUrl = 'assets/JSON/board.json';
+
+axios.get(jsonUrl)
+  .then(data => {
+    boardStatus.chacksoo = data.data.board.chacksoo.split(' ');
+    boardStatus.placement = data.data.board.placement.split(' ');
+    boardStatus.boardIdx = 0;
+  })
+  .catch(error => {
+    console.log(`error>>>>>${error}`);
+});
+
+const boardStatus = useSelector(state => state.placementCounter, []);
 
 class Scene2 extends Phaser.Scene {
     constructor() {
@@ -20,19 +29,7 @@ class Scene2 extends Phaser.Scene {
     create() {
 
       this.iter = 0; // used for itarations
-      this.boardIdx = 0;
-
-      const jsonUrl = 'assets/JSON/board.json';
-
-      axios.get(jsonUrl)
-        .then(data => {
-          boardStatus.chacksoo = data.data.board.chacksoo.split(' ');
-          boardStatus.placement = data.data.board.placement.split(' ');
-          // console.log(`boardStatus.chacksoo=>${boardStatus.chacksoo}`);
-        })
-        .catch(error => {
-          console.log(`error>>>>>${error}`);
-        });
+      boardStatus.boardIdx = 0;
   
       // add the background in the center of the scene
       this.background = this.add.image(0, 0, "background").setScale(0.7);
@@ -94,15 +91,15 @@ class Scene2 extends Phaser.Scene {
         children[i].setScale(0.18);
         children2[i].setScale(0.18);
 
-        if(boardStatus.chacksoo[this.boardIdx*64 + i] === "0"){
+        if(boardStatus.chacksoo[boardStatus.boardIdx*64 + i] === "0"){
           children[i].visible = false;
           children2[i].visible = false;
         }
-        else if(boardStatus.chacksoo[this.boardIdx*64 + i] === "1"){
+        else if(boardStatus.chacksoo[boardStatus.boardIdx*64 + i] === "1"){
           children[i].visible = true;
           children2[i].visible = false;
         }
-        else if(boardStatus.chacksoo[this.boardIdx*64 + i] === "-1"){
+        else if(boardStatus.chacksoo[boardStatus.boardIdx*64 + i] === "-1"){
           children[i].visible = false;
           children2[i].visible = true;
         }
@@ -115,10 +112,10 @@ class Scene2 extends Phaser.Scene {
   
       // increment the iteration
       this.iter += 0.001;
-      console.log(`this.boardIdx>>${boardStatus.chacksoo}`);
-      this.boardIdx += 1;
-      if(boardStatus.chacksoo[this.boardIdx*64] === undefined){
-        this.boardIdx = 0;
+      console.log(`boardStatus.boardIdx>>${boardStatus.chacksoo}`);
+      boardStatus.boardIdx += 1;
+      if(boardStatus.chacksoo[boardStatus.boardIdx*64] === undefined){
+        boardStatus.boardIdx = 0;
       }
       sleep(500);
     };
