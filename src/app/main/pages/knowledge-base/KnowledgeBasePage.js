@@ -72,44 +72,12 @@ function KnowledgeBasePage() {
           <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
             <ProblemViewer></ProblemViewer>
           </div>
-          {/* <CardContent className="flex flex-col flex-auto items-center justify-center">
-            <Typography className="text-center text-16 font-400">
-              dhkdhkd
-            </Typography>
-          </CardContent> */}
-          {/* <Divider />
-          <CardActions className="justify-center">
-            <Button
-              to={`/apps/academy/courses/${course.id}/${course.slug}`}
-              component={Link}
-              className="justify-start px-32"
-              color="secondary"
-            >
-              START
-            </Button>
-          </CardActions> */}
         </Card>
         <Divider orientation="vertical" flexItem />
         <Card elevation={1} className="flex flex-col h-640">
           <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
             <CodeEditor className="flex:1"></CodeEditor>
           </div>
-          {/* <CardContent className="flex flex-col flex-auto items-center justify-center">
-            <Typography className="text-center text-16 font-400">
-              dhkdhkd
-            </Typography>
-          </CardContent> */}
-          {/* <Divider />
-          <CardActions className="justify-center">
-            <Button
-              to={`/apps/academy/courses/${course.id}/${course.slug}`}
-              component={Link}
-              className="justify-start px-32"
-              color="secondary"
-            >
-              START
-            </Button>
-          </CardActions> */}
         </Card>
       </div>
 
