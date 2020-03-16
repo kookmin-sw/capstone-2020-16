@@ -49,8 +49,15 @@ const navigationConfig = [
 					{
 						id: 'game-replay',
 						title: 'Replay',
+						translate: 'Replay',
 						type: 'item',
-						url: '/apps/game/problem'
+						url: '/apps/file-manager'
+					},
+					{
+						id: 'matching',
+						title: 'Matching',
+						type: 'item',
+						url: '/apps/game/matching1'
 					},
 					// {
 					// 	id: 'project-dashboard',
@@ -87,7 +94,8 @@ const navigationConfig = [
 				type: 'item',
 				icon: 'help',
 				url: '/pages/help'
-			}
+			},
+
 			// {
 			// 	id: 'calendar',
 			// 	title: 'Calendar',
@@ -167,14 +175,6 @@ const navigationConfig = [
 			// 		bg: 'rgb(255, 111, 0)',
 			// 		fg: '#FFFFFF'
 			// 	}
-			// },
-			// {
-			// 	id: 'file-manager',
-			// 	title: 'File Manager',
-			// 	translate: 'FILE_MANAGER',
-			// 	type: 'item',
-			// 	icon: 'folder',
-			// 	url: '/apps/file-manager'
 			// },
 			// {
 			// 	id: 'contacts',
@@ -336,12 +336,6 @@ const navigationConfig = [
 			// 	type: 'collapse',
 			// 	icon: 'attach_money',
 			// 	children: [
-			// 		{
-			// 			id: 'style-1',
-			// 			title: 'Style 1',
-			// 			type: 'item',
-			// 			url: '/pages/pricing/style-1'
-			// 		},
 			// 		{
 			// 			id: 'style-2',
 			// 			title: 'Style 2',

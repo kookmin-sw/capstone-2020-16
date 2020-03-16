@@ -104,10 +104,7 @@ import Link from '@material-ui/core/Link';
 			{images.map(image => (
 
 			<ButtonBase
-			component={Link}
-			role="button"
-			href="https://naver.com"
-			// component={Link} to="/apps/game/problem"
+			href="/apps/game/problemIdx"
 			focusRipple
 			key={image.title}
 			className={classes.image}
@@ -120,7 +117,6 @@ import Link from '@material-ui/core/Link';
 				className={classes.imageSrc}
 				style={{
 				backgroundImage: `url(${image.url})`,
-				//backgroundImage: `url(${/apps/game/problem})`,
 				}}
 			/>
 			<span className={classes.imageBackdrop} />
