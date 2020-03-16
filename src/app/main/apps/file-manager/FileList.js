@@ -45,7 +45,7 @@ function FileList(props) {
 						<TableCell className="max-w-64 w-64 p-0 text-center"> </TableCell>
 						<TableCell>Name</TableCell>
 						<TableCell className="hidden sm:table-cell">Type</TableCell>
-						<TableCell className="hidden sm:table-cell">Owner</TableCell>
+						<TableCell className="hidden sm:table-cell">VS</TableCell>
 						<TableCell className="text-center hidden sm:table-cell">Size</TableCell>
 						<TableCell className="hidden sm:table-cell">Modified</TableCell>
 					</TableRow>

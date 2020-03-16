@@ -164,6 +164,7 @@ export default function MatchingIdx1() {
 										<Typography color="textSecondary" className="mb-16">
 											GameRule~~~
 										</Typography>
+										<div> 　 </div>
 										<Typography className="text-20"> Select Your Code </Typography>
 										<FormControl variant="outlined" className={classes.formControl}>
 											<InputLabel ref={inputLabel} htmlFor="outlined-code-native-simple">

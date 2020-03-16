@@ -29,7 +29,6 @@ const useStyles = makeStyles(theme => ({
 		alignItems: 'center',
 	  },
 
-
 }));
 
 export default function MatchingIdx2() {
