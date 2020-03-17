@@ -51,7 +51,7 @@ const navigationConfig = [
 						title: 'Replay',
 						translate: 'Replay',
 						type: 'item',
-						url: '/apps/file-manager'
+						url: '/apps/game/Replay'
 					},
 					{
 						id: 'matching',
@@ -59,12 +59,18 @@ const navigationConfig = [
 						type: 'item',
 						url: '/apps/game/matching1'
 					},
-					// {
-					// 	id: 'project-dashboard',
-					// 	title: 'Projectt',
-					// 	type: 'item',
-					// 	url: '/apps/dashboards/project'
-					// }
+					{
+						id: 'viewproblem',
+						title: 'ViewProblem',
+						type: 'item',
+						url:  '/apps/game/viewProblem/ViewProblemPage'
+					},
+					{
+						id: 'viewreplay',
+						title: 'ViewReplay',
+						type: 'item',
+						url:  '/apps/game/viewReplay/ViewReplayPage'
+					},
 				]
 			},
 			{
@@ -277,59 +283,66 @@ const navigationConfig = [
 				]
 			},
 			{
-				id: 'coming-soon',
-				title: 'Coming Soon',
+				id: 'profile',
+				title: 'Profile',
 				type: 'item',
-				icon: 'alarm',
-				url: '/pages/coming-soon'
+				icon: 'person',
+				url: '/pages/profile'
 			},
-			{
-				id: 'errors',
-				title: 'Errors',
-				type: 'collapse',
-				icon: 'error',
-				children: [
-					{
-						id: '404',
-						title: '404',
-						type: 'item',
-						url: '/pages/errors/error-404'
-					},
-					{
-						id: '500',
-						title: '500',
-						type: 'item',
-						url: '/pages/errors/error-500'
-					}
-				]
-			},
-			{
-				id: 'invoice',
-				title: 'Invoice',
-				type: 'collapse',
-				icon: 'receipt',
-				children: [
-					{
-						id: 'modern',
-						title: 'Modern',
-						type: 'item',
-						url: '/pages/invoices/modern'
-					},
-					{
-						id: 'compact',
-						title: 'Compact',
-						type: 'item',
-						url: '/pages/invoices/compact'
-					}
-				]
-			},
-			{
-				id: 'maintenance',
-				title: 'Maintenance',
-				type: 'item',
-				icon: 'build',
-				url: '/pages/maintenance'
-			},
+			// {
+			// 	id: 'coming-soon',
+			// 	title: 'Coming Soon',
+			// 	type: 'item',
+			// 	icon: 'alarm',
+			// 	url: '/pages/coming-soon'
+			// },
+			// {
+			// 	id: 'errors',
+			// 	title: 'Errors',
+			// 	type: 'collapse',
+			// 	icon: 'error',
+			// 	children: [
+			// 		{
+			// 			id: '404',
+			// 			title: '404',
+			// 			type: 'item',
+			// 			url: '/pages/errors/error-404'
+			// 		},
+			// 		{
+			// 			id: '500',
+			// 			title: '500',
+			// 			type: 'item',
+			// 			url: '/pages/errors/error-500'
+			// 		}
+			// 	]
+			// },
+			// {
+			// 	id: 'invoice',
+			// 	title: 'Invoice',
+			// 	type: 'collapse',
+			// 	icon: 'receipt',
+			// 	children: [
+			// 		{
+			// 			id: 'modern',
+			// 			title: 'Modern',
+			// 			type: 'item',
+			// 			url: '/pages/invoices/modern'
+			// 		},
+			// 		{
+			// 			id: 'compact',
+			// 			title: 'Compact',
+			// 			type: 'item',
+			// 			url: '/pages/invoices/compact'
+			// 		}
+			// 	]
+			// },
+			// {
+			// 	id: 'maintenance',
+			// 	title: 'Maintenance',
+			// 	type: 'item',
+			// 	icon: 'build',
+			// 	url: '/pages/maintenance'
+			// },
 			// {
 			// 	id: 'pricing',
 			// 	title: 'Pricing',
@@ -350,229 +363,222 @@ const navigationConfig = [
 			// 		}
 			// 	]
 			// },
-			{
-				id: 'profile',
-				title: 'Profile',
-				type: 'item',
-				icon: 'person',
-				url: '/pages/profile'
-			},
-			{
-				id: 'search',
-				title: 'Search',
-				type: 'collapse',
-				icon: 'search',
-				children: [
-					{
-						id: 'classic-search',
-						title: 'Classic Search',
-						type: 'item',
-						url: '/pages/search/classic'
-					},
-					{
-						id: 'modern-search',
-						title: 'Modern Search',
-						type: 'item',
-						url: '/pages/search/modern'
-					}
-				]
-			},
-			{
-				id: 'knowledge-base',
-				title: 'Knowledge Base',
-				type: 'item',
-				icon: 'import_contacts',
-				url: '/pages/knowledge-base'
-			}
+			// {
+			// 	id: 'search',
+			// 	title: 'Search',
+			// 	type: 'collapse',
+			// 	icon: 'search',
+			// 	children: [
+			// 		{
+			// 			id: 'classic-search',
+			// 			title: 'Classic Search',
+			// 			type: 'item',
+			// 			url: '/pages/search/classic'
+			// 		},
+			// 		{
+			// 			id: 'modern-search',
+			// 			title: 'Modern Search',
+			// 			type: 'item',
+			// 			url: '/pages/search/modern'
+			// 		}
+			// 	]
+			// },
+			// {
+			// 	id: 'knowledge-base',
+			// 	title: 'Knowledge Base',
+			// 	type: 'item',
+			// 	icon: 'import_contacts',
+			// 	url: '/pages/knowledge-base'
+			// }
 		]
 	},
-	{
-		id: 'user-interface',
-		title: 'User Interface',
-		type: 'group',
-		icon: 'web',
-		children: [
-			{
-				id: 'icons',
-				title: 'Icons',
-				type: 'item',
-				icon: 'photo',
-				url: '/ui/icons'
-			},
-			{
-				id: 'typography',
-				title: 'Typography',
-				type: 'item',
-				icon: 'text_fields',
-				url: '/ui/typography'
-			},
-			{
-				id: 'helper-classes',
-				title: 'Helper Classes',
-				type: 'item',
-				icon: 'help',
-				url: '/ui/helper-classes'
-			},
-			{
-				id: 'page-layouts',
-				title: 'Page Layouts',
-				type: 'collapse',
-				icon: 'view_quilt',
-				children: [
-					{
-						id: 'carded',
-						title: 'Carded',
-						type: 'collapse',
-						badge: {
-							title: 12,
-							bg: '#525E8A',
-							fg: '#FFFFFF'
-						},
-						children: [
-							{
-								id: 'carded-full-width',
-								title: 'Full Width',
-								type: 'item',
-								url: '/ui/page-layouts/carded/full-width'
-							},
-							{
-								id: 'carded-full-width-tabbed',
-								title: 'Full Width Tabbed',
-								type: 'item',
-								url: '/ui/page-layouts/carded/full-width-tabbed'
-							},
-							{
-								id: 'carded-full-width-2',
-								title: 'Full Width 2',
-								type: 'item',
-								url: '/ui/page-layouts/carded/full-width-2'
-							},
-							{
-								id: 'carded-full-width-2-tabbed',
-								title: 'Full Width 2 Tabbed',
-								type: 'item',
-								url: '/ui/page-layouts/carded/full-width-2-tabbed'
-							},
-							{
-								id: 'carded-left-sidebar',
-								title: 'Left Sidebar',
-								type: 'item',
-								url: '/ui/page-layouts/carded/left-sidebar'
-							},
-							{
-								id: 'carded-left-sidebar-tabbed',
-								title: 'Left Sidebar Tabbed',
-								type: 'item',
-								url: '/ui/page-layouts/carded/left-sidebar-tabbed'
-							},
-							{
-								id: 'carded-left-sidebar-2',
-								title: 'Left Sidebar 2',
-								type: 'item',
-								url: '/ui/page-layouts/carded/left-sidebar-2'
-							},
-							{
-								id: 'carded-left-sidebar-2-tabbed',
-								title: 'Left Sidebar 2 Tabbed',
-								type: 'item',
-								url: '/ui/page-layouts/carded/left-sidebar-2-tabbed'
-							},
-							{
-								id: 'carded-right-sidebar',
-								title: 'Right Sidebar',
-								type: 'item',
-								url: '/ui/page-layouts/carded/right-sidebar'
-							},
-							{
-								id: 'carded-right-sidebar-tabbed',
-								title: 'Right Sidebar Tabbed',
-								type: 'item',
-								url: '/ui/page-layouts/carded/right-sidebar-tabbed'
-							},
-							{
-								id: 'carded-right-sidebar-2',
-								title: 'Right Sidebar 2',
-								type: 'item',
-								url: '/ui/page-layouts/carded/right-sidebar-2'
-							},
-							{
-								id: 'carded-right-sidebar-2-tabbed',
-								title: 'Right Sidebar 2 Tabbed',
-								type: 'item',
-								url: '/ui/page-layouts/carded/right-sidebar-2-tabbed'
-							}
-						]
-					},
-					{
-						id: 'simple',
-						title: 'Simple',
-						type: 'collapse',
-						badge: {
-							title: 8,
-							bg: '#525E8A',
-							fg: '#FFFFFF'
-						},
-						children: [
-							{
-								id: 'simple-full-width',
-								title: 'Full Width',
-								type: 'item',
-								url: '/ui/page-layouts/simple/full-width'
-							},
-							{
-								id: 'simple-left-sidebar',
-								title: 'Left Sidebar',
-								type: 'item',
-								url: '/ui/page-layouts/simple/left-sidebar'
-							},
-							{
-								id: 'simple-left-sidebar-2',
-								title: 'Left Sidebar 2',
-								type: 'item',
-								url: '/ui/page-layouts/simple/left-sidebar-2'
-							},
-							{
-								id: 'simple-left-sidebar-3',
-								title: 'Left Sidebar 3',
-								type: 'item',
-								url: '/ui/page-layouts/simple/left-sidebar-3'
-							},
-							{
-								id: 'simple-right-sidebar',
-								title: 'Right Sidebar',
-								type: 'item',
-								url: '/ui/page-layouts/simple/right-sidebar'
-							},
-							{
-								id: 'simple-right-sidebar-2',
-								title: 'Right Sidebar 2',
-								type: 'item',
-								url: '/ui/page-layouts/simple/right-sidebar-2'
-							},
-							{
-								id: 'simple-right-sidebar-3',
-								title: 'Right Sidebar 3',
-								type: 'item',
-								url: '/ui/page-layouts/simple/right-sidebar-3'
-							},
-							{
-								id: 'simple-tabbed',
-								title: 'Tabbed',
-								type: 'item',
-								url: '/ui/page-layouts/simple/tabbed'
-							}
-						]
-					},
-					{
-						id: 'blank',
-						title: 'Blank',
-						type: 'item',
-						url: '/ui/page-layouts/blank'
-					}
-				]
-			}
-		]
-	},
+	// {
+	// 	id: 'user-interface',
+	// 	title: 'User Interface',
+	// 	type: 'group',
+	// 	icon: 'web',
+	// 	children: [
+	// 		{
+	// 			id: 'icons',
+	// 			title: 'Icons',
+	// 			type: 'item',
+	// 			icon: 'photo',
+	// 			url: '/ui/icons'
+	// 		},
+	// 		{
+	// 			id: 'typography',
+	// 			title: 'Typography',
+	// 			type: 'item',
+	// 			icon: 'text_fields',
+	// 			url: '/ui/typography'
+	// 		},
+	// 		{
+	// 			id: 'helper-classes',
+	// 			title: 'Helper Classes',
+	// 			type: 'item',
+	// 			icon: 'help',
+	// 			url: '/ui/helper-classes'
+	// 		},
+	// 		{
+	// 			id: 'page-layouts',
+	// 			title: 'Page Layouts',
+	// 			type: 'collapse',
+	// 			icon: 'view_quilt',
+	// 			children: [
+	// 				{
+	// 					id: 'carded',
+	// 					title: 'Carded',
+	// 					type: 'collapse',
+	// 					badge: {
+	// 						title: 12,
+	// 						bg: '#525E8A',
+	// 						fg: '#FFFFFF'
+	// 					},
+	// 					children: [
+	// 						{
+	// 							id: 'carded-full-width',
+	// 							title: 'Full Width',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/full-width'
+	// 						},
+	// 						{
+	// 							id: 'carded-full-width-tabbed',
+	// 							title: 'Full Width Tabbed',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/full-width-tabbed'
+	// 						},
+	// 						{
+	// 							id: 'carded-full-width-2',
+	// 							title: 'Full Width 2',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/full-width-2'
+	// 						},
+	// 						{
+	// 							id: 'carded-full-width-2-tabbed',
+	// 							title: 'Full Width 2 Tabbed',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/full-width-2-tabbed'
+	// 						},
+	// 						{
+	// 							id: 'carded-left-sidebar',
+	// 							title: 'Left Sidebar',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/left-sidebar'
+	// 						},
+	// 						{
+	// 							id: 'carded-left-sidebar-tabbed',
+	// 							title: 'Left Sidebar Tabbed',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/left-sidebar-tabbed'
+	// 						},
+	// 						{
+	// 							id: 'carded-left-sidebar-2',
+	// 							title: 'Left Sidebar 2',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/left-sidebar-2'
+	// 						},
+	// 						{
+	// 							id: 'carded-left-sidebar-2-tabbed',
+	// 							title: 'Left Sidebar 2 Tabbed',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/left-sidebar-2-tabbed'
+	// 						},
+	// 						{
+	// 							id: 'carded-right-sidebar',
+	// 							title: 'Right Sidebar',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/right-sidebar'
+	// 						},
+	// 						{
+	// 							id: 'carded-right-sidebar-tabbed',
+	// 							title: 'Right Sidebar Tabbed',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/right-sidebar-tabbed'
+	// 						},
+	// 						{
+	// 							id: 'carded-right-sidebar-2',
+	// 							title: 'Right Sidebar 2',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/right-sidebar-2'
+	// 						},
+	// 						{
+	// 							id: 'carded-right-sidebar-2-tabbed',
+	// 							title: 'Right Sidebar 2 Tabbed',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/carded/right-sidebar-2-tabbed'
+	// 						}
+	// 					]
+	// 				},
+	// 				{
+	// 					id: 'simple',
+	// 					title: 'Simple',
+	// 					type: 'collapse',
+	// 					badge: {
+	// 						title: 8,
+	// 						bg: '#525E8A',
+	// 						fg: '#FFFFFF'
+	// 					},
+	// 					children: [
+	// 						{
+	// 							id: 'simple-full-width',
+	// 							title: 'Full Width',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/simple/full-width'
+	// 						},
+	// 						{
+	// 							id: 'simple-left-sidebar',
+	// 							title: 'Left Sidebar',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/simple/left-sidebar'
+	// 						},
+	// 						{
+	// 							id: 'simple-left-sidebar-2',
+	// 							title: 'Left Sidebar 2',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/simple/left-sidebar-2'
+	// 						},
+	// 						{
+	// 							id: 'simple-left-sidebar-3',
+	// 							title: 'Left Sidebar 3',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/simple/left-sidebar-3'
+	// 						},
+	// 						{
+	// 							id: 'simple-right-sidebar',
+	// 							title: 'Right Sidebar',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/simple/right-sidebar'
+	// 						},
+	// 						{
+	// 							id: 'simple-right-sidebar-2',
+	// 							title: 'Right Sidebar 2',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/simple/right-sidebar-2'
+	// 						},
+	// 						{
+	// 							id: 'simple-right-sidebar-3',
+	// 							title: 'Right Sidebar 3',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/simple/right-sidebar-3'
+	// 						},
+	// 						{
+	// 							id: 'simple-tabbed',
+	// 							title: 'Tabbed',
+	// 							type: 'item',
+	// 							url: '/ui/page-layouts/simple/tabbed'
+	// 						}
+	// 					]
+	// 				},
+	// 				{
+	// 					id: 'blank',
+	// 					title: 'Blank',
+	// 					type: 'item',
+	// 					url: '/ui/page-layouts/blank'
+	// 				}
+	// 			]
+	// 		}
+	// 	]
+	// },
 	// {
 	// 	id: 'Documentation',
 	// 	title: 'Documentation',
@@ -951,135 +957,135 @@ const navigationConfig = [
 			}
 		]
 	},
-	{
-		type: 'divider',
-		id: 'divider-2'
-	},
-	{
-		id: 'test-group-level-1',
-		title: 'Test Group Level 1',
-		type: 'group',
-		icon: 'apps',
-		children: [
-			{
-				id: 'test-item',
-				title: 'Test Item',
-				type: 'item',
-				icon: 'list',
-				url: '#'
-			},
-			{
-				id: 'test-link',
-				title: 'Test Link',
-				type: 'link',
-				icon: 'link',
-				url: 'http://fusetheme.com',
-				target: '_blank'
-			},
-			{
-				id: 'test-collapse-level-1',
-				title: 'Test Collapse Level 1',
-				type: 'collapse',
-				icon: 'dashboard',
-				children: [
-					{
-						id: 'test-item-level-1',
-						title: 'Test Item Level 1',
-						type: 'item',
-						url: '#'
-					},
-					{
-						id: 'test-link-level-1',
-						title: 'Test Link Level 1',
-						type: 'link',
-						url: 'http://fusetheme.com',
-						target: '_blank'
-					},
-					{
-						id: 'test-collapse-2',
-						title: 'Test Collapse Level 2',
-						type: 'collapse',
-						children: [
-							{
-								id: 'test-item-level-2',
-								title: 'Test Item Level 2',
-								type: 'item',
-								url: '#'
-							},
-							{
-								id: 'test-link-level-2',
-								title: 'Test Link Level 2',
-								type: 'link',
-								url: 'http://fusetheme.com',
-								target: '_blank'
-							},
-							{
-								id: 'test-collapse-level-3',
-								title: 'Test Collapse Level 3',
-								type: 'collapse',
-								children: [
-									{
-										id: 'test-item-level-3',
-										title: 'Test Item Level 3',
-										type: 'item',
-										url: '#'
-									},
-									{
-										id: 'test-link-level-3',
-										title: 'Test Link Level 3',
-										type: 'link',
-										url: 'http://fusetheme.com',
-										target: '_blank'
-									},
-									{
-										id: 'test-collapse-level-4',
-										title: 'Test Collapse Level 4',
-										type: 'collapse',
-										children: [
-											{
-												id: 'test-item-level-4',
-												title: 'Test Item Level 4',
-												type: 'item',
-												url: '#'
-											}
-										]
-									}
-								]
-							}
-						]
-					},
-					{
-						id: 'test-group-level-2',
-						title: 'Test Group Level 2',
-						type: 'group',
-						icon: 'apps',
-						children: [
-							{
-								id: 'test-collapse-level-2-2',
-								title: 'Test Collapse Level 2',
-								type: 'collapse',
-								children: [
-									{
-										id: 'test-item-level-2-2',
-										title: 'Test Item Level 2',
-										type: 'item',
-										url: '#'
-									},
-									{
-										id: 'test-link-level-2-2',
-										title: 'Test Link Level 2',
-										type: 'link',
-										url: 'http://fusetheme.com',
-										target: '_blank'
-									}
-								]
-							}
-						]
-					}
-				]
-			}
-		]
-	}
+	// {
+	// 	type: 'divider',
+	// 	id: 'divider-2'
+	// },
+	// {
+	// 	id: 'test-group-level-1',
+	// 	title: 'Test Group Level 1',
+	// 	type: 'group',
+	// 	icon: 'apps',
+	// 	children: [
+	// 		{
+	// 			id: 'test-item',
+	// 			title: 'Test Item',
+	// 			type: 'item',
+	// 			icon: 'list',
+	// 			url: '#'
+	// 		},
+	// 		{
+	// 			id: 'test-link',
+	// 			title: 'Test Link',
+	// 			type: 'link',
+	// 			icon: 'link',
+	// 			url: 'http://fusetheme.com',
+	// 			target: '_blank'
+	// 		},
+	// 		{
+	// 			id: 'test-collapse-level-1',
+	// 			title: 'Test Collapse Level 1',
+	// 			type: 'collapse',
+	// 			icon: 'dashboard',
+	// 			children: [
+	// 				{
+	// 					id: 'test-item-level-1',
+	// 					title: 'Test Item Level 1',
+	// 					type: 'item',
+	// 					url: '#'
+	// 				},
+	// 				{
+	// 					id: 'test-link-level-1',
+	// 					title: 'Test Link Level 1',
+	// 					type: 'link',
+	// 					url: 'http://fusetheme.com',
+	// 					target: '_blank'
+	// 				},
+	// 				{
+	// 					id: 'test-collapse-2',
+	// 					title: 'Test Collapse Level 2',
+	// 					type: 'collapse',
+	// 					children: [
+	// 						{
+	// 							id: 'test-item-level-2',
+	// 							title: 'Test Item Level 2',
+	// 							type: 'item',
+	// 							url: '#'
+	// 						},
+	// 						{
+	// 							id: 'test-link-level-2',
+	// 							title: 'Test Link Level 2',
+	// 							type: 'link',
+	// 							url: 'http://fusetheme.com',
+	// 							target: '_blank'
+	// 						},
+	// 						{
+	// 							id: 'test-collapse-level-3',
+	// 							title: 'Test Collapse Level 3',
+	// 							type: 'collapse',
+	// 							children: [
+	// 								{
+	// 									id: 'test-item-level-3',
+	// 									title: 'Test Item Level 3',
+	// 									type: 'item',
+	// 									url: '#'
+	// 								},
+	// 								{
+	// 									id: 'test-link-level-3',
+	// 									title: 'Test Link Level 3',
+	// 									type: 'link',
+	// 									url: 'http://fusetheme.com',
+	// 									target: '_blank'
+	// 								},
+	// 								{
+	// 									id: 'test-collapse-level-4',
+	// 									title: 'Test Collapse Level 4',
+	// 									type: 'collapse',
+	// 									children: [
+	// 										{
+	// 											id: 'test-item-level-4',
+	// 											title: 'Test Item Level 4',
+	// 											type: 'item',
+	// 											url: '#'
+	// 										}
+	// 									]
+	// 								}
+	// 							]
+	// 						}
+	// 					]
+	// 				},
+	// 				{
+	// 					id: 'test-group-level-2',
+	// 					title: 'Test Group Level 2',
+	// 					type: 'group',
+	// 					icon: 'apps',
+	// 					children: [
+	// 						{
+	// 							id: 'test-collapse-level-2-2',
+	// 							title: 'Test Collapse Level 2',
+	// 							type: 'collapse',
+	// 							children: [
+	// 								{
+	// 									id: 'test-item-level-2-2',
+	// 									title: 'Test Item Level 2',
+	// 									type: 'item',
+	// 									url: '#'
+	// 								},
+	// 								{
+	// 									id: 'test-link-level-2-2',
+	// 									title: 'Test Link Level 2',
+	// 									type: 'link',
+	// 									url: 'http://fusetheme.com',
+	// 									target: '_blank'
+	// 								}
+	// 							]
+	// 						}
+	// 					]
+	// 				}
+	// 			]
+	// 		}
+	// 	]
+	// }
 ];
 
 export default navigationConfig;

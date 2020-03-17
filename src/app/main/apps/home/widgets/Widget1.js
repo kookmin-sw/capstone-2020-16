@@ -2,7 +2,7 @@ import { makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 
 
 	const images = [
