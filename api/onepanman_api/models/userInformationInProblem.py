@@ -53,7 +53,7 @@ class UserInformationInProblem(models.Model):
         "점수",
         db_column="SCORE",
         null=False,
-        default=0,
+        default=500,
     )
 
     tier = models.CharField(

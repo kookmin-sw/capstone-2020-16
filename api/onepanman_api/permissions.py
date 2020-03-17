@@ -31,7 +31,7 @@ class UserReadOnly(permissions.BasePermission):
             print("SAFE")
             return True
 
-        # 수정 삭제는 당사자와 관리자만.
+        # 수정 삭제는 관리자만.
         return request.user.is_staff
 
 
@@ -51,3 +51,14 @@ class OnlyAdminUser(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return request.user.is_staff
+
+class OnlyMyandAdmin(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        return request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+
+        return request.user == obj.username or request.user.is_staff
+
+

@@ -13,7 +13,7 @@ class GroupInfoViewSet(viewsets.ModelViewSet):
     queryset = GroupInfo.objects.all()
     serializer_class = GroupInfoSerializer
 
-    permission_classes = [UserReadOnly]
+    #permission_classes = [UserReadOnly]
 
 
 @receiver(post_save, sender=Group)

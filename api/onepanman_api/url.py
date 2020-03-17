@@ -44,6 +44,11 @@ schema_view = get_schema_view(
 urlpatterns = [
     url('', include(router.urls)),
     path('match/', views.api.Match.as_view(), name='match'),
+    path('user/my', views.api.user.MyUserView.as_view(), name="usermy"),
+    path('code/my', views.api.code.MyCodeView.as_view(), name="codemy"),
+    path('game/my', views.api.game.MyGameView.as_view(), name="gamemy"),
+    path('userInformationInProblem/my', views.api.userInformationInProblem.MyUserInformationInProblemView.as_view(), name="uiipmy"),
+    path('userInfo/my', views.api.userInfo.MyUserInfoView.as_view(), name="userinfomy"),
 
     # rest_auth - 로그인 회원가입
     url(r'^rest-auth/', include('rest_auth.urls')),

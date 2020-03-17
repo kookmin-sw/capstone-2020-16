@@ -8,11 +8,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
-    permission_classes = [UserReadOnly]
+    #permission_classes = [UserReadOnly]
 
 
 class GroupFullInfoViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all().order_by('groupInfo__ranking')
     serializer_class = GroupFullInfoSerializer
 
-    permission_classes = [UserReadOnly]
+    #permission_classes = [UserReadOnly]

@@ -24,22 +24,6 @@ class Match(APIView):
 
     permission_classes = [OnlyAdminUser]
 
-    # 문제에 해당하는 규칙들을 반환하는 함수
-    # def getRules(self, problemid, ruleType):
-    #     queryset = ProblemRuleInfo.objects.all().filter(problem=problemid)
-    #
-    #     ruleids = []
-    #     for model_instance in queryset:
-    #         ruleids.append(model_instance.rule.id)
-    #
-    #     rules = RuleInfo.objects.all().filter(type=ruleType, id__in=ruleids)
-    #
-    #     result = []
-    #     for model_instance in rules:
-    #         result.append(model_instance.id)
-    #
-    #     return result
-
     # 유저와 문제정보로 상대방을 매칭하고, 매칭 정보를 반환하는 함수
     def match(self, userid, problemid, codeid):
 
@@ -112,14 +96,6 @@ class Match(APIView):
         except Exception as e:
             print("fail to read rule information : {}".format(e))
 
-
-        # first turn
-        coin = random.randint(0, 1)
-        turn = "challenger"
-        if coin == 0:
-            turn = "opposite"
-
-
         matchInfo = {
             "challenger": challenger.user.pk,
             "opposite": opposite.user.pk,
@@ -129,7 +105,6 @@ class Match(APIView):
             "opposite_score": opposite.score,
             "challenger_language": challenger.code.language.name,
             "opposite_language": opposite.code.language.name,
-            "turn": turn,
             "problem": int(problemid),
             "placement": rule["placement"],
             "action": rule["action"],
@@ -157,6 +132,8 @@ class Match(APIView):
                 "challenger_code": matchInfo['challenger_code'],
                 "opposite_code": matchInfo['opposite_code'],
                 "record": "0",
+                "challenger_score": matchInfo['challenger_score'],
+                "opposite_score": matchInfo['opposite_score'],
             }
 
             serializer = serializers.GameSerializer(data=data)
@@ -170,7 +147,9 @@ class Match(APIView):
                 opposite=validated_data['opposite'],
                 challenger_code=validated_data['challenger_code'],
                 opposite_code=validated_data['opposite_code'],
-                record=validated_data['record']
+                record=validated_data['record'],
+                challenger_score= validated_data['challenger_score'],
+                opposite_score= validated_data['opposite_score'],
             )
 
         except Exception as e:
@@ -228,11 +207,6 @@ class Match(APIView):
         matchInfo = self.get_GameId(matchInfo)
 
         return GetCoreResponse(matchInfo)
-        #
-        # except Exception as e:
-        #     print("get function {}".format(e))
-        #     return Response(status=status.HTTP_400_BAD_REQUEST)
-        #
 
 
 

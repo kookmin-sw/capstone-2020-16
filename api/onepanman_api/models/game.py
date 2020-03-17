@@ -90,14 +90,6 @@ class Game(models.Model):
 
     )
 
-    turn = models.CharField(
-        "선수",
-        db_column="TURN",
-        choices=turn_choice,
-        default="challenger",
-        max_length=50,
-    )
-
     result = models.CharField(
         "결과",
         db_column="RESULT",
@@ -110,6 +102,18 @@ class Game(models.Model):
         "에러메세지",
         db_column="ERROR_MSG",
         default="no error",
+    )
+
+    challenger_score = models.IntegerField(
+        "challenger_score",
+        db_column="CHALLENGER_SCORE",
+        default=500,
+    )
+
+    opposite_score = models.IntegerField(
+        "opposite_score",
+        db_column="OPPOSITE_SCORE",
+        default=500,
     )
 
     def __str__(self):

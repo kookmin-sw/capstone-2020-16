@@ -7,7 +7,10 @@ from onepanman_api.serializers.game import GameSerializer
 from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin, OnlyAdminUser
 from rest_framework.response import Response
 
-from onepanman_api.views.api.userInformationInProblem import update_totalTier, update_tier
+from onepanman_api.views.api.updateScore import update_totalTier, update_tier
+from rest_framework.views import APIView
+
+from django.db.models import Q
 
 
 class GameViewSet(viewsets.ModelViewSet):
@@ -16,7 +19,7 @@ class GameViewSet(viewsets.ModelViewSet):
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_fields = ('problem', 'challenger', 'opposite')
 
-    permission_classes = [OnlyAdminUser]
+    #permission_classes = [OnlyAdminUser]
 
     def game_error(self, data):
         result = data["result"]
@@ -55,7 +58,7 @@ class GameViewSet(viewsets.ModelViewSet):
 
         try:
             # update error user's score
-            error_score = error_user.score - 20
+            error_score = error_user.score - 50
 
             error_user_data = {
                 "id": error_user.id,
@@ -76,7 +79,7 @@ class GameViewSet(viewsets.ModelViewSet):
 
         try:
             # update normal user's score
-            normal_score = normal_user.score + 10
+            normal_score = normal_user.score + 20
 
             normal_user_data = {
                 "id": normal_user.id,
@@ -107,13 +110,30 @@ class GameViewSet(viewsets.ModelViewSet):
         challenger = queryset.filter(user=data["challenger"])[0]
         opposite = queryset.filter(user=data["opposite"])[0]
 
+        # bonus score
+        score_bonus = challenger.score - opposite.score
+
+        if score_bonus < 0:
+            score_bonus = -1*score_bonus
+
+        if score_bonus > 20:
+            score_bonus = 20
+
         # update score
         if winner == "challenger":
-            challenger_score = challenger.score + 10
-            opposite_score = opposite.score - 10
+            if challenger.score < opposite.score:
+                challenger_score = challenger.score + 20 + score_bonus
+                opposite_score = opposite.score - 20 - score_bonus
+            else :
+                challenger_score = challenger.score + 20
+                opposite_score = opposite.score - 20
         elif winner == "opposite":
-            challenger_score = challenger.score - 10
-            opposite_score = opposite.score + 10
+            if challenger.score > opposite.score:
+                challenger_score = challenger.score - 20 - score_bonus
+                opposite_score = opposite.score + 20 + score_bonus
+            else:
+                challenger_score = challenger.score - 20
+                opposite_score = opposite.score + 20
         elif winner == "draw":
             challenger_score = challenger.score
             opposite_score = opposite.score
@@ -171,5 +191,11 @@ class GameViewSet(viewsets.ModelViewSet):
 
         return Response(data)
 
+class MyGameView(APIView):
 
+    def get(self, request, version):
 
+        queryset = Game.objects.all().filter(Q(challenger=request.user.pk) | Q(opposite=request.user.pk))
+        serializer = GameSerializer(queryset, many=True)
+
+        return Response(serializer.data)

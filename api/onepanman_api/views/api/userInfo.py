@@ -1,19 +1,21 @@
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from onepanman_api.models import UserInfo
 from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin
 from rest_framework import viewsets, status
 
 from onepanman_api import models
 from onepanman_api import serializers
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class UserInfoViewSet(viewsets.ModelViewSet):
     queryset = models.UserInfo.objects.all()
     serializer_class = serializers.UserInfoSerializer
 
-    permission_classes = [IsLoggedInUserOrAdmin]
+    #permission_classes = [IsLoggedInUserOrAdmin]
 
     def update(self, request, *args, **kwargs):
         try:
@@ -54,3 +56,13 @@ class UserInfoViewSet(viewsets.ModelViewSet):
 def create_user_info(sender, instance, created, **kwargs):
     if created:
         models.UserInfo.objects.create(user=instance)
+
+class MyUserInfoView(APIView):
+
+    def get(self, request, version):
+
+        queryset = UserInfo.objects.all().filter(user=request.user.pk)[0]
+
+        serializer = serializers.UserInfoSerializer(queryset)
+
+        return Response(serializer.data)
