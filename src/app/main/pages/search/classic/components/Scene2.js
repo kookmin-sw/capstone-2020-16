@@ -9,6 +9,12 @@ function sleep (delay) {
 
 const jsonUrl = 'assets/JSON/board.json';
 
+const boardStatus = {
+  chacksoo: "",
+  placement: "",
+  boardIdx: 0
+}
+
 axios.get(jsonUrl)
   .then(data => {
     boardStatus.chacksoo = data.data.board.chacksoo.split(' ');
@@ -19,7 +25,7 @@ axios.get(jsonUrl)
     console.log(`error>>>>>${error}`);
 });
 
-const boardStatus = useSelector(state => state.placementCounter, []);
+// const boardStatus = useSelector(state => state.placementCounter, []);
 
 class Scene2 extends Phaser.Scene {
     constructor() {
