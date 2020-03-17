@@ -22,10 +22,6 @@ def match(match_data):
     challenger_code = select_code(match_data['challenger'], match_data['problem'])
     oppositer_code = select_code(match_data['oppositer'], match_data['problem'])
 
-    # dummy_data
-    challenger_code = 'print(\'3 3\')'
-    oppositer_code = 'print(\'4 4\')'
-
     # with open(challenger_code_path, 'w') as f:
     #     f.write(challenger_code)
     #
