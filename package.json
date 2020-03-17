@@ -85,6 +85,7 @@
     "notistack": "0.9.7",
     "path-to-regexp": "3.1.0",
     "pdf-viewer-reactjs": "^2.0.2",
+    "pdfjs": "^2.3.5",
     "perfect-scrollbar": "1.5.0",
     "phaser": "^3.22.0",
     "prismjs": "1.19.0",
@@ -132,7 +133,8 @@
     "react-dom": "16.12.0",
     "date-arithmetic": "3.1.0",
     "chalk": "2.4.2",
-    "react-pdf/pdfjs-dist": "2.0.550"
+
+    "react-pdf/pdfjs-dist": "2.1.226"
   },
   "browserslist": {
     "production": [

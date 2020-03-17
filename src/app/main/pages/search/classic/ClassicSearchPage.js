@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 import pink from '@material-ui/core/colors/pink';
-import MyInfo from './components/MyInfo'
+// import MyInfo from './components/MyInfo'
 
 // import { Provider } from 'react-redux';
 // import reducer from './store/reducers';
@@ -73,7 +73,7 @@ function ClassicSearchPage() {
 				>
 					<div style={modalStyle} className={classes.paper}>
 						<IonPhaser game={game} />
-						<MyInfo></MyInfo>
+						{/* <MyInfo></MyInfo> */}
 						{/* <PlacementStateContainer></PlacementStateContainer> */}
 					</div>
 				</Modal>
