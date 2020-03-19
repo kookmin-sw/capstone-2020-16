@@ -26,7 +26,7 @@ docker_img = "app"
 @app.task
 # def play_game(json_data):  # match_data is json format
 def play_game(json_data):
-    #run_container()
+    # run_container()
     match_data = json.loads(json_data)
     match_dir = os.getcwd()  # os.path.join(os.getcwd(), 'match')
     extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}
@@ -89,22 +89,24 @@ def play_game(json_data):
 
     #   update match data
     update_match_data(match_result, board_record, placement_record)
-# match_data
-# { "challenger" : challenger_idx(int)
-#   "oppositer" : oppositer_idx(int)
-#   "challenger_code" : challenger_code_idx(int)
-#   "oppositer_code" : oppositer_code_idx(int)
-#   "challenger_score" : challenger_score(int)
-#   "oppositer_score" : oppositer_score(int)
-#   "challenger_language" : challenger_language(string)
-#   "oppositer_language" : oppositer_language(string)
-#   "turn" : "challenger" or "oppositer"
-#   "problem" : problem_idx(int)
-#   "placement" : [idx1, ixd2, ..]
-#   "action" : [idx1, idx2, ..]
-#   "ending" : [idx1, idx2, ..]
-#   "board_size" : board_size(int)
-#   "board_info" : [(x1,y1), (x2,y2), ..]   # start board info
+
+
+# matchInfo = {
+#     "challenger": challenger.user.pk,
+#     "opposite": opposite.user.pk,
+#     "challenger_code_id": challenger.code.id,
+#     "opposite_code_id": opposite.code.id,
+#     "challenger_code": challenger.code.code,
+#     "opposite_code": opposite.code.code,
+#     "challenger_language": challenger.code.language.name,
+#     "opposite_language": opposite.code.language.name,
+#     "problem": int(problemid),
+#     "obj_num": rule["obj_num"],
+#     "placement": rule["placement"],
+#     "action": rule["action"],
+#     "ending": rule["ending"],
+#     "board_size": problem.board_size,
+#     "board_info": problem.board_info,
 # }
 
 
