@@ -11,6 +11,13 @@ class UserInfo(models.Model):
     User Information
     """
 
+    language_choice = (
+        ("C", "C"),
+        ("C++", "C++"),
+        ("PYTHON", "PYTHON"),
+        ("JAVA", "JAVA")
+    )
+
     user = models.OneToOneField(
         User,
         verbose_name="유저",
@@ -20,13 +27,20 @@ class UserInfo(models.Model):
         related_name='user_userInfo_user',
     )
 
-    language = models.ForeignKey(
-        Language,
-        verbose_name="주 사용 언어",
+    # language = models.ForeignKey(
+    #     Language,
+    #     verbose_name="주 사용 언어",
+    #     db_column="LANGUAGE",
+    #     on_delete=models.PROTECT,
+    #     related_name="language_userInfo_language",
+    #     default= DEFAULT_ID,
+    # )
+
+    language = models.CharField(
+        "언어",
         db_column="LANGUAGE",
-        on_delete=models.PROTECT,
-        related_name="language_userInfo_language",
-        default= DEFAULT_ID,
+        max_length=50,
+        choices=language_choice,
     )
 
     nickname = models.CharField(

@@ -5,7 +5,7 @@ from onepanman_api.permissions import IsAdminUser, OnlyAdminUser
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from onepanman_api.models import UserInformationInProblem, ProblemRuleInfo, RuleInfo, Problem, Game
+from onepanman_api.models import UserInformationInProblem, Problem, Game
 import random
 
 
@@ -15,9 +15,8 @@ class GetCoreResponse(Response):
         matchInfo = self.data
 
         # 여기에 celery 호출하는 코드!
-        """
-        result = play_game.delay()
-        """
+
+        result = play_game(matchInfo).delay()
 
 
 class Match(APIView):
@@ -99,47 +98,55 @@ class Match(APIView):
         matchInfo = {
             "challenger": challenger.user.pk,
             "opposite": opposite.user.pk,
-            "challenger_code": challenger.code.id,
-            "opposite_code": opposite.code.id,
-            "challenger_score": challenger.score,
-            "opposite_score": opposite.score,
+            "challenger_code_id": challenger.code.id,
+            "opposite_code_id": opposite.code.id,
+            "challenger_code": challenger.code.code,
+            "opposite_code": opposite.code.code,
             "challenger_language": challenger.code.language.name,
             "opposite_language": opposite.code.language.name,
             "problem": int(problemid),
+            "obj_num": rule["obj_num"],
             "placement": rule["placement"],
             "action": rule["action"],
             "ending": rule["ending"],
             "board_size": problem.board_size,
             "board_info": problem.board_info,
-            "challenger_instance": challenger.id,
-            "opposite_instance": opposite.id,
+        }
+
+        scores = {
+            "challenger": challenger.score,
+            "opposite": opposite.score,
         }
 
         #print(matchInfo)
 
-        return matchInfo
+        return matchInfo, scores
 
     # 게임에 사용될 인스턴스를 만들고, 그 id를 반환하는 함수
-    def get_GameId(self, notIdInfo):
-
+    def get_GameId(self, info, scores):
+        print(scores)
+        print(type(scores))
         try:
-            matchInfo = notIdInfo
+            matchInfo = info
 
             data = {
                 "problem": matchInfo['problem'],
                 "challenger": matchInfo['challenger'],
                 "opposite": matchInfo['opposite'],
-                "challenger_code": matchInfo['challenger_code'],
-                "opposite_code": matchInfo['opposite_code'],
+                "challenger_code": matchInfo['challenger_code_id'],
+                "opposite_code": matchInfo['opposite_code_id'],
                 "record": "0",
-                "challenger_score": matchInfo['challenger_score'],
-                "opposite_score": matchInfo['opposite_score'],
+                "challenger_score": scores['challenger'],
+                "opposite_score": scores['opposite'],
             }
+
+
 
             serializer = serializers.GameSerializer(data=data)
             serializer.is_valid(raise_exception=True)
             validated_data = serializer.validated_data
 
+            print(validated_data)
 
             instance = Game.objects.create(
                 problem=validated_data['problem'],
@@ -148,12 +155,12 @@ class Match(APIView):
                 challenger_code=validated_data['challenger_code'],
                 opposite_code=validated_data['opposite_code'],
                 record=validated_data['record'],
-                challenger_score= validated_data['challenger_score'],
-                opposite_score= validated_data['opposite_score'],
+                challenger_score=validated_data['challenger_score'],
+                opposite_score=validated_data['opposite_score'],
             )
 
         except Exception as e:
-            print("game data 생성 중 에러 발생 ")
+            print("game data 생성 중 에러 발생 : {}".format(e))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -203,8 +210,8 @@ class Match(APIView):
             print("get function {}".format(e))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        matchInfo = self.match(userid, problemid, codeid)
-        matchInfo = self.get_GameId(matchInfo)
+        matchInfo, scores = self.match(userid, problemid, codeid)
+        matchInfo = self.get_GameId(matchInfo, scores)
 
         return GetCoreResponse(matchInfo)
 

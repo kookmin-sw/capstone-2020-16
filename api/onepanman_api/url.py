@@ -19,7 +19,6 @@ router.register('group', views.api.GroupViewSet, 'group')
 router.register('groupfullInfo', views.api.group.GroupFullInfoViewSet, 'groupfullInfo')
 router.register('language', views.api.LanguageViewSet, 'language')
 router.register('notice', views.api.NoticeViewSet, 'notice')
-router.register('ruleInfo', views.api.RuleInfoViewSet, 'ruleInfo')
 router.register('testcase', views.api.TestcaseViewSet, 'testcase')
 router.register('user', views.api.UserViewSet, 'user')
 router.register('userInfo', views.api.UserInfoViewSet, 'userInfo')
@@ -54,13 +53,8 @@ urlpatterns = [
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 
-    # JWT 로그인
-    # url('token/authorize/?$', obtain_jwt_token),    # 토큰 획득
-    # url('token/verify/?$', verify_jwt_token),       # 토큰 확인
-    # url('token/refresh/', refresh_jwt_token),       # 토큰 갱신
-
     # 온라인 API 문서화
     url('docs/swagger(?P<format>.json|.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
-    url('docs/n /?$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
+    url('docs/swagger/?$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
     url('docs/?$', schema_view.with_ui('redoc', cache_timeout=None), name='schema-redoc'),
 ]

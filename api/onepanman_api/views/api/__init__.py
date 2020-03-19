@@ -8,7 +8,6 @@ from .groupInfo import GroupInfoViewSet
 from .language import LanguageViewSet
 from .notice import NoticeViewSet
 from .problem import ProblemViewSet
-from .ruleInfo import RuleInfoViewSet
 from .testcase import TestcaseViewSet
 from .user import UserViewSet
 from .userInfo import UserInfoViewSet
@@ -17,5 +16,5 @@ from .match import Match
 from .rule import RuleViewSet
 
 __all__ = ['ArticleViewSet', 'CommentViewSet', 'CodeViewSet', 'FriendViewSet', 'GameViewSet', 'GroupInfoViewSet',
-           'GroupViewSet', 'LanguageViewSet', 'NoticeViewSet', 'ProblemViewSet', 'RuleInfoViewSet', 'TestcaseViewSet',
+           'GroupViewSet', 'LanguageViewSet', 'NoticeViewSet', 'ProblemViewSet', 'TestcaseViewSet',
            'UserViewSet', 'UserInfoViewSet', 'UserInformationInProblemViewSet', 'Match', 'RuleViewSet']

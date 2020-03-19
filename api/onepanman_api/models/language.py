@@ -5,6 +5,13 @@ class Language(models.Model):
     Language
     """
 
+    language_choices = (
+        ("C", "C"),
+        ("C++", "C++"),
+        ("PYTHON", "PYTHON"),
+        ("JAVA", "JAVA")
+    )
+
     id = models.AutoField(
         'ID',
         db_column='ID',
@@ -20,6 +27,7 @@ class Language(models.Model):
         blank=False,
         unique=True,
         max_length=30,
+        choices=language_choices,
     )
 
     compileMessage = models.TextField(
