@@ -55,7 +55,13 @@ class Game(models.Model):
     record = models.TextField(
         '게임기록',
         db_column='RECORD',
-        null=False,
+        default="[]",
+    )
+
+    placement_record = models.TextField(
+        '착수기록',
+        db_column="PLACEMENT_RECORD",
+        default="[]",
     )
 
     winner = models.CharField(
