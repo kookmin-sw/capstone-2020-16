@@ -1,76 +1,142 @@
-# Welcome to GitHub
-
-캡스톤 팀 생성을 축하합니다.
-
-## 팀소개 및 페이지를 꾸며주세요.
-
-- 프로젝트 소개
-  - 프로젝트 설치방법 및 데모, 사용방법, 프리뷰등을 readme.md에 작성.
-  - Api나 사용방법등 내용이 많을경우 wiki에 꾸미고 링크 추가.
-
-- 팀페이지 꾸미기
-  - 프로젝트 소개 및 팀원 소개
-  - index.md 예시보고 수정.
-
-- GitHub Pages 리파지토리 Settings > Options > GitHub Pages 
-  - Source를 marster branch
-  - Theme Chooser에서 태마선택
-  - 수정후 팀페이지 확인하여 점검.
-
-**팀페이지 주소** -> https://kookmin-sw.github.io/ '{{자신의 리파지토리 아이디}}'
-
-**예시)** 2020년 0조  https://kookmin-sw.github.io/capstone-2020-0/
+## Online Algorithm Battle Service
 
 
-## 내용에 아래와 같은 내용들을 추가하세요.
-
-### 1. 프로잭트 소개
-
-프로젝트
-
-### 2. 소개 영상
-
-프로젝트 소개하는 영상을 추가하세요
-
-### 3. 팀 소개
-
-팀을 소개하세요.
-
-팀원정보 및 담당이나 사진 및 SNS를 이용하여 소개하세요.
-
-### 4. 사용법
-
-소스코드제출시 설치법이나 사용법을 작성하세요.
-
-### 5. 기타
-
-추가적인 내용은 자유롭게 작성하세요.
+## I. 프로젝트 소개
 
 
-## Markdown을 사용하여 내용꾸미기
 
-Markdown은 작문을 스타일링하기위한 가볍고 사용하기 쉬운 구문입니다. 여기에는 다음을위한 규칙이 포함됩니다.
+![ㅇㅅㅇ](https://user-images.githubusercontent.com/17774917/77642086-6fd67e80-6fa0-11ea-8b34-dde4db31fe73.JPG)
 
-```markdown
-Syntax highlighted code block
+팀페이지주소 : https://kookmin-sw.github.io/capstone-2020-0/
 
-# Header 1
-## Header 2
-### Header 3
 
-- Bulleted
-- List
+**온라인 알고리즘 대전 서비스(Online Algorithm Battle Service)**
 
-1. Numbered
-2. List
 
-**Bold** and _Italic_ and `Code` text
+  근 몇 년간 AI 열풍이 불면서 알고리즘에 대한 관심도 높아졌다. 초중고 교육 현장에서는 sw교육 열풍이 불고 있고 전공자를 비롯한 많은 사람들이 백준과 프로그래머스 같은 알고리즘 트레이닝 사이트를 통해 알고리즘 트레이닝을 시작했다. 
 
-[Link](url) and ![Image](src)
-```
 
-자세한 내용은 [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+![readme img1](https://user-images.githubusercontent.com/17774917/77534955-07729900-6edd-11ea-8764-affc5b9d1807.JPG)
 
-### Support or Contact
+  하지만 이 사람들 중에 꾸준하게 알고리즘 트레이닝을 하는 사람들은 얼마나 될까. 가입한 사람들에 비해 적은 것은 자명하다. 그렇다면 이렇게 적은 수의 사람들만 꾸준하게 하는 이유는 무엇일까. 우리 팀의 결론은 지속적인 동력이 부족하다는 것이고 이러한 동력을 재미와 경쟁심으로 채워나갈 수 있다고 판단했다.
+재미와 경쟁심을 동력으로 이용한 가장 효과적인 방법이 무엇인지 생각해 봤을 때 게임을 가장 쉽게 떠올릴 수 있었다. 단순히 문제에 대한 알고리즘을 짠 후에 테스트 케이스에 맞는지 채점 받는 자기만족에서 끝나는 것이 아닌 재미가 있는 게임, 다른 사람들의 알고리즘과의 경쟁을 통해 재미와 경쟁심을 동력으로 제공함으로써 지속적인 알고리즘 트레이닝을 할 수 있는 환경을 제공하기로 하였다. 
 
-readme 파일 생성에 추가적인 도움이 필요하면 [도움말](https://help.github.com/articles/about-readmes/) 이나 [contact support](https://github.com/contact) 을 이용하세요.
+  본 프로젝트는 일정수준의 코딩이 가능하고 기본적인 알고리즘 공부가 된 사람들에게 게임에 대한 알고리즘을 작성하고 다른 사람들과 경쟁해 볼 수 있는 환경을 제공하는 웹사이트를 개발하는 것이다. 프로젝트는 총 세개의 서버로 나뉘어져 있으며, 클라이언트 서버, api서버, 유저들의 코드를 대전시키는 core서버가 있다.
+  
+  
+  
+**Online Algorithm Battle Service**
+
+ Recently, as the AI boom has increased, interest in algorithms has also increased. In elementary, middle and high curriculum, software education mandatory plans were enforced, and many people, including majors, started practicing algorithm problem solving through algorithm training sites such as Baekjun and programmers.
+
+ But how many of these people are still doing algorithm training? It is obvious that there are fewer people who are consistently doing it than those who are registered. So why do we keep so few people? Our team's conclusion is that there is not enough sustained motivation. And we think this motivation is fun and competation. When we think about what the most effective way to use fun and competition as motivation, we could naturally think of the game.
+ 
+ The project is to develop a website that offers an environment for people who are available to code to a certain level and who have been basic algorithms to create algorithms for games and compte with others.The project is divided into three servers, a client server, an api server, and a core server that charges the user's code.
+
+
+
+
+## II. 소개영상
+
+
+
+## III. 팀 소개
+
+![CJS](https://user-images.githubusercontent.com/17774917/77532770-ea3bcb80-6ed8-11ea-84f3-f43deccd5432.JPG)
+
+### 최준수 교수님
+
+📧 **E-Mail** : jschoi@kookmin.ac.kr
+
+📌 **Role**   : 지도교수
+
+
+![CMS](https://user-images.githubusercontent.com/17774917/77533673-a8ac2000-6eda-11ea-8002-33fac8a50e5a.JPG)
+
+
+
+### 최명서
+
+👨‍💻 **Student ID**    : 20143107
+
+📧 **E-Mail** : tyms0503@kookmin.ac.kr
+
+📌 **Role**   : 프로젝트 팀장, DB설계, Docker Container 구현
+
+
+
+
+![CJW](https://user-images.githubusercontent.com/17774917/77534006-44d62700-6edb-11ea-8e9b-9e3a26521161.png)
+
+### 최지욱
+
+👨‍💻 **Student ID**    : 20143109
+
+📧 **E-Mail** : boo106@kookmin.ac.kr
+
+📌 **Role**   : Front-End 개발, 리플레이 UI/UX 구현
+
+
+
+
+![VK33](https://user-images.githubusercontent.com/17774917/77534130-764ef280-6edb-11ea-8874-fd8a0fb0b72f.jpg)
+
+### 박호준
+
+👨‍💻 **Student ID**    : 20153183
+
+📧 **E-Mail** : mara8534@kookmin.ac.kr
+
+📌 **Role**   : Front-End 개발, Docker Container구현
+
+
+
+
+![WHW](https://user-images.githubusercontent.com/17774917/77534210-95e61b00-6edb-11ea-9cbc-736274139e3a.jpg)
+
+### 우현웅
+
+👨‍💻 **Student ID**    : 20153195
+
+📧 **E-Mail** : dngusdnd@kookmin.ac.kr
+
+📌 **Role**   : API개발, DB 설계 및 구현
+
+
+
+
+![KSR](https://user-images.githubusercontent.com/17774917/77534252-a4cccd80-6edb-11ea-8460-0364b64a4a94.png)
+
+
+### 강수련
+
+👩‍💻 **Student ID**    : 20162736
+
+📧 **E-Mail** : srkang0913@kookmin.ac.kr
+
+📌 **Role**   : Front-End 개발, UI/UX 디자인
+
+
+
+
+![KRD](https://user-images.githubusercontent.com/17774917/77534337-ce85f480-6edb-11ea-9ce9-bfeb89ccbad5.jpg)
+
+### 칼리드
+
+👨‍💻 **Student ID**    : 20163173
+
+📧 **E-Mail** : woo-4@hotmail.com
+
+📌 **Role**   : Front-End 개발
+
+
+
+## IV. 사용법
+
+수정 예정
+
+
+## V. 기타
+
+
+수정 예정
