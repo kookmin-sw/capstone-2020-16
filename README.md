@@ -7,7 +7,7 @@
 
 ![ㅇㅅㅇ](https://user-images.githubusercontent.com/17774917/77642086-6fd67e80-6fa0-11ea-8b34-dde4db31fe73.JPG)
 
-팀페이지주소 : https://kookmin-sw.github.io/capstone-2020-16/
+팀페이지주소 : https://kookmin-sw.github.io/capstone-2020-16
 
 
 **온라인 알고리즘 대전 서비스(Online Algorithm Battle Service)**
