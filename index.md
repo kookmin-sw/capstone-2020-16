@@ -40,7 +40,7 @@
 
 
 [![Video Label](http://img.youtube.com/vi/onwGQSGU9kc/0.jpg)](https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be)
-
+https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be
 
 
 ## III. 팀 소개
