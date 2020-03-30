@@ -1,6 +1,6 @@
 import time
 import datetime
-import docker
+# import docker
 import json
 import multiprocessing
 import time
@@ -14,7 +14,7 @@ from utils.util_match import update_match_data
 from userprogram import UserProgram
 
 # celery app
-app = Celery('tasks', broker='redis://localhost:6379')
+app = Celery('tasks', broker='redis://localhost:6379', backend='redis://localhost:6379')
 
 # cpu_info
 cpu_num = multiprocessing.cpu_count()
@@ -23,11 +23,12 @@ cpu_num = multiprocessing.cpu_count()
 docker_img = "app"
 
 
-@app.task
 # def play_game(json_data):  # match_data is json format
-def play_game(json_data):
+@app.task
+def play_game(data):
     # run_container()
-    match_data = json.loads(json_data)
+
+    match_data = data
     match_dir = os.getcwd()  # os.path.join(os.getcwd(), 'match')
     extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}
 
@@ -53,7 +54,7 @@ def play_game(json_data):
 
     game_manager = GameManager(challenger=challenger, oppositer=oppositer,
                                placement_rule=match_data['placement'], action_rule=match_data['action'],
-                               ending_rule=match_data['ending'], turn=match_data['turn'],
+                               ending_rule=match_data['ending'],
                                board_size=match_data['board_size'], board_info=match_data['board_info'],
                                obj_num=match_data['obj_num'])
 
@@ -64,28 +65,6 @@ def play_game(json_data):
         f.write(board_record)
     with open('result.txt', 'a') as f:
         f.write(placement_record)
-
-    challenger_score = match_data['challenger_score']
-    oppositer_score = match_data['oppositer_score']
-
-    add_score_for_challenger, add_score_for_oppositer = 0, 0
-
-    if match_result == 'win':
-        add_score_for_challenger = 10
-        add_score_for_oppositer = -10
-
-    elif match_result == 'lose':
-        add_score_for_challenger = -10
-        add_score_for_oppositer = 10
-
-    challenger_score += add_score_for_challenger
-    oppositer_score += add_score_for_oppositer
-
-    #   update user score
-    update_user_info_in_problem(user_idx=match_data['challenger'], problem_idx=match_data['problem'],
-                                score=challenger_score)
-    update_user_info_in_problem(user_idx=match_data['oppositer'], problem_idx=match_data['problem'],
-                                score=oppositer_score)
 
     #   update match data
     update_match_data(match_result, board_record, placement_record)
@@ -110,14 +89,14 @@ def play_game(json_data):
 # }
 
 
-def run_container():
-    print('run container')
-    client = docker.from_env()
-    containers_num = len(client.containers.list())
-    
-    while containers_num >= cpu_num:
-        time.sleep(1)
-        print('not enough cpu_num. waiting.....')
-
-    client.containers.run(image=docker_img, command='echo hello world', auto_remove=False, tty=True, stdin_open=True)
+# def run_container():
+#     print('run container')
+#     client = docker.from_env()
+#     containers_num = len(client.containers.list())
+#
+#     while containers_num >= cpu_num:
+#         time.sleep(1)
+#         print('not enough cpu_num. waiting.....')
+#
+#     client.containers.run(image=docker_img, command='echo hello world', auto_remove=False, tty=True, stdin_open=True)
 

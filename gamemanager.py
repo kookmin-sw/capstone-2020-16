@@ -12,18 +12,16 @@ from execute_code import Execution
 
 
 class GameManager:
-    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, turn, board_size, board_info, obj_num):
+    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num):
         self.board = np.zeros((board_size, board_size), dtype='i')
         self.board_info = board_info
         self.board_size = board_size
         self.board_record = ''
 
         # self.board = board_info
-
+        self.check_turn = 'challenger'
         self.challenger = challenger
         self.opposite = oppositer
-        self.first_turn = turn
-        self.check_turn = turn
 
         self.game_data = GameData(placement_rule, action_rule, ending_rule, board_size, board_info, obj_num)
         self.placement_rule = PlacementRule()
@@ -71,7 +69,7 @@ class GameManager:
 
             except Exception as e:
                 print(f'program error in execute user program : {e}')
-            user_placement = self.parsing_user_output(output)
+
             try:
                 check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
             except Exception as e:
@@ -138,7 +136,7 @@ class GameManager:
             f.write(temp)
 
     def add_record(self, output):
-        if self.first_turn == self.check_turn:
+        if self.check_turn == 'challenger':
             self.add_data(self.board, output)
             self.board *= -1
 
