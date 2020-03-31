@@ -155,6 +155,8 @@ class GameManager:
 
     def parsing_board_info(self, board_info, board_size):
         numbers = board_info.split()
+        print(len(numbers))
+        print(numbers[63])
         for i in range(board_size):
             for j in range(board_size):
                 self.board[i][j] = int(numbers[i*board_size + j])
