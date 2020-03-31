@@ -10,7 +10,7 @@ import Q from 'q';
  */
 let ApiFuncs = (function() {
     // 'use strict';
-
+    this.domain = '';
     function ApiFuncs(options) {
         let domain = (typeof options === 'object') ? options.domain : options;
         this.domain = domain ? domain : 'http://203.246.113.176:8000';
@@ -5875,4 +5875,4 @@ let ApiFuncs = (function() {
     return ApiFuncs;
 })();
 
-exports.ApiFuncs = ApiFuncs;
+export default ApiFuncs;
