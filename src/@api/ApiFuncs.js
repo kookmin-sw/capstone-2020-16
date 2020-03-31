@@ -2,7 +2,7 @@
 /*global fetch, btoa */
 import Q from 'q';
 /**
- * ONEPANMAN API 문서화
+ * algorithm battle service API 문서화
  * @class ApiFuncs
  * @param {(string|object)} [domainOrOptions] - The project domain or options object. If object, see the object's optional properties.
  * @param {string} [domainOrOptions.domain] - The project domain
@@ -10,7 +10,7 @@ import Q from 'q';
  */
 let ApiFuncs = (function() {
     // 'use strict';
-
+    this.domain = '';
     function ApiFuncs(options) {
         let domain = (typeof options === 'object') ? options.domain : options;
         this.domain = domain ? domain : 'http://203.246.113.176:8000';
@@ -5875,4 +5875,4 @@ let ApiFuncs = (function() {
     return ApiFuncs;
 })();
 
-exports.ApiFuncs = ApiFuncs;
+export default ApiFuncs;
