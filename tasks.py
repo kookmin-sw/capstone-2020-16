@@ -5,6 +5,7 @@ import json
 import multiprocessing
 import time
 import os
+import requests
 from celery import Celery
 
 from gamemanager import GameManager
@@ -32,6 +33,8 @@ def play_game(data):
     print(match_data)
     match_dir = os.getcwd()  # os.path.join(os.getcwd(), 'match')
     extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}
+    update_url = 'http://203.246.112.32:8000/api/v1/game/' + match_data['match_id']
+
 
     challenger_code_filename = 'challenger{0}'.format(extension[match_data['challenger_language']])
     oppositer_code_filename = 'oppositer{0}'.format(extension[match_data['opposite_language']])
@@ -71,6 +74,7 @@ def play_game(data):
 
     #   update match data
     #update_match_data(match_result, board_record, placement_record)
+    r = requests.put(update_url, data={"winner" : match_result, "board_record": board_record, "placement_record": placement_record})
 
 
 # matchInfo = {
