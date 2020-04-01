@@ -2,6 +2,7 @@ import React from 'react';
 import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './components/Scene1.js'
 import Scene2 from './components/Scene2.js'
+import ApiTest from './components/ApiTest'
 
 // import PlacementStateContainer from './container/PlacementStateContainer'
 
@@ -63,20 +64,19 @@ function ViewReplayPage() {
 			<IconButton onClick={handleOpen} component="span">
 				<PlayCircleFilledWhiteIcon style={{ color: pink[500] }}/>
 			</IconButton>
-			{/* <Provider store={store}> */}
-				<Modal
-					aria-labelledby="simple-modal-title"
-					aria-describedby="simple-modal-description"
-					open={open}
-					onClose={handleClose}
-				>
-					<div style={modalStyle} className={classes.paper}>
-						<IonPhaser game={game} />
-						{/* <MyInfo></MyInfo> */}
-						{/* <PlacementStateContainer></PlacementStateContainer> */}
-					</div>
-				</Modal>
-			{/* </Provider> */}
+			<Modal
+				aria-labelledby="simple-modal-title"
+				aria-describedby="simple-modal-description"
+				open={open}
+				onClose={handleClose}
+			>
+				<div style={modalStyle} className={classes.paper}>
+					<IonPhaser game={game} />
+					{/* <MyInfo></MyInfo> */}
+					{/* <PlacementStateContainer></PlacementStateContainer> */}
+				</div>
+			</Modal>
+			<ApiTest></ApiTest>
 		</div>
 	);
 }
