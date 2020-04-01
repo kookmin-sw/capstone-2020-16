@@ -1,15 +1,21 @@
 import time
 import datetime
-import docker
+# import docker
 import json
 import multiprocessing
 import time
 import os
+import requests
 from celery import Celery
 
+from gamemanager import GameManager
+from utils.code_query import select_code
+from utils.util_user_info_in_problem import update_user_info_in_problem
+from utils.util_match import update_match_data
+from userprogram import UserProgram
 
 # celery app
-app = Celery('tasks', broker='redis://localhost:6379')
+app = Celery('tasks', broker='redis://localhost:6379', backend='redis://localhost:6379')
 
 # cpu_info
 cpu_num = multiprocessing.cpu_count()
@@ -18,37 +24,86 @@ cpu_num = multiprocessing.cpu_count()
 docker_img = "app"
 
 
+# def play_game(json_data):  # match_data is json format
 @app.task
-# def play_game(match_data):  # match_data is json formatz
-def play_game():
-    run_container()
+def play_game(data):
+    # run_container()
 
-# match_data
-# { "challenger" : challenger_idx(int)
-#   "oppositer" : oppositer_idx(int)
-#   "challenger_code" : challenger_code_idx(int)
-#   "oppositer_code" : oppositer_code_idx(int)
-#   "challenger_score" : challenger_score(int)
-#   "oppositer_score" : oppositer_score(int)
-#   "challenger_language" : challenger_language(string)
-#   "oppositer_language" : oppositer_language(string)
-#   "turn" : "challenger" or "oppositer"
-#   "problem" : problem_idx(int)
-#   "placement" : [idx1, ixd2, ..]
-#   "action" : [idx1, idx2, ..]
-#   "ending" : [idx1, idx2, ..]
-#   "board_size" : board_size(int)
-#   "board_info" : [(x1,y1), (x2,y2), ..]   # start board info
+    match_data = data
+    print(match_data)
+    match_dir = os.getcwd()  # os.path.join(os.getcwd(), 'match')
+    extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}
+    update_url = 'http://203.246.112.32:8000/api/v1/game/' + match_data['match_id']
+
+
+    challenger_code_filename = 'challenger{0}'.format(extension[match_data['challenger_language']])
+    oppositer_code_filename = 'oppositer{0}'.format(extension[match_data['opposite_language']])
+
+    challenger_code_path = os.path.join(match_dir, challenger_code_filename)
+    oppositer_code_path = os.path.join(match_dir, oppositer_code_filename)
+
+    #challenger_code = select_code(match_data['challenger'], match_data['problem'])
+    #oppositer_code = select_code(match_data['oppositer'], match_data['problem'])
+    challenger_code = match_data['challenger_code']
+    oppositer_code = match_data['opposite_code']
+
+    with open(challenger_code_path, 'w') as f:
+        f.write(challenger_code)
+    
+    with open(oppositer_code_path, 'w') as f:
+        f.write(oppositer_code)
+
+    challenger = UserProgram(match_data['challenger'], match_data['challenger_language'], match_dir,
+                             challenger_code_filename)
+    oppositer = UserProgram(match_data['opposite'], match_data['opposite_language'], match_dir,
+                            oppositer_code_filename)
+
+    game_manager = GameManager(challenger=challenger, oppositer=oppositer,
+                               placement_rule=match_data['placement'], action_rule=match_data['action'],
+                               ending_rule=match_data['ending'],
+                               board_size=match_data['board_size'], board_info=match_data['board_info'],
+                               obj_num=match_data['obj_num'])
+
+    match_result, board_record, placement_record = game_manager.play_game()
+    #with open('result.txt', 'w') as f:
+    #    f.write(match_result)
+    #with open('result.txt', 'a') as f:
+    #    f.write(board_record)
+    #with open('result.txt', 'a') as f:
+    #    f.write(placement_record)
+
+    #   update match data
+    #update_match_data(match_result, board_record, placement_record)
+    r = requests.put(update_url, data={"winner" : match_result, "board_record": board_record, "placement_record": placement_record})
+
+
+# matchInfo = {
+#     "challenger": challenger.user.pk,
+#     "opposite": opposite.user.pk,
+#     "challenger_code_id": challenger.code.id,
+#     "opposite_code_id": opposite.code.id,
+#     "challenger_code": challenger.code.code,
+#     "opposite_code": opposite.code.code,
+#     "challenger_language": challenger.code.language.name,
+#     "opposite_language": opposite.code.language.name,
+#     "problem": int(problemid),
+#     "obj_num": rule["obj_num"],
+#     "placement": rule["placement"],
+#     "action": rule["action"],
+#     "ending": rule["ending"],
+#     "board_size": problem.board_size,
+#     "board_info": problem.board_info,
 # }
 
 
-def run_container():
-    print('run container')
-    client = docker.from_env()
-    containers_num = len(client.containers.list())
-    
-    while containers_num >= cpu_num:
-        time.sleep(1)
-        print('not enough cpu_num. waiting.....')
+# def run_container():
+#     print('run container')
+#     client = docker.from_env()
+#     containers_num = len(client.containers.list())
+#
+#     while containers_num >= cpu_num:
+#         time.sleep(1)
+#         print('not enough cpu_num. waiting.....')
+#
+#     client.containers.run(image=docker_img, command='echo hello world', auto_remove=False, tty=True, stdin_open=True)
 
-    client.containers.run(image=docker_img, command='echo hello world', auto_remove=False, tty=True, stdin_open=True)
