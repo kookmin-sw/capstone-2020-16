@@ -134,7 +134,7 @@
     "date-arithmetic": "3.1.0",
     "chalk": "2.4.2",
 
-    "react-pdf/pdfjs-dist": "2.1.226"
+    "react-pdf/pdfjs-dist": "2.4.456"
   },
   "browserslist": {
     "production": [
@@ -148,5 +148,6 @@
       "last 1 safari version",
       "ie 11"
     ]
-  }
+  },
+  "proxy" : "http://203.246.112.32:8000"
 }
