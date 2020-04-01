@@ -4,27 +4,30 @@ import re
 import sys
 import time
 
-from rules import Rules
+from placement_rule import PlacementRule
+from action_rule import ActionRule
+from ending_rule import EndingRule
 from game_data import GameData
 from execute_code import Execution
 
 
 class GameManager:
-    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, turn, board_size, board_info):
+    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num):
         self.board = np.zeros((board_size, board_size), dtype='i')
         self.board_info = board_info
         self.board_size = board_size
         self.board_record = ''
 
         # self.board = board_info
-
+        self.check_turn = 'challenger'
         self.challenger = challenger
         self.opposite = oppositer
-        self.first_turn = turn
-        self.check_turn = turn
 
-        self.game_data = GameData(placement_rule, action_rule, ending_rule, board_size, board_info)
-        self.rules = Rules()
+        self.game_data = GameData(placement_rule, action_rule, ending_rule, board_size, board_info, obj_num)
+        self.placement_rule = PlacementRule()
+        self.action_rule = ActionRule()
+        self.ending_rule = EndingRule()
+
         self.execution = Execution()
 
         self.placement_record = ''
@@ -49,7 +52,6 @@ class GameManager:
                 return match_result
 
             self.make_board_data()
-            print(self.board)
             #   user code execute
             output = None
 
@@ -66,30 +68,29 @@ class GameManager:
 
             except Exception as e:
                 print(f'program error in execute user program : {e}')
-            user_placement = self.parsing_user_output(output)
+
             try:
-                check_placement, new_board = self.rules.check_placement_rule(self.game_data, self.board, user_placement)
+                check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
             except Exception as e:
                 print(f'check placement program error : {e}')
-                break   #
-
+                break   # TODO
             if check_placement == 'OK':
                 self.board = new_board
                 apply_action = ''
                 try:
-                    apply_action, new_board = self.rules.apply_action_rule(self.game_data, self.board, user_placement)
+                    apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
                 except Exception as e:
                     print(f'apply action program error : {e}')
 
                 if apply_action == 'OK':
                     self.board = new_board
                     try:
-                        is_ending, winner = self.rules.check_ending(self.game_data, self.board, user_placement)
+                        is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output)
                     except Exception as e:
                         print(f'check ending program error : {e}')
                 else:
                     print(f'apply action error {apply_action}')
-                    break   #
+                    break  # TODO
             else:
                 print(f'check placement error {check_placement}')
                 break   #
@@ -97,6 +98,7 @@ class GameManager:
             self.add_record(output)
 
             if is_ending is True:
+                print(self.board)
                 if winner == 1:
                     match_result = self.check_turn
                 elif winner == -1:
@@ -133,7 +135,7 @@ class GameManager:
             f.write(temp)
 
     def add_record(self, output):
-        if self.first_turn == self.check_turn:
+        if self.check_turn == 'challenger':
             self.add_data(self.board, output)
             self.board *= -1
 
@@ -152,6 +154,8 @@ class GameManager:
 
     def parsing_board_info(self, board_info, board_size):
         numbers = board_info.split()
+        print(len(numbers))
+        print(numbers[63])
         for i in range(board_size):
             for j in range(board_size):
                 self.board[i][j] = int(numbers[i*board_size + j])
