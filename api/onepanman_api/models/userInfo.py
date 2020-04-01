@@ -100,7 +100,7 @@ class UserInfo(models.Model):
    )
 
     def __str__(self):
-        return '이름 : {}, 주 사용언어 : {}'.format(self.user.username, self.language.name)
+        return '{}_{}_{}'.format(self.user.username, self.language.name, self.tier)
 
     class Meta:
         db_table = "USERINFO"

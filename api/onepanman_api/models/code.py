@@ -71,7 +71,7 @@ class Code(models.Model):
     )
 
     def __str__(self):
-        return '작성자 : {}, 문제 : {}, 언어 : {}'.format(self.author.username, self.problem.title, self.language.name)
+        return '{}_{}_{}_{}'.format(self.id, self.author.username, self.problem.title, self.language.name)
 
     class Meta:
         db_table = "CODE"

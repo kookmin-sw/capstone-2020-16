@@ -123,7 +123,7 @@ class Game(models.Model):
     )
 
     def __str__(self):
-        return '{}_{}_{}'.format(self.problem.title, self.challenger.username,self.opposite.username)
+        return '{}_{}_{}_{}'.format(self.id, self.problem.title, self.challenger.username,self.opposite.username)
 
     class Meta:
         db_table = "GAME"

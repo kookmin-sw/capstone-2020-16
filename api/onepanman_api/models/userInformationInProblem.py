@@ -80,7 +80,7 @@ class UserInformationInProblem(models.Model):
     )
 
     def __str__(self):
-        return '{}문제, {}유저의 점수는 {}입니다.'.format(self.problem.title, self.user.username, self.score)
+        return '{}_{}_{}'.format(self.problem.title, self.user.username, self.score)
 
     class Meta:
         db_table = "USERINFORMATIONINPROBLEM"

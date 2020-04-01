@@ -107,7 +107,7 @@ class Problem(models.Model):
     )
 
     def __str__(self):
-        return '{}_{}'.format(self.editor.username, self.title)
+        return '{}_{}_{}'.format(self.id, self.title, self.editor.username)
 
     class Meta:
         db_table = 'PROBLEM'

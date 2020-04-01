@@ -18,11 +18,12 @@ class GroupInfo(models.Model):
     ranking = models.IntegerField(
         "랭킹",
         db_column="RANKING",
-        unique=True, 
+        unique=True,
+        null=True,
     )
 
     def __str__(self):
-        return '{}_{}'.format(self.group.name, self.ranking)
+        return '{}_{}_{}'.format(self.group.primary_key, self.group.name, self.ranking)
 
     class Meta:
         db_table = "GROUPINFO"

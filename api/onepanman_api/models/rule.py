@@ -40,7 +40,7 @@ class Rule(models.Model):
     )
 
     def __str__(self):
-        return "{}_{}_{}_{}".format(self.ruleClass, self.ruleType, self.number, self.description)
+        return "{}_{}_{}_{}_{}".format(self.id, self.ruleClass, self.ruleType, self.number, self.description)
 
     class Meta:
         db_table = "RULE"
