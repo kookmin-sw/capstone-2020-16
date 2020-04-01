@@ -100,7 +100,7 @@ class UserInfo(models.Model):
    )
 
     def __str__(self):
-        return '{}_{}_{}'.format(self.user.username, self.language.name, self.tier)
+        return '{}_{}_{}'.format(self.user.username, self.language, self.tier)
 
     class Meta:
         db_table = "USERINFO"

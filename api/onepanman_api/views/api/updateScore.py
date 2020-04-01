@@ -1,4 +1,5 @@
-from onepanman_api.models import UserInformationInProblem, UserInfo
+from onepanman_api.models import UserInformationInProblem, UserInfo, GroupInfo
+from onepanman_api.serializers import GroupInfoSerializer
 
 
 def update_tier(problemid):
@@ -84,3 +85,26 @@ def update_totalTier():
             user.tier = "Bronze"
 
         user.save()
+
+def update_groupScore():
+    groups = GroupInfo.objects.all()
+
+    for group in groups:
+        users = UserInfo.objects.all().filter(group=group.group)
+
+        group_score = 0
+
+        for user in users:
+            group_score += user.tier_score
+
+        group.score = group_score
+
+        group.save()
+
+def update_groupRanking():
+
+    groups = GroupInfo.objects.all().order_by('-score')
+
+    for i in range(len(groups)):
+        groups[i].ranking = i+1
+        groups[i].save()

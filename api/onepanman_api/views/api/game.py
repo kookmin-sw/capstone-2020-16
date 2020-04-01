@@ -7,7 +7,7 @@ from onepanman_api.serializers.game import GameSerializer
 from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin, OnlyAdminUser
 from rest_framework.response import Response
 
-from onepanman_api.views.api.updateScore import update_totalTier, update_tier
+from onepanman_api.views.api.updateScore import update_totalTier, update_tier, update_groupRanking, update_groupScore
 from rest_framework.views import APIView
 
 from django.db.models import Q
@@ -188,6 +188,8 @@ class GameViewSet(viewsets.ModelViewSet):
 
         update_tier(problemid=data["problem"])
         update_totalTier()
+        update_groupScore()
+        update_groupRanking()
 
         return Response(data)
 

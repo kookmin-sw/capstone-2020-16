@@ -18,8 +18,13 @@ class GroupInfo(models.Model):
     ranking = models.IntegerField(
         "랭킹",
         db_column="RANKING",
-        unique=True,
         null=True,
+    )
+
+    score = models.IntegerField(
+        "점수",
+        db_column="SCORE",
+        default=0,
     )
 
     def __str__(self):
