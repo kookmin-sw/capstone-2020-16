@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-/*global fetch, btoa */
+// /*global fetch, btoa */
 import Q from 'q';
 /**
  * algorithm battle service API 문서화
@@ -10,13 +10,13 @@ import Q from 'q';
  */
 let ApiFuncs = (function() {
     // 'use strict';
-    this.domain = '';
+    
     function ApiFuncs(options) {
         let domain = (typeof options === 'object') ? options.domain : options;
-        this.domain = domain ? domain : 'http://203.246.113.176:8000';
-        if (this.domain.length === 0) {
-            throw new Error('Domain parameter must be specified as a string.');
-        }
+        this.domain = domain ? domain : '';
+        // if (this.domain.length === 0) {
+        //     throw new Error('Domain parameter must be specified as a string.');
+        // }
         this.basic = (typeof options === 'object') ? (options.basic ? options.basic : {}) : {};
     }
 
@@ -94,9 +94,9 @@ let ApiFuncs = (function() {
      */
     ApiFuncs.prototype.setAuthHeaders = function(headerParams) {
         let headers = headerParams ? headerParams : {};
-        if (this.basic.username && this.basic.password) {
-            headers['Authorization'] = 'Basic ' + btoa(this.basic.username + ':' + this.basic.password);
-        }
+        // if (this.basic.username && this.basic.password) {
+        //     headers['Authorization'] = 'Basic ' + btoa(this.basic.username + ':' + this.basic.password);
+        // }
         return headers;
     };
 
@@ -4386,7 +4386,7 @@ let ApiFuncs = (function() {
     ApiFuncs.prototype.api_user_list = function(parameters) {
         if (parameters === undefined) {
             parameters = {};
-        }
+        }   
         let deferred = Q.defer();
         let domain = this.domain,
             path = '/api/{version}/user/';
@@ -4395,19 +4395,20 @@ let ApiFuncs = (function() {
             headers = {},
             form = {};
 
-        headers = this.setAuthHeaders(headers);
-        headers['Accept'] = ['application/json'];
-        headers['Content-Type'] = ['application/json'];
+        // headers = this.setAuthHeaders(headers);
+        headers = {};
+        // headers['Accept'] = ['application/json'];
+        // headers['Content-Type'] = ['application/json'];
 
         path = path.replace('{version}', parameters['version']);
 
-        if (parameters['version'] === undefined) {
-            deferred.reject(new Error('Missing required  parameter: version'));
-            return deferred.promise;
-        }
+        // if (parameters['version'] === undefined) {
+        //     deferred.reject(new Error('Missing required  parameter: version'));
+        //     return deferred.promise;
+        // }
 
         queryParameters = mergeQueryParams(parameters, queryParameters);
-
+        console.log(`path>>>>>>>>>>${path}`)
         this.request('GET', domain + path, parameters, body, headers, queryParameters, form, deferred);
 
         return deferred.promise;

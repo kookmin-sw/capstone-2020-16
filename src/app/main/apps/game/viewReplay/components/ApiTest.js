@@ -1,11 +1,27 @@
-import React from "react";
-import ApiFuncs from "@api/ApiFuncs"
+import React, { useState, useEffect } from "react";
+// import ApiFuncs from "@api/ApiFuncs"
+import * as Actions from 'app/store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 const ApiTest = () => {
-    return (
+    const dispatch = useDispatch();
+    const counts = useSelector(({apiTest}) => apiTest.api.count);
+    const hehe = function() {
+        dispatch(Actions.getUser())
+    }
+    useEffect(() => {
+        console.log('rendering')
+        // hehe()
+        hehe();
+    })
+    return(
         <div>
-            asd
-            {console.log(ApiFuncs.prototype.api_user_list())}
+            {/* asdg
+            {console.log(test2)} */}
+            {/* {dispatch(Actions.getUser())} */}
+            {/* {console.log(counts)} */}
+            <h1>{counts}</h1>
+            <button onClick={hehe}>button</button>
         </div>
     )
 }
