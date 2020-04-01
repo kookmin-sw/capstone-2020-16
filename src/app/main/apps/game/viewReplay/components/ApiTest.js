@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
-// import ApiFuncs from "@api/ApiFuncs"
-import * as Actions from 'app/store/actions'
-import { useDispatch, useSelector } from 'react-redux'
+import ApiFuncs from '@api/ApiFuncs'
 
 const ApiTest = () => {
-    const dispatch = useDispatch();
-    const counts = useSelector(({apiTest}) => apiTest.api.count);
-    const hehe = function() {
-        dispatch(Actions.getUser())
-    }
+    const [userList, setData] = useState([]);
     useEffect(() => {
         console.log('rendering')
-        // hehe()
-        hehe();
-    })
+        const fetchData = async () => {
+            try{
+                const apiFuncs = new ApiFuncs();
+                const response = await apiFuncs.api_userfullInfo_list({'version': 'v1'});
+                console.log(`>>>>>>>>>>${response.results}`);
+                setData(response.results);
+                // console.log(userList)
+            } catch(e){
+                console.log(e);
+            }
+        };
+        fetchData();
+    }, []);
+
     return(
         <div>
-            {/* asdg
-            {console.log(test2)} */}
-            {/* {dispatch(Actions.getUser())} */}
-            {/* {console.log(counts)} */}
-            <h1>{counts}</h1>
-            <button onClick={hehe}>button</button>
+            {userList.map(res => (
+                <h1 key={res.email}>{res.username}</h1>
+            ))}
         </div>
     )
 }
