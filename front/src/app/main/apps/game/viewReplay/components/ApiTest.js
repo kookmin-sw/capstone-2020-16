@@ -22,9 +22,12 @@ const ApiTest = () => {
         console.log('rendering')
         const fetchData = async () => {
             try{
-                const response = await apiFuncs.api_userfullInfo_list({'version': 'v1'});
+                const response = await apiFuncs.api_user_list({'version': 'v1'});
                 // console.log(`>>>>>>>>>>${response.results}`);
                 setData(response.results);
+                if(response.next !== null){
+
+                }
                 // console.log(userList)
             } catch(e){
                 console.log(e);

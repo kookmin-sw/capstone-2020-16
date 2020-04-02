@@ -4408,7 +4408,7 @@ let ApiFuncs = (function() {
         // }
 
         queryParameters = mergeQueryParams(parameters, queryParameters);
-        console.log(`path>>>>>>>>>>${path}`)
+        console.log(`path>>>>>>>>>>${path} ${parameters}`)
         this.request('GET', domain + path, parameters, body, headers, queryParameters, form, deferred);
 
         return deferred.promise;

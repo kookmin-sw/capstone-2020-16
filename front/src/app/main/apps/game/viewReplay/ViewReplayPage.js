@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './components/Scene1.js'
 import Scene2 from './components/Scene2.js'
 import ApiTest from './components/ApiTest'
+import ApiFuncs from '@api/ApiFuncs'
 
 // import PlacementStateContainer from './container/PlacementStateContainer'
 
@@ -16,6 +17,8 @@ import pink from '@material-ui/core/colors/pink';
 // import { Provider } from 'react-redux';
 // import reducer from './store/reducers';
 // const store = createStore(reducer);
+
+const apiFuncs = new ApiFuncs();
 
 function getModalStyle() {
 	const top = 50 ;
@@ -42,11 +45,25 @@ function ViewReplayPage() {
 	const classes = useStyles();
 	const [modalStyle] = React.useState(getModalStyle);
 	const [open, setOpen] = React.useState(false);
-	  
+	const [boardRecord, setRecord] = useState("");
+	
+	useEffect(() => {
+		const getRecord = async () => {
+			try{
+				await apiFuncs.api_game_list({'version':'v1'});
+				console.log('hehe');
+				setRecord("001")
+			} catch(e){
+				console.log(e);
+			}
+		}
+		getRecord();
+	}, []);
+	
 	const handleOpen = () => {
 		setOpen(true);
 	};
-
+	
 	const handleClose = () => {
 		setOpen(false);
 	};
@@ -58,9 +75,10 @@ function ViewReplayPage() {
 		scene: [Scene1, Scene2],
 		pixelArt: true
 	}
-
+	
 	return (
 		<div>
+			{console.log(`hehe22${boardRecord}`)}
 			<IconButton onClick={handleOpen} component="span">
 				<PlayCircleFilledWhiteIcon style={{ color: pink[500] }}/>
 			</IconButton>
