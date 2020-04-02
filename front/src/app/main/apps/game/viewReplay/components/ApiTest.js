@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ApiFuncs from '@api/ApiFuncs'
 
+const apiFuncs = new ApiFuncs();
 const ApiTest = () => {
-    const apiFuncs = new ApiFuncs();
     const [userList, setData] = useState([]);
     const postData = async () => {
         try{
@@ -13,7 +13,7 @@ const ApiTest = () => {
                     "email": "api_test02@api.com",
                 }
             }
-            const request = await apiFuncs.api_user_create(data_parm);
+            await apiFuncs.api_user_create(data_parm);
         } catch(e) {
             console.log(e);
         };
