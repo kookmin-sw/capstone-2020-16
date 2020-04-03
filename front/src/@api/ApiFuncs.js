@@ -4399,7 +4399,7 @@ let ApiFuncs = (function() {
         headers = {};
         // headers['Accept'] = ['application/json'];
         // headers['Content-Type'] = ['application/json'];
-
+        console.log(parameters);
         path = path.replace('{version}', parameters['version']);
 
         // if (parameters['version'] === undefined) {

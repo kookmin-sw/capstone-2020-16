@@ -50,9 +50,10 @@ function ViewReplayPage() {
 	useEffect(() => {
 		const getRecord = async () => {
 			try{
-				await apiFuncs.api_game_list({'version':'v1'});
-				console.log('hehe');
-				setRecord("001")
+				const record = await apiFuncs.api_game_read({'version':'v1', 'id': 1});
+				// console.log('hehe');
+				setRecord(record)
+				console.log(`record${record}`)
 			} catch(e){
 				console.log(e);
 			}
@@ -69,9 +70,9 @@ function ViewReplayPage() {
 	};
 	
 	const game = {
-		width: 896,
+		width: 1500,
 		height: 896,
-		backgroundColor: 0x000000,
+		backgroundColor: 0xFFFFFF,
 		scene: [Scene1, Scene2],
 		pixelArt: true
 	}

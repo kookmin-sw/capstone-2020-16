@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ApiFuncs from '@api/ApiFuncs'
+import axios from 'axios';
 
 const apiFuncs = new ApiFuncs();
 const ApiTest = () => {
@@ -26,7 +27,10 @@ const ApiTest = () => {
                 // console.log(`>>>>>>>>>>${response.results}`);
                 setData(response.results);
                 if(response.next !== null){
-
+                    axios.get(response.next)
+                    .then((res)=>{
+                        console.log(res)
+                    }).catch((error)=>{console.log(error)});
                 }
                 // console.log(userList)
             } catch(e){

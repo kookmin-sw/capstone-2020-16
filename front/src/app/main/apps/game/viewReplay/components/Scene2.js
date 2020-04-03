@@ -2,6 +2,9 @@ import Phaser from 'phaser'
 import axios from 'axios'
 // import { useSelector } from "react-redux";
 
+const boardSize = 896;
+const modalWidth = 1500;
+
 function sleep (delay) {
   var start = new Date().getTime();
   while (new Date().getTime() < start + delay);
@@ -38,10 +41,10 @@ class Scene2 extends Phaser.Scene {
       boardStatus.boardIdx = 0;
   
       // add the background in the center of the scene
-      this.background = this.add.image(0, 0, "background").setScale(0.7);
+      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.7);
+      this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
+      this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
       this.background.setOrigin(0.5, 0.5);
-      this.background.x = 896/2;
-      this.background.y = 896/2;
   
       // make a group of ships
       this.saitamaGroup = this.make.group({
@@ -66,7 +69,7 @@ class Scene2 extends Phaser.Scene {
         cellHeight: 92,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -80,
+        x: -80 + (modalWidth-boardSize)/2,
         y: -88
       });
   
@@ -79,7 +82,7 @@ class Scene2 extends Phaser.Scene {
         cellHeight: 92,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -80,
+        x: -80 + (modalWidth-boardSize)/2,
         y: -88
       });
   
