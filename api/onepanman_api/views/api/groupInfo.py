@@ -14,10 +14,3 @@ class GroupInfoViewSet(viewsets.ModelViewSet):
     serializer_class = GroupInfoSerializer
 
     #permission_classes = [UserReadOnly]
-
-
-@receiver(post_save, sender=Group)
-def create_user_info(sender, instance, created, **kwargs):
-    if created:
-        models.GroupInfo.objects.create(group=instance)
-

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .userInfo import UserInfoSerializer
+from ..models import UserInfo
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -12,8 +13,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserFullInfoSerializer(serializers.ModelSerializer):
 
-    user_userInfo_user = UserInfoSerializer(required=False)
+    userInfo = UserInfoSerializer(required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'user_userInfo_user']
+        fields = ['username', 'email', 'userInfo']
+
+    def create(self, validated_data):
+        userInfo_data = validated_data.pop('userInfo')
+        user = User.objects.create(**validated_data)
+        userInfo = UserInfo.objects.create(user=user, **userInfo_data)
+
+        return user
