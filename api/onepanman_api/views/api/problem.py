@@ -8,6 +8,7 @@ from onepanman_api import serializers, models, pagination
 
 class ProblemViewSet(mixins.VersionedSchemaMixin,
                      viewsets.ModelViewSet):
+    queryset = models.Problem.objects.all()
     lookup_url_kwarg = 'id'
     serializer_class = serializers.ProblemSerializer
     http_method_names = ['get', 'post', 'delete', 'put']
@@ -15,10 +16,12 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
     #permission_classes = [UserReadOnly]
 
     def list(self, request, *args, **kwargs):
-        return self.get_response_list_for(models.Problem.objects.all(), serializers.ProblemSerializer)
+        queryset = models.Problem.objects.all()
+        return self.get_response_list_for(queryset, serializers.ProblemSerializer)
 
     def retrieve(self, request, *args, **kwargs):
-        return self.get_response_for(models.Problem.objects.get(id=kwargs['id']), False, serializers.ProblemSerializer)
+        query = models.Problem.objects.get(id=kwargs['id'])
+        return self.get_response_for(query, False, serializers.ProblemSerializer)
 
     def create(self, request, *args, **kwargs):
         try:
@@ -42,7 +45,7 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
             return self.get_response_for(instance, True, serializers.ProblemSerializer)
 
         except Exception as e:
-            print(e)    # 나중에 Log 작업 해라
+            print("problem create error : {}".format(e))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, *args, **kwargs):
@@ -68,7 +71,7 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
             return self.get_response_for(qs, False, serializers.ProblemSerializer)
 
         except Exception as e:
-            print(e)
+            print("problem update error : {}".format(e))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
@@ -76,7 +79,7 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
             models.Problem.objects.get(id=kwargs['id']).delete()
 
         except Exception as e:
-            print(e)  # 나중에 Log 작업 해라
+            print("problem destroy error : {}".format(e))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
