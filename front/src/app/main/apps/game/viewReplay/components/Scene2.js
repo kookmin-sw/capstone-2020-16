@@ -45,6 +45,7 @@ class Scene2 extends Phaser.Scene {
       this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
       this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
       this.background.setOrigin(0.5, 0.5);
+      this.myChacksoo = this.add.text(5, 160, '', { font: '48px Arial', fill: '#000000' });
   
       // make a group of ships
       this.saitamaGroup = this.make.group({
@@ -94,21 +95,21 @@ class Scene2 extends Phaser.Scene {
       // rotate the ships
       var children = this.saitamaGroup.getChildren();
       var children2 = this.garowGroup.getChildren();
-
+      console.log(`start>>${boardStatus.boardIdx}`)
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
         children[i].setScale(0.18);
         children2[i].setScale(0.18);
-
-        if(boardStatus.chacksoo[boardStatus.boardIdx*64 + i] === "0"){
+        
+        if(boardStatus.chacksoo[(boardStatus.boardIdx+1)*64 + i] === "0"){
           children[i].visible = false;
           children2[i].visible = false;
         }
-        else if(boardStatus.chacksoo[boardStatus.boardIdx*64 + i] === "1"){
+        else if(boardStatus.chacksoo[(boardStatus.boardIdx+1)*64 + i] === "1"){
           children[i].visible = true;
           children2[i].visible = false;
         }
-        else if(boardStatus.chacksoo[boardStatus.boardIdx*64 + i] === "-1"){
+        else if(boardStatus.chacksoo[(boardStatus.boardIdx+1)*64 + i] === "-1"){
           children[i].visible = false;
           children2[i].visible = true;
         }
@@ -118,10 +119,26 @@ class Scene2 extends Phaser.Scene {
         }
         
       };
-  
+      if(boardStatus.boardIdx%2 === 0){
+        if(boardStatus.placement[boardStatus.boardIdx*2] !== undefined){
+          this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[boardStatus.boardIdx*2] + ',' + boardStatus.placement[boardStatus.boardIdx*2 + 1]);
+        }
+        else{
+          this.myChacksoo.setText('chacksoo: 준비');
+        }
+      }
+      else{
+        if(boardStatus.placement[(boardStatus.boardIdx-1)*2] !== undefined){
+          this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*2] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*2 + 1]);
+        }
+        else{
+          this.myChacksoo.setText('chacksoo: 준비');
+        }
+      }
+      
       // increment the iteration
       this.iter += 0.001;
-      console.log(`boardStatus.boardIdx>>${boardStatus.chacksoo}`);
+      // console.log(`boardStatus.boardIdx>>${boardStatus.chacksoo}`);
       boardStatus.boardIdx += 1;
       if(boardStatus.chacksoo[boardStatus.boardIdx*64] === undefined){
         boardStatus.boardIdx = 0;
