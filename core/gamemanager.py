@@ -64,7 +64,7 @@ class GameManager:
                 if self.check_turn == 'challenger':
                     print('cc')
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
-                elif self.check_turn == 'oppositer':
+                elif self.check_turn == 'opposite':
                     print('oo')
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
 
@@ -111,21 +111,28 @@ class GameManager:
 
             if is_ending is True and self.error_msg is None:
                 if winner == 1:
-                    match_result = self.check_turn
+                    winner = self.check_turn
                 elif winner == -1:
                     if self.check_turn == 'challenger':
-                        match_result = 'oppositer'
+                        winner = 'opposite'
                     else:
-                        match_result = 'challenger'
-
-                break
+                        winner = 'challenger'
+                self.match_result = 'finish'
+                self.error_msg = 'no error'
+                
             #   change player
-            if self.error_msg is None:
-                self.check_turn = 'challenger' if self.check_turn == 'oppositer' else 'oppositer'
-            else:
-                match_result = 'challenger_error' if self.check_turn == 'challenger' else 'opposite_error'
+            elif is_ending is False and self.error_msg is None:
+                self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
+            elif self.error_msg is not None:
+                if self.check_turn == 'challenger':
+                    winner = 'opposite'
+                    match_result = 'challenger_error'
+                else:
+                    winner = 'challenger'
+                    match_result = 'opposite_error'
+                is_ending = True
 
-        return match_result, self.board_record, self.placement_record, self.error_msg
+        return winner, self.board_record, self.placement_record, self.match_result, self.error_msg
 
     def compile_user_code(self):
         pass

@@ -57,6 +57,8 @@ INSTALLED_APPS = [
 
     'corsheaders',
 ]
+# Celery
+CELERY_BROKER_URL = 'redis://192.168.23.13:6379'
 
 SITE_ID = 1
 
