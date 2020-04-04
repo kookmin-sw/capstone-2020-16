@@ -1,7 +1,9 @@
 import Phaser from 'phaser'
 import axios from 'axios'
-// import { useSelector } from "react-redux";
+import ApiFuncs from '@api/ApiFuncs'
 
+// import { useSelector } from "react-redux";
+const apiFuncs = new ApiFuncs();
 const boardSize = 896;
 const modalWidth = 1500;
 

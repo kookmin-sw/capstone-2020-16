@@ -3,7 +3,7 @@ import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './components/Scene1.js'
 import Scene2 from './components/Scene2.js'
 import ApiTest from './components/ApiTest'
-import ApiFuncs from '@api/ApiFuncs'
+
 
 // import PlacementStateContainer from './container/PlacementStateContainer'
 
@@ -18,7 +18,7 @@ import pink from '@material-ui/core/colors/pink';
 // import reducer from './store/reducers';
 // const store = createStore(reducer);
 
-const apiFuncs = new ApiFuncs();
+
 
 function getModalStyle() {
 	const top = 50 ;
