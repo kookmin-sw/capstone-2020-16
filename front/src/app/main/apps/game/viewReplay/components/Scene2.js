@@ -46,6 +46,7 @@ class Scene2 extends Phaser.Scene {
       this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
       this.background.setOrigin(0.5, 0.5);
       this.myChacksoo = this.add.text(5, 160, '', { font: '48px Arial', fill: '#000000' });
+      this.yourChacksoo = this.add.text(modalWidth - 300, 160, '', { font: '48px Arial', fill: '#000000' });
   
       // make a group of ships
       this.saitamaGroup = this.make.group({
@@ -122,17 +123,21 @@ class Scene2 extends Phaser.Scene {
       if(boardStatus.boardIdx%2 === 0){
         if(boardStatus.placement[boardStatus.boardIdx*3] !== undefined){
           this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
+          this.yourChacksoo.setText('chacksoo: ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
         }
         else{
           this.myChacksoo.setText('chacksoo: 준비');
+          this.yourChacksoo.setText('chacksoo: 준비');
         }
       }
       else{
         if(boardStatus.placement[(boardStatus.boardIdx-1)*3] !== undefined){
           this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
+          this.yourChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
         }
         else{
           this.myChacksoo.setText('chacksoo: 준비');
+          this.yourChacksoo.setText('chacksoo: 준비');
         }
       }
       
