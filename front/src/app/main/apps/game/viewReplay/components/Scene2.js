@@ -123,7 +123,12 @@ class Scene2 extends Phaser.Scene {
       if(boardStatus.boardIdx%2 === 0){
         if(boardStatus.placement[boardStatus.boardIdx*3] !== undefined){
           this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
-          this.yourChacksoo.setText('chacksoo: ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
+          if(boardStatus.boardIdx === 0){
+            this.yourChacksoo.setText('ckachsoo: 준비')
+          }
+          else{
+            this.yourChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
+          }
         }
         else{
           this.myChacksoo.setText('chacksoo: 준비');
@@ -133,7 +138,7 @@ class Scene2 extends Phaser.Scene {
       else{
         if(boardStatus.placement[(boardStatus.boardIdx-1)*3] !== undefined){
           this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
-          this.yourChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
+          this.yourChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
         }
         else{
           this.myChacksoo.setText('chacksoo: 준비');
