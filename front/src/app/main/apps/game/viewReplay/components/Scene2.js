@@ -1,9 +1,6 @@
 import Phaser from 'phaser'
-// import axios from 'axios'
 import ApiFuncs from '@api/ApiFuncs'
 
-// import { useSelector } from "react-redux";
-// const api = new ApiFuncs();
 const boardSize = 896;
 const modalWidth = 1500;
 
@@ -12,7 +9,6 @@ function sleep (delay) {
   while (new Date().getTime() < start + delay);
 }
 
-// const jsonUrl = 'assets/JSON/board.json';
 const api = new ApiFuncs()
 const version = {
   'version': 'v1',
@@ -26,21 +22,13 @@ const boardStatus = {
 
 api.api_game_read(version)
 .then((response)=>{
-  boardStatus.chacksoo = response.record.split(' ')
-  boardStatus.placement = response.placement_record
+  var temp_chacksoo = response.record.replace(/\n/gi, '')
+  boardStatus.chacksoo = temp_chacksoo.split(/ /)
+  var temp_placement = response.placement_record.replace(/\n/gi, ' ')
+  boardStatus.placement = temp_placement.split(/ /)
 }).catch((error)=>{
   console.log(error)
 });
-
-// axios.get(jsonUrl)
-//   .then(data => {
-//     boardStatus.chacksoo = data.data.board.chacksoo.split(' ');
-//     boardStatus.placement = data.data.board.placement.split(' ');
-//     boardStatus.boardIdx = 0;
-//   })
-//   .catch(error => {
-//     console.log(`error>>>>>${error}`);
-// });
 
 class Scene2 extends Phaser.Scene {
     constructor() {
@@ -50,8 +38,6 @@ class Scene2 extends Phaser.Scene {
     create() {
 
       this.iter = 0; // used for itarations
-      // boardStatus.chacksoo = boardStatus.boardRecord.split(' ');
-      // console.log(`>>${boardStatus.boardRecord}`);
       boardStatus.boardIdx = 0;
   
       // add the background in the center of the scene
@@ -109,8 +95,7 @@ class Scene2 extends Phaser.Scene {
       // rotate the ships
       var children = this.saitamaGroup.getChildren();
       var children2 = this.garowGroup.getChildren();
-      console.log(`start>>${boardStatus.boardIdx}`)
-      console.log(`>>${boardStatus.chacksoo}`);
+      
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
         children[i].setScale(0.18);
@@ -135,16 +120,16 @@ class Scene2 extends Phaser.Scene {
         
       };
       if(boardStatus.boardIdx%2 === 0){
-        if(boardStatus.placement[boardStatus.boardIdx*2] !== undefined){
-          this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[boardStatus.boardIdx*2] + ',' + boardStatus.placement[boardStatus.boardIdx*2 + 1]);
+        if(boardStatus.placement[boardStatus.boardIdx*3] !== undefined){
+          this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
         }
         else{
           this.myChacksoo.setText('chacksoo: 준비');
         }
       }
       else{
-        if(boardStatus.placement[(boardStatus.boardIdx-1)*2] !== undefined){
-          this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*2] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*2 + 1]);
+        if(boardStatus.placement[(boardStatus.boardIdx-1)*3] !== undefined){
+          this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
         }
         else{
           this.myChacksoo.setText('chacksoo: 준비');
@@ -153,7 +138,6 @@ class Scene2 extends Phaser.Scene {
       
       // increment the iteration
       this.iter += 0.001;
-      // console.log(`boardStatus.boardIdx>>${boardStatus.chacksoo}`);
       boardStatus.boardIdx += 1;
       if(boardStatus.chacksoo[boardStatus.boardIdx*64] === undefined){
         boardStatus.boardIdx = 0;
