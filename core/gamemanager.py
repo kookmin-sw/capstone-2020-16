@@ -117,7 +117,7 @@ class GameManager:
                         winner = 'opposite'
                     else:
                         winner = 'challenger'
-                self.match_result = 'finish'
+                match_result = 'finish'
                 self.error_msg = 'no error'
                 
             #   change player
@@ -132,7 +132,7 @@ class GameManager:
                     match_result = 'opposite_error'
                 is_ending = True
 
-        return winner, self.board_record, self.placement_record, self.match_result, self.error_msg
+        return winner, self.board_record, self.placement_record, match_result, self.error_msg
 
     def compile_user_code(self):
         pass
