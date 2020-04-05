@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './components/Scene1.js'
 import Scene2 from './components/Scene2.js'
@@ -45,21 +45,6 @@ function ViewReplayPage() {
 	const classes = useStyles();
 	const [modalStyle] = React.useState(getModalStyle);
 	const [open, setOpen] = React.useState(false);
-	const [boardRecord, setRecord] = useState("");
-	
-	useEffect(() => {
-		const getRecord = async () => {
-			try{
-				const record = await apiFuncs.api_game_read({'version':'v1', 'id': 1});
-				// console.log('hehe');
-				setRecord(record)
-				console.log(`record${record}`)
-			} catch(e){
-				console.log(e);
-			}
-		}
-		getRecord();
-	}, []);
 	
 	const handleOpen = () => {
 		setOpen(true);
@@ -79,7 +64,6 @@ function ViewReplayPage() {
 	
 	return (
 		<div>
-			{console.log(`hehe22${boardRecord}`)}
 			<IconButton onClick={handleOpen} component="span">
 				<PlayCircleFilledWhiteIcon style={{ color: pink[500] }}/>
 			</IconButton>

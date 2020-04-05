@@ -1,9 +1,9 @@
 import Phaser from 'phaser'
-import axios from 'axios'
+// import axios from 'axios'
 import ApiFuncs from '@api/ApiFuncs'
 
 // import { useSelector } from "react-redux";
-const apiFuncs = new ApiFuncs();
+// const api = new ApiFuncs();
 const boardSize = 896;
 const modalWidth = 1500;
 
@@ -12,25 +12,35 @@ function sleep (delay) {
   while (new Date().getTime() < start + delay);
 }
 
-const jsonUrl = 'assets/JSON/board.json';
-
+// const jsonUrl = 'assets/JSON/board.json';
+const api = new ApiFuncs()
+const version = {
+  'version': 'v1',
+  'id': 54
+}
 const boardStatus = {
   chacksoo: "",
   placement: "",
-  boardIdx: 0
+  boardIdx: 0,
 }
 
-axios.get(jsonUrl)
-  .then(data => {
-    boardStatus.chacksoo = data.data.board.chacksoo.split(' ');
-    boardStatus.placement = data.data.board.placement.split(' ');
-    boardStatus.boardIdx = 0;
-  })
-  .catch(error => {
-    console.log(`error>>>>>${error}`);
+api.api_game_read(version)
+.then((response)=>{
+  boardStatus.chacksoo = response.record.split(' ')
+  boardStatus.placement = response.placement_record
+}).catch((error)=>{
+  console.log(error)
 });
 
-// const boardStatus = useSelector(state => state.placementCounter, []);
+// axios.get(jsonUrl)
+//   .then(data => {
+//     boardStatus.chacksoo = data.data.board.chacksoo.split(' ');
+//     boardStatus.placement = data.data.board.placement.split(' ');
+//     boardStatus.boardIdx = 0;
+//   })
+//   .catch(error => {
+//     console.log(`error>>>>>${error}`);
+// });
 
 class Scene2 extends Phaser.Scene {
     constructor() {
@@ -40,6 +50,8 @@ class Scene2 extends Phaser.Scene {
     create() {
 
       this.iter = 0; // used for itarations
+      // boardStatus.chacksoo = boardStatus.boardRecord.split(' ');
+      // console.log(`>>${boardStatus.boardRecord}`);
       boardStatus.boardIdx = 0;
   
       // add the background in the center of the scene
@@ -98,12 +110,13 @@ class Scene2 extends Phaser.Scene {
       var children = this.saitamaGroup.getChildren();
       var children2 = this.garowGroup.getChildren();
       console.log(`start>>${boardStatus.boardIdx}`)
+      console.log(`>>${boardStatus.chacksoo}`);
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
         children[i].setScale(0.18);
         children2[i].setScale(0.18);
         
-        if(boardStatus.chacksoo[(boardStatus.boardIdx+1)*64 + i] === "0"){
+        if(boardStatus.chacksoo[((boardStatus.boardIdx+1)*64) + i] === "0"){
           children[i].visible = false;
           children2[i].visible = false;
         }
