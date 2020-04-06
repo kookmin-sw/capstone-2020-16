@@ -4,13 +4,15 @@ from rest_framework import viewsets
 
 from onepanman_api.models import Game, UserInformationInProblem, Code
 from onepanman_api.serializers.game import GameSerializer
-from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin, OnlyAdminUser
+
 from rest_framework.response import Response
 
 from onepanman_api.views.api.updateScore import update_totalTier, update_tier, update_groupRanking, update_groupScore
 from rest_framework.views import APIView
 
 from django.db.models import Q
+
+from onepanman_api.permissions import UserReadOnly
 
 
 class GameViewSet(viewsets.ModelViewSet):
@@ -19,7 +21,7 @@ class GameViewSet(viewsets.ModelViewSet):
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_fields = ('problem', 'challenger', 'opposite')
 
-    #permission_classes = [OnlyAdminUser]
+    permission_classes = [UserReadOnly]
 
     def game_error(self, data):
         result = data["result"]

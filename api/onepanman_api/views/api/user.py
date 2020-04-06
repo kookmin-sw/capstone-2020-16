@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from onepanman_api.permissions import IsLoggedInUserOrAdmin, OnlyMyandAdmin
+from onepanman_api.permissions import OnlyMyandAdmin
 from rest_framework import viewsets, status
 
 from onepanman_api.serializers.user import UserSerializer, UserFullInfoSerializer
@@ -12,11 +12,12 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    #permission_classes = [IsLoggedInUserOrAdmin]
+    permission_classes = [OnlyMyandAdmin]
+
 
 class MyUserView(APIView):
 
-    #permission_classes = [OnlyMyandAdmin]
+    permission_classes = [OnlyMyandAdmin]
 
     def get(self, request, version):
         instance = User.objects.get(username=request.user.username)
@@ -24,9 +25,10 @@ class MyUserView(APIView):
 
         return Response(serializer.data)
 
+
 class UserFullInfoViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserFullInfoSerializer
 
-    #permission_classes = [IsLoggedInUserOrAdmin]
+    permission_classes = [OnlyMyandAdmin]
 
