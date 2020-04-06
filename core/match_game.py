@@ -60,7 +60,7 @@ def match(data):
 if __name__ == '__main__':
     # json_data = json.loads(sys.argv[1])
 
-    with open('match.json') as json_file:
+    with open('matchdata.json') as json_file:
         json_data = json.load(json_file)
     match(json_data)
 
