@@ -51,12 +51,6 @@ class UserInfoViewSet(viewsets.ModelViewSet):
 
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
-@receiver(post_save, sender=User)
-def create_user_info(sender, instance, created, **kwargs):
-    if created:
-        models.UserInfo.objects.create(user=instance)
-
 class MyUserInfoView(APIView):
 
     def get(self, request, version):

@@ -24,7 +24,7 @@ class UserInfo(models.Model):
         db_column="USER",
         primary_key=True,
         on_delete=models.PROTECT,
-        related_name='user_userInfo_user',
+        related_name='userInfo',
     )
 
     # language = models.ForeignKey(
