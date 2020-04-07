@@ -63,7 +63,7 @@
 
 📧 **E-Mail** : tyms0503@kookmin.ac.kr
 
-📌 **Role**   : 프로젝트 팀장, DB설계, Docker Container 구현
+📌 **Role**   : 프로젝트 팀장, Core로직 구현, DB설계, Docker Container 구현
 
 
 
