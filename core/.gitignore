@@ -15,6 +15,7 @@ ex.txt
 op.txt
 placement.txt
 result.txt
+match/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
