@@ -32,22 +32,13 @@ def play_game(data):
     # while containers_num >= cpu_num:
     #     time.sleep(1)
     #     print('not enough cpu_num. waiting.....')
-
-    f_dir = os.getcwd()
-    match_data_file_path = os.path.join(f_dir, 'matchdata.json')
+    f_dir = os.getcwd() + '/match'
+    file_name = 'matchdata.json' + str(time.time())
+    match_data_file_path = os.path.join(f_dir, file_name)
     with open(match_data_file_path, 'w') as f:
         json.dump(data, f)
-#     volumes= ['/host_location']
-#     volume_bindings = {
-#                         '/home/algorithm/capstone-2020-16/core/matchdata.json': {
-#                         'bind': '/matchdata.json',
-#                         'mode': 'rw',
-#                         },
-#     }
-
-# host_config = client.create_host_config(
-#                     binds=volume_bindings
-# )
-    volumes = {'/home/algorithm/capstone-2020-16/core/matchdata.json': {'bind': '/matchdata.json', 'mode': 'rw'}}
+    time.time()
+    # volumes = {'/home/algorithm/capstone-2020-16/core/matchdata.json': {'bind': '/matchdata.json', 'mode': 'rw'}}
+    volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
     client.containers.run(image=docker_img, volumes=volumes, auto_remove=True, privileged=True)#, tty=True, stdin_open=True)
 
