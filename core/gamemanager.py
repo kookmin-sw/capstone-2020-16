@@ -45,7 +45,7 @@ class GameManager:
 
         self.board_record += str(self.board_info) + '\n'
         self.parsing_board_info(self.board_info, self.board_size)
-        self.compile_user_code()    # not finish
+        # self.compile_user_code()    # not finish
 
         while not is_ending:
             if total_turn > total_turn_limit:
@@ -77,8 +77,6 @@ class GameManager:
                 check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
             except Exception as e:
                 print(f'check placement program error : {e}')
-                self.error_msg = f'check placement program error : {e}'
-                break
 
             if check_placement == 'OK':
                 self.board = new_board
@@ -87,7 +85,7 @@ class GameManager:
                     apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
                 except Exception as e:
                     print(f'apply action program error : {e}')
-                    self.error_msg = f'apply action program error : {e}'
+                    self.error_msg = f'{apply_action} : {e}'
                     break
 
                 if apply_action == 'OK':
@@ -96,7 +94,7 @@ class GameManager:
                         is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output)
                     except Exception as e:
                         print(f'check ending program error : {e}')
-                        self.error_msg = f'check ending program error : {e}'
+                        self.error_msg = f'{is_ending} : {e}'
                         break
                 else:
                     print(f'apply action error {apply_action}')

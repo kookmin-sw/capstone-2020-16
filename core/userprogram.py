@@ -31,7 +31,7 @@ class UserProgram:
     def play(self):
 
         # dummy_data
-        play_message = {'PYTHON': ['/usr/bin/python3', 'python3', self.file_path, '<', self.input_path],
+        play_message = {'PYTHON': ['/usr/bin/python3', 'python3', self.file_path, '<'],#, self.input_path],
                         'C': [self.user, self.user, '<', self.input_path],
                         'C++': [self.user, self.user, '<', self.input_path]}
         return play_message

@@ -88,10 +88,10 @@ class PlacementRule:
             if self.obj_rule[2]:
                 self.obj_option = self.obj_rule[2]
             self.placement_message = None
-        except Exception as e:
-            print(e)
-            print(f'error in parsing user placement in placement rule : {e}')
-            self.placement_message = f'error in parsing user placement in placement rule {e}'
+        except Exception as e:            
+            self.placement_message = f'error in parsing user placement: {e}'
+            print(self.placement_message)
+            raise Exception(self.placement_message)
 
     # noinspection PyMethodMayBeStatic
     def check_base_placement_rule(self):  # rule 0 : check if user's placement where the stone is

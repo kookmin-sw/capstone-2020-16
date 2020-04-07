@@ -21,7 +21,7 @@ app = Celery('tasks', broker='redis://localhost:6379', backend='redis://localhos
 cpu_num = multiprocessing.cpu_count()
 
 # docker image
-docker_img = "core"
+docker_img = "compile"
 
 @app.task
 def play_game(data):
@@ -38,7 +38,6 @@ def play_game(data):
     with open(match_data_file_path, 'w') as f:
         json.dump(data, f)
     time.time()
-    # volumes = {'/home/algorithm/capstone-2020-16/core/matchdata.json': {'bind': '/matchdata.json', 'mode': 'rw'}}
     volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
     client.containers.run(image=docker_img, volumes=volumes, auto_remove=True, privileged=True)#, tty=True, stdin_open=True)
 

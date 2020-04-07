@@ -49,7 +49,6 @@ def match(data):
     #    f.write(board_record)
     # with open('result.txt', 'a') as f:
     #    f.write(placement_record)
-
     data = {"winner": winner, "record": board_record, "placement_record": placement_record, "result": result,
             "error_msg": error_msg}
     print(data)
