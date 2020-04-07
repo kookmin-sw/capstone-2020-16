@@ -135,7 +135,17 @@ class GameManager:
         return winner, self.board_record, self.placement_record, match_result, self.error_msg
 
     def compile_user_code(self):
-        pass
+        try:
+            self.execution.executeProgram(self.challenger.compile(), self.challenger.savePath)
+        except KeyError as e:
+            return False
+
+        try:
+            self.execution.executeProgram(self.opposite.compile(), self.opposite.savePath)
+        except KeyError as e:
+            return False
+
+        return True
 
     def add_data(self, board, output):
         self.placement_record += str(output).strip() + '\n'
