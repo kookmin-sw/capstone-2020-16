@@ -1,11 +1,11 @@
 import json
 
 from onepanman_api import serializers
-from onepanman_api.permissions import IsAdminUser, OnlyAdminUser
 from rest_framework import status
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from onepanman_api.models import UserInformationInProblem, Problem, Game
+from onepanman_api.models import UserInformationInProblem, Problem, Game, Code
 import random
 import tasks
 
@@ -21,13 +21,16 @@ class GetCoreResponse(Response):
 
 class Match(APIView):
 
-    permission_classes = [OnlyAdminUser]
+    # admin user만 접근 가능
+    permission_classes = [IsAdminUser]
 
     # 유저와 문제정보로 상대방을 매칭하고, 매칭 정보를 반환하는 함수
     def match(self, userid, problemid, codeid):
 
         queryset_up = UserInformationInProblem.objects.all().filter(problem=problemid, available_game=True).order_by('-score')
-        challenger = queryset_up.filter(user=userid)
+        challenger = queryset_up.filter(user=userid, code=codeid)
+
+        print(queryset_up)
 
         # 유저가 이 문제가 처음일 경우
         if len(challenger) < 1:
@@ -47,42 +50,51 @@ class Match(APIView):
         high_scores = queryset_up.filter(score__gte=challenger.score).order_by('-score')
         low_scores  = queryset_up.filter(score__lte=challenger.score).order_by('-score')
 
-        try:
-            if len(queryset_up) < 6:     # 게임을 플레이한 사람이 6명 미만인 경우
-                opposite_index = random.randint(0, len(queryset_up)-1)
+        for i in range(5):
+            try:
+                if len(queryset_up) < 1:
+                    return {"error": "게임을 진행할 코드가 없습니다."}, 0
 
-                opposite = queryset_up[opposite_index]
+                elif len(queryset_up) < 6:     # 게임을 플레이한 사람이 6명 미만인 경우
+                    opposite_index = random.randint(0, len(queryset_up)-1)
 
-            elif create_challenger:  # challenger가 이 게임이 첫판인 경우
-                middle = int(len(queryset_up) / 2)
-                opposite_index = random.randint(-2, 3) + middle
-                opposite = queryset_up[opposite_index]
+                    opposite = queryset_up[opposite_index]
 
-            elif len(high_scores) < 3:  # challenger가 top3인 경우 ( 위에 3명이 없는 경우 )
-                opposite_list = high_scores[:]
-                low_range = (3 + (3 - len(high_scores)))
-                opposite_list += low_scores[:low_range]
-                opposite_index = random.randint(0, 5)
+                elif create_challenger:  # challenger가 이 게임이 첫판인 경우
+                    middle = int(len(queryset_up) / 2)
+                    opposite_index = random.randint(-2, 3) + middle
+                    opposite = queryset_up[opposite_index]
 
-                opposite = opposite_list[opposite_index]
+                elif len(high_scores) < 3:  # challenger가 top3인 경우 ( 위에 3명이 없는 경우 )
+                    opposite_list = high_scores[:]
+                    low_range = (3 + (3 - len(high_scores)))
+                    opposite_list += low_scores[:low_range]
+                    opposite_index = random.randint(0, 5)
 
-            elif len(low_scores) < 3:  # challenger가 최하위권인 경우 ( 아래에 3명이 없는 경우 )
-                opposite_list = low_scores[:]
-                high_range = len(high_scores) - (3 + (3 - len(low_scores)))
-                opposite_list += high_scores[high_range:]
-                opposite_index = random.randint(0, 5)
-                # print("low length : {} , high length : {} , index : {} , list length : {} , high range : {}".format(len(low_scores), len(high_scores), opposite_index, len(opposite_list), high_range))
-                opposite = opposite_list[opposite_index]
+                    opposite = opposite_list[opposite_index]
 
-            else:
-                opposite_list = high_scores[-3:] + low_scores[:3]
-                opposite_index = random.randint(0,5)
-                opposite = opposite_list[opposite_index]
+                elif len(low_scores) < 3:  # challenger가 최하위권인 경우 ( 아래에 3명이 없는 경우 )
+                    opposite_list = low_scores[:]
+                    high_range = len(high_scores) - (3 + (3 - len(low_scores)))
+                    opposite_list += high_scores[high_range:]
+                    opposite_index = random.randint(0, 5)
+                    # print("low length : {} , high length : {} , index : {} , list length : {} , high range : {}".format(len(low_scores), len(high_scores), opposite_index, len(opposite_list), high_range))
+                    opposite = opposite_list[opposite_index]
 
-        except Exception as e:
-            print("매칭 에러 : {}".format(e))
+                else:
+                    opposite_list = high_scores[-3:] + low_scores[:3]
+                    opposite_index = random.randint(0, 5)
+                    opposite = opposite_list[opposite_index]
 
+            except Exception as e:
+                print("매칭 에러 : {}".format(e))
 
+            check = self.checkValid(opposite.user.pk, problemid, opposite.code.id)
+            if check is True:
+                break
+
+        if check is False:
+            return {"error": "matching fail"}, 0
 
         # 문제 규칙 정보 추가
         problems = Problem.objects.all().filter(id=problemid)
@@ -198,6 +210,30 @@ class Match(APIView):
             print("Error: create UserInformationInProblem instance :: {}".format(e))
             return False
 
+    def checkValid(self, userid, problemid, codeid):
+
+        user_code = Code.objects.all().filter(id=codeid, author=userid)
+
+        if len(user_code) < 1:
+            print("No exist code")
+            return False
+
+        user_code = user_code[0]
+
+        available = user_code.available_game
+
+        if available is False:
+            print("No available code")
+            return False
+
+        problemInCode = user_code.problem.pk
+
+        if int(problemid) is not problemInCode:
+            print("not matching problem with code")
+            return False
+
+        return True
+
     def get(self, request, version):
         try:
             data = request.data
@@ -210,7 +246,15 @@ class Match(APIView):
             print("get function {}".format(e))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        check = self.checkValid(userid, problemid, codeid)
+        if check is False:
+            return Response({"error" : "정보가 유효하지 않습니다."})
+
         matchInfo, scores = self.match(userid, problemid, codeid)
+
+        if "error" in matchInfo:
+            return Response(matchInfo)
+
         matchInfo = self.get_GameId(matchInfo, scores)
 
         return GetCoreResponse(matchInfo)
