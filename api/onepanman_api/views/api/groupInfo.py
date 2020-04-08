@@ -2,7 +2,7 @@ from django.contrib.auth.models import Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from onepanman_api import models
-from onepanman_api.permissions import UserReadOnly
+from onepanman_api.permissions import LeaderandAdmin
 from rest_framework import viewsets
 
 from onepanman_api.models import GroupInfo
@@ -13,4 +13,4 @@ class GroupInfoViewSet(viewsets.ModelViewSet):
     queryset = GroupInfo.objects.all()
     serializer_class = GroupInfoSerializer
 
-    #permission_classes = [UserReadOnly]
+    permission_classes = [LeaderandAdmin]

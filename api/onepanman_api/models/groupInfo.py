@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.db import models
 
 class GroupInfo(models.Model):
@@ -25,6 +25,15 @@ class GroupInfo(models.Model):
         "점수",
         db_column="SCORE",
         default=0,
+    )
+
+    leader = models.ForeignKey(
+        User,
+        db_column="LEADER",
+        verbose_name="그룹장",
+        on_delete=models.PROTECT,
+        null=True,
+
     )
 
     def __str__(self):
