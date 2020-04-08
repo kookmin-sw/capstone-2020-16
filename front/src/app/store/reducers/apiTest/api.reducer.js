@@ -13,13 +13,14 @@ const initialState = {
 var get_info = {
 	count: 1
 }
-const api = (state = initialState, action) => {
+
+const api = async (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.GET_USER: {
-			apiFunc.api_userfullInfo_list(version)
+			await apiFunc.api_userfullInfo_list(version)
 			.then((result) => {
-                get_info = result
-				// console.log(get_info.count)
+				get_info = result
+				console.log(get_info.count)
 			})
 			.catch((error) => {
 				console.log(error)
@@ -27,7 +28,7 @@ const api = (state = initialState, action) => {
 
 			return {
 				...state,
-                count: get_info.results[0].username,
+				count: get_info.count,
 			}
 		}
 		default: {

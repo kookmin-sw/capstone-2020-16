@@ -19,10 +19,10 @@
 
 // export default fuseReducers;
 import { combineReducers } from 'redux';
-import api from './api.reducer'
+import getId from './getId.reducer'
 
 const apiReducers = combineReducers({
-	api
+	getId
 });
 
 export default apiReducers;

@@ -1,4 +1,4 @@
-import * as Actions from 'app/store/actions/apiTest';
+import * as Actions from 'app/store/actions/getProblemId';
 import ApiFuncs from '@api/ApiFuncs';
 
 var apiFunc = new ApiFuncs();
@@ -13,14 +13,13 @@ const initialState = {
 var get_info = {
 	count: 1
 }
-
-const api = async (state = initialState, action) => {
+const getId = (state = initialState, action) => {
 	switch (action.type) {
-		case Actions.GET_USER: {
-			await apiFunc.api_userfullInfo_list(version)
+		case Actions.GET_PROBLEMID: {
+			apiFunc.api_problem_list(version)
 			.then((result) => {
-				get_info = result
-				console.log(get_info.count)
+                get_info = result
+				// console.log(get_info.count)
 			})
 			.catch((error) => {
 				console.log(error)
@@ -28,7 +27,7 @@ const api = async (state = initialState, action) => {
 
 			return {
 				...state,
-				count: get_info.count,
+                count: get_info.results[0].id,
 			}
 		}
 		default: {
@@ -39,4 +38,4 @@ const api = async (state = initialState, action) => {
 	}
 };
 
-export default api;
+export default getId;

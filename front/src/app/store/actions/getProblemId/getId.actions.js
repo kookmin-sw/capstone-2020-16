@@ -1,9 +1,9 @@
-export const GET_USER = '[API] GET';
+export const GET_PROBLEMID = '[API] GET';
 // export const CLOSE_DIALOG = '[DIALOG] CLOSE';
 
-export function getUser() {
+export function getProblemId() {
 	return {
-		type: GET_USER
+		type: GET_PROBLEMID
 	};
 }
 

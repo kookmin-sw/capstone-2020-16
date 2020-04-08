@@ -4,4 +4,4 @@
 // export * from './message.actions';
 // export * fro./apiTest.actionsons';
 // export * from './webGL.actions';
-export * from './api.actions'
+export * from './getId.actions'

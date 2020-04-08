@@ -1,10 +1,10 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import _ from '@lodash';
+// import _ from '@lodash';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 // import CardContent from '@material-ui/core/CardContent';
 // import FormControl from '@material-ui/core/FormControl';
 // import Icon from '@material-ui/core/Icon';
@@ -14,15 +14,15 @@ import Button from '@material-ui/core/Button';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
 // import Select from '@material-ui/core/Select';
 // import TextField from '@material-ui/core/TextField';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import withReducer from 'app/store/withReducer';
+// import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import * as Actions from 'app/store/actions';
-import reducer from 'app/store/reducers';
+// import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 // import getProblemId from '../store/reducers/getProblemId.reducer';
@@ -49,12 +49,12 @@ const useStyles = makeStyles(theme => ({
 function Courses(props) {
 
 	const dispatch = useDispatch();
-    // const count = useSelector(({apiTest})=>{console.log((apiTest));return apiTest.api.count});
-	const count = useSelector(({apiTest}) => apiTest.api.count);
+    
+	const count = useSelector(({getProblemId}) => getProblemId.getId.count);
 	const hehe = function() {
-        // 여기서 dispatch 하는것임
-		dispatch(Actions.getUser())
-		// console.log(count)
+
+		dispatch(Actions.getProblemId())
+		
     }
 
     // useEffect(() => {
@@ -67,40 +67,7 @@ function Courses(props) {
     // }, [])
 
 
-
-	// const dispatch = useDispatch();
-	// const courses = useSelector(({ academyApp }) => academyApp.courses.data);
-	// const categories = useSelector(({ academyApp }) => academyApp.courses.categories);
-	
 	const classes = useStyles(props);
-	// const theme = useTheme();
-	// const [filteredData, setFilteredData] = useState(null);
-	// const [searchText, setSearchText] = useState('');
-	// const [selectedCategory, setSelectedCategory] = useState('all');
-
-	// useEffect(() => {
-	// 	dispatch(Actions.getCategories());
-	// 	dispatch(Actions.getCourses());
-	// }, [dispatch]);
-
-	// useEffect(() => {
-	// 	function getFilteredArray() {
-	// 		if (searchText.length === 0 && selectedCategory === 'all') {
-	// 			return courses;
-	// 		}
-
-	// 		return _.filter(courses, item => {
-	// 			if (selectedCategory !== 'all' && item.category !== selectedCategory) {
-	// 				return false;
-	// 			}
-	// 			return item.title.toLowerCase().includes(searchText.toLowerCase());
-	// 		});
-	// 	}
-
-	// 	if (courses) {
-	// 		setFilteredData(getFilteredArray());
-	// 	}
-	// }, [courses, searchText, selectedCategory]);
 
 
 
@@ -166,7 +133,7 @@ function Courses(props) {
 								className="flex flex-wrap py-24"
 							>
 								{posts.map(course => {
-									const category = posts.find(_cat => _cat.value === course.title);
+									// const category = posts.find(_cat => _cat.value === course.title);
 									return (
 										<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={course.title}>
 											<Card elevation={1} className="flex flex-col h-256">
