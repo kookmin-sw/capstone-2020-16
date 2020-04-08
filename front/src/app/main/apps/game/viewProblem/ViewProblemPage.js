@@ -1,6 +1,5 @@
 import CodeEditor from './components/CodeEditor';
 import ProblemViewer from './components/ProblemViewer';
-import React from 'react';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
@@ -8,8 +7,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from "@material-ui/core/Card";
 // import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
-
-
+import * as Actions from 'app/store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -39,7 +39,29 @@ const useStyles = makeStyles(theme => ({
 function KnowledgeBasePage() {
 	const classes = useStyles();
 
+  // const dispatch = useDispatch();
+	// // const add = '/apps/game/viewReplay/ViewReplayPage';
+	
+	// const id = useSelector(({getProblemId}) => getProblemId.getId.count);
+	// const getId = function() {
+
+	// 	dispatch(Actions.getProblemId())
+		
+  //   }
+  
+  //   useEffect(() => {
+    
+  //     const fetchCount = () => {
+	// 			const countData = getId
+	// 			countData();
+	// 		}
+	// 		fetchCount()
+    
+  //   });
+
+
 	return (
+    
     <div className="flex flex-col flex-auto flex-shrink-0 w-full">
       <div
         className={clsx(

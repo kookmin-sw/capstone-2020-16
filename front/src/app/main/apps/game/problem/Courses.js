@@ -20,7 +20,7 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as Actions from 'app/store/actions';
 // import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -49,23 +49,14 @@ const useStyles = makeStyles(theme => ({
 function Courses(props) {
 
 	const dispatch = useDispatch();
-    
-	const count = useSelector(({getProblemId}) => getProblemId.getId.count);
-	const hehe = function() {
+	// const add = '/apps/game/viewReplay/ViewReplayPage';
+	
+	const id = useSelector(({getProblemId}) => getProblemId.getId.count);
+	const getId = function() {
 
 		dispatch(Actions.getProblemId())
 		
     }
-
-    // useEffect(() => {
-    //     // 이건 화면 렌더링 될때 실행되는 함수임
-	// 	// console.log('renderingasd')
-	// 	return() => {
-	// 		hehe()
-	// 	}
-		
-    // }, [])
-
 
 	const classes = useStyles(props);
 
@@ -84,7 +75,7 @@ function Courses(props) {
 	
 			setPosts(response.data.results);
 			const fetchCount = () => {
-				const countData = hehe
+				const countData = getId
 				countData();
 			}
 			fetchCount()
@@ -152,8 +143,11 @@ function Courses(props) {
 											
 												<Divider />
 												<CardActions className="justify-center">
-													
-													 <button onClick={hehe}>button {console.log(count)}</button>
+												<Link className="font-medium" to="/apps/game/viewProblem/ViewProblemPage">
+													 <button onClick={getId}			
+													> <h3>START</h3>
+													 {console.log(id)}</button>
+													 </Link>
 												</CardActions>
 												
 											</Card>
