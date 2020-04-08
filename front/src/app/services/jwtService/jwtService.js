@@ -1,7 +1,10 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import ApiFuncs from '@api/ApiFuncs'
 /* eslint-disable camelcase */
+
+const api = new ApiFuncs();
 
 class JwtService extends FuseUtils.EventEmitter {
 	init() {
@@ -60,14 +63,27 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	signInWithEmailAndPassword = (email, password) => {
 		return new Promise((resolve, reject) => {
-			axios
-				.get('/api/auth', {
-					data: {
-						email,
-						password
+			// axios
+			// 	.get('/api/auth', {
+			// 		data: {
+			// 			email,
+			// 			password
+			// 		}
+			// 	})
+			// 	.then(response => {
+			// 		if (response.data.user) {
+			// 			this.setSession(response.data.access_token);
+			// 			resolve(response.data.user);
+			// 		} else {
+			// 			reject(response.data.error);
+			// 		}
+			// 	});
+			api.api_rest_auth_login_create(
+					{
+						'version':'v1',
+						'data': {'username': email, 'password': password}
 					}
-				})
-				.then(response => {
+				).then((response)=>{
 					if (response.data.user) {
 						this.setSession(response.data.access_token);
 						resolve(response.data.user);
@@ -137,7 +153,7 @@ class JwtService extends FuseUtils.EventEmitter {
 	};
 
 	getAccessToken = () => {
-		return window.localStorage.getItem('jwt_access_token');
+		return window.localStorage.getItem('jwt_access_token');  // 이렇게 얻어오면 안된다규 .,.,.,.
 	};
 }
 
