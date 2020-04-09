@@ -2,9 +2,6 @@ import React from 'react';
 import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './components/Scene1.js'
 import Scene2 from './components/Scene2.js'
-import ApiTest from './components/ApiTest'
-
-
 // import PlacementStateContainer from './container/PlacementStateContainer'
 
 import Modal from '@material-ui/core/Modal';
@@ -79,7 +76,6 @@ function ViewReplayPage() {
 					{/* <PlacementStateContainer></PlacementStateContainer> */}
 				</div>
 			</Modal>
-			<ApiTest></ApiTest>
 		</div>
 	);
 }
