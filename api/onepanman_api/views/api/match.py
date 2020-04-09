@@ -32,6 +32,10 @@ class Match(APIView):
 
         print(queryset_up)
 
+        challenger_code = Code.objects.all().filter(id=codeid)[0]
+
+        print(queryset_up)
+
         # 유저가 이 문제가 처음일 경우
         if len(challenger) < 1:
             challenger = self.create_instance(userid, problemid, codeid)
@@ -110,11 +114,11 @@ class Match(APIView):
         matchInfo = {
             "challenger": challenger.user.pk,
             "opposite": opposite.user.pk,
-            "challenger_code_id": challenger.code.id,
+            "challenger_code_id": codeid,
             "opposite_code_id": opposite.code.id,
-            "challenger_code": challenger.code.code,
+            "challenger_code": challenger_code.code,
             "opposite_code": opposite.code.code,
-            "challenger_language": challenger.code.language.name,
+            "challenger_language": challenger_code.language.name,
             "opposite_language": opposite.code.language.name,
             "problem": int(problemid),
             "obj_num": rule["obj_num"],
