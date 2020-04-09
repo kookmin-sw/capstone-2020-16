@@ -21,7 +21,7 @@ app = Celery('tasks', broker='redis://localhost:6379', backend='redis://localhos
 cpu_num = multiprocessing.cpu_count()
 
 # docker image
-docker_img = "compile"
+docker_img = "core"
 
 @app.task
 def play_game(data):
