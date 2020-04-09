@@ -39,13 +39,27 @@ class Scene2 extends Phaser.Scene {
     create() {
       this.iter = 0; // used for itarations
       boardStatus.boardIdx = 0;
-      this.clickCountText = this.add.text(0, 300, `Button has been clicked ${boardStatus.isAuto} times.`, { fill: '#0f0' })
-
+      
+      // change isAuto value
       this.updateClickCountText = () => {
-        this.clickCountText.setText(`Button has been clicked ${boardStatus.isAuto} times.`);
         boardStatus.isAuto = !boardStatus.isAuto
+
+        if(boardStatus.isAuto === true)
+          this.clickButton.setText("Auto Mode")
+        else
+          this.clickButton.setText("Manual Mode")
       }
-      this.clickButton = this.add.text(0, 0, 'Click me!', { fill: '#0f0' })
+      this.nextIdxText = () => {
+        if(boardStatus.isAuto === false)
+          boardStatus.boardIdx += 1
+      }
+      this.previousIdxText = () => {
+        if(boardStatus.isAuto === false)
+          boardStatus.boardIdx -= 1
+      }
+
+      // auto manual button(text)
+      this.clickButton = this.add.text(0, 0, `${boardStatus.isAuto} Mode`, { fill: '#0f0' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverState() )
       .on('pointerout', () => this.enterButtonRestState() )
@@ -53,6 +67,26 @@ class Scene2 extends Phaser.Scene {
       .on('pointerup', () => {
         this.updateClickCountText();
         this.enterButtonHoverState();
+      });
+
+      this.nextButton = this.add.text(0, 300, "Next Button", { fill: '#0f0' })
+      .setInteractive()
+      .on('pointerover', () => this.enterButtonHoverStateNext() )
+      .on('pointerout', () => this.enterButtonRestStateNext() )
+      .on('pointerdown', () => this.enterButtonActiveStateNext() )
+      .on('pointerup', () => {
+        this.nextIdxText();
+        this.enterButtonHoverStateNext();
+      });
+
+      this.previousButton = this.add.text(0,400, "Previous Button", { fill: '#0f0' })
+      .setInteractive()
+      .on('pointerover', () => this.enterButtonHoverStatePrevious() )
+      .on('pointerout', () => this.enterButtonRestStatePrevious() )
+      .on('pointerdown', () => this.enterButtonActiveStatePrevious() )
+      .on('pointerup', () => {
+        this.previousIdxText();
+        this.enterButtonHoverStatePrevious();
       });
 
       
@@ -68,7 +102,35 @@ class Scene2 extends Phaser.Scene {
         this.clickButton.setStyle({ fill: '#0ff' });
       }
       
+      this.enterButtonHoverStateNext = () => {
+        this.nextButton.setStyle({ fill: '#ff0'});
+      }
+      
+      this.enterButtonRestStateNext = () => {
+        this.nextButton.setStyle({ fill: '#0f0' });
+      }
+      
+      this.enterButtonActiveStateNext = () => {
+        this.nextButton.setStyle({ fill: '#0ff' });
+      }
+
+      this.enterButtonHoverStatePrevious = () => {
+        this.previousButton.setStyle({ fill: '#ff0'});
+      }
+      
+      this.enterButtonRestStatePrevious = () => {
+        this.previousButton.setStyle({ fill: '#0f0' });
+      }
+      
+      this.enterButtonActiveStatePrevious = () => {
+        this.previousButton.setStyle({ fill: '#0ff' });
+      }
+      
       this.updateClickCountText();
+      this.previousIdxText();
+      this.nextIdxText();
+
+      // this.click
       
       // add the background in the center of the scene
       this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.7);
