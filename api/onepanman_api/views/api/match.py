@@ -28,7 +28,9 @@ class Match(APIView):
     def match(self, userid, problemid, codeid):
 
         queryset_up = UserInformationInProblem.objects.all().filter(problem=problemid, available_game=True).order_by('-score')
-        challenger = queryset_up.filter(user=userid, code=codeid)
+        challenger = queryset_up.filter(user=userid)
+
+        challenger_code = Code.objects.all().filter(id=codeid)[0]
 
         print(queryset_up)
 
@@ -110,11 +112,11 @@ class Match(APIView):
         matchInfo = {
             "challenger": challenger.user.pk,
             "opposite": opposite.user.pk,
-            "challenger_code_id": challenger.code.id,
+            "challenger_code_id": codeid,
             "opposite_code_id": opposite.code.id,
-            "challenger_code": challenger.code.code,
+            "challenger_code": challenger_code.code,
             "opposite_code": opposite.code.code,
-            "challenger_language": challenger.code.language.name,
+            "challenger_language": challenger_code.language.name,
             "opposite_language": opposite.code.language.name,
             "problem": int(problemid),
             "obj_num": rule["obj_num"],

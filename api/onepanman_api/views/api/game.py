@@ -59,6 +59,12 @@ class GameViewSet(viewsets.ModelViewSet):
             print("game_error - update code error : {}".format(e))
 
         try:
+            error_user.available_game = False
+
+        except Exception as e:
+            print("game_error - update uiip objects error : {}".format(e))
+
+        try:
             # update error user's score
             error_score = error_user.score - 50
 
@@ -109,8 +115,8 @@ class GameViewSet(viewsets.ModelViewSet):
 
         queryset = UserInformationInProblem.objects.all()
 
-        challenger = queryset.filter(user=data["challenger"])[0]
-        opposite = queryset.filter(user=data["opposite"])[0]
+        challenger = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
+        opposite = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
 
         # bonus score
         score_bonus = challenger.score - opposite.score
