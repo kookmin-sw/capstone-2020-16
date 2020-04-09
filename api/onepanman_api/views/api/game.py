@@ -4,13 +4,15 @@ from rest_framework import viewsets
 
 from onepanman_api.models import Game, UserInformationInProblem, Code
 from onepanman_api.serializers.game import GameSerializer
-from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin, OnlyAdminUser
+
 from rest_framework.response import Response
 
 from onepanman_api.views.api.updateScore import update_totalTier, update_tier, update_groupRanking, update_groupScore
 from rest_framework.views import APIView
 
 from django.db.models import Q
+
+from onepanman_api.permissions import UserReadOnly
 
 
 class GameViewSet(viewsets.ModelViewSet):
@@ -19,7 +21,7 @@ class GameViewSet(viewsets.ModelViewSet):
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_fields = ('problem', 'challenger', 'opposite')
 
-    #permission_classes = [OnlyAdminUser]
+    #permission_classes = [UserReadOnly]
 
     def game_error(self, data):
         result = data["result"]
@@ -28,13 +30,13 @@ class GameViewSet(viewsets.ModelViewSet):
         codeset = Code.objects.all()
 
         if result == "challenger_error":
-            error_user = queryset.filter(user=data["challenger"])[0]
-            normal_user = queryset.filter(user=data["opposite"])[0]
+            error_user = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
+            normal_user = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
         else:
-            error_user = queryset.filter(user=data["opposite"])[0]
-            normal_user = queryset.filter(user=data["challenger"])[0]
+            error_user = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
+            normal_user = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
 
-        error_code = codeset.filter(author=error_user.user)[0]
+        error_code = codeset.filter(id=error_user.code.id)[0]
 
         try:
             # update code to not available to game
@@ -55,6 +57,12 @@ class GameViewSet(viewsets.ModelViewSet):
             error_code.available_game = valid_code["available_game"]
         except Exception as e:
             print("game_error - update code error : {}".format(e))
+
+        try:
+            error_user.available_game = False
+
+        except Exception as e:
+            print("game_error - update uiip objects error : {}".format(e))
 
         try:
             # update error user's score
@@ -107,8 +115,8 @@ class GameViewSet(viewsets.ModelViewSet):
 
         queryset = UserInformationInProblem.objects.all()
 
-        challenger = queryset.filter(user=data["challenger"])[0]
-        opposite = queryset.filter(user=data["opposite"])[0]
+        challenger = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
+        opposite = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
 
         # bonus score
         score_bonus = challenger.score - opposite.score

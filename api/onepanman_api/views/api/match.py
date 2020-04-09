@@ -28,13 +28,9 @@ class Match(APIView):
     def match(self, userid, problemid, codeid):
 
         queryset_up = UserInformationInProblem.objects.all().filter(problem=problemid, available_game=True).order_by('-score')
-        challenger = queryset_up.filter(user=userid, code=codeid)
-
-        print(queryset_up)
+        challenger = queryset_up.filter(user=userid)
 
         challenger_code = Code.objects.all().filter(id=codeid)[0]
-
-        print(queryset_up)
 
         # 유저가 이 문제가 처음일 경우
         if len(challenger) < 1:
@@ -140,8 +136,6 @@ class Match(APIView):
 
     # 게임에 사용될 인스턴스를 만들고, 그 id를 반환하는 함수
     def get_GameId(self, info, scores):
-        print(scores)
-        print(type(scores))
         try:
             matchInfo = info
 

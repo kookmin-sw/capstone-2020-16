@@ -19,8 +19,10 @@ class GroupFullInfoSerializer(serializers.ModelSerializer):
         fields = ['name', 'groupInfo']
 
     def create(self, validated_data):
+        print(validated_data)
         groupInfo_data = validated_data.pop('groupInfo')
         group = Group.objects.create(**validated_data)
         groupInfo = GroupInfo.objects.create(group=group, **groupInfo_data)
 
         return group
+

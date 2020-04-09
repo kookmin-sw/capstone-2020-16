@@ -1,7 +1,7 @@
 import json
 
 import django_filters
-from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin, UserReadOnly
+from onepanman_api.permissions import UserReadOnly
 from rest_framework import viewsets, status
 
 from onepanman_api.models import UserInformationInProblem, UserInfo
