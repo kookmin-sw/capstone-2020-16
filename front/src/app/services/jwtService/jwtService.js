@@ -1,10 +1,10 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import ApiFuncs from '@api/ApiFuncs'
+import ApiFuncs2 from '@api/ApiFuncs2';
 /* eslint-disable camelcase */
 
-const api = new ApiFuncs();
+const api = new ApiFuncs2();
 
 class JwtService extends FuseUtils.EventEmitter {
 	init() {
@@ -84,9 +84,11 @@ class JwtService extends FuseUtils.EventEmitter {
 						'data': {'username': email, 'password': password}
 					}
 				).then((response)=>{
+					console.log(response);
 					if (response.data.user) {
-						this.setSession(response.data.access_token);
-						resolve(response.data.user);
+						this.setSession(response.token);
+
+						resolve(response.user);
 					} else {
 						reject(response.data.error);
 					}
@@ -96,25 +98,25 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	signInWithToken = () => {
 		return new Promise((resolve, reject) => {
-			axios
-				.get('/api/auth/access-token', {
-					data: {
-						access_token: this.getAccessToken()
-					}
-				})
-				.then(response => {
-					if (response.data.user) {
-						this.setSession(response.data.access_token);
-						resolve(response.data.user);
-					} else {
-						this.logout();
-						Promise.reject(new Error('Failed to login with token.'));
-					}
-				})
-				.catch(error => {
-					this.logout();
-					Promise.reject(new Error('Failed to login with token.'));
-				});
+			// axios
+			// 	.get('/api/auth/access-token', {
+			// 		data: {
+			// 			access_token: this.getAccessToken()
+			// 		}
+			// 	})
+			// 	.then(response => {
+			// 		if (response.data.user) {
+			// 			this.setSession(response.data.access_token);
+			// 			resolve(response.data.user);
+			// 		} else {
+			// 			this.logout();
+			// 			Promise.reject(new Error('Failed to login with token.'));
+			// 		}
+			// 	})
+			// 	.catch(error => {
+			// 		this.logout();
+			// 		Promise.reject(new Error('Failed to login with token.'));
+			// 	});
 		});
 	};
 

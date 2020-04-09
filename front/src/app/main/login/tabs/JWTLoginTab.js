@@ -35,6 +35,7 @@ function JWTLoginTab(props) {
 
 	function handleSubmit(model) {
 		dispatch(authActions.submitLogin(model));
+		console.log(model);
 	}
 
 	return (
@@ -51,7 +52,7 @@ function JWTLoginTab(props) {
 					type="text"
 					name="email"
 					label="Username/Email"
-					value="admin"
+					value="woomurf"
 					validations={{
 						minLength: 4
 					}}
@@ -76,7 +77,7 @@ function JWTLoginTab(props) {
 					type="password"
 					name="password"
 					label="Password"
-					value="admin"
+					value="djemals1"
 					validations={{
 						minLength: 4
 					}}
