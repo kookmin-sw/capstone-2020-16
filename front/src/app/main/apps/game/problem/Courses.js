@@ -56,7 +56,7 @@ function Courses(props) {
 
 		dispatch(Actions.getProblemId())
 		
-    }
+	}
 
 	const classes = useStyles(props);
 
@@ -145,7 +145,8 @@ function Courses(props) {
 												 to="/apps/game/viewProblem/ViewProblemPage">
 													 <button onClick={getId}			
 													> <h3>START</h3>
-													 {console.log(id)}</button>
+													 {console.log(id)}
+													 </button>
 													 </Link>
 												</CardActions>
 												

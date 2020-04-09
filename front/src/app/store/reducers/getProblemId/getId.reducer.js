@@ -20,6 +20,10 @@ const getId = (state = initialState, action) => {
 			.then((result) => {
                 get_info = result
 				// console.log(get_info.count)
+				return {
+					...state,
+					count: get_info.results[0].id,
+				}
 			})
 			.catch((error) => {
 				console.log(error)

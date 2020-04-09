@@ -42,7 +42,7 @@ function KnowledgeBasePage() {
   const dispatch = useDispatch();
 	
 	
-	const id = useSelector(({getProblemId}) => getProblemId.getId.count);
+  const id = useSelector(({getProblemId}) => getProblemId.getId.count);
 	const getId = function() {
 
 		dispatch(Actions.getProblemId())
@@ -51,9 +51,10 @@ function KnowledgeBasePage() {
   
      useEffect(() => {
 
-        getId();
+      return getId();
     
      });
+
 
 
 	return (
@@ -84,11 +85,12 @@ function KnowledgeBasePage() {
           </Typography>
         </FuseAnimate>
       </div>
-
+    
       <div className="flex flex-row flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
         <Card elevation={1} className="flex flex-col h-640">
           <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
-            <ProblemViewer></ProblemViewer>
+            <ProblemViewer tmp={id} 
+            ></ProblemViewer>
           </div>
         </Card>
         <Divider orientation="vertical" flexItem />
