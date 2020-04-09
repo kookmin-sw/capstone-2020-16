@@ -56,6 +56,7 @@ class PlacementRule:
         self.data = data
 
         try:
+            print('asdasd', type(placement))
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
                 self.y1 = list(map(int, placement.split('>')[0].split()))[1]
@@ -67,9 +68,7 @@ class PlacementRule:
                     raise Exception
                 self.obj_number = str(board[self.x][self.y])
             else:
-                print('else', placement)
                 self.obj_number = list(map(str, placement.split()))[0]
-                print('asd')
                 self.x = list(map(int, placement.split()))[1]
                 self.y = list(map(int, placement.split()))[2]
                 if self.check_range(self.x, self.y):
@@ -88,10 +87,10 @@ class PlacementRule:
             if self.obj_rule[2]:
                 self.obj_option = self.obj_rule[2]
             self.placement_message = None
-        except Exception as e:
-            print(e)
-            print(f'error in parsing user placement in placement rule : {e}')
-            self.placement_message = f'error in parsing user placement in placement rule {e}'
+        except Exception as e:            
+            self.placement_message = f'error in parsing user placement: {e}'
+            print(self.placement_message)
+            raise Exception(self.placement_message)
 
     # noinspection PyMethodMayBeStatic
     def check_base_placement_rule(self):  # rule 0 : check if user's placement where the stone is
