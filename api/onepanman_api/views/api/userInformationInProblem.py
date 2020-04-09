@@ -25,6 +25,8 @@ class UserInformationInProblemViewSet(viewsets.ModelViewSet):
 
 class MyUserInformationInProblemView(APIView):
 
+    permission_classes = [UserReadOnly]
+
     def get(self, request, version):
 
         queryset = UserInformationInProblem.objects.all().filter(user=request.user.pk)

@@ -23,10 +23,5 @@ class GroupFullInfoViewSet(viewsets.ModelViewSet):
         request.data['groupInfo.leader'] = request.user.pk
         request.data._mutable = _mutable
 
-        # print(request.data)
         return super().create(request, *args, **kwargs)
-
-    # def create(self, request, *args, **kwargs):
-    #     print(request.data)
-    #     super().create(request, *args, **kwargs)
 
