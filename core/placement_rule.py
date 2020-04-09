@@ -56,6 +56,7 @@ class PlacementRule:
         self.data = data
 
         try:
+            print('asdasd', type(placement))
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
                 self.y1 = list(map(int, placement.split('>')[0].split()))[1]

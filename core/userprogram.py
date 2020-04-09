@@ -13,7 +13,7 @@ class UserProgram:
         self.input_path = os.path.join(self.save_path, 'board.txt')
         self.file_path = os.path.join(self.save_path, filename)
         self.excute_path = os.path.join(self.save_path, self.user)
-
+        self.output_path = os.path.join(self.save_path, 'placement.txt')
     def compile(self):
         # compile_message = select_compile_message(self.language)
         # dummy_data
@@ -32,7 +32,7 @@ class UserProgram:
     def play(self):
 
         # dummy_data
-        play_message = {'PYTHON': ['/usr/bin/python3', 'python3', self.file_path, '<', self.input_path],
+        play_message = {'PYTHON': ['/usr/bin/python3', 'python3', self.file_path, '<', self.input_path, '>'],
                         'C': [self.excute_path, self.excute_path, '<', self.input_path],
                         'C++': [self.excute_path, self.excute_path, '<', self.input_path]}
         return play_message[self.language]
