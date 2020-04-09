@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './CodeMirror.css'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
+import Button from "@material-ui/core/Button";
 // require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
@@ -69,8 +70,27 @@ function CodeEditor() {
             changeCode(value);
           }}
         />
-      </div>
+    <div className="mx-auto sm:px-16">
+     <Button 
+       // onClick={zz}
+       style={{
+         textAlign: 'center',
+         justifyContent: 'center',
+         alignItems: 'center',
+         paddingLeft: 40,
+         paddingRight: 40,
+         marginBottom:24,
+         height: 40
+       }}
+     variant="contained" 
+     color="primary">
+       SUBMIT
+     </Button>
+     </div>  
+  </div> 
     );
+
+    
 }
 
 export default CodeEditor;
