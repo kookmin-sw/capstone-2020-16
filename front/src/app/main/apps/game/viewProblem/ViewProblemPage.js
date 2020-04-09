@@ -39,25 +39,21 @@ const useStyles = makeStyles(theme => ({
 function KnowledgeBasePage() {
 	const classes = useStyles();
 
-  // const dispatch = useDispatch();
-	// // const add = '/apps/game/viewReplay/ViewReplayPage';
+  const dispatch = useDispatch();
 	
-	// const id = useSelector(({getProblemId}) => getProblemId.getId.count);
-	// const getId = function() {
+	
+	const id = useSelector(({getProblemId}) => getProblemId.getId.count);
+	const getId = function() {
 
-	// 	dispatch(Actions.getProblemId())
-		
-  //   }
+		dispatch(Actions.getProblemId())
+		console.log(id)
+    }
   
-  //   useEffect(() => {
+     useEffect(() => {
+
+        getId();
     
-  //     const fetchCount = () => {
-	// 			const countData = getId
-	// 			countData();
-	// 		}
-	// 		fetchCount()
-    
-  //   });
+     });
 
 
 	return (

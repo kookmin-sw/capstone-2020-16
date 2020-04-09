@@ -69,9 +69,7 @@ function Courses(props) {
 		axios
 		  .get('http://203.246.112.32:8000/api/v1/problem/')
 		  .then(response => {
-			// console.log(response.data);
-			// console.log(response.headers);
-			// console.log(response.status);
+
 	
 			setPosts(response.data.results);
 			const fetchCount = () => {
@@ -143,7 +141,8 @@ function Courses(props) {
 											
 												<Divider />
 												<CardActions className="justify-center">
-												<Link className="font-medium" to="/apps/game/viewProblem/ViewProblemPage">
+												<Link className="font-medium" 
+												 to="/apps/game/viewProblem/ViewProblemPage">
 													 <button onClick={getId}			
 													> <h3>START</h3>
 													 {console.log(id)}</button>
