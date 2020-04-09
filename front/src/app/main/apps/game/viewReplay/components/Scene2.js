@@ -36,10 +36,38 @@ class Scene2 extends Phaser.Scene {
     }
   
     create() {
-
+      let clickCount = 0;
       this.iter = 0; // used for itarations
       boardStatus.boardIdx = 0;
-  
+      this.clickCountText = this.add.text(0, 300, `Button has been clicked ${clickCount} times.`, { fill: '#0f0' })
+      this.updateClickCountText = (clickCount) => {
+        this.clickCountText.setText(`Button has been clicked ${clickCount} times.`);
+      }
+      this.clickButton = this.add.text(0, 0, 'Click me!', { fill: '#0f0' })
+      .setInteractive()
+      .on('pointerover', () => this.enterButtonHoverState() )
+      .on('pointerout', () => this.enterButtonRestState() )
+      .on('pointerdown', () => this.enterButtonActiveState() )
+      .on('pointerup', () => {
+        this.updateClickCountText(++clickCount);
+        this.enterButtonHoverState();
+      });
+
+      
+      this.enterButtonHoverState = () => {
+        this.clickButton.setStyle({ fill: '#ff0'});
+      }
+      
+      this.enterButtonRestState = () => {
+        this.clickButton.setStyle({ fill: '#0f0' });
+      }
+      
+      this.enterButtonActiveState = () => {
+        this.clickButton.setStyle({ fill: '#0ff' });
+      }
+      
+      this.updateClickCountText(clickCount);
+      
       // add the background in the center of the scene
       this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.7);
       this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
