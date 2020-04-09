@@ -45,7 +45,7 @@ class GameManager:
 
         self.board_record += str(self.board_info) + '\n'
         self.parsing_board_info(self.board_info, self.board_size)
-        # self.compile_user_code()    # not finish
+        self.compile_user_code()    # not finish
 
         while not is_ending:
             if total_turn > total_turn_limit:
@@ -56,7 +56,7 @@ class GameManager:
             self.make_board_data()
             #   user code execute
             output = None
-
+            print(self.board)
             try:
                 if os.path.isfile("placement.txt"):
                     os.remove("placement.txt")
@@ -67,15 +67,15 @@ class GameManager:
                 elif self.check_turn == 'opposite':
                     print('oo')
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
-
+            
             except Exception as e:
                 print(f'program error in execute user program : {e}')
                 self.error_msg = f'program error in execute user program : {e}'
                 break
-
             try:
                 check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
             except Exception as e:
+                check_placement = e
                 print(f'check placement program error : {e}')
 
             if check_placement == 'OK':
@@ -134,15 +134,15 @@ class GameManager:
 
     def compile_user_code(self):
         try:
-            self.execution.executeProgram(self.challenger.compile(), self.challenger.savePath)
+            self.execution.execute_program(self.challenger.compile(), self.challenger.save_path)
         except KeyError as e:
             return False
 
         try:
-            self.execution.executeProgram(self.opposite.compile(), self.opposite.savePath)
+            self.execution.execute_program(self.opposite.compile(), self.opposite.save_path)
         except KeyError as e:
             return False
-
+        print('compile')
         return True
 
     def add_data(self, board, output):
@@ -183,8 +183,6 @@ class GameManager:
 
     def parsing_board_info(self, board_info, board_size):
         numbers = board_info.split()
-        print(len(numbers))
-        print(numbers[63])
         for i in range(board_size):
             for j in range(board_size):
                 self.board[i][j] = int(numbers[i*board_size + j])

@@ -67,9 +67,7 @@ class PlacementRule:
                     raise Exception
                 self.obj_number = str(board[self.x][self.y])
             else:
-                print('else', placement)
                 self.obj_number = list(map(str, placement.split()))[0]
-                print('asd')
                 self.x = list(map(int, placement.split()))[1]
                 self.y = list(map(int, placement.split()))[2]
                 if self.check_range(self.x, self.y):
