@@ -1,4 +1,4 @@
-import KnowledgeBasePage from "../ViewProblemPage";
+// import KnowledgeBasePage from "../ViewProblemPage";
 // import * as Actions from 'app/store/actions';
 // import { useDispatch, useSelector } from 'react-redux';
 import Button from "@material-ui/core/Button";
@@ -7,34 +7,8 @@ import React, { Component } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-//  const id = Courses.getId;
-// function tmp(props) {
-
-// const dispatch = useDispatch();
-	
-	
-// const id = useSelector(({getProblemId}) => getProblemId.getId.count);
-// const getId = function() {
-
-//   dispatch(Actions.getProblemId())
-//   console.log(id)
-//   }
-
-//    useEffect(() => {
-
-//       getId();
-  
-//    });
-//    return()=>{
-//      id
-//    }
-// }
-// var i = 0;
-
 export default class Test extends Component {
 
- 
- 
   state = {
     numPages: null,
     pageNumber: 1

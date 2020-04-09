@@ -4,8 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 
+
 import {UnControlled as CodeMirror} from 'react-codemirror2'
-require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
