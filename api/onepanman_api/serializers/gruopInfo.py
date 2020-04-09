@@ -6,4 +6,4 @@ from .. import models
 class GroupInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.GroupInfo
-        fields = ['ranking', 'score']
+        fields = ['ranking', 'score', 'leader']

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from onepanman_api.models import UserInfo
-from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin
+from onepanman_api.permissions import OnlyMyandAdmin
 from rest_framework import viewsets, status
 
 from onepanman_api import models
@@ -15,7 +15,7 @@ class UserInfoViewSet(viewsets.ModelViewSet):
     queryset = models.UserInfo.objects.all()
     serializer_class = serializers.UserInfoSerializer
 
-    #permission_classes = [IsLoggedInUserOrAdmin]
+    permission_classes = [OnlyMyandAdmin]
 
     def update(self, request, *args, **kwargs):
         try:

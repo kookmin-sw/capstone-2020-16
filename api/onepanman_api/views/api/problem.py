@@ -1,4 +1,4 @@
-from onepanman_api.permissions import IsAdminUser, IsLoggedInUserOrAdmin, UserReadOnly
+from onepanman_api.permissions import UserReadOnly
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from . import mixins
@@ -13,7 +13,7 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
     serializer_class = serializers.ProblemSerializer
     http_method_names = ['get', 'post', 'delete', 'put']
 
-    #permission_classes = [UserReadOnly]
+    permission_classes = [UserReadOnly]
 
     def list(self, request, *args, **kwargs):
         queryset = models.Problem.objects.all()
@@ -37,7 +37,7 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
                                                      level=data['level'],
                                                      popularity=data['popularity'],
                                                      icon=data['icon'],
-                                                     thunmbnail=data['thumbnail'],
+                                                     thumbnail=data['thumbnail'],
                                                      board_size=data['board_size'],
                                                      board_info=data['board_info'],
                                                      rule=data['rule'])

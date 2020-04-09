@@ -26,6 +26,7 @@ router.register('userfullInfo', views.api.user.UserFullInfoViewSet, 'userfullInf
 router.register('userInformationInProblem', views.api.UserInformationInProblemViewSet, 'userInformationInProblem')
 router.register('problem', views.api.problem.ProblemViewSet, 'problem')
 router.register('userInfo', views.api.userInfo.UserInfoViewSet, 'userInfo')
+router.register('rule', views.api.rule.RuleViewSet, 'rule')
 
 api_info = openapi.Info(
     title='ONEPANMAN API 문서',
