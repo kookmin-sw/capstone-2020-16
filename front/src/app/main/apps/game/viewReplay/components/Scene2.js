@@ -18,6 +18,7 @@ const boardStatus = {
   chacksoo: "",
   placement: "",
   boardIdx: 0,
+  isAuto: false,
 }
 
 api.api_game_read(version)
@@ -36,12 +37,13 @@ class Scene2 extends Phaser.Scene {
     }
   
     create() {
-      let clickCount = 0;
       this.iter = 0; // used for itarations
       boardStatus.boardIdx = 0;
-      this.clickCountText = this.add.text(0, 300, `Button has been clicked ${clickCount} times.`, { fill: '#0f0' })
-      this.updateClickCountText = (clickCount) => {
-        this.clickCountText.setText(`Button has been clicked ${clickCount} times.`);
+      this.clickCountText = this.add.text(0, 300, `Button has been clicked ${boardStatus.isAuto} times.`, { fill: '#0f0' })
+
+      this.updateClickCountText = () => {
+        this.clickCountText.setText(`Button has been clicked ${boardStatus.isAuto} times.`);
+        boardStatus.isAuto = !boardStatus.isAuto
       }
       this.clickButton = this.add.text(0, 0, 'Click me!', { fill: '#0f0' })
       .setInteractive()
@@ -49,7 +51,7 @@ class Scene2 extends Phaser.Scene {
       .on('pointerout', () => this.enterButtonRestState() )
       .on('pointerdown', () => this.enterButtonActiveState() )
       .on('pointerup', () => {
-        this.updateClickCountText(++clickCount);
+        this.updateClickCountText();
         this.enterButtonHoverState();
       });
 
@@ -66,7 +68,7 @@ class Scene2 extends Phaser.Scene {
         this.clickButton.setStyle({ fill: '#0ff' });
       }
       
-      this.updateClickCountText(clickCount);
+      this.updateClickCountText();
       
       // add the background in the center of the scene
       this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.7);
@@ -176,7 +178,9 @@ class Scene2 extends Phaser.Scene {
       
       // increment the iteration
       this.iter += 0.001;
-      boardStatus.boardIdx += 1;
+      if(boardStatus.isAuto)
+        boardStatus.boardIdx += 1;
+      
       if(boardStatus.chacksoo[(boardStatus.boardIdx-1)*64] === undefined){
         boardStatus.boardIdx = 0;
       }
