@@ -1,27 +1,61 @@
-import React, { useState } from 'react';
 import './CodeMirror.css'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import Button from "@material-ui/core/Button";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import * as Actions from 'app/store/actions';
+import axios from 'axios';
 // require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
 require('codemirror/mode/javascript/javascript.js');
 
-// const Transition = React.forwardRef(function Transition(props, ref) {
-// 	return <Slide direction="up" ref={ref} {...props} />;
-// });
 
-// const useStyles = makeStyles(theme => ({
-//     header: {
-//         background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-//         color: theme.palette.primary.contrastText
-//     }
-// }));
+
+
+
+function codePost(content, userid){
+  var data = {
+    author: userid,
+    code : content,
+    language : 1,
+    problem: 1,
+    name : "codePostTest"
+  }
+
+  axios.post("http://203.246.112.32:8000/api/v1/code/", data)
+  .then( response => {
+    console.log(response);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+}
+
 
 
 
 function CodeEditor() {
+
+  const dispatch = useDispatch();
+	
+	
+  const id = useSelector(({getProblemId}) => getProblemId.getId.count);
+	const getId = function() {
+
+		dispatch(Actions.getProblemId())
+    }
+  
+     useEffect(() => {
+
+      return getId();
+    
+     });
+
+
+
     // const classes = useStyles();
     const [code, setCode] = useState(
         "var component = {\nname: \"react-codemirror\",\nauthor: \"Jed Watson\",\nrepo: \"https://github.com/JedWatson/react-codemirror\"}");
@@ -33,11 +67,6 @@ function CodeEditor() {
         lineNumbers: true
     });
 
-    // useEffect(() => {
-    // 	axios.get('/api/knowledge-base').then(res => {
-    // 		setData(res.data);
-    // 	});
-    // }, []);
     function changeMode(event) {
         console.log(`beforeMode>>>>>>${option.mode}`);
         console.log(`event.target.value>>>>>>${event.target.value}`);
@@ -72,7 +101,8 @@ function CodeEditor() {
         />
     <div className="mx-auto sm:px-16">
      <Button 
-       // onClick={zz}
+       onClick={function(){
+         codePost(code, id)}}
        style={{
          textAlign: 'center',
          justifyContent: 'center',
