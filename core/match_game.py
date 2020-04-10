@@ -31,9 +31,9 @@ def match(data):
     with open(oppositer_code_path, 'w') as f:
         f.write(oppositer_code)
 
-    challenger = UserProgram(match_data['challenger'], match_data['challenger_language'], match_dir,
+    challenger = UserProgram('challenger', match_data['challenger'], match_data['challenger_language'], match_dir,
                              challenger_code_filename)
-    oppositer = UserProgram(match_data['opposite'], match_data['opposite_language'], match_dir,
+    oppositer = UserProgram('opposite', match_data['opposite'], match_data['opposite_language'], match_dir,
                             oppositer_code_filename)
 
     game_manager = GameManager(challenger=challenger, oppositer=oppositer,
@@ -49,7 +49,6 @@ def match(data):
     #    f.write(board_record)
     # with open('result.txt', 'a') as f:
     #    f.write(placement_record)
-
     data = {"winner": winner, "record": board_record, "placement_record": placement_record, "result": result,
             "error_msg": error_msg}
     print(data)

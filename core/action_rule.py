@@ -76,8 +76,9 @@ class ActionRule:
                 self.obj_method = self.obj_rule[2]
             self.action_message = None
         except Exception as e:
-            print(f'error in parsing user placement in action rule : {e}')
-            self.action_message = f'error in parsing user placement in action rule : {e}'
+            self.placement_message = f'error in parsing user placement: {e}'
+            print(self.action_message)
+            raise Exception(self.action_message)
 
     def add_condition_rule(self):
         self.rule_list.append(self.rule_condition[self.obj_condition])
