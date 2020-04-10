@@ -19,7 +19,7 @@ class CodeViewSet(viewsets.ModelViewSet):
 
         # 여기서 celery 코드 추가!
 
-        return Response(data)
+        return Response(data.data)
 
 class MyCodeView(APIView):
 
