@@ -1,10 +1,10 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import ApiFuncs2 from '@api/ApiFuncs2';
+// import ApiFuncs2 from '@api/ApiFuncs2';
 /* eslint-disable camelcase */
 
-const api = new ApiFuncs2();
+// const api = new ApiFuncs2();
 
 class JwtService extends FuseUtils.EventEmitter {
 	init() {
@@ -61,7 +61,7 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
-	signInWithEmailAndPassword = (email, password) => {
+	signInWithEmailAndPassword = (username, password) => {
 		return new Promise((resolve, reject) => {
 			// axios
 			// 	.get('/api/auth', {
@@ -77,22 +77,36 @@ class JwtService extends FuseUtils.EventEmitter {
 			// 		} else {
 			// 			reject(response.data.error);
 			// 		}
-			// 	});
-			api.api_rest_auth_login_create(
-					{
-						'version':'v1',
-						'data': {'username': email, 'password': password}
-					}
-				).then((response)=>{
-					console.log(response);
+			// 	});			
+			axios
+				.post('/api/v1/rest-auth/login/', {
+					username: username,
+					password: password
+				})
+				.then(response => {
 					if (response.data.user) {
-						this.setSession(response.token);
-
-						resolve(response.user);
+						console.log(response);
+						this.setSession(response.data.token);
+						resolve(response.data.user);
 					} else {
 						reject(response.data.error);
 					}
 				});
+			// api.api_rest_auth_login_create(
+			// 		{
+			// 			'version':'v1',
+			// 			'data': {'username': email, 'password': password}
+			// 		}
+			// 	).then((response)=>{
+			// 		console.log(response);
+			// 		if (response.data.user) {
+			// 			this.setSession(response.token);
+
+			// 			resolve(response.user);
+			// 		} else {
+			// 			reject(response.data.error);
+			// 		}
+			// 	});
 		});
 	};
 
@@ -117,6 +131,21 @@ class JwtService extends FuseUtils.EventEmitter {
 			// 		this.logout();
 			// 		Promise.reject(new Error('Failed to login with token.'));
 			// 	});
+			axios
+				.post('/api/v1/rest-auth/login/', {
+					username: 'woomurf',
+					password: 'djemals1'
+				})
+				.then(response => {
+					if (response.data.user) {
+						console.log(response);
+						this.setSession(response.data.token);
+						resolve(response.data.user);
+					} else {
+						reject(response.data.error);
+					}
+				});
+			// resolve()
 		});
 	};
 
@@ -155,6 +184,7 @@ class JwtService extends FuseUtils.EventEmitter {
 	};
 
 	getAccessToken = () => {
+		// console.log(window.localStorage)
 		return window.localStorage.getItem('jwt_access_token');  // 이렇게 얻어오면 안된다규 .,.,.,.
 	};
 }

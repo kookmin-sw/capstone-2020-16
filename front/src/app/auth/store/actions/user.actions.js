@@ -99,7 +99,7 @@ export function setUserData(user) {
 		/*
         Set User Settings
          */
-		dispatch(FuseActions.setDefaultSettings(user.data.settings));
+		// dispatch(FuseActions.setDefaultSettings(user.data.settings)); ----------------<
 
 		/*
         Set User Data

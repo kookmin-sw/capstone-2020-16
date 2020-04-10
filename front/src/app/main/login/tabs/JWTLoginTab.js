@@ -35,7 +35,7 @@ function JWTLoginTab(props) {
 
 	function handleSubmit(model) {
 		dispatch(authActions.submitLogin(model));
-		console.log(model);
+		// console.log(model);
 	}
 
 	return (
