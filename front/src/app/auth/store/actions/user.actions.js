@@ -104,9 +104,56 @@ export function setUserData(user) {
 		/*
         Set User Data
          */
+		console.log('ddd');
+		
+		console.log(user);
+		
+		const temp_data = {
+			uuid: 'XgbuVEXBU5gtSKdbQRP1Zbbby1i1',
+			from: 'custom-db',
+			password: 'admin',
+			role: 'admin',
+			data: {
+				displayName: user.username,
+				photoURL: 'assets/images/avatars/profile.jpg',
+				email: user.email,
+				settings: {
+					layout: {
+						style: 'layout1',
+						config: {
+							scroll: 'content',
+							navbar: {
+								display: true,
+								folded: true,
+								position: 'left'
+							},
+							toolbar: {
+								display: true,
+								style: 'fixed',
+								position: 'below'
+							},
+							footer: {
+								display: true,
+								style: 'fixed',
+								position: 'below'
+							},
+							mode: 'fullwidth'
+						}
+					},
+					customScrollbars: true,
+					theme: {
+						main: 'defaultDark',
+						navbar: 'defaultDark',
+						toolbar: 'defaultDark',
+						footer: 'defaultDark'
+					}
+				},
+				shortcuts: ['calendar', 'mail', 'contacts']
+			}
+		}
 		dispatch({
 			type: SET_USER_DATA,
-			payload: user
+			payload: temp_data
 		});
 	};
 }

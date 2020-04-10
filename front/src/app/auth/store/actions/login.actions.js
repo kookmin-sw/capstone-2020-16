@@ -20,6 +20,8 @@ export function submitLogin({ email, password }) {
 				});
 			})
 			.catch(error => {
+				console.log(error);
+				
 				return dispatch({
 					type: LOGIN_ERROR,
 					payload: error

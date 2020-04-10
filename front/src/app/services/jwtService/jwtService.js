@@ -91,6 +91,12 @@ class JwtService extends FuseUtils.EventEmitter {
 					} else {
 						reject(response.data.error);
 					}
+				})
+				.catch(error => {
+					console.log(error.response.status);
+					if(error.response.status === 400){
+						alert('qt')
+					}
 				});
 			// api.api_rest_auth_login_create(
 			// 		{
