@@ -240,13 +240,14 @@ class Scene2 extends Phaser.Scene {
       
       // increment the iteration
       this.iter += 0.001;
-      if(boardStatus.isAuto)
+      if(boardStatus.isAuto){
         boardStatus.boardIdx += 1;
+        sleep(500);
+      }
       
       if(boardStatus.chacksoo[(boardStatus.boardIdx-1)*64] === undefined){
         boardStatus.boardIdx = 0;
       }
-      sleep(500);
     };
   }
   
