@@ -73,27 +73,27 @@ const navigationConfig = [
 					},
 				]
 			},
-			{
-				id: 'community',
-				title: 'Community',
-				translate: 'COMMUNITY',
-				type: 'item',
-				icon: 'note',
-				url: '/apps/community'
-			},
-			{
-				id: 'chat',
-				title: 'CHAT',
-				translate: 'CHAT',
-				type: 'item',
-				icon: 'chat',
-				url: '/apps/chat',
-				badge: {
-					title: 13,
-					bg: 'rgb(9, 210, 97)',
-					fg: '#FFFFFF'
-				}
-			},
+			// {
+			// 	id: 'community',
+			// 	title: 'Community',
+			// 	translate: 'COMMUNITY',
+			// 	type: 'item',
+			// 	icon: 'note',
+			// 	url: '/apps/community'
+			// },
+			// {
+			// 	id: 'chat',
+			// 	title: 'CHAT',
+			// 	translate: 'CHAT',
+			// 	type: 'item',
+			// 	icon: 'chat',
+			// 	url: '/apps/chat',
+			// 	badge: {
+			// 		title: 13,
+			// 		bg: 'rgb(9, 210, 97)',
+			// 		fg: '#FFFFFF'
+			// 	}
+			// },
 			{
 				id: 'help',
 				title: 'HELP',
@@ -203,92 +203,92 @@ const navigationConfig = [
 
 		]
 	},
-	{
-		id: 'pages',
-		title: 'Pages',
-		type: 'group',
-		icon: 'pages',
-		children: [
-			{
-				id: 'authentication',
-				title: 'Authentication',
-				type: 'collapse',
-				icon: 'lock',
-				badge: {
-					title: 10,
-					bg: '#525E8A',
-					fg: '#FFFFFF'
-				},
-				children: [
-					{
-						id: 'authentication-login',
-						title: 'Login',
-						type: 'item',
-						url: '/pages/auth/login'
-					},
-					{
-						id: 'login-v2',
-						title: 'Login v2',
-						type: 'item',
-						url: '/pages/auth/login-2'
-					},
-					{
-						id: 'authentication-register',
-						title: 'Register',
-						type: 'item',
-						url: '/pages/auth/register'
-					},
-					{
-						id: 'authentication-register-v2',
-						title: 'Register v2',
-						type: 'item',
-						url: '/pages/auth/register-2'
-					},
-					{
-						id: 'authentication-forgot-password',
-						title: 'Forgot Password',
-						type: 'item',
-						url: '/pages/auth/forgot-password'
-					},
-					{
-						id: 'authentication-forgot-password-v2',
-						title: 'Forgot Password v2',
-						type: 'item',
-						url: '/pages/auth/forgot-password-2'
-					},
-					{
-						id: 'authentication-reset-password',
-						title: 'Reset Password',
-						type: 'item',
-						url: '/pages/auth/reset-password'
-					},
-					{
-						id: 'authentication-reset-password-v2',
-						title: 'Reset Password v2',
-						type: 'item',
-						url: '/pages/auth/reset-password-2'
-					},
-					{
-						id: 'authentication-lock-screen',
-						title: 'Lock Screen',
-						type: 'item',
-						url: '/pages/auth/lock'
-					},
-					{
-						id: 'authentication-mail-confirmation',
-						title: 'Mail Confirmation',
-						type: 'item',
-						url: '/pages/auth/mail-confirm'
-					}
-				]
-			},
-			{
-				id: 'profile',
-				title: 'Profile',
-				type: 'item',
-				icon: 'person',
-				url: '/pages/profile'
-			},
+	// {
+	// 	id: 'pages',
+	// 	title: 'Pages',
+	// 	type: 'group',
+	// 	icon: 'pages',
+	// 	children: [
+	// 		{
+	// 			id: 'authentication',
+	// 			title: 'Authentication',
+	// 			type: 'collapse',
+	// 			icon: 'lock',
+	// 			badge: {
+	// 				title: 10,
+	// 				bg: '#525E8A',
+	// 				fg: '#FFFFFF'
+	// 			},
+	// 			children: [
+	// 				{
+	// 					id: 'authentication-login',
+	// 					title: 'Login',
+	// 					type: 'item',
+	// 					url: '/pages/auth/login'
+	// 				},
+	// 				{
+	// 					id: 'login-v2',
+	// 					title: 'Login v2',
+	// 					type: 'item',
+	// 					url: '/pages/auth/login-2'
+	// 				},
+	// 				{
+	// 					id: 'authentication-register',
+	// 					title: 'Register',
+	// 					type: 'item',
+	// 					url: '/pages/auth/register'
+	// 				},
+	// 				{
+	// 					id: 'authentication-register-v2',
+	// 					title: 'Register v2',
+	// 					type: 'item',
+	// 					url: '/pages/auth/register-2'
+	// 				},
+	// 				{
+	// 					id: 'authentication-forgot-password',
+	// 					title: 'Forgot Password',
+	// 					type: 'item',
+	// 					url: '/pages/auth/forgot-password'
+	// 				},
+	// 				{
+	// 					id: 'authentication-forgot-password-v2',
+	// 					title: 'Forgot Password v2',
+	// 					type: 'item',
+	// 					url: '/pages/auth/forgot-password-2'
+	// 				},
+	// 				{
+	// 					id: 'authentication-reset-password',
+	// 					title: 'Reset Password',
+	// 					type: 'item',
+	// 					url: '/pages/auth/reset-password'
+	// 				},
+	// 				{
+	// 					id: 'authentication-reset-password-v2',
+	// 					title: 'Reset Password v2',
+	// 					type: 'item',
+	// 					url: '/pages/auth/reset-password-2'
+	// 				},
+	// 				{
+	// 					id: 'authentication-lock-screen',
+	// 					title: 'Lock Screen',
+	// 					type: 'item',
+	// 					url: '/pages/auth/lock'
+	// 				},
+	// 				{
+	// 					id: 'authentication-mail-confirmation',
+	// 					title: 'Mail Confirmation',
+	// 					type: 'item',
+	// 					url: '/pages/auth/mail-confirm'
+	// 				}
+	// 			]
+	// 		},
+	// 		{
+	// 			id: 'profile',
+	// 			title: 'Profile',
+	// 			type: 'item',
+	// 			icon: 'person',
+	// 			url: '/pages/profile'
+	// 		},
 			// {
 			// 	id: 'coming-soon',
 			// 	title: 'Coming Soon',
@@ -390,8 +390,8 @@ const navigationConfig = [
 			// 	icon: 'import_contacts',
 			// 	url: '/pages/knowledge-base'
 			// }
-		]
-	},
+	// 	]
+	// },
 	// {
 	// 	id: 'user-interface',
 	// 	title: 'User Interface',
@@ -880,83 +880,83 @@ const navigationConfig = [
 	// 	type: 'divider',
 	// 	id: 'divider-1'
 	// },
-	{
-		id: 'auth',
-		title: 'Auth',
-		type: 'group',
-		icon: 'apps',
-		children: [
-			{
-				id: 'login',
-				title: 'Login',
-				type: 'item',
-				url: '/login',
-				auth: authRoles.onlyGuest,
-				icon: 'lock'
-			},
-			{
-				id: 'register',
-				title: 'Register',
-				type: 'item',
-				url: '/register',
-				auth: authRoles.onlyGuest,
-				icon: 'person_add'
-			},
-			{
-				id: 'logout',
-				title: 'Logout',
-				type: 'item',
-				auth: authRoles.user,
-				url: '/logout',
-				icon: 'exit_to_app'
-			},
-			{
-				id: 'auth-admin-example',
-				title: 'Admin: Auth protected page',
-				type: 'item',
-				url: '/auth/admin-role-example',
-				icon: 'security'
-			},
-			{
-				id: 'only-admin-navigation-item',
-				title: 'Nav item only for Admin',
-				type: 'item',
-				auth: authRoles.admin,
-				url: '/auth/admin-role-example',
-				icon: 'verified_user'
-			},
-			{
-				id: 'auth-staff-example',
-				title: 'Staff: Auth protected page',
-				type: 'item',
-				url: '/auth/staff-role-example',
-				icon: 'security'
-			},
-			{
-				id: 'only-staff-navigation-item',
-				title: 'Nav item only for Staff',
-				type: 'item',
-				auth: authRoles.staff,
-				url: '/auth/staff-role-example',
-				icon: 'verified_user'
-			},
-			{
-				id: 'auth-guest-example',
-				title: 'Guest: Auth protected page',
-				type: 'item',
-				url: '/auth/guest-role-example',
-				icon: 'security'
-			},
-			{
-				id: 'only-guest-navigation-item',
-				title: 'Nav item only for Guest',
-				type: 'item',
-				auth: authRoles.onlyGuest,
-				url: '/auth/guest-role-example',
-				icon: 'verified_user'
-			}
-		]
-	},
+	// {
+	// 	id: 'auth',
+	// 	title: 'Auth',
+	// 	type: 'group',
+	// 	icon: 'apps',
+	// 	children: [
+	// 		{
+	// 			id: 'login',
+	// 			title: 'Login',
+	// 			type: 'item',
+	// 			url: '/login',
+	// 			auth: authRoles.onlyGuest,
+	// 			icon: 'lock'
+	// 		},
+	// 		{
+	// 			id: 'register',
+	// 			title: 'Register',
+	// 			type: 'item',
+	// 			url: '/register',
+	// 			auth: authRoles.onlyGuest,
+	// 			icon: 'person_add'
+	// 		},
+	// 		{
+	// 			id: 'logout',
+	// 			title: 'Logout',
+	// 			type: 'item',
+	// 			auth: authRoles.user,
+	// 			url: '/logout',
+	// 			icon: 'exit_to_app'
+	// 		},
+	// 		{
+	// 			id: 'auth-admin-example',
+	// 			title: 'Admin: Auth protected page',
+	// 			type: 'item',
+	// 			url: '/auth/admin-role-example',
+	// 			icon: 'security'
+	// 		},
+	// 		{
+	// 			id: 'only-admin-navigation-item',
+	// 			title: 'Nav item only for Admin',
+	// 			type: 'item',
+	// 			auth: authRoles.admin,
+	// 			url: '/auth/admin-role-example',
+	// 			icon: 'verified_user'
+	// 		},
+	// 		{
+	// 			id: 'auth-staff-example',
+	// 			title: 'Staff: Auth protected page',
+	// 			type: 'item',
+	// 			url: '/auth/staff-role-example',
+	// 			icon: 'security'
+	// 		},
+	// 		{
+	// 			id: 'only-staff-navigation-item',
+	// 			title: 'Nav item only for Staff',
+	// 			type: 'item',
+	// 			auth: authRoles.staff,
+	// 			url: '/auth/staff-role-example',
+	// 			icon: 'verified_user'
+	// 		},
+	// 		{
+	// 			id: 'auth-guest-example',
+	// 			title: 'Guest: Auth protected page',
+	// 			type: 'item',
+	// 			url: '/auth/guest-role-example',
+	// 			icon: 'security'
+	// 		},
+	// 		{
+	// 			id: 'only-guest-navigation-item',
+	// 			title: 'Nav item only for Guest',
+	// 			type: 'item',
+	// 			auth: authRoles.onlyGuest,
+	// 			url: '/auth/guest-role-example',
+	// 			icon: 'verified_user'
+	// 		}
+	// 	]
+	// },
 	// {
 	// 	type: 'divider',
 	// 	id: 'divider-2'

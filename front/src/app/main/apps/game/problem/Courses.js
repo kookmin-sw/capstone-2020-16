@@ -45,54 +45,62 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
 function Courses(props) {
 
 	const dispatch = useDispatch();
-	// const add = '/apps/game/viewReplay/ViewReplayPage';
 	
-	const id = useSelector(({getProblemId}) => getProblemId.getId.count);
-	const getId = function() {
+	const count = useSelector(({getProblemId}) => getProblemId.getId.results);
+	const getId = (param) => {
 
-		dispatch(Actions.getProblemId())
+		dispatch(Actions.getProblemId(param))
 		
 	}
 
 	const classes = useStyles(props);
 
 
-
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
 		// 여기가 componentDidMount에 해당
-		axios
-		  .get('http://203.246.112.32:8000/api/v1/problem/')
-		  .then(response => {
+		// axios
+		//   .get('/api/v1/problem/')
+		//   .then(response => {
 
-	
-			setPosts(response.data.results);
-			const fetchCount = () => {
-				const countData = getId
-				countData();
-			}
-			fetchCount()
+		// 	console.log(response)
+		// 	setPosts(response.data.results);
+		// 	const fetchCount = () => {
+		// 		const countData = getId
+		// 		countData();
+		// 	}
+		// 	fetchCount()
   
-			return () => {
+		// 	return () => {
 			  
-			  // 여기가 componentWillUnmount에 해당
-			};
+		// 	  // 여기가 componentWillUnmount에 해당
+		// 	};
+		//   })
+		//   .catch(error => {
+		// 	console.log(error);
+		//   });
+		axios
+		  .get('/api/v1/problem/')
+		  .then(response => {
+			//   console.log(response.data.count)
+			//   console.log(`${response.data.count}`);
+			//   console.log(response)
+			//   getId2(response.data.count);
+			  dispatch(Actions.getProblemId(response.data.results));
+			//   console.log(`asdasd${response.data.count}`);
+			   setPosts(response.data.results);
 		  })
-		  .catch(error => {
-			console.log(error);
-		  });
+		});
 	
-		}, []);
-	
-
+		
 
 	return (
 		<div className="flex flex-col flex-auto flex-shrink-0 w-full">
+			
 			<div
 				className={clsx(
 					classes.header,
@@ -138,14 +146,14 @@ function Courses(props) {
 												<CardMedia className="flex items-center justify-center">
 													<img src={course.thumbnail} width='200' alt='thumbnail'></img>
 												</CardMedia>
-											
+												
 												<Divider />
 												<CardActions className="justify-center">
-												<Link className="font-medium" 
-												 to="/apps/game/viewProblem/ViewProblemPage">
-													 <button onClick={getId}			
+												<Link className="font-medium"												
+												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
+													 <button onClick={course.id}
+													//  href = {`/apps/game/viewProblem/ViewProblemPage${course.id}`}
 													> <h3>START</h3>
-													 {console.log(id)}
 													 </button>
 													 </Link>
 												</CardActions>

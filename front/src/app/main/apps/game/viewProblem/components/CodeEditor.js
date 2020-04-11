@@ -37,29 +37,29 @@ function codePost(content, userid, tmp){
 
 function CodeEditor() {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 	
 	
-  const id = useSelector(({getProblemId}) => getProblemId.getId.count);
-  // const getcode = useSelector(({postCode}) => postCode.postCode.post_code);
-	const getId = function() {
+  // const id = useSelector(({getProblemId}) => getProblemId.getId.count);
+  // // const getcode = useSelector(({postCode}) => postCode.postCode.post_code);
+	// const getId = function() {
 
-    dispatch(Actions.getProblemId())
+  //   dispatch(Actions.getProblemId())
   
-    }
+  //   }
   
-  const getCode = function(){
+  // const getCode = function(){
 
-    // dispatch(Actions.postCode())
-    // console.log(getcode);
+  //   // dispatch(Actions.postCode())
+  //   // console.log(getcode);
     
-  }
+  // }
   
-     useEffect(() => {
+  //    useEffect(() => {
 
-      return getId(), getCode();
+  //     return getId(), getCode();
     
-     });
+  //    });
 
 
 
@@ -133,7 +133,7 @@ function CodeEditor() {
     <div className="mx-auto sm:px-16">
      <Button 
        onClick={function(){
-         codePost(code, id, option.idx)}
+         codePost(code, 1, option.idx)}
          
         }
        style={{
