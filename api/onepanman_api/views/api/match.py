@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from onepanman_api.models import UserInformationInProblem, Problem, Game
 import random
-
+import tasks
 
 class GetCoreResponse(Response):
 
@@ -16,7 +16,7 @@ class GetCoreResponse(Response):
 
         # 여기에 celery 호출하는 코드!
 
-        result = play_game(matchInfo).delay()
+        result = tasks.play_game.delay(matchInfo)
 
 
 class Match(APIView):

@@ -33,7 +33,8 @@ def play_game(data):
     print(match_data)
     match_dir = os.getcwd()  # os.path.join(os.getcwd(), 'match')
     extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}
-    update_url = 'http://203.246.112.32:8000/api/v1/game/' + match_data['match_id']
+    print(match_data['match_id'])
+    update_url = 'http://203.246.112.32:8000/api/v1/game/' + str(match_data['match_id']) + '/'
 
 
     challenger_code_filename = 'challenger{0}'.format(extension[match_data['challenger_language']])
@@ -64,7 +65,7 @@ def play_game(data):
                                board_size=match_data['board_size'], board_info=match_data['board_info'],
                                obj_num=match_data['obj_num'])
 
-    match_result, board_record, placement_record = game_manager.play_game()
+    winner, board_record, placement_record, result, error_msg = game_manager.play_game()
     #with open('result.txt', 'w') as f:
     #    f.write(match_result)
     #with open('result.txt', 'a') as f:
@@ -74,8 +75,10 @@ def play_game(data):
 
     #   update match data
     #update_match_data(match_result, board_record, placement_record)
-    r = requests.put(update_url, data={"winner" : match_result, "board_record": board_record, "placement_record": placement_record})
-
+    data = {"winner": winner, "record": board_record, "placement_record": placement_record, "result": result, "error_msg": error_msg}
+    print(data)
+    r = requests.patch(update_url, data=data)
+    print('request ok')
 
 # matchInfo = {
 #     "challenger": challenger.user.pk,

@@ -94,9 +94,9 @@ let ApiFuncs = (function() {
      */
     ApiFuncs.prototype.setAuthHeaders = function(headerParams) {
         let headers = headerParams ? headerParams : {};
-        // if (this.basic.username && this.basic.password) {
-        //     headers['Authorization'] = 'Basic ' + btoa(this.basic.username + ':' + this.basic.password);
-        // }
+        if (this.basic.username && this.basic.password) {
+            headers['Authorization'] = 'Basic ' + btoa(this.basic.username + ':' + this.basic.password);
+        }
         return headers;
     };
 
@@ -4399,7 +4399,7 @@ let ApiFuncs = (function() {
         headers = {};
         // headers['Accept'] = ['application/json'];
         // headers['Content-Type'] = ['application/json'];
-        console.log(parameters);
+
         path = path.replace('{version}', parameters['version']);
 
         // if (parameters['version'] === undefined) {
@@ -4408,7 +4408,7 @@ let ApiFuncs = (function() {
         // }
 
         queryParameters = mergeQueryParams(parameters, queryParameters);
-        console.log(`path>>>>>>>>>>${path} ${parameters}`)
+        console.log(`path>>>>>>>>>>${path}`)
         this.request('GET', domain + path, parameters, body, headers, queryParameters, form, deferred);
 
         return deferred.promise;
