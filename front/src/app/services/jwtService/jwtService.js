@@ -1,7 +1,10 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+// import ApiFuncs2 from '@api/ApiFuncs2';
 /* eslint-disable camelcase */
+
+// const api = new ApiFuncs2();
 
 class JwtService extends FuseUtils.EventEmitter {
 	init() {
@@ -58,47 +61,97 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
-	signInWithEmailAndPassword = (email, password) => {
+	signInWithEmailAndPassword = (username, password) => {
 		return new Promise((resolve, reject) => {
+			// axios
+			// 	.get('/api/auth', {
+			// 		data: {
+			// 			email,
+			// 			password
+			// 		}
+			// 	})
+			// 	.then(response => {
+			// 		if (response.data.user) {
+			// 			this.setSession(response.data.access_token);
+			// 			resolve(response.data.user);
+			// 		} else {
+			// 			reject(response.data.error);
+			// 		}
+			// 	});			
 			axios
-				.get('/api/auth', {
-					data: {
-						email,
-						password
-					}
+				.post('/api/v1/rest-auth/login/', {
+					username: username,
+					password: password
 				})
 				.then(response => {
 					if (response.data.user) {
-						this.setSession(response.data.access_token);
+						console.log(response);
+						this.setSession(response.data.token);
 						resolve(response.data.user);
 					} else {
 						reject(response.data.error);
 					}
+				})
+				.catch(error => {
+					console.log(error.response.status);
+					if(error.response.status === 400){
+						alert('qt')
+					}
 				});
+			// api.api_rest_auth_login_create(
+			// 		{
+			// 			'version':'v1',
+			// 			'data': {'username': email, 'password': password}
+			// 		}
+			// 	).then((response)=>{
+			// 		console.log(response);
+			// 		if (response.data.user) {
+			// 			this.setSession(response.token);
+
+			// 			resolve(response.user);
+			// 		} else {
+			// 			reject(response.data.error);
+			// 		}
+			// 	});
 		});
 	};
 
 	signInWithToken = () => {
 		return new Promise((resolve, reject) => {
+			// axios
+			// 	.get('/api/auth/access-token', {
+			// 		data: {
+			// 			access_token: this.getAccessToken()
+			// 		}
+			// 	})
+			// 	.then(response => {
+			// 		if (response.data.user) {
+			// 			this.setSession(response.data.access_token);
+			// 			resolve(response.data.user);
+			// 		} else {
+			// 			this.logout();
+			// 			Promise.reject(new Error('Failed to login with token.'));
+			// 		}
+			// 	})
+			// 	.catch(error => {
+			// 		this.logout();
+			// 		Promise.reject(new Error('Failed to login with token.'));
+			// 	});
 			axios
-				.get('/api/auth/access-token', {
-					data: {
-						access_token: this.getAccessToken()
-					}
+				.post('/api/v1/rest-auth/login/', {
+					username: 'woomurf',
+					password: 'djemals1'
 				})
 				.then(response => {
 					if (response.data.user) {
-						this.setSession(response.data.access_token);
+						console.log(response);
+						this.setSession(response.data.token);
 						resolve(response.data.user);
 					} else {
-						this.logout();
-						Promise.reject(new Error('Failed to login with token.'));
+						reject(response.data.error);
 					}
-				})
-				.catch(error => {
-					this.logout();
-					Promise.reject(new Error('Failed to login with token.'));
 				});
+			// resolve()
 		});
 	};
 
@@ -137,7 +190,8 @@ class JwtService extends FuseUtils.EventEmitter {
 	};
 
 	getAccessToken = () => {
-		return window.localStorage.getItem('jwt_access_token');
+		// console.log(window.localStorage)
+		return window.localStorage.getItem('jwt_access_token');  // 이렇게 얻어오면 안된다규 .,.,.,.
 	};
 }
 
