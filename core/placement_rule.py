@@ -156,6 +156,7 @@ class PlacementRule:
         if (x_inc == 0 or y_inc == 0) and \
                 min_distance <= x_inc <= max_distance and \
                 min_distance <= y_inc <= max_distance:
+            self.placement_message = 'OK'
             return True
         else:
             # if (x_inc > max_distance or x_inc < min_distance) or (y_inc > max_distance or y_inc < min_distance):
@@ -214,13 +215,13 @@ class PlacementRule:
         if self.placement_type == 'move':
             return
         dirr = []
-        if self.obj_add_method_list[1] == 0:  # 4방
+        if rule[1] == 0:  # 4방
             dirr = [(0, 1), (1, 0), (0, -1), (-1, 0)]
             self.placement_message = f'object{self.obj_number} is add close(cross) rule. {self.x, self.y}'
-        elif self.obj_add_method_list[1] == 1:   # 대각선
+        elif rule[1] == 1:   # 대각선
             dirr = [(-1, 1), (1, 1), (1, -1), (-1, -1)]
             self.placement_message = f'object{self.obj_number} is add close(diagonal) rule. {self.x, self.y}'
-        elif self.obj_add_method_list[1] == 2:   # 8방
+        elif rule[1] == 2:   # 8방
             dirr = [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, 1), (1, 1), (1, -1), (-1, -1)]
             self.placement_message = f'object{self.obj_number} is add close(8 dir) rule. {self.x, self.y}'
 
