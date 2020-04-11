@@ -57,7 +57,7 @@ const navigationConfig = [
 						id: 'matching',
 						title: 'Matching',
 						type: 'item',
-						url: '/apps/game/matching1'
+						url: '/apps/game/matching1/MatchingIdx1Page'
 					},
 					{
 						id: 'viewproblem',

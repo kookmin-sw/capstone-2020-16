@@ -131,11 +131,12 @@ function CodeEditor() {
           }}
         />
     <div className="mx-auto sm:px-16">
+    <Link className="font-medium"												
+        to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
          codePost(code, 1, option.idx)}
-         
-        }
+        }									 
        style={{
          textAlign: 'center',
          justifyContent: 'center',
@@ -149,6 +150,7 @@ function CodeEditor() {
      color="primary">
        SUBMIT
      </Button>
+     </Link>
      </div>  
   </div> 
     );

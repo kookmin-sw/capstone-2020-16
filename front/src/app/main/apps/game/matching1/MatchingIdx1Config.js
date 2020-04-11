@@ -8,7 +8,7 @@ const MatchingIdx1Config = {
 	},
 	routes: [
 		{
-			path: '/apps/game/matching1',
+			path: `/apps/game/matching1/MatchingIdx1Page/:id`,
 			component: React.lazy(() => import('./MatchingIdx1Page'))
 		}
 	]
