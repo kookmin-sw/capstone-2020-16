@@ -99,8 +99,8 @@ class UserInfo(models.Model):
         default=0,
    )
 
-    def __str__(self):
-        return '{}_{}_{}'.format(self.user.username, self.language, self.tier)
+    #def __str__(self):
+    #    return '{}_{}_{}'.format(self.user.username, self.language, self.tier)
 
     class Meta:
         db_table = "USERINFO"

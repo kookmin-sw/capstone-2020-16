@@ -4399,7 +4399,7 @@ let ApiFuncs = (function() {
         headers = {};
         // headers['Accept'] = ['application/json'];
         // headers['Content-Type'] = ['application/json'];
-
+        console.log(parameters);
         path = path.replace('{version}', parameters['version']);
 
         // if (parameters['version'] === undefined) {
@@ -4408,7 +4408,7 @@ let ApiFuncs = (function() {
         // }
 
         queryParameters = mergeQueryParams(parameters, queryParameters);
-        console.log(`path>>>>>>>>>>${path}`)
+        console.log(`path>>>>>>>>>>${path} ${parameters}`)
         this.request('GET', domain + path, parameters, body, headers, queryParameters, form, deferred);
 
         return deferred.promise;
