@@ -1,3 +1,3 @@
 export * from './fuse';
 export * from './getProblemId';
-export * from './postCode'
+export * from './getCodeInfo';

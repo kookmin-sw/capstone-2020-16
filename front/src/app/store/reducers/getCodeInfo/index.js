@@ -19,10 +19,10 @@
 
 // export default fuseReducers;
 import { combineReducers } from 'redux';
-import postCode from './postCode.reducer'
+import getCodeInfo from './getcodeinfo.reducer'
 
 const apiReducers = combineReducers({
-	postCode
+	getCodeInfo,
 });
 
 export default apiReducers;

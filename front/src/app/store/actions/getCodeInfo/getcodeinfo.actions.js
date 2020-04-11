@@ -1,9 +1,9 @@
-export const POST_CODE = '[API] POST';
+export const GET_CODE_INFO = '[API] GET';
 // export const CLOSE_DIALOG = '[DIALOG] CLOSE';
 
-export function postCode() {
+export function getCodeInfo() {
 	return {
-		type: POST_CODE
+		type: GET_CODE_INFO
 	};
 }
 

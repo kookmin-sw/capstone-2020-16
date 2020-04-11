@@ -16,16 +16,16 @@ require('codemirror/mode/javascript/javascript.js');
 
 
 
-function codePost(content, userid){
+function codePost(content, userid, tmp){
   var data = {
     author: userid,
     code : content,
-    language : 1,
+    language : tmp,
     problem: 1,
     name : "codePostTest"
   }
 
-  axios.post("http://203.246.112.32:8000/api/v1/code/", data)
+  axios.post("/api/v1/code/", data)
   .then( response => {
     console.log(response);
   })
@@ -35,22 +35,29 @@ function codePost(content, userid){
 }
 
 
-
-
 function CodeEditor() {
 
   const dispatch = useDispatch();
 	
 	
   const id = useSelector(({getProblemId}) => getProblemId.getId.count);
+  // const getcode = useSelector(({postCode}) => postCode.postCode.post_code);
 	const getId = function() {
 
-		dispatch(Actions.getProblemId())
+    dispatch(Actions.getProblemId())
+  
     }
+  
+  const getCode = function(){
+
+    // dispatch(Actions.postCode())
+    // console.log(getcode);
+    
+  }
   
      useEffect(() => {
 
-      return getId();
+      return getId(), getCode();
     
      });
 
@@ -63,21 +70,43 @@ function CodeEditor() {
 
     const [option, setOption] = useState({
         mode: "javascript",
+        idx: 0,
         theme: 'material',
         lineNumbers: true
     });
 
+    option.idx = 1
+
     function changeMode(event) {
         console.log(`beforeMode>>>>>>${option.mode}`);
         console.log(`event.target.value>>>>>>${event.target.value}`);
+        console.log(typeof option.mode)
+        if(event.target.value == "C++"){option.idx = 0;console.log(option.idx)}
+        if(event.target.value == "python"){option.idx = 1;console.log(option.idx)}
+        if(event.target.value == "C"){option.idx = 2;console.log(option.idx)}
         setOption({
-            mode: event.target.value
+            mode: event.target.value,
         });
+        
+       
     };
+
+    // function changeIdx(event) {
+    //   console.log(`beforeMode>>>>>>${option.idx}`);
+    //   console.log(`event.target.value>>>>>>${event.target.idx}`);
+    //   console.log(option.idx)
+    //   setOption({
+    //       idx: event.target.value,
+    //   });
+    //};
+    
+    // console.log(option.idx)
+    // console.log(typeof data.language)
 
     function changeCode(event) {
         console.log(`event.target.value>>>>>>${event}`);
         setCode(event);
+
     };
 
     return (
@@ -85,7 +114,9 @@ function CodeEditor() {
         <div style={{ marginTop: 10 }}>
           <select onChange={changeMode}>
             <option value="javascript">JavaScript</option>
+            <option value="C++">C++</option>
             <option value="python">Python</option>
+            <option value="C">C</option>
           </select>
         </div>
         <CodeMirror
@@ -102,7 +133,9 @@ function CodeEditor() {
     <div className="mx-auto sm:px-16">
      <Button 
        onClick={function(){
-         codePost(code, id)}}
+         codePost(code, id, option.idx)}
+         
+        }
        style={{
          textAlign: 'center',
          justifyContent: 'center',
