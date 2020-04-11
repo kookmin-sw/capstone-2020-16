@@ -1,13 +1,21 @@
 import CodeEditor from './components/CodeEditor';
 import ProblemViewer from './components/ProblemViewer';
-import React from 'react';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from "@material-ui/core/Card";
+import Paper from "@material-ui/core/Paper";
+// import Button from "@material-ui/core/Button";
+// import ButtonGroup from "@material-ui/core/ButtonGroup";
 // import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as Actions from 'app/store/actions';
+
+
+
 
 
 
@@ -39,7 +47,26 @@ const useStyles = makeStyles(theme => ({
 function KnowledgeBasePage() {
 	const classes = useStyles();
 
+  const dispatch = useDispatch();
+	
+	
+  const id = useSelector(({getProblemId}) => getProblemId.getId.count);
+	const getId = function() {
+
+		dispatch(Actions.getProblemId())
+		console.log(id)
+    }
+  
+     useEffect(() => {
+
+      return getId();
+    
+     });
+
+
+
 	return (
+    
     <div className="flex flex-col flex-auto flex-shrink-0 w-full">
       <div
         className={clsx(
@@ -53,7 +80,7 @@ function KnowledgeBasePage() {
           delay={100}
         >
           <Typography color="inherit" className="text-24 sm:text-40 font-light">
-            Code Editor
+            Problem
           </Typography>
         </FuseAnimate>
         <FuseAnimate duration={400} delay={600}>
@@ -62,31 +89,24 @@ function KnowledgeBasePage() {
             color="inherit"
             className="mt-8 sm:mt-16 mx-auto max-w-512"
           >
-            <span className="opacity-75">codemirror editor</span>
+            <span className="opacity-75">Let's Coding! Solve these Problems and Submit! </span>
           </Typography>
         </FuseAnimate>
       </div>
-
+    
       <div className="flex flex-row flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
-        <Card elevation={1} className="flex flex-col h-640">
           <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
-            <ProblemViewer></ProblemViewer>
+            <ProblemViewer tmp={id} 
+            ></ProblemViewer>
           </div>
-        </Card>
-        <Divider orientation="vertical" flexItem />
-        <Card elevation={1} className="flex flex-col h-640">
-          <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
-            <CodeEditor className="flex:1"></CodeEditor>
-          </div>
-        </Card>
-      </div>
 
-      {/* <div className="flex flexDirection:row">
-        <div className="flex:1">
-          <ProblemViewer></ProblemViewer>
-        </div>
-        <CodeEditor className="flex:1"></CodeEditor>
-      </div> */}
+        <Divider orientation="vertical" flexItem />
+        <Paper variant="outlined">
+          <div className="flex:1 flex-shrink-0 items-center justify-between px-24 ">
+            <CodeEditor></CodeEditor>
+          </div>
+        </Paper>
+      </div>
     </div>
   );
 }

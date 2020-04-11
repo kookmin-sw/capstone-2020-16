@@ -52,7 +52,7 @@ function Login2Page() {
 
 				<FuseAnimate animation="transition.slideUpIn" delay={300}>
 					<Typography variant="h3" color="inherit" className="font-light">
-						Welcome to the ONEPANMAN!
+						Welcome to the ㅁㄴㅇ!
 					</Typography>
 				</FuseAnimate>
 

@@ -1,41 +1,14 @@
+// import KnowledgeBasePage from "../ViewProblemPage";
+// import * as Actions from 'app/store/actions';
+// import { useDispatch, useSelector } from 'react-redux';
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import React, { Component } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-// class ProblemViewer extends Component {
-//   state = {
-//     numPages: null,
-//     pageNumber: 1
-//   };
-
-//   onDocumentLoadSuccess = ({ numPages }) => {
-//     this.setState({ numPages });
-//   };
-
-//   render() {
-//     const { pageNumber, numPages } = this.state;
-
-//     return (
-//       <div> 
-//         <Document
-//           file="/assets/PDF/1.pdf"
-//           onLoadSuccess={this.onDocumentLoadSuccess}
-//         >
-//           <Page pageNumber={pageNumber} />
-//         </Document>
-//         <p>
-//           Page {pageNumber} of {numPages}
-//         </p>
-//       </div>
-//     );
-//   }
-// }
-
-// export default ProblemViewer;
-
 export default class Test extends Component {
+
   state = {
     numPages: null,
     pageNumber: 1
@@ -60,8 +33,10 @@ export default class Test extends Component {
 
   render() {
     const { numPages, pageNumber } = this.state;
+    const { tmp } = this.props;
 
     return (
+    
       <React.Fragment>
         <div className="flex">
           <p>
@@ -81,7 +56,7 @@ export default class Test extends Component {
           </ButtonGroup>
         </div>
         <Document
-          file="/assets/PDF/1.pdf"
+          file={`/assets/PDF/${tmp}.pdf`}
           onLoadSuccess={this.onDocumentLoadSuccess}
         >
           <Page pageNumber={pageNumber} />

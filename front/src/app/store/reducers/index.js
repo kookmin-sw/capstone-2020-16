@@ -1,13 +1,15 @@
 import auth from 'app/auth/store/reducers';
 import { combineReducers } from 'redux';
 import fuse from './fuse';
-import apiTest from './apiTest'
+import getProblemId from './getProblemId'
+// import postCode from './postCode'
 
 const createReducer = asyncReducers =>
 	combineReducers({
 		auth,
 		fuse,
-		apiTest,
+		getProblemId,
+		// postCode,
 		...asyncReducers
 	});
 

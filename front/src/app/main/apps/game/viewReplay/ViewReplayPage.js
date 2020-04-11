@@ -2,8 +2,6 @@ import React from 'react';
 import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './components/Scene1.js'
 import Scene2 from './components/Scene2.js'
-import ApiTest from './components/ApiTest'
-
 // import PlacementStateContainer from './container/PlacementStateContainer'
 
 import Modal from '@material-ui/core/Modal';
@@ -16,6 +14,8 @@ import pink from '@material-ui/core/colors/pink';
 // import { Provider } from 'react-redux';
 // import reducer from './store/reducers';
 // const store = createStore(reducer);
+
+
 
 function getModalStyle() {
 	const top = 50 ;
@@ -42,23 +42,23 @@ function ViewReplayPage() {
 	const classes = useStyles();
 	const [modalStyle] = React.useState(getModalStyle);
 	const [open, setOpen] = React.useState(false);
-	  
+	
 	const handleOpen = () => {
 		setOpen(true);
 	};
-
+	
 	const handleClose = () => {
 		setOpen(false);
 	};
 	
 	const game = {
-		width: 896,
+		width: 1500,
 		height: 896,
-		backgroundColor: 0x000000,
+		backgroundColor: 0xFFFFFF,
 		scene: [Scene1, Scene2],
 		pixelArt: true
 	}
-
+	
 	return (
 		<div>
 			<IconButton onClick={handleOpen} component="span">
@@ -76,7 +76,6 @@ function ViewReplayPage() {
 					{/* <PlacementStateContainer></PlacementStateContainer> */}
 				</div>
 			</Modal>
-			<ApiTest></ApiTest>
 		</div>
 	);
 }
