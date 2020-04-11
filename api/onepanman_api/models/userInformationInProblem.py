@@ -79,6 +79,12 @@ class UserInformationInProblem(models.Model):
         default="True",
     )
 
+    playing = models.BooleanField(
+        "게임 중",
+        db_column="PLATING",
+        default=False,
+    )
+
     def __str__(self):
         return '{}_{}_{}'.format(self.problem.title, self.user.username, self.score)
 
