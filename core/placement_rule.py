@@ -6,7 +6,7 @@ import numpy as np
 class PlacementRule:
     def __init__(self):
         self.placement_message = None
-        self.placement_rule_list = [self.cross, self.diagonal, self.eight_dir, self.add_close, self.add_any]
+        self.placement_rule_list = [self.cross, self.diagonal, self.eight_dir, self.custom, self.add_close, self.add_any]
         # self.placement_rule_addlist = [self.add_close, self.add_any]
         self.placement_rule_option = [self.block_move, self.take_out_and_add, self.only_reverse]
 
@@ -40,10 +40,11 @@ class PlacementRule:
             return self.placement_message, self.board
         # self.add_rule_option()
         for rule in self.rule_list:
-            self.placement_rule_list[rule[1]](rule)
+            print(self.placement_rule_list[rule[0]])
+            self.placement_rule_list[rule[0]](rule)
             if self.placement_message == 'OK':
                 break
-
+        
         if self.placement_message == 'OK':
             if self.placement_type == 'move':
                 self.board[self.x1][self.y1] = 0
@@ -58,6 +59,7 @@ class PlacementRule:
     def setting(self, data, board, placement):
         self.data = data
         try:
+            print(placement)
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
                 self.y1 = list(map(int, placement.split('>')[0].split()))[1]
@@ -67,7 +69,8 @@ class PlacementRule:
                 self.y = list(map(int, placement.split('>')[1].split()))[1]
                 if self.check_range(self.x, self.y):
                     raise Exception
-                self.obj_number = str(board[self.x][self.y])
+                self.obj_number = str(board[self.x1][self.y1])
+                print(self.x1,self.y1,self.x,self.y)
             else:
                 self.obj_number = list(map(str, placement.split()))[0]
                 self.x = list(map(int, placement.split()))[1]
@@ -153,9 +156,8 @@ class PlacementRule:
         y_inc = abs(self.y1 - self.y)
         if max_distance == 0:
             max_distance = 999
-        if (x_inc == 0 or y_inc == 0) and \
-                min_distance <= x_inc <= max_distance and \
-                min_distance <= y_inc <= max_distance:
+        if (x_inc == 0 and min_distance <= y_inc <= max_distance) or \
+            (y_inc == 0 and min_distance <= x_inc <= max_distance):
             self.placement_message = 'OK'
             return True
         else:
@@ -206,7 +208,7 @@ class PlacementRule:
         if self.placement_type == 'add':
             return
         if abs(self.y - self.y1) == rule[2] and abs(self.x - self.x1) == rule[1]:
-            pass
+            self.placement_message = "OK"
         else:
             self.placement_message = f'object{self.obj_number} is x:{rule[1]} y:{rule[2]} rule. {self.x1, self.y1} > {self.x, self.y}'
 
@@ -231,7 +233,7 @@ class PlacementRule:
             if self.check_range(x, y):
                 continue
             if self.board[x][y] > 0:
-                self.placement_message = None
+                self.placement_message = 'OK'
                 return
 
     def add_any(self):  # 어디든
