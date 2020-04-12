@@ -1,5 +1,7 @@
 import React from 'react';
 
+
+
 const ViewProblemConfig = {
 	settings: {
 		layout: {
@@ -8,8 +10,8 @@ const ViewProblemConfig = {
 	},
 	routes: [
 		{
-			path: '/apps/game/viewProblem/ViewProblemPage',
-			component: React.lazy(() => import('./ViewProblemPage'))
+			path: `/apps/game/viewProblem/ViewProblemPage/:id`,
+			component: React.lazy(() => import(`./ViewProblemPage`)),
 		}
 	]
 };

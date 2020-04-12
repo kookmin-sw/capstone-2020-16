@@ -13,7 +13,7 @@ import Divider from "@material-ui/core/Divider";
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from 'app/store/actions';
-
+// import {Courses} from 'app/main/apps/game/problem/Courses';
 
 
 
@@ -45,25 +45,40 @@ const useStyles = makeStyles(theme => ({
 
 
 function KnowledgeBasePage() {
-	const classes = useStyles();
-
-  const dispatch = useDispatch();
-	
-	
-  const id = useSelector(({getProblemId}) => getProblemId.getId.count);
-	const getId = function() {
-
-		dispatch(Actions.getProblemId())
-		console.log(id)
-    }
+  const classes = useStyles();
   
-     useEffect(() => {
 
-      return getId();
+
+  // const dispatch = useDispatch();
+	
+  // const getId = (param) => {
+
+	// 	dispatch(Actions.getProblemId(param))
+		
+	// }
+  // const id = useSelector(({getProblemId}) => getProblemId.getId.results[0].id);
+  // var xx = '88240.tisory.com?page=1';
+  // var para = xx.split("?"); console.log(para);
+
+  var id = document.location.href.split("ViewProblemPage/"); console.log(id);
+  var id2 = id[1];
+  console.log(id2);
+  // const id =1;
+  // console.log(id)
+
+	// const getId = function() {
+
+	// 	dispatch(Actions.getProblemId())
+	// 	console.log(id)
+  //   }
+  
+  //    useEffect(() => {
+
+  //     return getId();
     
-     });
+  //    });
 
-
+  // const id = this.props;
 
 	return (
     
@@ -96,7 +111,8 @@ function KnowledgeBasePage() {
     
       <div className="flex flex-row flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
           <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
-            <ProblemViewer tmp={id} 
+            <ProblemViewer 
+             tmp={id2} 
             ></ProblemViewer>
           </div>
 
