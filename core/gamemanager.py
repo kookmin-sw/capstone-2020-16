@@ -43,7 +43,7 @@ class GameManager:
         match_result = ''
         winner = 0
 
-        self.board_record += str(self.board_info) + '\n'
+        self.board_record += str(self.board_info) + ' \n'
         self.parsing_board_info(self.board_info, self.board_size)
         self.compile_user_code()    # not finish
 
@@ -67,11 +67,11 @@ class GameManager:
                 elif self.check_turn == 'opposite':
                     print('oo')
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
-            
             except Exception as e:
                 print(f'program error in execute user program : {e}')
                 self.error_msg = f'program error in execute user program : {e}'
                 break
+            print('output', output)
             try:
                 check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
             except Exception as e:
