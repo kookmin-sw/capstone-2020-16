@@ -6,17 +6,17 @@ const BattleConfig = {
 		layout: {}
 	},
 	routes: [
+		// {
+		// 	path: '/apps/game/battle/courses/:courseId/:courseHandle?',
+		// 	component: React.lazy(() => import('./course/Course'))
+		// },
 		{
-			path: '/apps/game/battle/courses/:courseId/:courseHandle?',
-			component: React.lazy(() => import('./course/Course'))
-		},
-		{
-			path: '/apps/game/battle/courses',
-			component: React.lazy(() => import('./courses/Courses'))
+			path: '/apps/game/battle',
+			component: React.lazy(() => import('./Courses'))
 		},
 		{
 			path: '/apps/game/battle',
-			component: () => <Redirect to="/apps/game/battle/courses" />
+			component: () => <Redirect to="/apps/game/battle" />
 		}
 	]
 };

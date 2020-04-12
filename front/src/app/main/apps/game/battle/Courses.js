@@ -47,14 +47,14 @@ const useStyles = makeStyles(theme => ({
 
 function Courses(props) {
 
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	
-	const count = useSelector(({getProblemId}) => getProblemId.getId.results);
-	const getId = (param) => {
+	// const count = useSelector(({getProblemId}) => getProblemId.getId.results);
+	// const getId = (param) => {
 
-		dispatch(Actions.getProblemId(param))
+	// 	dispatch(Actions.getProblemId(param))
 		
-	}
+	// }
 
 	const classes = useStyles(props);
 
@@ -84,13 +84,13 @@ function Courses(props) {
 		// 	console.log(error);
 		//   });
 		axios
-		  .get('/api/v1/problem/')
+		  .get('/api/v1/userInformationInProblem/')
 		  .then(response => {
 			//   console.log(response.data.count)
 			//   console.log(`${response.data.count}`);
 			//   console.log(response)
 			//   getId2(response.data.count);
-			  dispatch(Actions.getProblemId(response.data.results));
+			//   dispatch(Actions.getProblemId(response.data.results));
 			//   console.log(`asdasd${response.data.count}`);
 			   setPosts(response.data.results);
 		  })
@@ -109,13 +109,13 @@ function Courses(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-					Game List
+					Battle Mode
 					</Typography>
 				</FuseAnimate>
 				<FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
-						Welcome to Single Mode. Choose a Game to Play!
+						Let's Go Battle with your Code!
 						</span>
 					</Typography>
 				</FuseAnimate>
@@ -150,7 +150,7 @@ function Courses(props) {
 												<Divider />
 												<CardActions className="justify-center">
 												<Link className="font-medium"												
-												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
+												to={`/apps/game/matching1/MatchingIdx1Page/${course.code}`}>
 													 <button onClick={course.id}
 													//  href = {`/apps/game/viewProblem/ViewProblemPage${course.id}`}
 													> <h3>START</h3>
