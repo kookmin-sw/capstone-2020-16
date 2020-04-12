@@ -117,6 +117,7 @@ export function setUserData(user) {
 				displayName: user.username,
 				photoURL: 'assets/images/avatars/profile.jpg',
 				email: user.email,
+				pk: user.pk,
 				settings: {
 					layout: {
 						style: 'layout1',
@@ -151,6 +152,7 @@ export function setUserData(user) {
 				shortcuts: ['calendar', 'mail', 'contacts']
 			}
 		}
+		console.log('srun')
 		dispatch({
 			type: SET_USER_DATA,
 			payload: temp_data

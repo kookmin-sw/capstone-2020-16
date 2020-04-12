@@ -34,6 +34,7 @@ function JWTLoginTab(props) {
 	}
 
 	function handleSubmit(model) {
+		console.log('여기는온다')
 		dispatch(authActions.submitLogin(model));
 		// console.log(model);
 	}
@@ -52,7 +53,7 @@ function JWTLoginTab(props) {
 					type="text"
 					name="email"
 					label="Username/Email"
-					value="woomurf"
+					value="jjjjj"
 					validations={{
 						minLength: 4
 					}}
