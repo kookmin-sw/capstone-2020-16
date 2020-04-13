@@ -121,21 +121,6 @@ class JwtService extends FuseUtils.EventEmitter {
             alert("ID나 Password를 확인하세요.");
           }
         });
-      // api.api_rest_auth_login_create(
-      // 		{
-      // 			'version':'v1',
-      // 			'data': {'username': email, 'password': password}
-      // 		}
-      // 	).then((response)=>{
-      // 		console.log(response);
-      // 		if (response.data.user) {
-      // 			this.setSession(response.token);
-
-      // 			resolve(response.user);
-      // 		} else {
-      // 			reject(response.data.error);
-      // 		}
-      // 	});
     });
   };
 
@@ -196,7 +181,7 @@ class JwtService extends FuseUtils.EventEmitter {
 
   logout = () => {
     this.setSession(null);
-  };
+  }; 
 
   isAuthTokenValid = access_token => {
     if (!access_token) {
@@ -214,7 +199,7 @@ class JwtService extends FuseUtils.EventEmitter {
 
   getAccessToken = () => {
     // console.log(window.localStorage)
-    return window.localStorage.getItem("jwt_access_token"); // 이렇게 얻어오면 안된다규 .,.,.,.
+    return window.localStorage.getItem("jwt_access_token"); 
   };
 }
 

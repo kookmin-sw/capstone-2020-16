@@ -19,12 +19,13 @@ import Typography from '@material-ui/core/Typography';
 // import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from 'app/store/actions';
 // import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
+// import { GET_PROBLEMID } from 'app/store/actions';
 // import getProblemId from '../store/reducers/getProblemId.reducer';
 
 const useStyles = makeStyles(theme => ({
@@ -49,52 +50,35 @@ function Courses(props) {
 
 	const dispatch = useDispatch();
 	
-	const count = useSelector(({getProblemId}) => getProblemId.getId.results);
-	const getId = (param) => {
+	//const count = useSelector(({getProblemId}) => getProblemId.getId.results);
+	// const getId = (param) => {
 
-		dispatch(Actions.getProblemId(param))
+	// 	dispatch(Actions.getProblemId(param))
 		
-	}
+	// }
 
 	const classes = useStyles(props);
 
+	// let store = createStore(getId);
 
 	const [posts, setPosts] = useState([]);
 
-	useEffect(() => {
-		// 여기가 componentDidMount에 해당
-		// axios
-		//   .get('/api/v1/problem/')
-		//   .then(response => {
 
-		// 	console.log(response)
-		// 	setPosts(response.data.results);
-		// 	const fetchCount = () => {
-		// 		const countData = getId
-		// 		countData();
-		// 	}
-		// 	fetchCount()
-  
-		// 	return () => {
-			  
-		// 	  // 여기가 componentWillUnmount에 해당
-		// 	};
-		//   })
-		//   .catch(error => {
-		// 	console.log(error);
-		//   });
+
+	useEffect(() => {
+
 		axios
-		  .get('/api/v1/problem/')
-		  .then(response => {
-			//   console.log(response.data.count)
-			//   console.log(`${response.data.count}`);
-			//   console.log(response)
-			//   getId2(response.data.count);
-			  dispatch(Actions.getProblemId(response.data.results));
-			//   console.log(`asdasd${response.data.count}`);
-			   setPosts(response.data.results);
-		  })
-		});
+		.get('/api/v1/problem/')
+		.then(response => {
+		  
+			console.log(response.data.results);
+			dispatch(Actions.getProblemId(response.data.results));
+			setPosts(response.data.results);
+	
+		})
+
+
+		},[dispatch]);
 	
 		
 
@@ -170,4 +154,4 @@ function Courses(props) {
 }
 
 // export default withReducer('academyApp', reducer)(Courses);
-export default Courses;
+export default (Courses);
