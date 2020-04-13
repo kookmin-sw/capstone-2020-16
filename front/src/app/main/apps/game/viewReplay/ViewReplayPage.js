@@ -53,8 +53,8 @@ function ViewReplayPage() {
 	
 	const game = {
 		width: 1500,
-		height: 896,
-		backgroundColor: 0xFFFFFF,
+		height: 1000,
+		backgroundColor: 0x192d3f,
 		scene: [Scene1, Scene2],
 		pixelArt: true
 	}

@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const boardSize = 896;
 const modalWidth = 1500;
+const modalHeight = 1000;
 
 function sleep (delay) {
   var start = new Date().getTime();
@@ -22,20 +23,11 @@ const boardStatus = {
   isAuto: false,
 }
 
-// api.api_game_read(version)
-// .then((response)=>{
-//   var temp_chacksoo = response.record.replace(/\n/gi, '')
-//   boardStatus.chacksoo = temp_chacksoo.split(/ /)
-//   var temp_placement = response.placement_record.replace(/\n/gi, ' ')
-//   boardStatus.placement = temp_placement.split(/ /)
-// }).catch((error)=>{
-//   console.log(error)
-// });
-
 class Scene2 extends Phaser.Scene {
     constructor() {
       super("playGame");
-      axios.get(`/api/v1/game/${version.id}/`)
+
+      axios.get(`/api/${version.version}/game/${version.id}/`)
       .then((response) => {
         console.log(response)
         var temp_chacksoo = response.data.record.replace(/\n/gi, '');
@@ -44,7 +36,7 @@ class Scene2 extends Phaser.Scene {
         boardStatus.placement = temp_placement.split(/ /);
       })
       .catch((error) => {
-        // console.log(error.response);
+        console.log(error.response.status);
       });
     }
   
@@ -62,16 +54,20 @@ class Scene2 extends Phaser.Scene {
           this.clickButton.setText("Manual Mode")
       }
       this.nextIdxText = () => {
-        if(boardStatus.isAuto === false)
-          boardStatus.boardIdx += 1
+        if(boardStatus.isAuto === false){
+          boardStatus.boardIdx += 1;
+          this.sliderDot.slider.value += 0.01;
+        }
       }
       this.previousIdxText = () => {
-        if(boardStatus.isAuto === false)
-          boardStatus.boardIdx -= 1
+        if(boardStatus.isAuto === false){
+          boardStatus.boardIdx -= 1;
+          this.sliderDot.slider.value -= 0.01;
+        }
       }
 
       // auto manual button(text)
-      this.clickButton = this.add.text(0, 0, `${boardStatus.isAuto} Mode`, { fill: '#0f0' })
+      this.clickButton = this.add.text(0, 0, `${boardStatus.isAuto} Mode`, { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverState() )
       .on('pointerout', () => this.enterButtonRestState() )
@@ -81,7 +77,7 @@ class Scene2 extends Phaser.Scene {
         this.enterButtonHoverState();
       });
 
-      this.nextButton = this.add.text(0, 300, "Next Button", { fill: '#0f0' })
+      this.nextButton = this.add.text(0, 300, "Next Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStateNext() )
       .on('pointerout', () => this.enterButtonRestStateNext() )
@@ -91,7 +87,7 @@ class Scene2 extends Phaser.Scene {
         this.enterButtonHoverStateNext();
       });
 
-      this.previousButton = this.add.text(0,400, "Previous Button", { fill: '#0f0' })
+      this.previousButton = this.add.text(0,400, "Previous Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStatePrevious() )
       .on('pointerout', () => this.enterButtonRestStatePrevious() )
@@ -103,11 +99,11 @@ class Scene2 extends Phaser.Scene {
 
       
       this.enterButtonHoverState = () => {
-        this.clickButton.setStyle({ fill: '#ff0'});
+        this.clickButton.setStyle({ fill: '#92b4bf'});
       }
       
       this.enterButtonRestState = () => {
-        this.clickButton.setStyle({ fill: '#0f0' });
+        this.clickButton.setStyle({ fill: '#eec65b' });
       }
       
       this.enterButtonActiveState = () => {
@@ -115,11 +111,11 @@ class Scene2 extends Phaser.Scene {
       }
       
       this.enterButtonHoverStateNext = () => {
-        this.nextButton.setStyle({ fill: '#ff0'});
+        this.nextButton.setStyle({ fill: '#92b4bf'});
       }
       
       this.enterButtonRestStateNext = () => {
-        this.nextButton.setStyle({ fill: '#0f0' });
+        this.nextButton.setStyle({ fill: '#eec65b' });
       }
       
       this.enterButtonActiveStateNext = () => {
@@ -127,11 +123,11 @@ class Scene2 extends Phaser.Scene {
       }
 
       this.enterButtonHoverStatePrevious = () => {
-        this.previousButton.setStyle({ fill: '#ff0'});
+        this.previousButton.setStyle({ fill: '#92b4bf'});
       }
       
       this.enterButtonRestStatePrevious = () => {
-        this.previousButton.setStyle({ fill: '#0f0' });
+        this.previousButton.setStyle({ fill: '#eec65b' });
       }
       
       this.enterButtonActiveStatePrevious = () => {
@@ -149,8 +145,8 @@ class Scene2 extends Phaser.Scene {
       this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
       this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
       this.background.setOrigin(0.5, 0.5);
-      this.myChacksoo = this.add.text(5, 160, '', { font: '48px Arial', fill: '#000000' });
-      this.yourChacksoo = this.add.text(modalWidth - 300, 160, '', { font: '48px Arial', fill: '#000000' });
+      this.myChacksoo = this.add.text(5, 160, '', { font: '48px Arial', fill: '#eec65b' });
+      this.yourChacksoo = this.add.text(modalWidth - 300, 160, '', { font: '48px Arial', fill: '#eec65b' });
   
       // make a group of ships
       this.saitamaGroup = this.make.group({
@@ -191,7 +187,26 @@ class Scene2 extends Phaser.Scene {
         x: -80 + (modalWidth-boardSize)/2,
         y: -88
       });
-  
+
+      // for slider
+      this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(10, 10); // add dot
+      this.sliderDot.slider = this.plugins.get('rexsliderplugin').add(this.sliderDot, {
+        endPoints: [{
+                x: this.sliderDot.x - 200,
+                y: this.sliderDot.y
+            },
+            {
+                x: this.sliderDot.x + 200,
+                y: this.sliderDot.y
+            }
+        ],
+        value: 0
+    });
+      this.add.graphics()
+              .lineStyle(3, 0xeec65b, 1)
+              .strokePoints(this.sliderDot.slider.endPoints);
+      this.text = this.add.text(800,0, '', { font: '48px Arial', fill: '#eec65b' });
+      this.cursorKeys = this.input.keyboard.createCursorKeys();
     }
   
   
@@ -226,27 +241,27 @@ class Scene2 extends Phaser.Scene {
       };
       if(boardStatus.boardIdx%2 === 0){
         if(boardStatus.placement[boardStatus.boardIdx*3] !== undefined){
-          this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
+          this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
           if(boardStatus.boardIdx === 0){
-            this.yourChacksoo.setText('ckachsoo: 준비')
+            this.yourChacksoo.setText('chacksoo\n 준비')
           }
           else{
-            this.yourChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
+            this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
           }
         }
         else{
-          this.myChacksoo.setText('chacksoo: 준비');
-          this.yourChacksoo.setText('chacksoo: 준비');
+          this.myChacksoo.setText('chacksoo\n 준비');
+          this.yourChacksoo.setText('chacksoo\n 준비');
         }
       }
       else{
         if(boardStatus.placement[(boardStatus.boardIdx-1)*3] !== undefined){
-          this.myChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
-          this.yourChacksoo.setText('chacksoo: ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
+          this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
+          this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
         }
         else{
-          this.myChacksoo.setText('chacksoo: 준비');
-          this.yourChacksoo.setText('chacksoo: 준비');
+          this.myChacksoo.setText('chacksoo\n 준비');
+          this.yourChacksoo.setText('chacksoo\n 준비');
         }
       }
       
@@ -255,6 +270,15 @@ class Scene2 extends Phaser.Scene {
       if(boardStatus.isAuto){
         boardStatus.boardIdx += 1;
         sleep(500);
+      }
+      else{
+        if (this.cursorKeys.left.isDown) {
+          this.sliderDot.slider.value -= 0.01;
+        }
+        else if (this.cursorKeys.right.isDown) {
+          this.sliderDot.slider.value += 0.01;
+        }
+        this.text.setText(this.sliderDot.slider.value);
       }
       
       if(boardStatus.chacksoo[(boardStatus.boardIdx-1)*64] === undefined){
