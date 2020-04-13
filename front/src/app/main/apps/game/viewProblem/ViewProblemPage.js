@@ -4,15 +4,17 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from "@material-ui/core/Card";
+// import Card from "@material-ui/core/Card";
 import Paper from "@material-ui/core/Paper";
 // import Button from "@material-ui/core/Button";
 // import ButtonGroup from "@material-ui/core/ButtonGroup";
 // import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from 'app/store/actions';
+// import React, { useEffect, useState } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import * as Actions from 'app/store/actions';
+import { useSelector } from 'react-redux';
+import React from 'react';
 // import {Courses} from 'app/main/apps/game/problem/Courses';
 
 
@@ -56,7 +58,8 @@ function KnowledgeBasePage() {
 	// 	dispatch(Actions.getProblemId(param))
 		
 	// }
-  // const id = useSelector(({getProblemId}) => getProblemId.getId.results[0].id);
+  const iddd = useSelector(({getProblemId}) => getProblemId.getId.results[0]);
+  console.log(iddd)
   // var xx = '88240.tisory.com?page=1';
   // var para = xx.split("?"); console.log(para);
 

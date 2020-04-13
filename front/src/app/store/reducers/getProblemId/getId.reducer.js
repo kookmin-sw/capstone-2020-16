@@ -45,11 +45,11 @@ const getId = (state = initialState, action) => {
 				results: action.payload,
 			}
 		}
-		default: {
+		default: 
 			return {
 				...state,
 			};
-		};
+		
 		// case Actions.GET_PROBLEM: {
 
 		// 	return{

@@ -11,7 +11,7 @@ import jssExtend from 'jss-plugin-extend';
 import rtl from 'jss-rtl';
 import React from 'react';
 import Provider from 'react-redux/es/components/Provider';
-import { Router } from 'react-router-dom';
+import { Router } from 'react-router';
 import AppContext from './AppContext';
 import { Auth } from './auth';
 import routes from './fuse-configs/routesConfig';
