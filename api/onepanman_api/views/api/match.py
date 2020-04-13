@@ -2,7 +2,7 @@ import json
 
 from onepanman_api import serializers
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from onepanman_api.models import UserInformationInProblem, Problem, Game, Code
@@ -21,8 +21,7 @@ class GetCoreResponse(Response):
 
 class Match(APIView):
 
-    # admin user만 접근 가능
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     # 유저와 문제정보로 상대방을 매칭하고, 매칭 정보를 반환하는 함수
     def match(self, userid, problemid, codeid):
