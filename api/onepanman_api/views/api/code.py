@@ -27,7 +27,7 @@ class CodeViewSet(viewsets.ModelViewSet):
 
 class MyCodeView(APIView):
 
-    #permission_classes = [CodePermission]
+    permission_classes = [CodePermission]
 
     def get(self, request, version):
 
