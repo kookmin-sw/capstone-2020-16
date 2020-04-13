@@ -1,10 +1,10 @@
 import './CodeMirror.css'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import Button from "@material-ui/core/Button";
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as Actions from 'app/store/actions';
+// import * as Actions from 'app/auth/store/actions';
 import axios from 'axios';
 // require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
@@ -41,25 +41,8 @@ function CodeEditor() {
 	
 	
   // const id = useSelector(({getProblemId}) => getProblemId.getId.count);
-  // // const getcode = useSelector(({postCode}) => postCode.postCode.post_code);
-	// const getId = function() {
-
-  //   dispatch(Actions.getProblemId())
-  
-  //   }
-  
-  // const getCode = function(){
-
-  //   // dispatch(Actions.postCode())
-  //   // console.log(getcode);
-    
-  // }
-  
-  //    useEffect(() => {
-
-  //     return getId(), getCode();
-    
-  //    });
+  // const getto = useSelector(({user}) => user.user.data);
+  // console.log(getto)
 
 
 
@@ -81,9 +64,9 @@ function CodeEditor() {
         console.log(`beforeMode>>>>>>${option.mode}`);
         console.log(`event.target.value>>>>>>${event.target.value}`);
         console.log(typeof option.mode)
-        if(event.target.value == "C++"){option.idx = 0;console.log(option.idx)}
-        if(event.target.value == "python"){option.idx = 1;console.log(option.idx)}
-        if(event.target.value == "C"){option.idx = 2;console.log(option.idx)}
+        if(event.target.value === "C++"){option.idx = 0;console.log(option.idx)}
+        if(event.target.value === "python"){option.idx = 1;console.log(option.idx)}
+        if(event.target.value === "C"){option.idx = 2;console.log(option.idx)}
         setOption({
             mode: event.target.value,
         });

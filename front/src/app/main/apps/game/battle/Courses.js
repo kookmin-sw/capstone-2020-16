@@ -19,9 +19,9 @@ import Typography from '@material-ui/core/Typography';
 // import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as Actions from 'app/store/actions';
+// import * as Actions from 'app/store/actions';
 // import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
@@ -84,7 +84,7 @@ function Courses(props) {
 		// 	console.log(error);
 		//   });
 		axios
-		  .get('/api/v1/userInformationInProblem/')
+		  .get('/api/v1/problem/')
 		  .then(response => {
 			//   console.log(response.data.count)
 			//   console.log(`${response.data.count}`);
@@ -94,7 +94,7 @@ function Courses(props) {
 			//   console.log(`asdasd${response.data.count}`);
 			   setPosts(response.data.results);
 		  })
-		});
+		},[]);
 	
 		
 
@@ -150,7 +150,7 @@ function Courses(props) {
 												<Divider />
 												<CardActions className="justify-center">
 												<Link className="font-medium"												
-												to={`/apps/game/matching1/MatchingIdx1Page/${course.code}`}>
+												to={`/apps/game/matching1/MatchingIdx1Page/${course.id}`}>
 													 <button onClick={course.id}
 													//  href = {`/apps/game/viewProblem/ViewProblemPage${course.id}`}
 													> <h3>START</h3>
