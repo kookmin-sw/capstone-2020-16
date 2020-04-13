@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
-import ApiFuncs from '@api/ApiFuncs'
+// import ApiFuncs from '@api/ApiFuncs'
+import axios from 'axios'
 
 const boardSize = 896;
 const modalWidth = 1500;
@@ -9,10 +10,10 @@ function sleep (delay) {
   while (new Date().getTime() < start + delay);
 }
 
-const api = new ApiFuncs()
+// const api = new ApiFuncs()
 const version = {
   'version': 'v1',
-  'id': 54
+  'id': 160
 }
 const boardStatus = {
   chacksoo: "",
@@ -21,19 +22,30 @@ const boardStatus = {
   isAuto: false,
 }
 
-api.api_game_read(version)
-.then((response)=>{
-  var temp_chacksoo = response.record.replace(/\n/gi, '')
-  boardStatus.chacksoo = temp_chacksoo.split(/ /)
-  var temp_placement = response.placement_record.replace(/\n/gi, ' ')
-  boardStatus.placement = temp_placement.split(/ /)
-}).catch((error)=>{
-  console.log(error)
-});
+// api.api_game_read(version)
+// .then((response)=>{
+//   var temp_chacksoo = response.record.replace(/\n/gi, '')
+//   boardStatus.chacksoo = temp_chacksoo.split(/ /)
+//   var temp_placement = response.placement_record.replace(/\n/gi, ' ')
+//   boardStatus.placement = temp_placement.split(/ /)
+// }).catch((error)=>{
+//   console.log(error)
+// });
 
 class Scene2 extends Phaser.Scene {
     constructor() {
       super("playGame");
+      axios.get(`/api/v1/game/${version.id}/`)
+      .then((response) => {
+        console.log(response)
+        var temp_chacksoo = response.data.record.replace(/\n/gi, '');
+        boardStatus.chacksoo = temp_chacksoo.split(/ /);
+        var temp_placement = response.data.placement_record.replace(/\n/gi, ' ');
+        boardStatus.placement = temp_placement.split(/ /);
+      })
+      .catch((error) => {
+        // console.log(error.response);
+      });
     }
   
     create() {
