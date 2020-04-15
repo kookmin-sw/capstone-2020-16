@@ -27,7 +27,7 @@ class Auth extends Component {
 	jwtCheck = () =>
 		new Promise(resolve => {
 			jwtService.on('onAutoLogin', () => {
-				this.props.showMessage({ message: '로그인 되었습니다. ' });
+				this.props.showMessage({ message: 'Logging in with JWT' });
 
 				/**
 				 * Sign in and retrieve user data from Api
@@ -41,7 +41,7 @@ class Auth extends Component {
 
 						resolve();
 
-						this.props.showMessage({ message: '로그인 되었습니다.' });
+						this.props.showMessage({ message: 'Logged in with JWT' });
 					})
 					.catch(error => {
 						this.props.showMessage({ message: error });

@@ -82,7 +82,7 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
-  signInWithEmailAndPassword = (username, password, pk) => {
+  signInWithEmailAndPassword = (username, password) => {
     return new Promise((resolve, reject) => {
       // axios
       // 	.get('/api/auth', {
@@ -102,16 +102,14 @@ class JwtService extends FuseUtils.EventEmitter {
       axios
         .post("/api/v1/rest-auth/login/", {
           username: username,
-          password: password,
-          pk: pk
+          password: password
         })
         .then(response => {
           if (response.data.user) {
             console.log(response);
-            this.setSession(response.data.token);
-            window.localStorage.setItem("username", username);
+			this.setSession(response.data.token);
+			window.localStorage.setItem("username", username);
             window.localStorage.setItem("password", password);
-            window.localStorage.setItem("pk", pk);
             resolve(response.data.user);
           } else {
             reject(response.data.error);
@@ -150,13 +148,11 @@ class JwtService extends FuseUtils.EventEmitter {
       axios
         .post("/api/v1/rest-auth/login/", {
           username: window.localStorage.getItem('username'),
-          password: window.localStorage.getItem('password'),
-          pk: window.localStorage.getItem('pk')
+          password: window.localStorage.getItem('password')
         })
         .then(response => {
           if (response.data.user) {
             console.log(response);
-            console.log('으아악')
             this.setSession(response.data.token);
             resolve(response.data.user);
           } else {
