@@ -25,11 +25,16 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
 
     def create(self, request, *args, **kwargs):
         try:
+            _mutable = request.data._mutable
+            request.data._mutable = True
+            request.data['editor'] = request.user.pk
+            request.data._mutable = _mutable
+
             serializer = serializers.ProblemSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             data = serializer.validated_data
             print(self.request.user, request.user)
-            instance = models.Problem.objects.create(editor=self.request.user,
+            instance = models.Problem.objects.create(editor=data['editor'],
                                                      title=data['title'],
                                                      description=data['description'],
                                                      limit_time=data['limit_time'],

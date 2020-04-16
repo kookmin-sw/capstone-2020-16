@@ -84,6 +84,7 @@ class Scene2 extends Phaser.Scene {
                 }
               }
       
+
       // auto manual button(text)
       this.clickButton = this.add.text(0, 0, `${boardStatus.isAuto} Mode`, { fill: '#eec65b' })
       .setInteractive()
@@ -95,6 +96,7 @@ class Scene2 extends Phaser.Scene {
         this.enterButtonHoverState();
       });
       
+
       this.nextButton = this.add.text(0, 300, "Next Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStateNext() )
@@ -105,6 +107,7 @@ class Scene2 extends Phaser.Scene {
         this.enterButtonHoverStateNext();
       });
       
+
       this.previousButton = this.add.text(0,400, "Previous Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStatePrevious() )
@@ -165,7 +168,7 @@ class Scene2 extends Phaser.Scene {
       this.background.setOrigin(0.5, 0.5);
       this.myChacksoo = this.add.text(5, 160, '', { font: '48px Arial', fill: '#eec65b' });
       this.yourChacksoo = this.add.text(modalWidth - 300, 160, '', { font: '48px Arial', fill: '#eec65b' });
-      
+
       // make a group of ships
       this.saitamaGroup = this.make.group({
         key: "saitama",
@@ -276,9 +279,11 @@ class Scene2 extends Phaser.Scene {
         sleep(500);
       }
       else{
+
         this.sliderDot.visible = true;
         boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen);
       }
+
 
       if(boardStatus.chacksoo[(boardStatus.boardIdx-1)*64] === undefined){
         boardStatus.boardIdx = 0;
