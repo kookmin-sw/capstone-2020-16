@@ -34,7 +34,7 @@ function ProfilePage() {
     <FusePageSimple
       classes={{
         header: classes.layoutHeader,
-        toolbar: "px-16 sm:px-24",
+        toolbar: "px-16 sm:px-24"
       }}
       header={
         <div className="p-24 flex flex-1 flex-col items-center justify-center md:flex-row md:items-end">
@@ -47,7 +47,7 @@ function ProfilePage() {
             </FuseAnimate>
             <FuseAnimate animation="transition.slideLeftIn" delay={300}>
               <Typography className="md:mx-24" variant="h4" color="inherit">
-                {/* {user.data.displayName} */}
+                username 받아오기
               </Typography>
             </FuseAnimate>
           </div>
@@ -81,24 +81,24 @@ function ProfilePage() {
           variant="scrollable"
           scrollButtons="off"
           classes={{
-            root: "h-64 w-full border-b-1",
+            root: "h-64 w-full border-b-1"
           }}
         >
           <Tab
             classes={{
-              root: "h-64",
+              root: "h-64"
             }}
             label="Timeline"
           />
           <Tab
             classes={{
-              root: "h-64",
+              root: "h-64"
             }}
             label="About"
           />
           <Tab
             classes={{
-              root: "h-64",
+              root: "h-64"
             }}
             label="Photos & Videos"
           />
