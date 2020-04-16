@@ -53,6 +53,8 @@ class UserInfoViewSet(viewsets.ModelViewSet):
 
 class MyUserInfoView(APIView):
 
+    permission_classes = [OnlyMyandAdmin]
+
     def get(self, request, version):
 
         queryset = UserInfo.objects.all().filter(user=request.user.pk)[0]

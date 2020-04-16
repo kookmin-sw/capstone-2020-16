@@ -203,6 +203,8 @@ class GameViewSet(viewsets.ModelViewSet):
 
 class MyGameView(APIView):
 
+    permission_classes = [UserReadOnly]
+
     def get(self, request, version):
 
         queryset = Game.objects.all().filter(Q(challenger=request.user.pk) | Q(opposite=request.user.pk))
