@@ -39,7 +39,7 @@ function UserMenu(props) {
 						{user.data.displayName}
 					</Typography>
 					<Typography className="text-11 capitalize" color="textSecondary">
-						{user.role.toString()}
+						{user.data.role}
 					</Typography>
 				</div>
 
