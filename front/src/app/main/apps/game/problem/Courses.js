@@ -6,13 +6,13 @@ import CardActions from '@material-ui/core/CardActions';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import withReducer from 'app/store/withReducer';
+// import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from 'app/store/actions';
-import reducer from 'app/store/reducers';
+// import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 
