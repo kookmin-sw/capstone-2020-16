@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // import * as Actions from 'app/auth/store/actions';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 // require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
@@ -16,16 +17,24 @@ require('codemirror/mode/javascript/javascript.js');
 
 
 
-function codePost(content, userid, tmp){
+function codePost(userid, problemid, code, languageid, codename){
+  var header = {
+    'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+  }
+  
   var data = {
     author: userid,
-    code : content,
-    language : tmp,
-    problem: 1,
-    name : "codePostTest"
+    code : code,
+    language : languageid,
+    problem: problemid,
+    name : codename
   }
 
-  axios.post("/api/v1/code/", data)
+  console.log(data)
+
+  axios.post("/api/v1/code/", data, {
+    headers: header
+  })
   .then( response => {
     console.log(response);
   })
@@ -45,6 +54,10 @@ function CodeEditor() {
   // console.log(getto)
 
 
+  var problemid = useSelector(state => state.getProblemId.getProblem);
+  console.log(problemid);
+  
+  
 
     // const classes = useStyles();
     const [code, setCode] = useState(
@@ -118,7 +131,7 @@ function CodeEditor() {
         to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
-         codePost(code, 1, option.idx)}
+         codePost(parseInt(window.localStorage.getItem('pk')), problemid.id, code, option.idx, "testCode")}
         }									 
        style={{
          textAlign: 'center',
