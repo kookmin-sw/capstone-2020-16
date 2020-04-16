@@ -3,9 +3,9 @@ import * as Actions from '../actions';
 const initialState = {
 	role: [], // guest
 	data: {
-		displayName: 'guest',
-		photoURL: 'assets/images/avatars/profile.jpg',
-		email: '',
+		displayName: 'ㅇㅅㅇ',
+		photoURL: 'assets/images/avatars/algos_lab.jpg',
+		email: 'algos_lab@google.com',
 		shortcuts: ['calendar', 'mail', 'contacts', 'todo']
 	}
 };

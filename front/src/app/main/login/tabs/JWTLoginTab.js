@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Icon from '@material-ui/core/Icon';
 import InputAdornment from '@material-ui/core/InputAdornment';
-// import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography';
 import * as authActions from 'app/auth/store/actions';
 import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
@@ -34,6 +34,7 @@ function JWTLoginTab(props) {
 	}
 
 	function handleSubmit(model) {
+		console.log('여기는온다')
 		dispatch(authActions.submitLogin(model));
 		// console.log(model);
 	}
@@ -111,7 +112,7 @@ function JWTLoginTab(props) {
 			</Formsy>
 
 			<div className="flex flex-col items-center pt-24">
-				{/* <Typography className="text-14 font-600 py-8">Credentials</Typography> */}
+				<Typography className="text-14 font-600 py-8">Credentials</Typography>
 
 				<Divider className="mb-16 w-256" />
 
@@ -119,43 +120,43 @@ function JWTLoginTab(props) {
 					<thead>
 						<tr>
 							<th>
-								{/* <Typography className="font-600" color="textSecondary">
+								<Typography className="font-600" color="textSecondary">
 									Role
-								</Typography> */}
+								</Typography>
 							</th>
 							<th>
-								{/* <Typography className="font-600" color="textSecondary">
+								<Typography className="font-600" color="textSecondary">
 									Username
-								</Typography> */}
+								</Typography>
 							</th>
 							<th>
-								{/* <Typography className="font-600" color="textSecondary">
+								<Typography className="font-600" color="textSecondary">
 									Password
-								</Typography> */}
+								</Typography>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td>
-								{/* <Typography>Admin</Typography> */}
+								<Typography>Admin</Typography>
 							</td>
 							<td>
-								{/* <Typography>admin</Typography> */}
+								<Typography>admin</Typography>
 							</td>
 							<td>
-								{/* <Typography>admin</Typography> */}
+								<Typography>admin</Typography>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								{/* <Typography>Staff</Typography> */}
+								<Typography>Staff</Typography>
 							</td>
 							<td>
-								{/* <Typography>staff</Typography> */}
+								<Typography>staff</Typography>
 							</td>
 							<td>
-								{/* <Typography>staff</Typography> */}
+								<Typography>staff</Typography>
 							</td>
 						</tr>
 					</tbody>

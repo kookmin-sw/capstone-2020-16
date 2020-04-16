@@ -46,8 +46,8 @@ function Login() {
 
 				<FuseAnimate delay={400}>
 					<Typography variant="subtitle1" color="inherit" className="max-w-512 mt-16">
-						{/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat, vel
-						convallis elit fermentum pellentesque. Sed mollis velit facilisis facilisis. */}
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat, vel
+						convallis elit fermentum pellentesque. Sed mollis velit facilisis facilisis.
 					</Typography>
 				</FuseAnimate>
 			</div>
