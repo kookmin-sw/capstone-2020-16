@@ -54,9 +54,12 @@ function KnowledgeBasePage() {
   var id = document.location.href.split("ViewProblemPage/"); console.log(id);
   var id2 = id[1];
   console.log(id2);
-
+  // const count = useSelector(({getProblemId}) => getProblemId.getId.results[id2-1]);
+  // console.log(count)
   const problemId = useSelector(state => state.getProblemId.getId.results[id2-1]);
-
+  console.log(problemId)
+  // var problemid = useSelector(state => state.getProblemId.getProblem);
+  // console.log(problemid.id);
   useEffect( () => {
     dispatch(Actions.getProblem(problemId))
   },[dispatch])

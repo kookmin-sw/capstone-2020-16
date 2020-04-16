@@ -108,7 +108,7 @@ function Courses(props) {
 									animation: 'transition.slideUpBigIn'
 								}}
 								className="flex flex-wrap py-24"
-							>
+							>	
 								{posts.map(course => {
 									// const category = posts.find(_cat => _cat.value === course.title);
 									return (

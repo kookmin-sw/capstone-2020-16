@@ -71,7 +71,7 @@ function CodeEditor() {
         lineNumbers: true
     });
 
-    option.idx = 1
+    option.idx = 1;
 
     function changeMode(event) {
         console.log(`beforeMode>>>>>>${option.mode}`);

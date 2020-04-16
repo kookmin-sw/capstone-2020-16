@@ -7,13 +7,14 @@ import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React  from 'react';
+import React, { useEffect,useState }  from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useSelector } from 'react-redux';
 // import * as Actions from 'app/store/actions';
-// import axios from 'axios';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 
@@ -39,55 +40,32 @@ const useStyles = makeStyles(theme => ({
 
 export default function MatchingIdx1() {
    const classes = useStyles();
+   var header = {
+      'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+    }
 
    var id = document.location.href.split("MatchingIdx1Page/");
    var id2 = id[1];
    var id3 = id2-1;
-   // console.log(id2);
-//    const dispatch = useDispatch();
+
+   const problemId = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
+   const pk = window.localStorage.getItem('pk');
+   // console.log(problemId.id, pk);
+
+   const [posts, setPosts] = useState([]);
+  
+   useEffect(() => {
    
 
-//    var val = {
-//       results: [
-//          {
-//             id: 0,
-//             editor: 0,
-//             title: "testing",
-//             description: "se",
-//             limit_time: 2000,
-//             limit_memory: 128,
-//             date: "testing",
-//             level: 1,
-//             popularity: 0,
-//             icon: "testing",
-//             thumbnail: "testing",
-//             rule: "testing",
-//             board_size: 8,
-//             board_info: "testing"
-//          }
-//       ]
-//      }
+      axios
+        .get(`api/v1/code/?author=${pk}&problem=${problemId.id}&available_game=true`, { headers:header})
+        .then(response => {
+        
+         setPosts(response.data.results);
+         console.log(response.data.results);
 
-   const tmp = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
-   console.log(tmp)
-   
-//    if(tmp){
-//       val = tmp;
-//    }
-   
-
-
-//    useEffect(() => {
-   
-
-//       axios
-//         .get('/api/v1/problem/')
-//         .then(response => {
-
-//            dispatch(Actions.getProblemId(response.data.results));
-
-//         })
-//       }, []);
+        })
+      }, []);
    
    
 
@@ -235,10 +213,13 @@ export default function MatchingIdx1() {
                                        id: 'outlined-code-native-simple',
                                     }}
                                  >
-                                    <option value="" />
-                                    <option value={10}>CODE-1</option>
-                                    <option value={20}>CODE-2</option>
-                                    <option value={30}>CODE-3</option>
+                                     <option value=" ">Select Code </option>
+                                    {posts.map(course => { return(
+
+                                    <option value={posts.id}>Code</option>
+
+                                    ); })}
+                                 
                                  </Select>
                               </FormControl>
                               
@@ -249,9 +230,12 @@ export default function MatchingIdx1() {
                         </CardContent>
 
                         <div className="flex flex-col items-center justify-center pb-32 px-32" >
-                           <Button href="/apps/game/matching2/MatchingIdx2Page" variant="contained" color="primary" className="w-full">
+                        <Link className="font-medium" 										
+												to={`/apps/game/Replay/courses`}>
+                           <Button variant="contained" color="primary" className="w-full">
                               Matching
                            </Button>
+                           </Link>
                            {/* <Typography color="textSecondary" className="mt-16">
                               30 day free trial to startn
                            </Typography> */}
@@ -301,53 +285,13 @@ export default function MatchingIdx1() {
                         </CardContent>
 
                         <div className="flex justify-center pb-32">
-                           {/* <Button variant="contained" color="secondary" className="w-128">
-                              View more profile
-                           </Button> */}
+                          
                         </div>
                      </Card>
                   </div>
                </FuseAnimateGroup>
 
-               {/* <div className="flex flex-col items-center py-96 text-center sm:ltr:text-left sm:rtl:text-right max-w-xl mx-auto">
-                  <Typography variant="h4" className="pb-32 font-light">
-                     Frequently Asked Questions
-                  </Typography> */}
-
-                  {/* <div className="flex flex-wrap w-full">
-                     <div className="w-full sm:w-1/2 p-24">
-                        <Typography className="text-20 mb-8">How does free trial work?</Typography>
-                        <Typography className="text-16" color="textSecondary">
-                           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a diam nec augue
-                           tincidunt accumsan. In dignissim laoreet ipsum eu interdum.
-                        </Typography>
-                     </div>
-
-                     {/* <div className="w-full sm:w-1/2 p-24">
-                        <Typography className="text-20 mb-8">Can I cancel any time?</Typography>
-                        <Typography className="text-16" color="textSecondary">
-                           Aliquam erat volutpat. Etiam luctus massa ex, at tempus tellus blandit quis. Sed
-                           quis neque tellus. Donec maximus ipsum in malesuada hendrerit.
-                        </Typography>
-                     </div>
-
-                     <div className="w-full sm:w-1/2 p-24">
-                        <Typography className="text-20 mb-8">What happens after my trial ended?</Typography>
-                        <Typography className="text-16" color="textSecondary">
-                           Aliquam erat volutpat. Etiam luctus massa ex, at tempus tellus blandit quis. Sed
-                           quis neque tellus. Donec maximus ipsum in malesuada hendrerit.
-                        </Typography>
-                     </div>
-
-                     <div className="w-full sm:w-1/2 p-24">
-                        <Typography className="text-20 mb-8">Can I have a discount?</Typography>
-                        <Typography className="text-16" color="textSecondary">
-                           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a diam nec augue
-                           tincidunt accumsan. In dignissim laoreet ipsum eu interdum.
-                        </Typography>
-                     </div>
-                  </div>
-               </div> */}
+             
             </div>
          </div>
       </div>

@@ -19,9 +19,9 @@ import Typography from '@material-ui/core/Typography';
 // import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import * as Actions from 'app/store/actions';
+import * as Actions from 'app/store/actions';
 // import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
@@ -47,14 +47,16 @@ const useStyles = makeStyles(theme => ({
 
 function Courses(props) {
 
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	
 	// const count = useSelector(({getProblemId}) => getProblemId.getId.results);
 	// const getId = (param) => {
 
 	// 	dispatch(Actions.getProblemId(param))
 		
-	// }
+
+	// const count = useSelector(({getProblemId}) => getProblemId.getId.results[0]);
+	// console.log(count)
 
 	const classes = useStyles(props);
 
@@ -62,39 +64,16 @@ function Courses(props) {
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
-		// 여기가 componentDidMount에 해당
-		// axios
-		//   .get('/api/v1/problem/')
-		//   .then(response => {
 
-		// 	console.log(response)
-		// 	setPosts(response.data.results);
-		// 	const fetchCount = () => {
-		// 		const countData = getId
-		// 		countData();
-		// 	}
-		// 	fetchCount()
-  
-		// 	return () => {
-			  
-		// 	  // 여기가 componentWillUnmount에 해당
-		// 	};
-		//   })
-		//   .catch(error => {
-		// 	console.log(error);
-		//   });
 		axios
 		  .get('/api/v1/problem/')
 		  .then(response => {
-			//   console.log(response.data.count)
-			//   console.log(`${response.data.count}`);
-			//   console.log(response)
-			//   getId2(response.data.count);
-			//   dispatch(Actions.getProblemId(response.data.results));
-			//   console.log(`asdasd${response.data.count}`);
+
+
+			   dispatch(Actions.getProblemId(response.data.results));
 			   setPosts(response.data.results);
 		  })
-		},[]);
+		},[dispatch]);
 	
 		
 
@@ -151,8 +130,7 @@ function Courses(props) {
 												<CardActions className="justify-center">
 												<Link className="font-medium"												
 												to={`/apps/game/matching1/MatchingIdx1Page/${course.id}`}>
-													 <button onClick={course.id}
-													//  href = {`/apps/game/viewProblem/ViewProblemPage${course.id}`}
+													 <button
 													> <h3>START</h3>
 													 </button>
 													 </Link>
