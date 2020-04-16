@@ -13,7 +13,6 @@ export function submitLogin({ email, password }) {
 			.then(user => {
 				console.log(user);
 				dispatch(UserActions.setUserData(user));
-				console.log('hehe');
 				
 				return dispatch({
 					type: LOGIN_SUCCESS
