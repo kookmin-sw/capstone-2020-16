@@ -9,14 +9,29 @@ from onepanman_api.models import UserInformationInProblem, Problem, Game, Code
 import random
 import tasks
 
+from onepanman_api.util.create_uiip import create_instance
+
+from api.onepanman_api.util.update_uiip import update_playing
+
+
 class GetCoreResponse(Response):
 
     def close(self):
         matchInfo = self.data
 
-        # 여기에 celery 호출하는 코드!
+        # uiip objects playing...
+        challenger = matchInfo["challenger"]
+        opposite = matchInfo["opposite"]
+        problemid = matchInfo["problem"]
+        status = True
 
+        update_playing(challenger, problemid, status)
+        update_playing(opposite, problemid, status)
+
+        # 여기에 celery 호출하는 코드!
         result = tasks.play_game.delay(matchInfo)
+
+
 
 
 class Match(APIView):
@@ -26,14 +41,15 @@ class Match(APIView):
     # 유저와 문제정보로 상대방을 매칭하고, 매칭 정보를 반환하는 함수
     def match(self, userid, problemid, codeid):
 
-        queryset_up = UserInformationInProblem.objects.all().filter(problem=problemid, available_game=True).order_by('-score')
+        queryset_up = UserInformationInProblem.objects.all().filter(problem=problemid, available_game=True, playing=False).order_by('-score')
         challenger = queryset_up.filter(user=userid)
+        print(queryset_up)
 
         challenger_code = Code.objects.all().filter(id=codeid)[0]
 
         # 유저가 이 문제가 처음일 경우
         if len(challenger) < 1:
-            challenger = self.create_instance(userid, problemid, codeid)
+            challenger = create_instance(userid, problemid, codeid)
 
             if not challenger:
                 return False
@@ -81,11 +97,14 @@ class Match(APIView):
                     opposite = opposite_list[opposite_index]
 
                 else:
-                    opposite_list = high_scores[-3:] + low_scores[:3]
+                    high_range = len(high_scores) -3
+                    opposite_list = high_scores[high_range:] + low_scores[:3]
                     opposite_index = random.randint(0, 5)
                     opposite = opposite_list[opposite_index]
 
             except Exception as e:
+                print(type(high_scores))
+                print(len(high_scores))
                 print("매칭 에러 : {}".format(e))
 
             check = self.checkValid(opposite.user.pk, problemid, opposite.code.id)
@@ -179,34 +198,6 @@ class Match(APIView):
 
         return matchInfo
 
-    # UserInformationInProblem instance를 만드는 함수
-    def create_instance(self, userid, problemid, codeid):
-        try :
-            data = {
-                "user": userid,
-                "problem": problemid,
-                "code": codeid,
-                "tier": "Bronze",
-                "score": 50,
-            }
-
-            serializer = serializers.UserInformationInProblemSerializer(data=data)
-            serializer.is_valid(raise_exception=True)
-            validated_data = serializer.validated_data
-
-            instance = UserInformationInProblem.objects.create(
-                user=validated_data["user"],
-                problem=validated_data["problem"],
-                code=validated_data["code"],
-                tier=validated_data["tier"],
-                score=validated_data["score"],
-            )
-
-            return instance
-        except Exception as e:
-            print("Error: create UserInformationInProblem instance :: {}".format(e))
-            return False
-
     def checkValid(self, userid, problemid, codeid):
 
         user_code = Code.objects.all().filter(id=codeid, author=userid)
@@ -228,6 +219,7 @@ class Match(APIView):
         if int(problemid) is not problemInCode:
             print("not matching problem with code")
             return False
+
 
         return True
 

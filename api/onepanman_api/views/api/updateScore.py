@@ -6,7 +6,7 @@ def update_tier(problemid):
     instance_all = UserInformationInProblem.objects.all().filter(problem=problemid).order_by('-score')
 
     for instance in instance_all:
-        print("instance : {}".format(instance))
+        # print("instance : {}".format(instance))
         user_score = instance.score
         instances = instance_all.exclude(id=instance.id)
 

@@ -59,12 +59,6 @@ class GameViewSet(viewsets.ModelViewSet):
             print("game_error - update code error : {}".format(e))
 
         try:
-            error_user.available_game = False
-
-        except Exception as e:
-            print("game_error - update uiip objects error : {}".format(e))
-
-        try:
             # update error user's score
             error_score = error_user.score - 50
 
@@ -73,6 +67,7 @@ class GameViewSet(viewsets.ModelViewSet):
                 "score": error_score,
                 "user": error_user.pk,
                 "available_game": False,
+                "playing": False,
             }
 
             UIIPserializer = UserInformationInProblemSerializer(data=error_user_data)
@@ -81,6 +76,7 @@ class GameViewSet(viewsets.ModelViewSet):
 
             error_user.score = valid_UIIP["score"]
             error_user.available_game = valid_UIIP["available_game"]
+            error_user.playing = valid_UIIP["playing"]
 
         except Exception as e:
             print("game_error - error user's score update error : {}".format(e))
@@ -94,6 +90,7 @@ class GameViewSet(viewsets.ModelViewSet):
                 "score": normal_score,
                 "user": normal_user.pk,
                 "code": normal_user.code.id,
+                "playing": False,
             }
 
             UIIPserializer = UserInformationInProblemSerializer(data=normal_user_data)
@@ -102,6 +99,8 @@ class GameViewSet(viewsets.ModelViewSet):
 
             normal_user.score = valid_UIIP["score"]
             normal_user.code = valid_UIIP["code"]
+            normal_user.playing = valid_UIIP["playing"]
+
         except Exception as e:
             print("game_error - normal user's score error : {}".format(e))
 
@@ -151,6 +150,7 @@ class GameViewSet(viewsets.ModelViewSet):
             "user": challenger.user.pk,
             "score": challenger_score,
             "code": data["challenger_code"],
+            "playing": False,
         }
 
         opposite_data = {
@@ -158,6 +158,7 @@ class GameViewSet(viewsets.ModelViewSet):
             "user": opposite.user.pk,
             "score": opposite_score,
             "code": data["opposite_code"],
+            "playing": False,
         }
 
         try:
@@ -171,9 +172,12 @@ class GameViewSet(viewsets.ModelViewSet):
 
             challenger.score = challenger_data_validated["score"]
             challenger.code = challenger_data_validated["code"]
+            challenger.playing = challenger_data_validated["playing"]
 
             opposite.score = opposite_data_validated["score"]
             opposite.code = opposite_data_validated["code"]
+            opposite.playing = opposite_data_validated["playing"]
+
         except Exception as e:
             print("game_finish - update user score & code error : {} ".format(e))
 
@@ -193,6 +197,7 @@ class GameViewSet(viewsets.ModelViewSet):
 
         if result == "finish":
             self.game_finish(data)
+
 
         update_tier(problemid=data["problem"])
         update_totalTier()
