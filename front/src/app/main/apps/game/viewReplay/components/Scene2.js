@@ -24,12 +24,12 @@ const boardStatus = {
 }
 
 class Scene2 extends Phaser.Scene {
-    constructor() {
-      super("playGame");
-
-      axios.get(`/api/${version.version}/game/${version.id}/`)
-      .then((response) => {
-        console.log(response)
+  constructor() {
+    super("playGame");
+    
+    axios.get(`/api/${version.version}/game/${version.id}/`)
+    .then((response) => {
+      console.log(response)
         var temp_chacksoo = response.data.record.replace(/\n/gi, '');
         boardStatus.chacksoo = temp_chacksoo.split(/ /);
         var temp_placement = response.data.placement_record.replace(/\n/gi, ' ');
@@ -44,12 +44,32 @@ class Scene2 extends Phaser.Scene {
       this.iter = 0; // used for itarations
       boardStatus.boardIdx = 0;
       
+      // for slider
+      this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(10, 10); // add dot
+      this.sliderDot.slider = this.plugins.get('rexsliderplugin').add(this.sliderDot, {
+        endPoints: [{
+                x: this.sliderDot.x - 200,
+                y: this.sliderDot.y
+            },
+            {
+                x: this.sliderDot.x + 200,
+                y: this.sliderDot.y
+            }
+        ],
+        value: 0
+      });
+      this.add.graphics()
+              .lineStyle(3, 0xeec65b, 1)
+              .strokePoints(this.sliderDot.slider.endPoints);
+      this.text = this.add.text(800,0, '', { font: '48px Arial', fill: '#eec65b' });
+      this.cursorKeys = this.input.keyboard.createCursorKeys();
+      
       // change isAuto value
       this.updateClickCountText = () => {
         boardStatus.isAuto = !boardStatus.isAuto
-
+        
         if(boardStatus.isAuto === true)
-          this.clickButton.setText("Auto Mode")
+        this.clickButton.setText("Auto Mode")
         else
           this.clickButton.setText("Manual Mode")
       }
@@ -188,25 +208,6 @@ class Scene2 extends Phaser.Scene {
         y: -88
       });
 
-      // for slider
-      this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(10, 10); // add dot
-      this.sliderDot.slider = this.plugins.get('rexsliderplugin').add(this.sliderDot, {
-        endPoints: [{
-                x: this.sliderDot.x - 200,
-                y: this.sliderDot.y
-            },
-            {
-                x: this.sliderDot.x + 200,
-                y: this.sliderDot.y
-            }
-        ],
-        value: 0
-    });
-      this.add.graphics()
-              .lineStyle(3, 0xeec65b, 1)
-              .strokePoints(this.sliderDot.slider.endPoints);
-      this.text = this.add.text(800,0, '', { font: '48px Arial', fill: '#eec65b' });
-      this.cursorKeys = this.input.keyboard.createCursorKeys();
     }
   
   
