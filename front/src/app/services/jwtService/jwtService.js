@@ -110,7 +110,6 @@ class JwtService extends FuseUtils.EventEmitter {
 			this.setSession(response.data.token);
 			window.localStorage.setItem("username", username);
             window.localStorage.setItem("password", password);
-            window.localStorage.setItem('pk', response.data.user.pk);
             resolve(response.data.user);
           } else {
             reject(response.data.error);

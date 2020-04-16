@@ -104,6 +104,7 @@ export function setUserData(user) {
 		/*
         Set User Data
          */
+		console.log('ddd');
 		
 		console.log(user);
 		
@@ -151,6 +152,7 @@ export function setUserData(user) {
 				shortcuts: ['calendar', 'mail', 'contacts']
 			}
 		}
+		console.log('srun')
 		dispatch({
 			type: SET_USER_DATA,
 			payload: temp_data
