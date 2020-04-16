@@ -14,7 +14,7 @@ import Divider from "@material-ui/core/Divider";
 // import { useDispatch, useSelector } from 'react-redux';
 // import * as Actions from 'app/store/actions';
 import { useSelector } from 'react-redux';
-import React, { useEffect } from 'react';
+import React from 'react';
 // import {Courses} from 'app/main/apps/game/problem/Courses';
 
 
