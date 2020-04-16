@@ -269,17 +269,20 @@ class Scene2 extends Phaser.Scene {
       this.iter += 0.001;
       if(boardStatus.isAuto){
         boardStatus.boardIdx += 1;
+        this.sliderDot.visible = false;
         sleep(500);
       }
       else{
-        if (this.cursorKeys.left.isDown) {
-          this.sliderDot.slider.value -= 0.01;
-        }
-        else if (this.cursorKeys.right.isDown) {
-          this.sliderDot.slider.value += 0.01;
-        }
-        this.text.setText(this.sliderDot.slider.value);
+        this.sliderDot.visible = true;
       }
+
+      if (this.cursorKeys.left.isDown) {
+        this.sliderDot.slider.value -= 0.01;
+      }
+      else if (this.cursorKeys.right.isDown) {
+        this.sliderDot.slider.value += 0.01;
+      }
+      this.text.setText(this.sliderDot.slider.value);
       
       if(boardStatus.chacksoo[(boardStatus.boardIdx-1)*64] === undefined){
         boardStatus.boardIdx = 0;
