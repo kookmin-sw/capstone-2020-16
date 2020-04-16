@@ -14,7 +14,7 @@ import Divider from "@material-ui/core/Divider";
 // import { useDispatch, useSelector } from 'react-redux';
 // import * as Actions from 'app/store/actions';
 import { useSelector } from 'react-redux';
-import React from 'react';
+import React, { useEffect } from 'react';
 // import {Courses} from 'app/main/apps/game/problem/Courses';
 
 
@@ -57,15 +57,15 @@ function KnowledgeBasePage() {
 
 	// 	dispatch(Actions.getProblemId(param))
 		
-	// }
-  const iddd = useSelector(({getProblemId}) => getProblemId.getId.results[0]);
-  console.log(iddd)
-  // var xx = '88240.tisory.com?page=1';
-  // var para = xx.split("?"); console.log(para);
-
+  // }
+  
+  // const iddd = useSelector(({getProblemId}) => getProblemId.getId.results[0]);
+  // if(iddd)
+  // 	{console.log(iddd)}
+  
   var id = document.location.href.split("ViewProblemPage/"); console.log(id);
   var id2 = id[1];
-  console.log(id2);
+  // console.log(id2);
   // const id =1;
   // console.log(id)
 
@@ -75,11 +75,12 @@ function KnowledgeBasePage() {
 	// 	console.log(id)
   //   }
   
-  //    useEffect(() => {
+     //useEffect(() => {
 
-  //     return getId();
+      const iddd = useSelector(state => state.getProblemId.getId.results);
+  		if(iddd){console.log(iddd)}
     
-  //    });
+     //});
 
   // const id = this.props;
 

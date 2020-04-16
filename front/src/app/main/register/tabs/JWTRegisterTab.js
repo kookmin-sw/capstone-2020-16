@@ -95,7 +95,7 @@ function JWTRegisterTab(props) {
 					type="password"
 					name="password"
 					label="Password"
-					validations="equalsField:password-confirm"
+					validations="equalsField:password_confirm"
 					validationErrors={{
 						equalsField: 'Passwords do not match'
 					}}
@@ -115,7 +115,7 @@ function JWTRegisterTab(props) {
 				<TextFieldFormsy
 					className="mb-16"
 					type="password"
-					name="password-confirm"
+					name="password_confirm"
 					label="Confirm Password"
 					validations="equalsField:password"
 					validationErrors={{
