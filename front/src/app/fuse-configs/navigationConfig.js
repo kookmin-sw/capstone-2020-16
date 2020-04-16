@@ -32,47 +32,56 @@ const navigationConfig = [
 				title: 'GAME',
 				translate: 'GAME',
 				type: 'collapse',
-				icon: 'school',
 				children: [
-					{
-						id: 'game-problem',
-						title: 'Problem',
-						type: 'item',
-						url: '/apps/game/problem'
-					},
-					{
-						id: 'game-battle',
-						title: 'Battle',
-						type: 'item',
-						url: '/apps/game/battle'
-					},
-					{
-						id: 'game-replay',
-						title: 'Replay',
-						translate: 'Replay',
-						type: 'item',
-						url: '/apps/game/Replay'
-					},
-					{
-						id: 'matching',
-						title: 'Matching',
-						type: 'item',
-						url: '/apps/game/matching1/MatchingIdx1Page'
-					},
-					{
-						id: 'viewproblem',
-						title: 'ViewProblem',
-						type: 'item',
-						url:  '/apps/game/viewProblem/ViewProblemPage'
-					},
-					{
-						id: 'viewreplay',
-						title: 'ViewReplay',
-						type: 'item',
-						url:  '/apps/game/viewReplay/ViewReplayPage'
-					},
+			
+
 				]
 			},
+			{
+				id: 'game-problem',
+				title: 'Problem',
+				type: 'item',
+				url: '/apps/game/problem',
+				icon:'school',
+			},
+			{
+				id: 'game-battle',
+				title: 'Battle',
+				type: 'item',
+				url: '/apps/game/battle',
+				icon:'person',
+			},
+			{
+				id: 'game-replay',
+				title: 'Replay',
+				translate: 'Replay',
+				type: 'item',
+				url: '/apps/game/Replay',
+				icon:'assessment',
+			},
+			{
+				id: 'matching',
+				title: 'Matching',
+				type: 'item',
+				url: '/apps/game/matching1/MatchingIdx1Page',
+				icon:'school',
+			},
+			{
+				id: 'viewproblem',
+				title: 'ViewProblem',
+				type: 'item',
+				url:  '/apps/game/viewProblem/ViewProblemPage',
+				icon:'school',
+			},
+			{
+				id: 'viewreplay',
+				title: 'ViewReplay',
+				type: 'item',
+				url:  '/apps/game/viewReplay/ViewReplayPage',
+				icon:'school',
+			},
+
+
 			// {
 			// 	id: 'community',
 			// 	title: 'Community',
@@ -94,13 +103,13 @@ const navigationConfig = [
 			// 		fg: '#FFFFFF'
 			// 	}
 			// },
-			{
-				id: 'help',
-				title: 'HELP',
-				type: 'item',
-				icon: 'help',
-				url: '/pages/help'
-			},
+			// {
+			// 	id: 'help',
+			// 	title: 'HELP',
+			// 	type: 'item',
+			// 	icon: 'help',
+			// 	url: '/pages/help'
+			// },
 
 			// {
 			// 	id: 'calendar',
