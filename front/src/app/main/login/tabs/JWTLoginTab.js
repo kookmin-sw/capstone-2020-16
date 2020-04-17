@@ -52,7 +52,7 @@ function JWTLoginTab(props) {
 					type="text"
 					name="email"
 					label="Username/Email"
-					value="jjjjj"
+					value=""
 					validations={{
 						minLength: 4
 					}}
@@ -77,7 +77,7 @@ function JWTLoginTab(props) {
 					type="password"
 					name="password"
 					label="Password"
-					value="djemals1"
+					value=""
 					validations={{
 						minLength: 4
 					}}
