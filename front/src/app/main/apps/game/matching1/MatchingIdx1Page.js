@@ -38,20 +38,35 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
+function goMatch(userid, problemid, code, header){
+ 
+   axios.get(`/api/v1/match/??author=${userid}&problem=${problemid}&code=${code}`, {
+     headers: header
+   })
+   .then( response => {
+     console.log(response);
+   })
+   .catch(error => {
+     console.log(error);
+   })
+ }
+ 
+
+
+
 export default function MatchingIdx1() {
    const classes = useStyles();
    var header = {
       'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
     }
-
+   var username = window.localStorage.getItem('username');
+   const pk = window.localStorage.getItem('pk');
    var id = document.location.href.split("MatchingIdx1Page/");
    var id2 = id[1];
    var id3 = id2-1;
 
    const problemId = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
-   const pk = window.localStorage.getItem('pk');
-   // console.log(problemId.id, pk);
-
+   const problemIdId=problemId.id;
    const [posts, setPosts] = useState([]);
   
    useEffect(() => {
@@ -123,15 +138,12 @@ export default function MatchingIdx1() {
                      <Card square>
                         <div className={clsx(classes.cardHeader, 'px-24 py-16')}>
                            <Typography variant="subtitle1" color="inherit">
-                              Player Name
+                             {username}
                            </Typography>
                         </div>
 
                         <CardContent className="p-32">
                            <div className="flex justify-center">
-                              {/* <Typography variant="h5" color="textSecondary">
-                                 $
-                              </Typography> */}
                               <div className="flex items-end">
                                  <Typography className="text-72 mx-4 font-light leading-none">
                                  <div><img src="assets/images/profile/2.jpg" alt="user profile"/></div>
@@ -144,7 +156,7 @@ export default function MatchingIdx1() {
                            <div className="flex flex-col">
                               <Typography variant="subtitle1" className="">
                                  <span className="font-bold mx-4">Win/Lose</span>
-                                 13/4
+                                 loading..
                               </Typography>
                               <Typography variant="subtitle1" className="">
                                  <span className="font-bold mx-4">Country</span>
@@ -152,7 +164,7 @@ export default function MatchingIdx1() {
                               </Typography>
                               <Typography variant="subtitle1" className="">
                                  <span className="font-bold mx-4">Technology</span>
-                                 Python
+                                 loading..
                               </Typography>
                            </div>
                         </CardContent>
@@ -168,7 +180,7 @@ export default function MatchingIdx1() {
                   <div className="w-full max-w-320 sm:w-1/3 p-12">
                      <Card className="relative" raised>
                         <div className="p-32 text-center">
-                           <Typography className="text-32">  </Typography>
+                           <Typography className="text-32">  {problemId.title} </Typography>
                            <Typography color="textSecondary" className="text-16 font-medium">
                               Battle game
                            </Typography>
@@ -177,9 +189,6 @@ export default function MatchingIdx1() {
                         <CardContent className="text-center p-0">
                            <div className={clsx(classes.price, 'flex items-end justify-center py-16 px-32')}>
                               <div className="flex justify-center">
-                                 {/* <Typography color="inherit" className="font-medium">
-                                    $
-                                 </Typography> */}
                                  <Typography
                                     color="inherit"
                                     className="text-32 mx-4 font-light leading-none"
@@ -187,15 +196,12 @@ export default function MatchingIdx1() {
                                     <div><img src="assets/images/games/4.jpg" alt="user profile"/></div>
                                  </Typography>
                               </div>
-                              {/* <Typography color="inherit" className="mx-4">
-                                 monthly per user
-                              </Typography> */}
                            </div>
 
                            <div className="flex flex-col p-32">
                               <Typography className="text-20"> GameRule </Typography>
                               <Typography color="textSecondary" className="mb-16">
-                                
+                              {problemId.description}
                               </Typography>
                               <div> 　 </div>
                               <Typography className="text-20"> Select Your Code </Typography>
@@ -213,32 +219,30 @@ export default function MatchingIdx1() {
                                        id: 'outlined-code-native-simple',
                                     }}
                                  >
-                                     <option value=" ">Select Code </option>
+                                     <option value=" "> Select Code </option>
                                     {posts.map(course => { return(
 
-                                    <option value={posts.id}>Code</option>
-
+                                    <option value={course.id}>Code</option>
+                                    
                                     ); })}
                                  
                                  </Select>
                               </FormControl>
-                              
-                              {/* <Typography color="textSecondary">Advanced reporting</Typography>
-                              <Typography color="textSecondary">Customizable interface</Typography>
-                              <Typography color="textSecondary">CRM Integration</Typography> */}
+                                                           
                            </div>
                         </CardContent>
 
                         <div className="flex flex-col items-center justify-center pb-32 px-32" >
                         <Link className="font-medium" 										
-												to={`/apps/game/Replay/courses`}>
-                           <Button variant="contained" color="primary" className="w-full">
+												to={`/apps/game/Replay`}>
+                           <Button variant="contained" color="primary" className="w-full"
+                           onClick={function(){
+                              goMatch({pk}, {problemIdId}, {pk}, {header})
+                             }}	
+                           >
                               Matching
                            </Button>
                            </Link>
-                           {/* <Typography color="textSecondary" className="mt-16">
-                              30 day free trial to startn
-                           </Typography> */}
                         </div>
                      </Card>
                   </div>
@@ -253,16 +257,12 @@ export default function MatchingIdx1() {
 
                         <CardContent className="p-32">
                            <div className="flex justify-center">
-                              {/* <Typography variant="h5" color="textSecondary" className="font-medium">
-                                 $
-                              </Typography> */}
+                            
                               <div className="flex items-end">
                                  <Typography className="text-72 mx-4 font-light leading-none">
                                  <div><img src="assets/images/profile/2.jpg" alt="user profile"/></div>
                                  </Typography>
-                                 {/* <Typography variant="subtitle1" color="textSecondary">
-                                    / month
-                                 </Typography> */}
+                               
                               </div>
                            </div>
 
