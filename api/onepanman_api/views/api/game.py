@@ -21,7 +21,7 @@ class GameViewSet(viewsets.ModelViewSet):
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_fields = ('problem', 'challenger', 'opposite')
 
-    #permission_classes = [UserReadOnly]
+    permission_classes = [UserReadOnly]
 
     def game_error(self, data):
         result = data["result"]

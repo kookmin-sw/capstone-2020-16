@@ -12,4 +12,4 @@ class RuleViewSet(viewsets.ModelViewSet):
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_fields = ('ruleClass', 'ruleType')
 
-    #permission_classes = [UserReadOnly]
+    permission_classes = [UserReadOnly]

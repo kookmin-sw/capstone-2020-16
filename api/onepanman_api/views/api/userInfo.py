@@ -15,7 +15,7 @@ class UserInfoViewSet(viewsets.ModelViewSet):
     queryset = models.UserInfo.objects.all()
     serializer_class = serializers.UserInfoSerializer
 
-    #permission_classes = [OnlyMyandAdmin]
+    permission_classes = [OnlyMyandAdmin]
 
     def update(self, request, *args, **kwargs):
         try:

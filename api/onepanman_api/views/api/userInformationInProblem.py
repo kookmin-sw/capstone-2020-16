@@ -21,7 +21,7 @@ class UserInformationInProblemViewSet(viewsets.ModelViewSet):
     # ordering_fields = ('user', 'problem', 'score')
     # ordering = ('user',)
 
-    #permission_classes = [UserReadOnly]
+    permission_classes = [UserReadOnly]
 
 class MyUserInformationInProblemView(APIView):
 

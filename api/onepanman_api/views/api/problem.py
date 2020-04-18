@@ -13,7 +13,7 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
     serializer_class = serializers.ProblemSerializer
     http_method_names = ['get', 'post', 'delete', 'put']
 
-    #permission_classes = [UserReadOnly]
+    permission_classes = [UserReadOnly]
 
     def list(self, request, *args, **kwargs):
         queryset = models.Problem.objects.all()

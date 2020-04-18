@@ -8,14 +8,14 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
-    #permission_classes = [LeaderandAdmin]
+    permission_classes = [LeaderandAdmin]
 
 
 class GroupFullInfoViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all().order_by('groupInfo__ranking')
     serializer_class = GroupFullInfoSerializer
 
-    #permission_classes = [LeaderandAdmin]
+    permission_classes = [LeaderandAdmin]
 
     def create(self, request, *args, **kwargs):
         _mutable = request.data._mutable
