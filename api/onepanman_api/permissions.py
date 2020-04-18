@@ -2,14 +2,12 @@ import json
 
 from rest_framework import permissions
 import os
+from onepanman_api.util.getIp import get_client_ip
 
 # 생성 - 관리자
 # 삭제 - 관리자
 # 수정 - 관리자
 # 보기 - 유저 + 관리자
-from api.onepanman_api.util.getIp import get_client_ip
-
-
 class UserReadOnly(permissions.BasePermission):
 
     # list 허용
