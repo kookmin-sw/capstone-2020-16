@@ -60,18 +60,23 @@ function Courses(props) {
 
 	const classes = useStyles(props);
 
+	var header = {
+		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+	  }
+
+	 const pk = window.localStorage.getItem('pk');
+	 console.log(pk);
 
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
 
 		axios
-		  .get('/api/v1/problem/')
+		.get(`api/v1/game/my/`, { headers:header })
 		  .then(response => {
 
-
-			   dispatch(Actions.getProblemId(response.data.results));
 			   setPosts(response.data.results);
+			   console.log(response.data.results);
 		  })
 		},[dispatch]);
 	
@@ -88,13 +93,13 @@ function Courses(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-					Battle Mode
+					Replay Mode
 					</Typography>
 				</FuseAnimate>
 				<FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
-						Let's Go Battle with your Code!
+						You can see your battle record with replay display
 						</span>
 					</Typography>
 				</FuseAnimate>

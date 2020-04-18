@@ -46,20 +46,11 @@ function codePost(userid, problemid, code, languageid, codename){
 
 function CodeEditor() {
 
-  // const dispatch = useDispatch();
-	
-	
-  // const id = useSelector(({getProblemId}) => getProblemId.getId.count);
-  // const getto = useSelector(({user}) => user.user.data);
-  // console.log(getto)
 
-
-  var problemid = useSelector(state => state.getProblemId.getProblem);
-  console.log(problemid);
+    var problemid = useSelector(state => state.getProblemId.getProblem);
+    console.log(problemid);
   
   
-
-    // const classes = useStyles();
     const [code, setCode] = useState(
         "var component = {\nname: \"react-codemirror\",\nauthor: \"Jed Watson\",\nrepo: \"https://github.com/JedWatson/react-codemirror\"}");
 
@@ -95,9 +86,7 @@ function CodeEditor() {
     //       idx: event.target.value,
     //   });
     //};
-    
-    // console.log(option.idx)
-    // console.log(typeof data.language)
+
 
     function changeCode(event) {
         console.log(`event.target.value>>>>>>${event}`);

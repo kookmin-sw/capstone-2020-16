@@ -49,7 +49,9 @@ const useStyles = makeStyles(theme => ({
 function Courses(props) {
 
 	const dispatch = useDispatch();
-	
+	var header = {
+		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+	  }
 	//const count = useSelector(({getProblemId}) => getProblemId.getId.results);
 	// const getId = (param) => {
 
@@ -59,14 +61,14 @@ function Courses(props) {
 
 	const classes = useStyles(props);
 
-	// let store = createStore(getId);
-
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
 
 		axios
-		.get('/api/v1/problem/')
+		.get('/api/v1/problem/', {
+			headers: header
+		  })
 		.then(response => {
 			
 			console.log(response.data.results);

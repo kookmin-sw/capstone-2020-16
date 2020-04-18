@@ -59,14 +59,18 @@ function Courses(props) {
 	// console.log(count)
 
 	const classes = useStyles(props);
-
+	var header = {
+		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+	  }
 
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
 
 		axios
-		  .get('/api/v1/problem/')
+		  .get('/api/v1/problem/', {
+			headers: header
+		  })
 		  .then(response => {
 
 

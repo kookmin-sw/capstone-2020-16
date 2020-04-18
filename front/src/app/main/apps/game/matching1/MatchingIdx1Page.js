@@ -38,18 +38,8 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-function goMatch(userid, problemid, code, header){
- 
-   axios.get(`/api/v1/match/??author=${userid}&problem=${problemid}&code=${code}`, {
-     headers: header
-   })
-   .then( response => {
-     console.log(response);
-   })
-   .catch(error => {
-     console.log(error);
-   })
- }
+
+
  
 
 
@@ -68,7 +58,41 @@ export default function MatchingIdx1() {
    const problemId = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
    const problemIdId=problemId.id;
    const [posts, setPosts] = useState([]);
-  
+   const [opposite,setOpposite] = useState([]);
+
+   
+function goMatch(userid, problemid, code, header){
+ 
+
+  var data = {
+
+   userid: userid,
+   problemid: problemid,
+   code : code,
+
+ }
+   
+   axios.get(`/api/v1/match/`, data, {
+     headers: header
+   })
+   .then( response => {
+
+      
+      
+     setOpposite(response.data.results);
+     console.log(opposite);
+
+
+   })
+   .catch(error => {
+     console.log(error);
+   })
+
+ 
+ 
+}
+
+
    useEffect(() => {
    
 
@@ -81,6 +105,8 @@ export default function MatchingIdx1() {
 
         })
       }, []);
+
+   
    
    
 
@@ -233,16 +259,14 @@ export default function MatchingIdx1() {
                         </CardContent>
 
                         <div className="flex flex-col items-center justify-center pb-32 px-32" >
-                        <Link className="font-medium" 										
-												to={`/apps/game/Replay`}>
                            <Button variant="contained" color="primary" className="w-full"
                            onClick={function(){
-                              goMatch({pk}, {problemIdId}, {pk}, {header})
+                              goMatch({pk}, {problemIdId}, 63, {header})
+                              // console.log(pk, problemIdId, header)
                              }}	
                            >
                               Matching
                            </Button>
-                           </Link>
                         </div>
                      </Card>
                   </div>
