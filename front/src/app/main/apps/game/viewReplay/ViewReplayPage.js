@@ -2,6 +2,7 @@ import React from 'react';
 import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './components/Scene1.js'
 import Scene2 from './components/Scene2.js'
+
 // import PlacementStateContainer from './container/PlacementStateContainer'
 
 import Modal from '@material-ui/core/Modal';
@@ -50,7 +51,7 @@ function ViewReplayPage() {
 	const handleClose = () => {
 		setOpen(false);
 	};
-	
+
 	const game = {
 		width: 1500,
 		height: 1000,
