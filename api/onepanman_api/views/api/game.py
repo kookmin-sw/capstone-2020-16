@@ -14,6 +14,9 @@ from django.db.models import Q
 
 from onepanman_api.permissions import UserReadOnly
 
+from onepanman_api.permissions import game
+from onepanman_api.util.getIp import get_client_ip
+
 
 class GameViewSet(viewsets.ModelViewSet):
     queryset = Game.objects.all()
@@ -21,7 +24,7 @@ class GameViewSet(viewsets.ModelViewSet):
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_fields = ('problem', 'challenger', 'opposite')
 
-    permission_classes = [UserReadOnly]
+    permission_classes = [game]
 
     def game_error(self, data):
         result = data["result"]
@@ -185,6 +188,7 @@ class GameViewSet(viewsets.ModelViewSet):
         opposite.save()
 
     def update(self, request, *args, **kwargs):
+
         data = super().update(request, *args, **kwargs)
         data = data.data
         result = data["result"]

@@ -47,18 +47,11 @@ class Match(APIView):
 
         challenger_code = Code.objects.all().filter(id=codeid)[0]
 
-        # 유저가 이 문제가 처음일 경우
+        # 유저가 게임중이면
         if len(challenger) < 1:
-            challenger = create_instance(userid, problemid, codeid)
+            return {'error': '유저가 게임중입니다'}, 0
 
-            if not challenger:
-                return False
-
-            create_challenger = True
-
-        else:
-            challenger = challenger[0]
-            create_challenger = False
+        challenger = challenger[0]
 
         queryset_up = queryset_up.exclude(user=userid)
 
@@ -73,11 +66,6 @@ class Match(APIView):
                 elif len(queryset_up) < 6:     # 게임을 플레이한 사람이 6명 미만인 경우
                     opposite_index = random.randint(0, len(queryset_up)-1)
 
-                    opposite = queryset_up[opposite_index]
-
-                elif create_challenger:  # challenger가 이 게임이 첫판인 경우
-                    middle = int(len(queryset_up) / 2)
-                    opposite_index = random.randint(-2, 3) + middle
                     opposite = queryset_up[opposite_index]
 
                 elif len(high_scores) < 3:  # challenger가 top3인 경우 ( 위에 3명이 없는 경우 )
@@ -201,6 +189,10 @@ class Match(APIView):
     def checkValid(self, userid, problemid, codeid):
 
         user_code = Code.objects.all().filter(id=codeid, author=userid)
+        user_uiip = UserInformationInProblem.objects.all().filter(user=userid, problem=problemid)[0]
+
+        if user_uiip.playing is True:
+            return False
 
         if len(user_code) < 1:
             print("No exist code")
@@ -220,11 +212,11 @@ class Match(APIView):
             print("not matching problem with code")
             return False
 
-
         return True
 
     def post(self, request, version):
         try:
+
             data = request.data
 
             userid = data['userid']
