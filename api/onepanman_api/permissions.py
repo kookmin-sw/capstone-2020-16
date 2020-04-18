@@ -75,3 +75,22 @@ class CodePermission(permissions.BasePermission):
 
         return request.user.username == obj.author.username
 
+# 생성 - 관리자
+# 삭제 - 관리자
+# 수정 - 관리자
+# 보기 - 모두 ( 로그인 안해도 OK )
+class ReadAll(permissions.BasePermission):
+    # list 허용
+    def has_permission(self, request, view):
+        if request.method == "POST":
+            return request.user.is_staff
+        return True
+
+    def has_object_permission(self, request, view, obj):
+
+        # retrieve 허용
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # 수정 삭제는 관리자만.
+        return request.user.is_staff
