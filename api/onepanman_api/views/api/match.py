@@ -11,7 +11,7 @@ import tasks
 
 from onepanman_api.util.create_uiip import create_instance
 
-from api.onepanman_api.util.update_uiip import update_playing
+from onepanman_api.util.update_uiip import update_playing
 
 
 class GetCoreResponse(Response):

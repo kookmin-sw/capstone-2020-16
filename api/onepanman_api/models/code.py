@@ -61,7 +61,7 @@ class Code(models.Model):
     available_game = models.BooleanField(
         "게임가능코드",
         db_column="AVAILABLE_GAME",
-        default=False,
+        default=True,
     )
 
     date = models.DateTimeField(
