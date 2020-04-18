@@ -223,7 +223,7 @@ class Match(APIView):
 
         return True
 
-    def get(self, request, version):
+    def post(self, request, version):
         try:
             data = request.data
 
