@@ -59,27 +59,27 @@ const navigationConfig = [
 				url: '/apps/game/Replay',
 				icon:'assessment',
 			},
-			{
-				id: 'matching',
-				title: 'Matching',
-				type: 'item',
-				url: '/apps/game/matching1/MatchingIdx1Page',
-				icon:'school',
-			},
-			{
-				id: 'viewproblem',
-				title: 'ViewProblem',
-				type: 'item',
-				url:  '/apps/game/viewProblem/ViewProblemPage',
-				icon:'school',
-			},
-			{
-				id: 'viewreplay',
-				title: 'ViewReplay',
-				type: 'item',
-				url:  '/apps/game/viewReplay/ViewReplayPage',
-				icon:'school',
-			},
+			// {
+			// 	id: 'matching',
+			// 	title: 'Matching',
+			// 	type: 'item',
+			// 	url: '/apps/game/matching1/MatchingIdx1Page',
+			// 	icon:'school',
+			// },
+			// {
+			// 	id: 'viewproblem',
+			// 	title: 'ViewProblem',
+			// 	type: 'item',
+			// 	url:  '/apps/game/viewProblem/ViewProblemPage',
+			// 	icon:'school',
+			// },
+			// {
+			// 	id: 'viewreplay',
+			// 	title: 'ViewReplay',
+			// 	type: 'item',
+			// 	url:  '/apps/game/viewReplay/ViewReplayPage',
+			// 	icon:'school',
+			// },
 
 
 			// {

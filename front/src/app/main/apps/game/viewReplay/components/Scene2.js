@@ -1,49 +1,48 @@
 import Phaser from 'phaser'
-// import ApiFuncs from '@api/ApiFuncs'
 import axios from 'axios'
 
 const boardSize = 896;
 const modalWidth = 1500;
 const modalHeight = 1000;
+var renderSpeed = 500;
 
-function sleep (delay) {
-  var start = new Date().getTime();
-  while (new Date().getTime() < start + delay);
-}
-
-// const api = new ApiFuncs()
 const version = {
   'version': 'v1',
-  'id': 160
 }
 const boardStatus = {
   chacksoo: "",
-  placement: "",
+  placement: [],
   boardIdx: 0,
   isAuto: false,
   idxLen : 0,
+  isError: "",
+  renderTime: new Date().getTime(),
+}
+var header = {
+  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 }
 
 class Scene2 extends Phaser.Scene {
   constructor() {
     super("playGame");
     
-    axios.get(`/api/${version.version}/game/${version.id}/`)
+    axios.get(`/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
-      console.log(response)
+        boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-        boardStatus.placement = response.data.placement_record.replace(/\n/gi, ' ').split(/ /);
+        boardStatus.placement = response.data.placement_record.split(/\n/);
         boardStatus.idxLen = boardStatus.chacksoo.length/64;
       })
       .catch((error) => {
-        console.log(error.response.status);
+        // console.log(error.response.status);
       });
     }
   
     create() {
       this.iter = 0; // used for itarations
       boardStatus.boardIdx = 0;
-      
+      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.7);
+      this.background.setOrigin(0.5, 0.5);
       // for slider
       this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(10, 10); // add dot
       this.sliderDot.slider = this.plugins.get('rexsliderplugin').add(this.sliderDot, {
@@ -67,26 +66,30 @@ class Scene2 extends Phaser.Scene {
                 boardStatus.isAuto = !boardStatus.isAuto
                 
                 if(boardStatus.isAuto === true)
-                this.clickButton.setText("Auto Mode")
+                this.clickButton.setText("Auto Mode Button", { font: '24px Arial' })
                 else
-                this.clickButton.setText("Manual Mode")
+                this.clickButton.setText("Manual Mode Button", { font: '24px Arial' })
               }
               this.nextIdxText = () => {
                 if(boardStatus.isAuto === false){
-                  boardStatus.boardIdx += 1;
-                  this.sliderDot.slider.value += 1/boardStatus.idxLen;
+                  if(boardStatus.boardIdx !== boardStatus.idxLen){
+                    boardStatus.boardIdx += 1;
+                    this.sliderDot.slider.value += 1/boardStatus.idxLen;
+                  }
                 }
               }
               this.previousIdxText = () => {
                 if(boardStatus.isAuto === false){
-                  boardStatus.boardIdx -= 1;
-                  this.sliderDot.slider.value -= 1/boardStatus.idxLen;
+                  if(boardStatus.boardIdx !== 0){
+                    boardStatus.boardIdx -= 1;
+                    this.sliderDot.slider.value -= 1/boardStatus.idxLen;
+                  }
                 }
               }
       
-
+      
       // auto manual button(text)
-      this.clickButton = this.add.text(0, 0, `${boardStatus.isAuto} Mode`, { fill: '#eec65b' })
+      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 150, `${boardStatus.isAuto} Mode Button`, { font: '24px Arial', fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverState() )
       .on('pointerout', () => this.enterButtonRestState() )
@@ -97,7 +100,7 @@ class Scene2 extends Phaser.Scene {
       });
       
 
-      this.nextButton = this.add.text(0, 300, "Next Button", { fill: '#eec65b' })
+      this.nextButton = this.add.text(this.sliderDot.x + 430, modalHeight - 60, "Next Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStateNext() )
       .on('pointerout', () => this.enterButtonRestStateNext() )
@@ -108,7 +111,7 @@ class Scene2 extends Phaser.Scene {
       });
       
 
-      this.previousButton = this.add.text(0,400, "Previous Button", { fill: '#eec65b' })
+      this.previousButton = this.add.text(this.sliderDot.x - 180, modalHeight - 60, "Previous Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStatePrevious() )
       .on('pointerout', () => this.enterButtonRestStatePrevious() )
@@ -162,28 +165,30 @@ class Scene2 extends Phaser.Scene {
       // this.click
       
       // add the background in the center of the scene
-      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.7);
+      
       this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
       this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
-      this.background.setOrigin(0.5, 0.5);
-      this.myChacksoo = this.add.text(5, 160, '', { font: '48px Arial', fill: '#eec65b' });
-      this.yourChacksoo = this.add.text(modalWidth - 300, 160, '', { font: '48px Arial', fill: '#eec65b' });
+      this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, 'Me', { font: '48px Arial', fill: '#eec65b' });
+      this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, 'You', { font: '48px Arial', fill: '#eec65b' });
+      
+      this.myChacksoo = this.add.text(100, 160, '', { font: '48px Arial', fill: '#eec65b' });
+      this.yourChacksoo = this.add.text(modalWidth - 200, 160, '', { font: '48px Arial', fill: '#eec65b' });
 
       // make a group of ships
-      this.saitamaGroup = this.make.group({
-        key: "saitama",
+      this.blue_booGroup = this.make.group({
+        key: "blue_boo",
         frameQuantity: 64,
         max: 64
       });
       
-      this.garowGroup = this.make.group({
-        key: "garow",
+      this.pink_booGroup = this.make.group({
+        key: "pink_boo",
         frameQuantity: 64,
         max: 64
       });
       
       // align the group of ships in a grid
-      Phaser.Actions.GridAlign(this.saitamaGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.blue_booGroup.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
@@ -192,11 +197,11 @@ class Scene2 extends Phaser.Scene {
         cellHeight: 92,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -80 + (modalWidth-boardSize)/2,
-        y: -88
+        x: 95,
+        y: -170
       });
       
-      Phaser.Actions.GridAlign(this.garowGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.pink_booGroup.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
@@ -205,25 +210,27 @@ class Scene2 extends Phaser.Scene {
         cellHeight: 92,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -80 + (modalWidth-boardSize)/2,
-        y: -88
+        x: 95,
+        y: -170
       });
       
       // slider value
       // this.text = this.add.text(800,0, '', { font: '48px Arial', fill: '#eec65b' });
+      this.errMsg = this.add.text(modalWidth/2 - 400, 0, `${boardStatus.isError}`, { font: '48px Arial', fill: '#eec65b' });
     }
     
   
     update() {
+      // console.log(boardStatus.boardIdx)
       
       // rotate the ships
-      var children = this.saitamaGroup.getChildren();
-      var children2 = this.garowGroup.getChildren();
+      var children = this.blue_booGroup.getChildren();
+      var children2 = this.pink_booGroup.getChildren();
       
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
-        children[i].setScale(0.18);
-        children2[i].setScale(0.18);
+        children[i].setScale(0.13);
+        children2[i].setScale(0.13);
         
         if(boardStatus.chacksoo[((boardStatus.boardIdx+1)*64) + i] === "0"){
           children[i].visible = false;
@@ -243,45 +250,74 @@ class Scene2 extends Phaser.Scene {
         }
         
       };
+
       if(boardStatus.boardIdx%2 === 0){
-        if(boardStatus.placement[boardStatus.boardIdx*3] !== undefined){
-          this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
-          if(boardStatus.boardIdx === 0){
-            this.yourChacksoo.setText('chacksoo\n 준비')
+        // my turn
+        if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
+          if(boardStatus.placement[boardStatus.boardIdx].charAt(4) === '>'){
+            // my move
+            this.myChacksoo.setText('이동\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
+            if(boardStatus.boardIdx === 0){
+              this.yourChacksoo.setText('착수\n 준비');
+            }
           }
           else{
-            this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
+            // my chacksoo
+            this.myChacksoo.setText('착수\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(4));
+            if(boardStatus.boardIdx === 0){
+              this.yourChacksoo.setText('착수\n 준비')
+            }
+            else{
+              this.yourChacksoo.setText('착수\n ' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(4));
+            }
           }
         }
         else{
-          this.myChacksoo.setText('chacksoo\n 준비');
-          this.yourChacksoo.setText('chacksoo\n 준비');
+          // undefined
+          this.myChacksoo.setText('착수\n 준비');
+          this.yourChacksoo.setText('착수\n 준비');
         }
       }
       else{
-        if(boardStatus.placement[(boardStatus.boardIdx-1)*3] !== undefined){
-          this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
-          this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
+        // your turn
+        if(boardStatus.placement[(boardStatus.boardIdx)] !== undefined){
+          if(boardStatus.placement[(boardStatus.boardIdx)].charAt(4) === '>'){
+            // your move
+            this.yourChacksoo.setText('이동\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
+          }
+          else{
+            // your chacksoo
+            // this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
+            if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
+              this.yourChacksoo.setText('착수\n ' + boardStatus.placement[(boardStatus.boardIdx)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx)].charAt(4));
+            }
+            else{
+              this.yourChacksoo.setText('착수\n 준비');
+            }
+          }
         }
         else{
-          this.myChacksoo.setText('chacksoo\n 준비');
-          this.yourChacksoo.setText('chacksoo\n 준비');
+          // undefined
+          this.myChacksoo.setText('착수\n 준비');
+          this.yourChacksoo.setText('착수\n 준비');
         }
       }
       
       // increment the iteration
       this.iter += 0.001;
       if(boardStatus.isAuto){
-        boardStatus.boardIdx += 1;
-        this.sliderDot.x += 400/boardStatus.idxLen;
-        this.sliderDot.slider.value += 1/boardStatus.idxLen;
+        if(new Date().getTime() - boardStatus.renderTime > renderSpeed){
+          boardStatus.boardIdx += 1;
+          this.sliderDot.x += 400/boardStatus.idxLen;
+          this.sliderDot.slider.value += 1/boardStatus.idxLen;
+          boardStatus.renderTime = new Date().getTime()
+        }
         this.sliderDot.visible = false;
-        sleep(500);
+        // sleep(500);
       }
       else{
-
         this.sliderDot.visible = true;
-        boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen);
+        boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
       }
 
 

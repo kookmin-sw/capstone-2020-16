@@ -33,7 +33,7 @@ function Logo() {
 		<div className={clsx(classes.root, 'flex items-center')}>
 			<img className="logo-icon" src="assets/images/logos/fuse.svg" alt="logo" />
 			<Typography className="text-16 mx-12 font-light logo-text" color="inherit">
-				ONEPANMAN
+				ㅇㅅㅇ
 			</Typography>
 			<div className={clsx(classes.reactBadge, 'react-badge flex items-center py-4 px-8 rounded')}>
 				<img

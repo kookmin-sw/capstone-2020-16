@@ -40,7 +40,7 @@ function Login() {
 
 				<FuseAnimate animation="transition.slideUpIn" delay={300}>
 					<Typography variant="h3" color="inherit" className="font-light">
-						Welcome to the ONEPANMAN!
+						Welcome to the ㅇㅅㅇ
 					</Typography>
 				</FuseAnimate>
 
@@ -76,7 +76,7 @@ function Login() {
 								className="min-w-0"
 								label="JWT"
 							/>
-							<Tab
+							{/* <Tab
 								icon={<img className="h-40" src="assets/images/logos/firebase.svg" alt="firebase" />}
 								className="min-w-0"
 								label="Firebase"
@@ -85,12 +85,12 @@ function Login() {
 								icon={<img className="h-40" src="assets/images/logos/auth0.svg" alt="auth0" />}
 								className="min-w-0"
 								label="Auth0"
-							/>
+							/> */}
 						</Tabs>
 
 						{selectedTab === 0 && <JWTLoginTab />}
-						{selectedTab === 1 && <FirebaseLoginTab />}
-						{selectedTab === 2 && <Auth0LoginTab />}
+						{/* {selectedTab === 1 && <FirebaseLoginTab />}
+						{selectedTab === 2 && <Auth0LoginTab />} */}
 
 						<div className="flex flex-col items-center justify-center pt-32">
 							<span className="font-medium">Don't have an account?</span>

@@ -46,12 +46,14 @@ function ToolbarLayout1(props) {
 					<div className="flex flex-1">
 						<Hidden mdDown>
 							<FuseShortcuts className="px-16" />
+
 						</Hidden>
 					</div>
 					<div>
-					<Typography variant="h2" align="center">
-        				ONE PAN MAN     　　     　          　
-      				</Typography>
+					{/* <Typography variant="h1" align="center">
+        			ㅇㅅㅇ     　　     　          　
+      				</Typography> */}
+					
 					</div>
 
 					<div className="flex">

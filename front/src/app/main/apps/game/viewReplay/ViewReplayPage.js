@@ -39,16 +39,18 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-function ViewReplayPage() {
+function ViewReplayPage(props) {
 	const classes = useStyles();
 	const [modalStyle] = React.useState(getModalStyle);
 	const [open, setOpen] = React.useState(false);
 	
 	const handleOpen = () => {
+		window.localStorage.setItem('game_id', props.tmp_id);
 		setOpen(true);
 	};
 	
 	const handleClose = () => {
+		window.localStorage.removeItem('game_id')
 		setOpen(false);
 	};
 
@@ -57,7 +59,7 @@ function ViewReplayPage() {
 		height: 1000,
 		backgroundColor: 0x192d3f,
 		scene: [Scene1, Scene2],
-		pixelArt: true
+		pixelArt: true,
 	}
 	
 	return (

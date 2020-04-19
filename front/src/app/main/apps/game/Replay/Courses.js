@@ -25,8 +25,9 @@ import * as Actions from 'app/store/actions';
 // import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
-// import { GET_PROBLEMID } from 'app/store/actions';
 // import getProblemId from '../store/reducers/getProblemId.reducer';
+import ViewReplayPage from '../viewReplay/ViewReplayPage';
+
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -49,34 +50,37 @@ const useStyles = makeStyles(theme => ({
 function Courses(props) {
 
 	const dispatch = useDispatch();
-	var header = {
-		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
-	  }
-	//const count = useSelector(({getProblemId}) => getProblemId.getId.results);
+	
+	// const count = useSelector(({getProblemId}) => getProblemId.getId.results);
 	// const getId = (param) => {
 
 	// 	dispatch(Actions.getProblemId(param))
 		
-	// }
+
+	// const count = useSelector(({getProblemId}) => getProblemId.getId.results[0]);
+	// console.log(count)
 
 	const classes = useStyles(props);
+
+	var header = {
+		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+	  }
+
+	 const pk = window.localStorage.getItem('pk');
+	 console.log(pk);
 
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
 
 		axios
-		.get('/api/v1/problem/', {
-			headers: header
+		.get(`/api/v1/game/my`, { headers:header })
+		  .then(response => {
+
+			   setPosts(response.data);
+			//    console.log(response.data);
 		  })
-		.then(response => {
-			
-			console.log(response.data.results);
-			dispatch(Actions.getProblemId(response.data.results));
-			setPosts(response.data.results);
-	
-		})
-	},[dispatch]);
+		},[dispatch]);
 	
 		
 
@@ -91,13 +95,13 @@ function Courses(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-					Game List
+					Replay Mode
 					</Typography>
 				</FuseAnimate>
 				<FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
-						Welcome to Single Mode. Choose a Game to Play!
+						You can see your battle record with replay display
 						</span>
 					</Typography>
 				</FuseAnimate>
@@ -110,7 +114,7 @@ function Courses(props) {
 									animation: 'transition.slideUpBigIn'
 								}}
 								className="flex flex-wrap py-24"
-							>	
+							>
 								{posts.map(course => {
 									// const category = posts.find(_cat => _cat.value === course.title);
 									return (
@@ -120,21 +124,18 @@ function Courses(props) {
 													className="flex flex-shrink-0 items-center justify-between px-24 h-64"
 												>
 													<Typography className="font-medium truncate" color="inherit">
-														{course.title}
+														{`Vs Anonymous User ${course.opposite}`}
 													</Typography>
 													
 				
 												</div>
 												<CardMedia className="flex items-center justify-center">
-												<img src={`assets/images/games/${course.id}.jpg`} width='150' alt='thumbnail'></img>
+												<img src={`assets/images/games/3.jpg`} width='150' alt='thumbnail'></img>
 												</CardMedia>
 												
 												<Divider />
-												<CardActions className="justify-center" >
-												<Link className="font-medium" 										
-												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
-													 <button> <h3>START</h3> </button>
-													 </Link>
+												<CardActions className="justify-center">
+													<ViewReplayPage tmp_id={course.id}/>
 												</CardActions>
 												
 											</Card>
@@ -149,4 +150,4 @@ function Courses(props) {
 }
 
 // export default withReducer('academyApp', reducer)(Courses);
-export default (Courses);
+export default Courses;
