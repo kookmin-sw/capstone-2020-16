@@ -14,7 +14,6 @@ function sleep (delay) {
 // const api = new ApiFuncs()
 const version = {
   'version': 'v1',
-  'id': 179
 }
 const boardStatus = {
   chacksoo: "",
@@ -31,15 +30,15 @@ class Scene2 extends Phaser.Scene {
   constructor() {
     super("playGame");
     
-    axios.get(`/api/${version.version}/game/${version.id}/`, { headers: header})
+    axios.get(`/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
+        console.log(window.localStorage.getItem('game_id'))
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
         boardStatus.placement = response.data.placement_record.split(/\n/);
         boardStatus.idxLen = boardStatus.chacksoo.length/64;
-        console.log(boardStatus.placement)
       })
       .catch((error) => {
-        console.log(error.response.status);
+        // console.log(error.response.status);
       });
     }
   
@@ -222,7 +221,7 @@ class Scene2 extends Phaser.Scene {
     
   
     update() {
-      console.log(boardStatus.boardIdx)
+      // console.log(boardStatus.boardIdx)
       
       // rotate the ships
       var children = this.blue_booGroup.getChildren();
@@ -268,9 +267,9 @@ class Scene2 extends Phaser.Scene {
             if(boardStatus.boardIdx === 0){
               this.yourChacksoo.setText('chacksoo\n 준비')
             }
-            // else{
-            //   this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(4));
-            // }
+            else{
+              this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(4));
+            }
           }
         }
         else{
