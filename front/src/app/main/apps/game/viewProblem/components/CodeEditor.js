@@ -52,40 +52,29 @@ function CodeEditor() {
   
   
     const [code, setCode] = useState(
-        "var component = {\nname: \"react-codemirror\",\nauthor: \"Jed Watson\",\nrepo: \"https://github.com/JedWatson/react-codemirror\"}");
+        "#Let's coding!");
 
 
     const [option, setOption] = useState({
-        mode: "javascript",
-        idx: 0,
+        mode: "Python",
         theme: 'material',
         lineNumbers: true
     });
 
-    option.idx = 1;
 
     function changeMode(event) {
         console.log(`beforeMode>>>>>>${option.mode}`);
         console.log(`event.target.value>>>>>>${event.target.value}`);
         console.log(typeof option.mode)
-        if(event.target.value === "C++"){option.idx = 0;console.log(option.idx)}
-        if(event.target.value === "python"){option.idx = 1;console.log(option.idx)}
-        if(event.target.value === "C"){option.idx = 2;console.log(option.idx)}
+        if(event.target.value === "Python"){window.localStorage.setItem('language_id', 1);}
+        if(event.target.value === "C"){window.localStorage.setItem('language_id', 2);}
+        if(event.target.value === "C++"){window.localStorage.setItem('language_id', 3);}
         setOption({
             mode: event.target.value,
         });
         
        
     };
-
-    // function changeIdx(event) {
-    //   console.log(`beforeMode>>>>>>${option.idx}`);
-    //   console.log(`event.target.value>>>>>>${event.target.idx}`);
-    //   console.log(option.idx)
-    //   setOption({
-    //       idx: event.target.value,
-    //   });
-    //};
 
 
     function changeCode(event) {
@@ -98,9 +87,8 @@ function CodeEditor() {
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
           <select onChange={changeMode}>
-            <option value="javascript">JavaScript</option>
-            <option value="C++">C++</option>
             <option value="python">Python</option>
+            <option value="C++">C++</option>
             <option value="C">C</option>
           </select>
         </div>
@@ -120,7 +108,7 @@ function CodeEditor() {
         to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
-         codePost(parseInt(window.localStorage.getItem('pk')), problemid.id, code, option.idx, "testCode")}
+         codePost(parseInt(window.localStorage.getItem('pk')), problemid.id, code, parseInt(window.localStorage.getItem('language_id')), "testCode")}
         }									 
        style={{
          textAlign: 'center',

@@ -73,13 +73,13 @@ const navigationConfig = [
 			// 	url:  '/apps/game/viewProblem/ViewProblemPage',
 			// 	icon:'school',
 			// },
-			{
-				id: 'viewreplay',
-				title: 'ViewReplay',
-				type: 'item',
-				url:  '/apps/game/viewReplay/ViewReplayPage',
-				icon:'school',
-			},
+			// {
+			// 	id: 'viewreplay',
+			// 	title: 'ViewReplay',
+			// 	type: 'item',
+			// 	url:  '/apps/game/viewReplay/ViewReplayPage',
+			// 	icon:'school',
+			// },
 
 
 			// {

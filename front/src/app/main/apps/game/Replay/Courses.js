@@ -78,7 +78,7 @@ function Courses(props) {
 		  .then(response => {
 
 			   setPosts(response.data);
-			   console.log(response.data);
+			//    console.log(response.data);
 		  })
 		},[dispatch]);
 	
@@ -135,9 +135,7 @@ function Courses(props) {
 												
 												<Divider />
 												<CardActions className="justify-center">
-													 <button
-													> <h3><ViewReplayPage/></h3>
-													 </button>
+													<ViewReplayPage tmp_id={course.id}/>
 												</CardActions>
 												
 											</Card>
