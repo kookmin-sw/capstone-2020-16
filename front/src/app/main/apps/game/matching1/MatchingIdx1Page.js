@@ -7,13 +7,14 @@ import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React  from 'react';
+import React, { useEffect,useState }  from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useSelector } from 'react-redux';
 // import * as Actions from 'app/store/actions';
-// import axios from 'axios';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 
@@ -37,57 +38,75 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
+
+
+ 
+
+
+
 export default function MatchingIdx1() {
    const classes = useStyles();
-
+   var header = {
+      'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+    }
+   var username = window.localStorage.getItem('username');
+   const pk = window.localStorage.getItem('pk');
    var id = document.location.href.split("MatchingIdx1Page/");
    var id2 = id[1];
    var id3 = id2-1;
-   // console.log(id2);
-//    const dispatch = useDispatch();
+
+   const problemId = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
+   const problemIdId=problemId.id;
+   const [posts, setPosts] = useState([]);
+   const [opposite,setOpposite] = useState([]);
+
+   
+function goMatch(userid, problemid, code, header){
+ 
+
+  var data = {
+
+   userid: userid,
+   problemid: problemid,
+   code : code,
+
+ }
+   
+   axios.get(`/api/v1/match/`, data, {
+     headers: header
+   })
+   .then( response => {
+
+      
+      
+     setOpposite(response.data.results);
+     console.log(opposite);
+
+
+   })
+   .catch(error => {
+     console.log(error);
+   })
+
+ 
+ 
+}
+
+
+   useEffect(() => {
    
 
-//    var val = {
-//       results: [
-//          {
-//             id: 0,
-//             editor: 0,
-//             title: "testing",
-//             description: "se",
-//             limit_time: 2000,
-//             limit_memory: 128,
-//             date: "testing",
-//             level: 1,
-//             popularity: 0,
-//             icon: "testing",
-//             thumbnail: "testing",
-//             rule: "testing",
-//             board_size: 8,
-//             board_info: "testing"
-//          }
-//       ]
-//      }
+      axios
+        .get(`api/v1/code/?author=${pk}&problem=${problemId.id}&available_game=true`, { headers:header})
+        .then(response => {
+        
+         setPosts(response.data.results);
+         console.log(response.data.results);
 
-   const tmp = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
-   console.log(tmp)
+        })
+      }, []);
+
    
-//    if(tmp){
-//       val = tmp;
-//    }
-   
-
-
-//    useEffect(() => {
-   
-
-//       axios
-//         .get('/api/v1/problem/')
-//         .then(response => {
-
-//            dispatch(Actions.getProblemId(response.data.results));
-
-//         })
-//       }, []);
    
    
 
@@ -145,15 +164,12 @@ export default function MatchingIdx1() {
                      <Card square>
                         <div className={clsx(classes.cardHeader, 'px-24 py-16')}>
                            <Typography variant="subtitle1" color="inherit">
-                              Player Name
+                             {username}
                            </Typography>
                         </div>
 
                         <CardContent className="p-32">
                            <div className="flex justify-center">
-                              {/* <Typography variant="h5" color="textSecondary">
-                                 $
-                              </Typography> */}
                               <div className="flex items-end">
                                  <Typography className="text-72 mx-4 font-light leading-none">
                                  <div><img src="assets/images/profile/2.jpg" alt="user profile"/></div>
@@ -166,7 +182,7 @@ export default function MatchingIdx1() {
                            <div className="flex flex-col">
                               <Typography variant="subtitle1" className="">
                                  <span className="font-bold mx-4">Win/Lose</span>
-                                 13/4
+                                 loading..
                               </Typography>
                               <Typography variant="subtitle1" className="">
                                  <span className="font-bold mx-4">Country</span>
@@ -174,7 +190,7 @@ export default function MatchingIdx1() {
                               </Typography>
                               <Typography variant="subtitle1" className="">
                                  <span className="font-bold mx-4">Technology</span>
-                                 Python
+                                 loading..
                               </Typography>
                            </div>
                         </CardContent>
@@ -190,7 +206,7 @@ export default function MatchingIdx1() {
                   <div className="w-full max-w-320 sm:w-1/3 p-12">
                      <Card className="relative" raised>
                         <div className="p-32 text-center">
-                           <Typography className="text-32">  </Typography>
+                           <Typography className="text-32">  {problemId.title} </Typography>
                            <Typography color="textSecondary" className="text-16 font-medium">
                               Battle game
                            </Typography>
@@ -199,9 +215,6 @@ export default function MatchingIdx1() {
                         <CardContent className="text-center p-0">
                            <div className={clsx(classes.price, 'flex items-end justify-center py-16 px-32')}>
                               <div className="flex justify-center">
-                                 {/* <Typography color="inherit" className="font-medium">
-                                    $
-                                 </Typography> */}
                                  <Typography
                                     color="inherit"
                                     className="text-32 mx-4 font-light leading-none"
@@ -209,15 +222,12 @@ export default function MatchingIdx1() {
                                     <div><img src="assets/images/games/4.jpg" alt="user profile"/></div>
                                  </Typography>
                               </div>
-                              {/* <Typography color="inherit" className="mx-4">
-                                 monthly per user
-                              </Typography> */}
                            </div>
 
                            <div className="flex flex-col p-32">
                               <Typography className="text-20"> GameRule </Typography>
                               <Typography color="textSecondary" className="mb-16">
-                                
+                              {problemId.description}
                               </Typography>
                               <div> 　 </div>
                               <Typography className="text-20"> Select Your Code </Typography>
@@ -235,26 +245,28 @@ export default function MatchingIdx1() {
                                        id: 'outlined-code-native-simple',
                                     }}
                                  >
-                                    <option value="" />
-                                    <option value={10}>CODE-1</option>
-                                    <option value={20}>CODE-2</option>
-                                    <option value={30}>CODE-3</option>
+                                     <option value=" "> Select Code </option>
+                                    {posts.map(course => { return(
+
+                                    <option value={course.id}>Code</option>
+                                    
+                                    ); })}
+                                 
                                  </Select>
                               </FormControl>
-                              
-                              {/* <Typography color="textSecondary">Advanced reporting</Typography>
-                              <Typography color="textSecondary">Customizable interface</Typography>
-                              <Typography color="textSecondary">CRM Integration</Typography> */}
+                                                           
                            </div>
                         </CardContent>
 
                         <div className="flex flex-col items-center justify-center pb-32 px-32" >
-                           <Button href="/apps/game/matching2/MatchingIdx2Page" variant="contained" color="primary" className="w-full">
+                           <Button variant="contained" color="primary" className="w-full"
+                           onClick={function(){
+                              goMatch({pk}, {problemIdId}, 63, {header})
+                              // console.log(pk, problemIdId, header)
+                             }}	
+                           >
                               Matching
                            </Button>
-                           {/* <Typography color="textSecondary" className="mt-16">
-                              30 day free trial to startn
-                           </Typography> */}
                         </div>
                      </Card>
                   </div>
@@ -269,16 +281,12 @@ export default function MatchingIdx1() {
 
                         <CardContent className="p-32">
                            <div className="flex justify-center">
-                              {/* <Typography variant="h5" color="textSecondary" className="font-medium">
-                                 $
-                              </Typography> */}
+                            
                               <div className="flex items-end">
                                  <Typography className="text-72 mx-4 font-light leading-none">
                                  <div><img src="assets/images/profile/2.jpg" alt="user profile"/></div>
                                  </Typography>
-                                 {/* <Typography variant="subtitle1" color="textSecondary">
-                                    / month
-                                 </Typography> */}
+                               
                               </div>
                            </div>
 
@@ -301,53 +309,13 @@ export default function MatchingIdx1() {
                         </CardContent>
 
                         <div className="flex justify-center pb-32">
-                           {/* <Button variant="contained" color="secondary" className="w-128">
-                              View more profile
-                           </Button> */}
+                          
                         </div>
                      </Card>
                   </div>
                </FuseAnimateGroup>
 
-               {/* <div className="flex flex-col items-center py-96 text-center sm:ltr:text-left sm:rtl:text-right max-w-xl mx-auto">
-                  <Typography variant="h4" className="pb-32 font-light">
-                     Frequently Asked Questions
-                  </Typography> */}
-
-                  {/* <div className="flex flex-wrap w-full">
-                     <div className="w-full sm:w-1/2 p-24">
-                        <Typography className="text-20 mb-8">How does free trial work?</Typography>
-                        <Typography className="text-16" color="textSecondary">
-                           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a diam nec augue
-                           tincidunt accumsan. In dignissim laoreet ipsum eu interdum.
-                        </Typography>
-                     </div>
-
-                     {/* <div className="w-full sm:w-1/2 p-24">
-                        <Typography className="text-20 mb-8">Can I cancel any time?</Typography>
-                        <Typography className="text-16" color="textSecondary">
-                           Aliquam erat volutpat. Etiam luctus massa ex, at tempus tellus blandit quis. Sed
-                           quis neque tellus. Donec maximus ipsum in malesuada hendrerit.
-                        </Typography>
-                     </div>
-
-                     <div className="w-full sm:w-1/2 p-24">
-                        <Typography className="text-20 mb-8">What happens after my trial ended?</Typography>
-                        <Typography className="text-16" color="textSecondary">
-                           Aliquam erat volutpat. Etiam luctus massa ex, at tempus tellus blandit quis. Sed
-                           quis neque tellus. Donec maximus ipsum in malesuada hendrerit.
-                        </Typography>
-                     </div>
-
-                     <div className="w-full sm:w-1/2 p-24">
-                        <Typography className="text-20 mb-8">Can I have a discount?</Typography>
-                        <Typography className="text-16" color="textSecondary">
-                           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a diam nec augue
-                           tincidunt accumsan. In dignissim laoreet ipsum eu interdum.
-                        </Typography>
-                     </div>
-                  </div>
-               </div> */}
+             
             </div>
          </div>
       </div>

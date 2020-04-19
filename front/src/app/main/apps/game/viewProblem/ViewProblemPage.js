@@ -11,11 +11,11 @@ import Paper from "@material-ui/core/Paper";
 // import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
 // import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import * as Actions from 'app/store/actions';
-import { useSelector } from 'react-redux';
-import React from 'react';
+import React, { useEffect } from 'react';
 // import {Courses} from 'app/main/apps/game/problem/Courses';
+import * as Actions from 'app/store/actions';
 
 
 
@@ -49,40 +49,18 @@ const useStyles = makeStyles(theme => ({
 function KnowledgeBasePage() {
   const classes = useStyles();
   
+  const dispatch = useDispatch();
 
-
-  // const dispatch = useDispatch();
-	
-  // const getId = (param) => {
-
-	// 	dispatch(Actions.getProblemId(param))
-		
-  // }
-  
-  // const iddd = useSelector(({getProblemId}) => getProblemId.getId.results[0]);
-  // if(iddd)
-  // 	{console.log(iddd)}
-  
   var id = document.location.href.split("ViewProblemPage/"); console.log(id);
   var id2 = id[1];
-  // console.log(id2);
-  // const id =1;
-  // console.log(id)
+  console.log(id2);
 
-	// const getId = function() {
+  const problemId = useSelector(state => state.getProblemId.getId.results[id2-1]);
+  console.log(problemId)
 
-	// 	dispatch(Actions.getProblemId())
-	// 	console.log(id)
-  //   }
-  
-     //useEffect(() => {
-
-      const iddd = useSelector(state => state.getProblemId.getId.results);
-  		if(iddd){console.log(iddd)}
-    
-     //});
-
-  // const id = this.props;
+  useEffect( () => {
+    dispatch(Actions.getProblem(problemId))
+  },[dispatch])
 
 	return (
     

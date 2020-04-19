@@ -6,17 +6,17 @@ const ReplayConfig = {
 		layout: {}
 	},
 	routes: [
+		// {
+		// 	path: '/apps/game/Replay/courses/:courseId/:courseHandle?',
+		// 	component: React.lazy(() => import('./course/Course'))
+		// },
 		{
-			path: '/apps/game/Replay/courses/:courseId/:courseHandle?',
-			component: React.lazy(() => import('./course/Course'))
-		},
-		{
-			path: '/apps/game/Replay/courses',
-			component: React.lazy(() => import('./courses/Courses'))
+			path: '/apps/game/Replay',
+			component: React.lazy(() => import('./Courses'))
 		},
 		{
 			path: '/apps/game/Replay',
-			component: () => <Redirect to="/apps/game/Replay/courses" />
+			component: () => <Redirect to="/apps/game/Replay" />
 		}
 	]
 };

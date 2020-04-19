@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // import * as Actions from 'app/auth/store/actions';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 // require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
@@ -16,16 +17,24 @@ require('codemirror/mode/javascript/javascript.js');
 
 
 
-function codePost(content, userid, tmp){
+function codePost(userid, problemid, code, languageid, codename){
+  var header = {
+    'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+  }
+  
   var data = {
     author: userid,
-    code : content,
-    language : tmp,
-    problem: 1,
-    name : "codePostTest"
+    code : code,
+    language : languageid,
+    problem: problemid,
+    name : codename
   }
 
-  axios.post("/api/v1/code/", data)
+  console.log(data)
+
+  axios.post("/api/v1/code/", data, {
+    headers: header
+  })
   .then( response => {
     console.log(response);
   })
@@ -37,16 +46,11 @@ function codePost(content, userid, tmp){
 
 function CodeEditor() {
 
-  // const dispatch = useDispatch();
-	
-	
-  // const id = useSelector(({getProblemId}) => getProblemId.getId.count);
-  // const getto = useSelector(({user}) => user.user.data);
-  // console.log(getto)
 
-
-
-    // const classes = useStyles();
+    var problemid = useSelector(state => state.getProblemId.getProblem);
+    console.log(problemid);
+  
+  
     const [code, setCode] = useState(
         "var component = {\nname: \"react-codemirror\",\nauthor: \"Jed Watson\",\nrepo: \"https://github.com/JedWatson/react-codemirror\"}");
 
@@ -58,7 +62,7 @@ function CodeEditor() {
         lineNumbers: true
     });
 
-    option.idx = 1
+    option.idx = 1;
 
     function changeMode(event) {
         console.log(`beforeMode>>>>>>${option.mode}`);
@@ -82,9 +86,7 @@ function CodeEditor() {
     //       idx: event.target.value,
     //   });
     //};
-    
-    // console.log(option.idx)
-    // console.log(typeof data.language)
+
 
     function changeCode(event) {
         console.log(`event.target.value>>>>>>${event}`);
@@ -118,7 +120,7 @@ function CodeEditor() {
         to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
-         codePost(code, 1, option.idx)}
+         codePost(parseInt(window.localStorage.getItem('pk')), problemid.id, code, option.idx, "testCode")}
         }									 
        style={{
          textAlign: 'center',

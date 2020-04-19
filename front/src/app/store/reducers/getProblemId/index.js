@@ -20,9 +20,11 @@
 // export default fuseReducers;
 import { combineReducers } from 'redux';
 import getId from './getId.reducer'
+import getProblem from './getProblem.reducer'
 
 const apiReducers = combineReducers({
 	getId,
+	getProblem,
 });
 
 export default apiReducers;
