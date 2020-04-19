@@ -14,26 +14,29 @@ function sleep (delay) {
 // const api = new ApiFuncs()
 const version = {
   'version': 'v1',
-  'id': 160
+  'id': 179
 }
 const boardStatus = {
   chacksoo: "",
-  placement: "",
+  placement: [],
   boardIdx: 0,
   isAuto: false,
   idxLen : 0,
+}
+var header = {
+  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 }
 
 class Scene2 extends Phaser.Scene {
   constructor() {
     super("playGame");
     
-    axios.get(`/api/${version.version}/game/${version.id}/`)
+    axios.get(`/api/${version.version}/game/${version.id}/`, { headers: header})
     .then((response) => {
-      console.log(response)
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-        boardStatus.placement = response.data.placement_record.replace(/\n/gi, ' ').split(/ /);
+        boardStatus.placement = response.data.placement_record.split(/\n/);
         boardStatus.idxLen = boardStatus.chacksoo.length/64;
+        console.log(boardStatus.placement)
       })
       .catch((error) => {
         console.log(error.response.status);
@@ -73,14 +76,18 @@ class Scene2 extends Phaser.Scene {
               }
               this.nextIdxText = () => {
                 if(boardStatus.isAuto === false){
-                  boardStatus.boardIdx += 1;
-                  this.sliderDot.slider.value += 1/boardStatus.idxLen;
+                  if(boardStatus.boardIdx !== boardStatus.idxLen){
+                    boardStatus.boardIdx += 1;
+                    this.sliderDot.slider.value += 1/boardStatus.idxLen;
+                  }
                 }
               }
               this.previousIdxText = () => {
                 if(boardStatus.isAuto === false){
-                  boardStatus.boardIdx -= 1;
-                  this.sliderDot.slider.value -= 1/boardStatus.idxLen;
+                  if(boardStatus.boardIdx !== 0){
+                    boardStatus.boardIdx -= 1;
+                    this.sliderDot.slider.value -= 1/boardStatus.idxLen;
+                  }
                 }
               }
       
@@ -170,20 +177,20 @@ class Scene2 extends Phaser.Scene {
       this.yourChacksoo = this.add.text(modalWidth - 300, 160, '', { font: '48px Arial', fill: '#eec65b' });
 
       // make a group of ships
-      this.saitamaGroup = this.make.group({
-        key: "saitama",
+      this.blue_booGroup = this.make.group({
+        key: "blue_boo",
         frameQuantity: 64,
         max: 64
       });
       
-      this.garowGroup = this.make.group({
-        key: "garow",
+      this.pink_booGroup = this.make.group({
+        key: "pink_boo",
         frameQuantity: 64,
         max: 64
       });
       
       // align the group of ships in a grid
-      Phaser.Actions.GridAlign(this.saitamaGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.blue_booGroup.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
@@ -192,11 +199,11 @@ class Scene2 extends Phaser.Scene {
         cellHeight: 92,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -80 + (modalWidth-boardSize)/2,
-        y: -88
+        x: 95,
+        y: -170
       });
       
-      Phaser.Actions.GridAlign(this.garowGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.pink_booGroup.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
@@ -205,8 +212,8 @@ class Scene2 extends Phaser.Scene {
         cellHeight: 92,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -80 + (modalWidth-boardSize)/2,
-        y: -88
+        x: 95,
+        y: -170
       });
       
       // slider value
@@ -215,15 +222,16 @@ class Scene2 extends Phaser.Scene {
     
   
     update() {
+      console.log(boardStatus.boardIdx)
       
       // rotate the ships
-      var children = this.saitamaGroup.getChildren();
-      var children2 = this.garowGroup.getChildren();
+      var children = this.blue_booGroup.getChildren();
+      var children2 = this.pink_booGroup.getChildren();
       
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
-        children[i].setScale(0.18);
-        children2[i].setScale(0.18);
+        children[i].setScale(0.13);
+        children2[i].setScale(0.13);
         
         if(boardStatus.chacksoo[((boardStatus.boardIdx+1)*64) + i] === "0"){
           children[i].visible = false;
@@ -243,27 +251,54 @@ class Scene2 extends Phaser.Scene {
         }
         
       };
+
       if(boardStatus.boardIdx%2 === 0){
-        if(boardStatus.placement[boardStatus.boardIdx*3] !== undefined){
-          this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
-          if(boardStatus.boardIdx === 0){
-            this.yourChacksoo.setText('chacksoo\n 준비')
+        // my turn
+        if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
+          if(boardStatus.placement[boardStatus.boardIdx].charAt(4) === '>'){
+            // my move
+            this.myChacksoo.setText('move\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
+            if(boardStatus.boardIdx === 0){
+              this.yourChacksoo.setText('chacksoo\n 준비');
+            }
           }
           else{
-            this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
+            // my chacksoo
+            this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(4));
+            if(boardStatus.boardIdx === 0){
+              this.yourChacksoo.setText('chacksoo\n 준비')
+            }
+            else{
+              this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(4));
+            }
           }
         }
         else{
+          // undefined
           this.myChacksoo.setText('chacksoo\n 준비');
           this.yourChacksoo.setText('chacksoo\n 준비');
         }
       }
       else{
-        if(boardStatus.placement[(boardStatus.boardIdx-1)*3] !== undefined){
-          this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
-          this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
+        // your turn
+        if(boardStatus.placement[(boardStatus.boardIdx)] !== undefined){
+          if(boardStatus.placement[(boardStatus.boardIdx)].charAt(4) === '>'){
+            // your move
+            this.yourChacksoo.setText('move\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
+          }
+          else{
+            // your chacksoo
+            // this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
+            if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
+              this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx)].charAt(4));
+            }
+            else{
+              this.yourChacksoo.setText('chacksoo\n 준비');
+            }
+          }
         }
         else{
+          // undefined
           this.myChacksoo.setText('chacksoo\n 준비');
           this.yourChacksoo.setText('chacksoo\n 준비');
         }
@@ -279,9 +314,8 @@ class Scene2 extends Phaser.Scene {
         sleep(500);
       }
       else{
-
         this.sliderDot.visible = true;
-        boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen);
+        boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
       }
 
 
