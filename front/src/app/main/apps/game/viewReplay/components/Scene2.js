@@ -1,17 +1,11 @@
 import Phaser from 'phaser'
-// import ApiFuncs from '@api/ApiFuncs'
 import axios from 'axios'
 
 const boardSize = 896;
 const modalWidth = 1500;
 const modalHeight = 1000;
+var renderSpeed = 500;
 
-function sleep (delay) {
-  var start = new Date().getTime();
-  while (new Date().getTime() < start + delay);
-}
-
-// const api = new ApiFuncs()
 const version = {
   'version': 'v1',
 }
@@ -21,6 +15,8 @@ const boardStatus = {
   boardIdx: 0,
   isAuto: false,
   idxLen : 0,
+  isError: "",
+  renderTime: new Date().getTime(),
 }
 var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
@@ -32,7 +28,7 @@ class Scene2 extends Phaser.Scene {
     
     axios.get(`/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
-        console.log(window.localStorage.getItem('game_id'))
+        boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
         boardStatus.placement = response.data.placement_record.split(/\n/);
         boardStatus.idxLen = boardStatus.chacksoo.length/64;
@@ -45,7 +41,8 @@ class Scene2 extends Phaser.Scene {
     create() {
       this.iter = 0; // used for itarations
       boardStatus.boardIdx = 0;
-      
+      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.7);
+      this.background.setOrigin(0.5, 0.5);
       // for slider
       this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(10, 10); // add dot
       this.sliderDot.slider = this.plugins.get('rexsliderplugin').add(this.sliderDot, {
@@ -69,9 +66,9 @@ class Scene2 extends Phaser.Scene {
                 boardStatus.isAuto = !boardStatus.isAuto
                 
                 if(boardStatus.isAuto === true)
-                this.clickButton.setText("Auto Mode")
+                this.clickButton.setText("Auto Mode Button", { font: '24px Arial' })
                 else
-                this.clickButton.setText("Manual Mode")
+                this.clickButton.setText("Manual Mode Button", { font: '24px Arial' })
               }
               this.nextIdxText = () => {
                 if(boardStatus.isAuto === false){
@@ -90,9 +87,9 @@ class Scene2 extends Phaser.Scene {
                 }
               }
       
-
+      
       // auto manual button(text)
-      this.clickButton = this.add.text(0, 0, `${boardStatus.isAuto} Mode`, { fill: '#eec65b' })
+      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 150, `${boardStatus.isAuto} Mode Button`, { font: '24px Arial', fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverState() )
       .on('pointerout', () => this.enterButtonRestState() )
@@ -103,7 +100,7 @@ class Scene2 extends Phaser.Scene {
       });
       
 
-      this.nextButton = this.add.text(0, 300, "Next Button", { fill: '#eec65b' })
+      this.nextButton = this.add.text(this.sliderDot.x + 430, modalHeight - 60, "Next Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStateNext() )
       .on('pointerout', () => this.enterButtonRestStateNext() )
@@ -114,7 +111,7 @@ class Scene2 extends Phaser.Scene {
       });
       
 
-      this.previousButton = this.add.text(0,400, "Previous Button", { fill: '#eec65b' })
+      this.previousButton = this.add.text(this.sliderDot.x - 180, modalHeight - 60, "Previous Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStatePrevious() )
       .on('pointerout', () => this.enterButtonRestStatePrevious() )
@@ -168,10 +165,10 @@ class Scene2 extends Phaser.Scene {
       // this.click
       
       // add the background in the center of the scene
-      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.7);
+      
       this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
       this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
-      this.background.setOrigin(0.5, 0.5);
+      
       this.myChacksoo = this.add.text(5, 160, '', { font: '48px Arial', fill: '#eec65b' });
       this.yourChacksoo = this.add.text(modalWidth - 300, 160, '', { font: '48px Arial', fill: '#eec65b' });
 
@@ -217,6 +214,7 @@ class Scene2 extends Phaser.Scene {
       
       // slider value
       // this.text = this.add.text(800,0, '', { font: '48px Arial', fill: '#eec65b' });
+      this.errMsg = this.add.text(modalWidth/2 - 400, 0, `${boardStatus.isError}`, { font: '48px Arial', fill: '#eec65b' });
     }
     
   
@@ -306,11 +304,14 @@ class Scene2 extends Phaser.Scene {
       // increment the iteration
       this.iter += 0.001;
       if(boardStatus.isAuto){
-        boardStatus.boardIdx += 1;
-        this.sliderDot.x += 400/boardStatus.idxLen;
-        this.sliderDot.slider.value += 1/boardStatus.idxLen;
+        if(new Date().getTime() - boardStatus.renderTime > renderSpeed){
+          boardStatus.boardIdx += 1;
+          this.sliderDot.x += 400/boardStatus.idxLen;
+          this.sliderDot.slider.value += 1/boardStatus.idxLen;
+          boardStatus.renderTime = new Date().getTime()
+        }
         this.sliderDot.visible = false;
-        sleep(500);
+        // sleep(500);
       }
       else{
         this.sliderDot.visible = true;
