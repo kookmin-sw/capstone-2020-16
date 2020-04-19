@@ -26,6 +26,8 @@ import * as Actions from 'app/store/actions';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 // import getProblemId from '../store/reducers/getProblemId.reducer';
+import ViewReplayPage from '../viewReplay/ViewReplayPage';
+
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -59,23 +61,24 @@ function Courses(props) {
 	// console.log(count)
 
 	const classes = useStyles(props);
+
 	var header = {
 		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 	  }
+
+	 const pk = window.localStorage.getItem('pk');
+	 console.log(pk);
 
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
 
 		axios
-		  .get('/api/v1/problem/', {
-			headers: header
-		  })
+		.get(`/api/v1/game/my`, { headers:header })
 		  .then(response => {
 
-
-			   dispatch(Actions.getProblemId(response.data.results));
-			   setPosts(response.data.results);
+			   setPosts(response.data);
+			//    console.log(response.data);
 		  })
 		},[dispatch]);
 	
@@ -92,13 +95,13 @@ function Courses(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-					Battle Mode
+					Replay Mode
 					</Typography>
 				</FuseAnimate>
 				<FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
-						Let's Go Battle with your Code!
+						You can see your battle record with replay display
 						</span>
 					</Typography>
 				</FuseAnimate>
@@ -132,12 +135,7 @@ function Courses(props) {
 												
 												<Divider />
 												<CardActions className="justify-center">
-												<Link className="font-medium"												
-												to={`/apps/game/matching1/MatchingIdx1Page/${course.id}`}>
-													 <button
-													> <h3>START</h3>
-													 </button>
-													 </Link>
+													<ViewReplayPage tmp_id={course.id}/>
 												</CardActions>
 												
 											</Card>

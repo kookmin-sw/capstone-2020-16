@@ -1,1 +1,0 @@
-(this.webpackJsonponepanman=this.webpackJsonponepanman||[]).push([[141],{4248:function(n,p){}}]);

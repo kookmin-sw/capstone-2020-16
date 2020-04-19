@@ -55,3 +55,23 @@ class LeaderandAdmin(permissions.BasePermission):
             return request.user.is_authenticated
 
         return request.user.username == obj.groupInfo.leader.username or request.user.is_staff
+
+# 생성 - 모두
+# 삭제 - 본인
+# 수정 - 본인
+# 보기 - 코드 공개 여부에 따라 본인 + 관리자 / 모두
+class CodePermission(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        return request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+
+        if request.method in permissions.SAFE_METHODS:
+            if obj.author.userInfo.isCodeOpen is True:
+                return request.user.is_authenticated
+            else:
+                return request.user.username == obj.author.username or request.user.is_staff
+
+        return request.user.username == obj.author.username
+

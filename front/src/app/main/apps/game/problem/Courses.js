@@ -16,13 +16,13 @@ import Divider from '@material-ui/core/Divider';
 // import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import withReducer from 'app/store/withReducer';
+// import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from 'app/store/actions';
-import reducer from 'app/store/reducers';
+// import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 // import { GET_PROBLEMID } from 'app/store/actions';
@@ -49,7 +49,9 @@ const useStyles = makeStyles(theme => ({
 function Courses(props) {
 
 	const dispatch = useDispatch();
-	
+	var header = {
+		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+	  }
 	//const count = useSelector(({getProblemId}) => getProblemId.getId.results);
 	// const getId = (param) => {
 
@@ -59,34 +61,24 @@ function Courses(props) {
 
 	const classes = useStyles(props);
 
-	// let store = createStore(getId);
-
 	const [posts, setPosts] = useState([]);
-
-
 
 	useEffect(() => {
 
 		axios
-		.get('/api/v1/problem/')
+		.get('/api/v1/problem/', {
+			headers: header
+		  })
 		.then(response => {
-		  
+			
 			console.log(response.data.results);
 			dispatch(Actions.getProblemId(response.data.results));
 			setPosts(response.data.results);
 	
 		})
-
-
-		},[dispatch]);
+	},[dispatch]);
 	
 		
-		// const tmp = useSelector(({getProblemId}) => getProblemId.getId.results[0]);
-		// if(tmp)console.log(tmp)
-	   
-		// function update(params) {
-		// 	dispatch(Actions.getProblemId(params));
-		// }
 
 	return (
 		<div className="flex flex-col flex-auto flex-shrink-0 w-full">
@@ -118,7 +110,7 @@ function Courses(props) {
 									animation: 'transition.slideUpBigIn'
 								}}
 								className="flex flex-wrap py-24"
-							>
+							>	
 								{posts.map(course => {
 									// const category = posts.find(_cat => _cat.value === course.title);
 									return (
@@ -138,13 +130,10 @@ function Courses(props) {
 												</CardMedia>
 												
 												<Divider />
-												<CardActions className="justify-center">
-												<Link className="font-medium"												
+												<CardActions className="justify-center" >
+												<Link className="font-medium" 										
 												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
-													 <button 
-													//  href = {`/apps/game/viewProblem/ViewProblemPage${course.id}`}
-													> <h3>START</h3>
-													 </button>
+													 <button> <h3>START</h3> </button>
 													 </Link>
 												</CardActions>
 												
@@ -159,5 +148,5 @@ function Courses(props) {
 	);
 }
 
-// export default withReducer('getProblemId', reducer)(Courses);
+// export default withReducer('academyApp', reducer)(Courses);
 export default (Courses);
