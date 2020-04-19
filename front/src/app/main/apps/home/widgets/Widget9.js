@@ -30,9 +30,9 @@ function Widget9(props) {
 				<tbody>
 					{props.data.rows.map(row => (
 						<tr key={row.title}>
-							<td>{row.title}</td>
-							<td className="text-right">{row.clicks}</td>
-							<td className="text-right">{row.conversion}</td>
+							<td>{'준비중입니다.'}</td>
+							<td className="text-right">{'준비중입니다'}</td>
+							<td className="text-right">{'준비중입니다'}</td>
 						</tr>
 					))}
 				</tbody>
