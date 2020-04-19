@@ -1,31 +1,17 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-// import _ from '@lodash';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Divider from '@material-ui/core/Divider';
-// import Button from '@material-ui/core/Button';
-// import CardContent from '@material-ui/core/CardContent';
-// import FormControl from '@material-ui/core/FormControl';
-// import Icon from '@material-ui/core/Icon';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import LinearProgress from '@material-ui/core/LinearProgress';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import OutlinedInput from '@material-ui/core/OutlinedInput';
-// import Select from '@material-ui/core/Select';
-// import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-// import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from 'app/store/actions';
-// import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
-// import getProblemId from '../store/reducers/getProblemId.reducer';
 import ViewReplayPage from '../viewReplay/ViewReplayPage';
 
 
@@ -78,7 +64,6 @@ function Courses(props) {
 		  .then(response => {
 
 			   setPosts(response.data);
-			//    console.log(response.data);
 		  })
 		},[dispatch]);
 	
@@ -95,7 +80,7 @@ function Courses(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-					Replay Mode
+					Replay List
 					</Typography>
 				</FuseAnimate>
 				<FuseAnimate duration={400} delay={600}>
