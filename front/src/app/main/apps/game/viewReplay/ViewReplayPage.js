@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './components/Scene1.js'
 import Scene2 from './components/Scene2.js'
@@ -39,16 +39,23 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-function ViewReplayPage() {
+function ViewReplayPage(props) {
 	const classes = useStyles();
 	const [modalStyle] = React.useState(getModalStyle);
 	const [open, setOpen] = React.useState(false);
+
+	useEffect(()=>{
+		console.log(props.tmp_id)
+	},[])
 	
 	const handleOpen = () => {
+		console.log(props.tmp_id)
+		window.localStorage.setItem('game_id', props.tmp_id);
 		setOpen(true);
 	};
 	
 	const handleClose = () => {
+		window.localStorage.removeItem('game_id')
 		setOpen(false);
 	};
 
@@ -57,7 +64,7 @@ function ViewReplayPage() {
 		height: 1000,
 		backgroundColor: 0x192d3f,
 		scene: [Scene1, Scene2],
-		pixelArt: true
+		pixelArt: true,
 	}
 	
 	return (
