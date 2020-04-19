@@ -28,18 +28,18 @@ class GameViewSet(viewsets.ModelViewSet):
 
     def game_error(self, data):
         result = data["result"]
-
+        print(data)
         queryset = UserInformationInProblem.objects.all()
         codeset = Code.objects.all()
 
         if result == "challenger_error":
             error_user = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
             normal_user = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
-            error_code = codeset.filter(id=data["challenger_code_id"])[0]
+            error_code = codeset.filter(id=data["challenger_code"])[0]
         else:
             error_user = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
             normal_user = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
-            error_code = codeset.filter(id=data["opposite_code_id"])[0]
+            error_code = codeset.filter(id=data["opposite_code"])[0]
 
         try:
             # update code to not available to game
