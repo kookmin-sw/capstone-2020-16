@@ -47,7 +47,10 @@ function codePost(userid, problemid, code, languageid, codename){
 function CodeEditor() {
 
 
-    var problemid = useSelector(state => state.getProblemId.getProblem);
+    var problemid = window.localStorage.getItem('SelectedProblemId');
+    if(!problemid){
+      problemid = window.localStorage.getItem('SelectedProblemId');
+    }
     console.log(problemid);
   
   
@@ -87,7 +90,7 @@ function CodeEditor() {
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
           <select onChange={changeMode}>
-            <option value="python">Python</option>
+            <option value="Python">Python</option>
             <option value="C++">C++</option>
             <option value="C">C</option>
           </select>
@@ -108,7 +111,7 @@ function CodeEditor() {
         to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
-         codePost(parseInt(window.localStorage.getItem('pk')), problemid.id, code, parseInt(window.localStorage.getItem('language_id')), "testCode")}
+         codePost(parseInt(window.localStorage.getItem('pk')), problemid, code, parseInt(window.localStorage.getItem('language_id')), "testCode")}
         }									 
        style={{
          textAlign: 'center',

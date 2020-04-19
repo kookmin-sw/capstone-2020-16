@@ -39,11 +39,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
- 
-
-
-
 export default function MatchingIdx1() {
    const classes = useStyles();
    var header = {
@@ -55,61 +50,209 @@ export default function MatchingIdx1() {
    var id2 = id[1];
    var id3 = id2-1;
 
-   const problemId = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
-   const problemIdId=problemId.id;
-   const [posts, setPosts] = useState([]);
-   const [opposite,setOpposite] = useState([]);
-
+   var problemId = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
    
-function goMatch(userid, problemid, code, header){
- 
+   if(!problemId){
+      
+      var problemIdId = window.localStorage.getItem('b_selectedId');
+      var problemTitle = window.localStorage.getItem('b_selectedTitle');
+   }
+   else{
+      var problemIdId = problemId.id;
+      var problemTitle = problemId.title;
+   }
+  
 
-  var data = {
 
-   userid: userid,
-   problemid: problemid,
-   code : code,
+   const [codelist, setCodelist] = useState([]);
+   const [opposite, setOpposite] = useState({
+      o_username: 'opposite',
+      o_tier : 'loading...',
+      o_language : 'loading...',
+      
+   });
+   const [challenger, setChallenger] = useState({
+      c_username: 'challenger',
+      c_tier : 'loading...',
+      c_language : 'loading...',
+      
+   });
 
- }
+   const [gameid, setGameid] = useState(0);
+   const [isMatched, setIsMatched] = useState(false);
    
-   axios.get(`/api/v1/match/`, data, {
-     headers: header
-   })
-   .then( response => {
+   const [c_result, setCresult] = useState('loading...');
+   const [o_result, setOresult] = useState('loading...');
+
+   const [gameStatus, setGameStatus] = useState('waiting...');
+
+   // match request 
+   // update challenger, opposite state using response data
+   var goMatch = (userid, problemid, codeid) => {
+      if (isMatched){
+         return;
+      }
+      const config = {
+         'method' : 'POST',
+         'url': '/api/v1/match/',
+         'headers': {
+            'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+          },
+         'data': {
+            'userid': userid,
+            'problemid': problemid,
+            'codeid': codeid
+         } 
+      }
+      
+      axios(config)
+      .then(response => {
+
+         var data = response.data;
+
+         getUserInfo(data.challenger, data.problem, "challenger",data.challenger_language);
+         getUserInfo(data.opposite, data.problem, "opposite", data.opposite_language);
+         
+         setGameid(data.match_id);
+         setIsMatched(true);
+         setGameStatus('playing...');
+  
+      })
+      .catch(error => {
+         console.log(`match error : ${error}`);
+      })
+   }
+
+   var getUserTier = (userid,problemid, type, username, language) => {
+
+      axios.get(`/api/v1/userInformationInProblem/?user=${userid}&problem=${problemid}`, {headers:header})
+      .then(response => {
+        
+         if (type == "challenger"){
+            
+            setChallenger({
+               ...challenger,
+               ['c_username']: username,
+               ['c_tier'] : response.data.results[0].tier,
+               ['c_language']: language
+               
+            })
+            
+         }
+         else{
+            setOpposite({
+               ...opposite,
+               ['o_username']: username,
+               ['o_tier']: response.data.results[0].tier,
+               ['o_language']: language
+               
+            })
+           
+         }
+      })
+      .catch(error => {
+         console.log(error)
+      })
+   }
+
+   // get user info
+   // set username and tier 
+   var getUserInfo = (userid, problemid, type, language) => {
+      
+      axios.get(`/api/v1/userfullInfo/${userid}`, {headers:header})
+      .then(response => {
+         
+         getUserTier(userid,problemid,type,response.data.username, language);
+      })
+      .catch(error => {
+         console.log(error);
+      })
 
       
-      
-     setOpposite(response.data.results);
-     console.log(opposite);
+   }
 
-
-   })
-   .catch(error => {
-     console.log(error);
-   })
-
- 
- 
-}
-
+   // get code list
+   // update codelist using setCodelist
+   var getCodelists = (userid, problemid, page=1, codelist) =>
+   {  
+      axios.get(`/api/v1/code/?author=${userid}&problem=${problemid}&page=${page}&available_game=true`, {headers : header})
+      .then(response => {
+         codelist = codelist.concat(response.data.results);
+         if ( response.data.next != null ){
+            console.log("deep in!!");
+            codelist += getCodelists(userid, problemid, 2, codelist);
+         }
+         else{
+            if (codelist.length == 0){
+               var code = [{'id':0,'name':'you have not valid code to game'}];
+               setCodelist(code);
+            }
+            else{
+               var code = [];
+               code.push(codelist[codelist.length-1]);
+               setCodelist(code);
+            }
+           
+            return codelist;
+         }
+      })
+      .catch(error => {
+         console.log("error : cannot read code list");
+         console.log(error);
+      })
+   }
 
    useEffect(() => {
-   
+      getCodelists(pk, 1, 1, []);
+      console.log(codelist);
 
-      axios
-        .get(`api/v1/code/?author=${pk}&problem=${problemId.id}&available_game=true`, { headers:header})
-        .then(response => {
-        
-         setPosts(response.data.results);
-         console.log(response.data.results);
+      },[]);
 
-        })
-      }, []);
+   useEffect(() => {
+      getUserInfo(pk, problemIdId, "challenger", "loading...");
+   },[]);
 
-   
-   
-   
+   useEffect(()=>{
+      console.log("change challenger or oppoiste");
+   },[challenger,opposite])
 
+   useEffect(()=> {
+    
+      if (isMatched){
+         var repeat = setInterval(() => {
+            axios.get(`/api/v1/game/${gameid}/`, {headers:header})
+            .then(response => {
+               var result = response.data.result;
+               console.log(result);
+               
+               if (result != "playing"){
+
+                  var winner = response.data.winner;
+
+                  if (winner == "challenger"){
+                     setCresult('win');
+                     setOresult('lose');
+                  }
+                  else{
+                     setCresult('lose');
+                     setOresult('win');
+                  }
+
+                  clearInterval(repeat);
+                  setGameStatus('Finish!');
+         
+               }
+
+            })
+            .catch(error => {
+               console.log(`[error] get game Info : ${error}`);
+               
+            })
+         },3000);
+      }
+     
+   },[isMatched])
+   
    const [state, setState] = React.useState({
       code: '',
       name: 'hai',
@@ -164,7 +307,7 @@ function goMatch(userid, problemid, code, header){
                      <Card square>
                         <div className={clsx(classes.cardHeader, 'px-24 py-16')}>
                            <Typography variant="subtitle1" color="inherit">
-                             {username}
+                             {challenger.c_username}
                            </Typography>
                         </div>
 
@@ -181,24 +324,22 @@ function goMatch(userid, problemid, code, header){
 
                            <div className="flex flex-col">
                               <Typography variant="subtitle1" className="">
-                                 <span className="font-bold mx-4">Win/Lose</span>
-                                 loading..
+                                 <span className="font-bold mx-4">Tier</span>
+                                 {challenger.c_tier}
                               </Typography>
                               <Typography variant="subtitle1" className="">
-                                 <span className="font-bold mx-4">Country</span>
-                                 Kor
+                                 <span className="font-bold mx-4">Language</span>
+                                 {challenger.c_language}
                               </Typography>
                               <Typography variant="subtitle1" className="">
-                                 <span className="font-bold mx-4">Technology</span>
-                                 loading..
+                                 <span className="font-bold mx-4">result</span>
+                                 {c_result}
                               </Typography>
+ 
                            </div>
                         </CardContent>
-
                         <div className="flex justify-center pb-32">
-                           <Button variant="contained" color="primary" className="w-128">
-                              View more profile
-                           </Button>
+                          
                         </div>
                      </Card>
                   </div>
@@ -206,7 +347,7 @@ function goMatch(userid, problemid, code, header){
                   <div className="w-full max-w-320 sm:w-1/3 p-12">
                      <Card className="relative" raised>
                         <div className="p-32 text-center">
-                           <Typography className="text-32">  {problemId.title} </Typography>
+                           <Typography className="text-32">  {problemTitle} </Typography>
                            <Typography color="textSecondary" className="text-16 font-medium">
                               Battle game
                            </Typography>
@@ -219,21 +360,21 @@ function goMatch(userid, problemid, code, header){
                                     color="inherit"
                                     className="text-32 mx-4 font-light leading-none"
                                  >
-                                    <div><img src="assets/images/games/4.jpg" alt="user profile"/></div>
+                                    <div><img src={`assets/images/games/${problemIdId}.jpg`} alt="user profile"/></div>
                                  </Typography>
                               </div>
                            </div>
 
                            <div className="flex flex-col p-32">
-                              <Typography className="text-20"> GameRule </Typography>
+                              <Typography className="text-20"> {gameStatus} </Typography>
                               <Typography color="textSecondary" className="mb-16">
-                              {problemId.description}
+                              
                               </Typography>
                               <div> 　 </div>
                               <Typography className="text-20"> Select Your Code </Typography>
                               <FormControl variant="outlined" className={classes.formControl}>
                                  <InputLabel ref={inputLabel} htmlFor="outlined-code-native-simple">
-                                    Code
+                                    {/* Code */}
                                    </InputLabel>
                                  <Select
                                     native
@@ -245,13 +386,12 @@ function goMatch(userid, problemid, code, header){
                                        id: 'outlined-code-native-simple',
                                     }}
                                  >
-                                     <option value=" "> Select Code </option>
-                                    {posts.map(course => { return(
+                                    <option value=" "> Select Code </option>
+                                    {codelist.map(course => { return(
 
-                                    <option value={course.id}>Code</option>
+                                    <option value={course.id}>{course.name}</option>
                                     
-                                    ); })}
-                                 
+                                    ); })}                              
                                  </Select>
                               </FormControl>
                                                            
@@ -259,14 +399,16 @@ function goMatch(userid, problemid, code, header){
                         </CardContent>
 
                         <div className="flex flex-col items-center justify-center pb-32 px-32" >
+                        {/* <Link className="font-medium" 										
+												to={`/apps/game/Replay`}> */}
                            <Button variant="contained" color="primary" className="w-full"
                            onClick={function(){
-                              goMatch({pk}, {problemIdId}, 63, {header})
-                              // console.log(pk, problemIdId, header)
+                              goMatch(pk, problemIdId, state.code)
                              }}	
                            >
                               Matching
                            </Button>
+                           {/* </Link> */}
                         </div>
                      </Card>
                   </div>
@@ -275,7 +417,7 @@ function goMatch(userid, problemid, code, header){
                      <Card square>
                         <div className={clsx(classes.cardHeader, 'px-24 py-16')}>
                            <Typography variant="subtitle1" color="inherit">
-                              ?
+                              {opposite.o_username}
                            </Typography>
                         </div>
 
@@ -294,16 +436,16 @@ function goMatch(userid, problemid, code, header){
 
                            <div className="flex flex-col">
                               <Typography variant="subtitle1" className="">
-                                 <span className="font-bold mx-4">Win/Lose</span>
-                                 ?
+                                 <span className="font-bold mx-4">Tier</span>
+                                 {opposite.o_tier}
                               </Typography>
                               <Typography variant="subtitle1" className="">
-                                 <span className="font-bold mx-4">Country</span>
-                                 ?
+                                 <span className="font-bold mx-4">Language</span>
+                                 {opposite.o_language}
                               </Typography>
                               <Typography variant="subtitle1" className="">
-                                 <span className="font-bold mx-4">Technology</span>
-                                 ?
+                                 <span className="font-bold mx-4">result</span>
+                                 {o_result}
                               </Typography>
                            </div>
                         </CardContent>

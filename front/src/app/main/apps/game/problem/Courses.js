@@ -1,32 +1,17 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-// import _ from '@lodash';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Divider from '@material-ui/core/Divider';
-// import Button from '@material-ui/core/Button';
-// import CardContent from '@material-ui/core/CardContent';
-// import FormControl from '@material-ui/core/FormControl';
-// import Icon from '@material-ui/core/Icon';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import LinearProgress from '@material-ui/core/LinearProgress';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import OutlinedInput from '@material-ui/core/OutlinedInput';
-// import Select from '@material-ui/core/Select';
-// import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-// import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Actions from 'app/store/actions';
-// import reducer from 'app/store/reducers';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
-// import { GET_PROBLEMID } from 'app/store/actions';
-// import getProblemId from '../store/reducers/getProblemId.reducer';
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -52,16 +37,12 @@ function Courses(props) {
 	var header = {
 		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 	  }
-	//const count = useSelector(({getProblemId}) => getProblemId.getId.results);
-	// const getId = (param) => {
-
-	// 	dispatch(Actions.getProblemId(param))
-		
-	// }
 
 	const classes = useStyles(props);
 
 	const [posts, setPosts] = useState([]);
+	
+
 
 	useEffect(() => {
 
@@ -74,11 +55,9 @@ function Courses(props) {
 			console.log(response.data.results);
 			dispatch(Actions.getProblemId(response.data.results));
 			setPosts(response.data.results);
-	
+			window.localStorage.setItem('ProblemId', response.data.results);
 		})
 	},[dispatch]);
-	
-		
 
 	return (
 		<div className="flex flex-col flex-auto flex-shrink-0 w-full">
@@ -126,15 +105,21 @@ function Courses(props) {
 				
 												</div>
 												<CardMedia className="flex items-center justify-center">
+												<Link className="font-medium" 										
+												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
 												<img src={`assets/images/games/${course.id}.jpg`} width='150' alt='thumbnail'></img>
+												</Link>
 												</CardMedia>
 												
+
 												<Divider />
 												<CardActions className="justify-center" >
 												<Link className="font-medium" 										
 												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
-													 <button> <h3>START</h3> </button>
-													 </Link>
+													 <button onClick = {() => {
+														 window.localStorage.setItem('SelectedProblemId', course.id);
+													 }}> <h3>START</h3> </button>
+												</Link>
 												</CardActions>
 												
 											</Card>

@@ -16,6 +16,7 @@ import AppContext from './AppContext';
 import { Auth } from './auth';
 import routes from './fuse-configs/routesConfig';
 import store from './store';
+// import { Beforeunload } from 'react-beforeunload';
 
 const jss = create({
 	...jssPreset(),
