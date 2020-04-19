@@ -35,11 +35,11 @@ class GameViewSet(viewsets.ModelViewSet):
         if result == "challenger_error":
             error_user = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
             normal_user = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
+            error_code = codeset.filter(id=data["challenger_code_id"])[0]
         else:
             error_user = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
             normal_user = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
-
-        error_code = codeset.filter(id=error_user.code.id)[0]
+            error_code = codeset.filter(id=data["opposite_code_id"])[0]
 
         try:
             # update code to not available to game
@@ -58,6 +58,7 @@ class GameViewSet(viewsets.ModelViewSet):
             valid_code = code_serializer.validated_data
 
             error_code.available_game = valid_code["available_game"]
+
         except Exception as e:
             print("game_error - update code error : {}".format(e))
 
@@ -69,6 +70,7 @@ class GameViewSet(viewsets.ModelViewSet):
                 "id": error_user.id,
                 "score": error_score,
                 "user": error_user.pk,
+                "code": error_code.id,
                 "available_game": False,
                 "playing": False,
             }
@@ -79,6 +81,7 @@ class GameViewSet(viewsets.ModelViewSet):
 
             error_user.score = valid_UIIP["score"]
             error_user.available_game = valid_UIIP["available_game"]
+            error_user.code = valid_UIIP["code"]
             error_user.playing = valid_UIIP["playing"]
 
         except Exception as e:
@@ -152,7 +155,7 @@ class GameViewSet(viewsets.ModelViewSet):
             "id": challenger.id,
             "user": challenger.user.pk,
             "score": challenger_score,
-            "code": data["challenger_code"],
+            "code": data["challenger_code_id"],
             "playing": False,
         }
 
@@ -160,7 +163,7 @@ class GameViewSet(viewsets.ModelViewSet):
             "id": opposite.id,
             "user": opposite.user.pk,
             "score": opposite_score,
-            "code": data["opposite_code"],
+            "code": data["opposite_code_id"],
             "playing": False,
         }
 
