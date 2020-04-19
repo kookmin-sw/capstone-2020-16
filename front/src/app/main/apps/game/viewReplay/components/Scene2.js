@@ -267,9 +267,9 @@ class Scene2 extends Phaser.Scene {
             if(boardStatus.boardIdx === 0){
               this.yourChacksoo.setText('착수\n 준비')
             }
-            else{
-              this.yourChacksoo.setText('착수\n ' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(4));
-            }
+            // else{
+            //   this.yourChacksoo.setText('착수\n ' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(4));
+            // }
           }
         }
         else{
