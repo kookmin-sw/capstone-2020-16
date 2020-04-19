@@ -16,6 +16,7 @@ import AppContext from './AppContext';
 import { Auth } from './auth';
 import routes from './fuse-configs/routesConfig';
 import store from './store';
+import { Beforeunload } from 'react-beforeunload';
 
 const jss = create({
 	...jssPreset(),
@@ -35,15 +36,17 @@ const App = () => {
 			<StylesProvider jss={jss} generateClassName={generateClassName}>
 				<Provider store={store}>
 					<MuiPickersUtilsProvider utils={MomentUtils}>
-						<Auth>
-							<Router history={history}>
-								<FuseAuthorization>
-									<FuseTheme>
-										<FuseLayout />
-									</FuseTheme>
-								</FuseAuthorization>
-							</Router>
-						</Auth>
+						<Beforeunload onBeforeunload={() => {window.localStorage.clear()}}>
+							<Auth>
+								<Router history={history}>
+									<FuseAuthorization>
+										<FuseTheme>
+											<FuseLayout />
+										</FuseTheme>
+									</FuseAuthorization>
+								</Router>
+							</Auth>
+						</Beforeunload>
 					</MuiPickersUtilsProvider>
 				</Provider>
 			</StylesProvider>
