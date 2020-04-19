@@ -26,7 +26,7 @@ class Scene2 extends Phaser.Scene {
   constructor() {
     super("playGame");
     
-    axios.get(`/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
+    axios.get(`http://203.246.112.32:8000/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
         boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
