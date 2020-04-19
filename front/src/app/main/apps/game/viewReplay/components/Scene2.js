@@ -1,17 +1,11 @@
 import Phaser from 'phaser'
-// import ApiFuncs from '@api/ApiFuncs'
 import axios from 'axios'
 
 const boardSize = 896;
 const modalWidth = 1500;
 const modalHeight = 1000;
+var renderSpeed = 500;
 
-function sleep (delay) {
-  var start = new Date().getTime();
-  while (new Date().getTime() < start + delay);
-}
-
-// const api = new ApiFuncs()
 const version = {
   'version': 'v1',
 }
@@ -21,7 +15,8 @@ const boardStatus = {
   boardIdx: 0,
   isAuto: false,
   idxLen : 0,
-  isError: ""
+  isError: "",
+  renderTime: new Date().getTime(),
 }
 var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
@@ -307,11 +302,14 @@ class Scene2 extends Phaser.Scene {
       // increment the iteration
       this.iter += 0.001;
       if(boardStatus.isAuto){
-        boardStatus.boardIdx += 1;
-        this.sliderDot.x += 400/boardStatus.idxLen;
-        this.sliderDot.slider.value += 1/boardStatus.idxLen;
+        if(new Date().getTime() - boardStatus.renderTime > renderSpeed){
+          boardStatus.boardIdx += 1;
+          this.sliderDot.x += 400/boardStatus.idxLen;
+          this.sliderDot.slider.value += 1/boardStatus.idxLen;
+          boardStatus.renderTime = new Date().getTime()
+        }
         this.sliderDot.visible = false;
-        sleep(500);
+        // sleep(500);
       }
       else{
         this.sliderDot.visible = true;
