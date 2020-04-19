@@ -17,6 +17,8 @@ const boardStatus = {
   idxLen : 0,
   isError: "",
   renderTime: new Date().getTime(),
+  challengerId: 0,
+  oppositeId: 0
 }
 var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
@@ -28,10 +30,13 @@ class Scene2 extends Phaser.Scene {
     
     axios.get(`http://203.246.112.32:8000/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
+        console.log(response)
         boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
         boardStatus.placement = response.data.placement_record.split(/\n/);
         boardStatus.idxLen = boardStatus.chacksoo.length/64;
+        boardStatus.challengerId = response.data.challenger;
+        boardStatus.oppositeId = response.data.opposite;
       })
       .catch((error) => {
         // console.log(error.response.status);
@@ -165,11 +170,21 @@ class Scene2 extends Phaser.Scene {
       // this.click
       
       // add the background in the center of the scene
-      
-      this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
-      this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
-      this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, 'Me', { font: '48px Arial', fill: '#eec65b' });
-      this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, 'You', { font: '48px Arial', fill: '#eec65b' });
+      if(parseInt(window.localStorage.getItem('pk')) === boardStatus.challengerId){
+        console.log('같다')
+        this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
+        this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
+        this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '나', { font: '48px Arial', fill: '#eec65b' });
+        this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '상대방', { font: '48px Arial', fill: '#eec65b' });
+      }
+      else{
+        this.me = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"me").setScale(0.1);
+        this.you = this.add.image((modalWidth-boardSize)/4,100,"you").setScale(0.1);
+        this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '상대방', { font: '48px Arial', fill: '#eec65b' });
+        this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '나', { font: '48px Arial', fill: '#eec65b' });
+      }
+      // this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, 'Me', { font: '48px Arial', fill: '#eec65b' });
+      // this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, 'You', { font: '48px Arial', fill: '#eec65b' });
       
       this.myChacksoo = this.add.text(100, 160, '', { font: '48px Arial', fill: '#eec65b' });
       this.yourChacksoo = this.add.text(modalWidth - 200, 160, '', { font: '48px Arial', fill: '#eec65b' });
