@@ -17,6 +17,7 @@ placement.txt
 result.txt
 match/
 matchdata.json
+a.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
