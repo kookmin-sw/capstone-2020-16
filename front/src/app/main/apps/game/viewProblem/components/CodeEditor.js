@@ -59,7 +59,7 @@ function CodeEditor() {
 
 
     const [option, setOption] = useState({
-        mode: "Python",
+        mode: "Select Language",
         theme: 'material',
         lineNumbers: true
     });
@@ -90,6 +90,7 @@ function CodeEditor() {
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
           <select onChange={changeMode}>
+          <option value="Select Language">Select Language</option>
             <option value="Python">Python</option>
             <option value="C++">C++</option>
             <option value="C">C</option>
