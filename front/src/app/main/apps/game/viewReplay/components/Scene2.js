@@ -168,9 +168,11 @@ class Scene2 extends Phaser.Scene {
       
       this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
       this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
+      this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, 'Me', { font: '48px Arial', fill: '#eec65b' });
+      this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, 'You', { font: '48px Arial', fill: '#eec65b' });
       
-      this.myChacksoo = this.add.text(5, 160, '', { font: '48px Arial', fill: '#eec65b' });
-      this.yourChacksoo = this.add.text(modalWidth - 300, 160, '', { font: '48px Arial', fill: '#eec65b' });
+      this.myChacksoo = this.add.text(100, 160, '', { font: '48px Arial', fill: '#eec65b' });
+      this.yourChacksoo = this.add.text(modalWidth - 200, 160, '', { font: '48px Arial', fill: '#eec65b' });
 
       // make a group of ships
       this.blue_booGroup = this.make.group({
@@ -254,26 +256,26 @@ class Scene2 extends Phaser.Scene {
         if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
           if(boardStatus.placement[boardStatus.boardIdx].charAt(4) === '>'){
             // my move
-            this.myChacksoo.setText('move\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
+            this.myChacksoo.setText('이동\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
             if(boardStatus.boardIdx === 0){
-              this.yourChacksoo.setText('chacksoo\n 준비');
+              this.yourChacksoo.setText('착수\n 준비');
             }
           }
           else{
             // my chacksoo
-            this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(4));
+            this.myChacksoo.setText('착수\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(4));
             if(boardStatus.boardIdx === 0){
-              this.yourChacksoo.setText('chacksoo\n 준비')
+              this.yourChacksoo.setText('착수\n 준비')
             }
             else{
-              this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(4));
+              this.yourChacksoo.setText('착수\n ' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(4));
             }
           }
         }
         else{
           // undefined
-          this.myChacksoo.setText('chacksoo\n 준비');
-          this.yourChacksoo.setText('chacksoo\n 준비');
+          this.myChacksoo.setText('착수\n 준비');
+          this.yourChacksoo.setText('착수\n 준비');
         }
       }
       else{
@@ -281,23 +283,23 @@ class Scene2 extends Phaser.Scene {
         if(boardStatus.placement[(boardStatus.boardIdx)] !== undefined){
           if(boardStatus.placement[(boardStatus.boardIdx)].charAt(4) === '>'){
             // your move
-            this.yourChacksoo.setText('move\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
+            this.yourChacksoo.setText('이동\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
           }
           else{
             // your chacksoo
             // this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
             if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
-              this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx)].charAt(4));
+              this.yourChacksoo.setText('착수\n ' + boardStatus.placement[(boardStatus.boardIdx)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx)].charAt(4));
             }
             else{
-              this.yourChacksoo.setText('chacksoo\n 준비');
+              this.yourChacksoo.setText('착수\n 준비');
             }
           }
         }
         else{
           // undefined
-          this.myChacksoo.setText('chacksoo\n 준비');
-          this.yourChacksoo.setText('chacksoo\n 준비');
+          this.myChacksoo.setText('착수\n 준비');
+          this.yourChacksoo.setText('착수\n 준비');
         }
       }
       
