@@ -17,8 +17,13 @@ placement.txt
 result.txt
 match/
 matchdata.json
+<<<<<<< HEAD
 a.py
 
+=======
+challenger_add.py
+opposite_add.py
+>>>>>>> 4327e22d01018548fbcc03cb81a0aeaab22ea8a8
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
