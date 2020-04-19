@@ -103,7 +103,7 @@ class game(permissions.BasePermission):
 
     isCore = False
 
-    dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.secrets\\base.json')
+    dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.secrets/base.json')
     secrets_base = json.loads(open(dir, 'r').read())
 
     # list 허용
