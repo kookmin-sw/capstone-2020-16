@@ -21,6 +21,7 @@ const boardStatus = {
   boardIdx: 0,
   isAuto: false,
   idxLen : 0,
+  isError: ""
 }
 var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
@@ -32,7 +33,7 @@ class Scene2 extends Phaser.Scene {
     
     axios.get(`/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
-        console.log(window.localStorage.getItem('game_id'))
+        boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
         boardStatus.placement = response.data.placement_record.split(/\n/);
         boardStatus.idxLen = boardStatus.chacksoo.length/64;
@@ -45,7 +46,6 @@ class Scene2 extends Phaser.Scene {
     create() {
       this.iter = 0; // used for itarations
       boardStatus.boardIdx = 0;
-      
       // for slider
       this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(10, 10); // add dot
       this.sliderDot.slider = this.plugins.get('rexsliderplugin').add(this.sliderDot, {
@@ -217,6 +217,7 @@ class Scene2 extends Phaser.Scene {
       
       // slider value
       // this.text = this.add.text(800,0, '', { font: '48px Arial', fill: '#eec65b' });
+      this.errMsg = this.add.text(modalWidth/2 - 400, 0, `${boardStatus.isError}`, { font: '48px Arial', fill: '#eec65b' });
     }
     
   

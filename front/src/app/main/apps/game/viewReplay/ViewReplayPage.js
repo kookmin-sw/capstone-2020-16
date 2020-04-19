@@ -49,7 +49,7 @@ function ViewReplayPage(props) {
 	},[])
 	
 	const handleOpen = () => {
-		console.log(props.tmp_id)
+		console.log(`>>>${props.tmp_id}`)
 		window.localStorage.setItem('game_id', props.tmp_id);
 		setOpen(true);
 	};
