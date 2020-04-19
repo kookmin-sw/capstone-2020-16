@@ -159,7 +159,7 @@ export default function MatchingIdx1() {
    // set username and tier 
    var getUserInfo = (userid, problemid, type, language) => {
       
-      axios.get(`http://203.246.112.32:8000/api/v1/userfullInfo/${userid}`, {headers:header})
+      axios.get(`https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/userfullInfo/${userid}`, {headers:header})
       .then(response => {
          
          getUserTier(userid,problemid,type,response.data.username, language);
