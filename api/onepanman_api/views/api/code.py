@@ -42,7 +42,7 @@ class CodeViewSet(viewsets.ModelViewSet):
 
         # 여기서 celery 코드 추가!
 
-        return Response(data.data)
+        return Response(data)
 
     def update(self, request, *args, **kwargs):
         data = super().update(request, *args, **kwargs)
