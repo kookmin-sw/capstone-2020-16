@@ -25,6 +25,20 @@ class CodeViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         data = super().create(request, *args, **kwargs)
+        data = data.data
+
+        available = data["available_game"]
+
+        # 게임 가능한 코드이면
+        if available:
+            user = data["author"]
+            problem = data["problem"]
+
+            queryset = UserInformationInProblem.objects.all().filter(user=user, problem=problem)
+
+            # userInformationInProblem 객체가 존재하는지 확인하고 생성한다.
+            if len(queryset) < 1:
+                create_instance(user, problem, data["id"])
 
         # 여기서 celery 코드 추가!
 
