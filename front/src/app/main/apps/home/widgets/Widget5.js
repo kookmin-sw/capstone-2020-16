@@ -46,25 +46,25 @@ function createData(name, link) {
   }
   
   const rows = [
-	createData('Notice1', 'https://naver.com'),
-	createData('Notice2', 'https://naver.com'),
-	createData('Notice3', 'https://naver.com'),
-	createData('Notice4', 'https://naver.com'),
-	createData('Notice5', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
   ];
   const row1 = [
-	createData('Comm1', 'https://naver.com'),
-	createData('Comm2', 'https://naver.com'),
-	createData('Comm3', 'https://naver.com'),
-	createData('Comm4', 'https://naver.com'),
-	createData('Comm5', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
   ];
   const row2 = [
-	createData('Q&A1', 'https://naver.com'),
-	createData('Q&A2', 'https://naver.com'),
-	createData('Q&A3', 'https://naver.com'),
-	createData('Q&A4', 'https://naver.com'),
-	createData('Q&A5', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
+	createData('준비중입니다!', 'https://naver.com'),
   ];
 
 
@@ -113,7 +113,7 @@ export default function Widget5(props) {
   					          <TableRow key={row.name}>
   					            <TableCell component="th" scope="row">
 								  <ButtonBase
-											  href={row.link}
+											//   href={row.link}
 											  focusRipple
 											  key={row.name}
 											  className={classes.image}
@@ -147,7 +147,7 @@ export default function Widget5(props) {
   					          <TableRow key={row.name}>
   					            <TableCell component="th" scope="row">
 								  <ButtonBase
-											  href={row.link}
+											//   href={row.link}
 											  focusRipple
 											  key={row.name}
 											  className={classes.image}
@@ -181,7 +181,7 @@ export default function Widget5(props) {
   					          <TableRow key={row.name}>
   					            <TableCell component="th" scope="row">
 								  <ButtonBase
-											  href={row.link}
+											//   href={row.link}
 											  focusRipple
 											  key={row.name}
 											  className={classes.image}

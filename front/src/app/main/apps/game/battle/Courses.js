@@ -127,7 +127,7 @@ function Courses(props) {
 				
 												</div>
 												<CardMedia className="flex items-center justify-center">
-													<img src={course.thumbnail} width='200' alt='thumbnail'></img>
+													<img src={`assets/images/games/${course.id}.jpg`} width='150' alt='thumbnail'></img>
 												</CardMedia>
 												
 												<Divider />

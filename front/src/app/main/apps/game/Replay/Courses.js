@@ -124,13 +124,13 @@ function Courses(props) {
 													className="flex flex-shrink-0 items-center justify-between px-24 h-64"
 												>
 													<Typography className="font-medium truncate" color="inherit">
-														{course.title}
+														{`Vs Anonymous User ${course.opposite}`}
 													</Typography>
 													
 				
 												</div>
 												<CardMedia className="flex items-center justify-center">
-													<img src={course.thumbnail} width='200' alt='thumbnail'></img>
+												<img src={`assets/images/games/3.jpg`} width='150' alt='thumbnail'></img>
 												</CardMedia>
 												
 												<Divider />
