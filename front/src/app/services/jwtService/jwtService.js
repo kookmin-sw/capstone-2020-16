@@ -100,7 +100,7 @@ class JwtService extends FuseUtils.EventEmitter {
       // 		}
       // 	});
       axios
-        .post("/api/v1/rest-auth/login/", {
+        .post("http://203.246.112.32:8000/api/v1/rest-auth/login/", {
           username: username,
           password: password
         })
@@ -147,7 +147,7 @@ class JwtService extends FuseUtils.EventEmitter {
       // 		Promise.reject(new Error('Failed to login with token.'));
       // 	});
       axios
-        .post("/api/v1/rest-auth/login/", {
+        .post("http://203.246.112.32:8000/api/v1/rest-auth/login/", {
           username: window.localStorage.getItem('username'),
           password: window.localStorage.getItem('password')
         })

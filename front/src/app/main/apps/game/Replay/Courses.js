@@ -60,7 +60,7 @@ function Courses(props) {
 	useEffect(() => {
 
 		axios
-		.get(`/api/v1/game/my`, { headers:header })
+		.get(`http://203.246.112.32:8000/api/v1/game/my`, { headers:header })
 		  .then(response => {
 
 			   setPosts(response.data);

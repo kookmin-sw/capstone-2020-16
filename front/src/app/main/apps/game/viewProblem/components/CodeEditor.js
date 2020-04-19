@@ -32,7 +32,7 @@ function codePost(userid, problemid, code, languageid, codename){
 
   console.log(data)
 
-  axios.post("/api/v1/code/", data, {
+  axios.post("http://203.246.112.32:8000/api/v1/code/", data, {
     headers: header
   })
   .then( response => {

@@ -94,7 +94,7 @@ export default function MatchingIdx1() {
       }
       const config = {
          'method' : 'POST',
-         'url': '/api/v1/match/',
+         'url': 'http://203.246.112.32:8000/api/v1/match/',
          'headers': {
             'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
           },
@@ -125,7 +125,7 @@ export default function MatchingIdx1() {
 
    var getUserTier = (userid,problemid, type, username, language) => {
 
-      axios.get(`/api/v1/userInformationInProblem/?user=${userid}&problem=${problemid}`, {headers:header})
+      axios.get(`http://203.246.112.32:8000/api/v1/userInformationInProblem/?user=${userid}&problem=${problemid}`, {headers:header})
       .then(response => {
         
          if (type == "challenger"){
@@ -159,7 +159,7 @@ export default function MatchingIdx1() {
    // set username and tier 
    var getUserInfo = (userid, problemid, type, language) => {
       
-      axios.get(`/api/v1/userfullInfo/${userid}`, {headers:header})
+      axios.get(`http://203.246.112.32:8000/api/v1/userfullInfo/${userid}`, {headers:header})
       .then(response => {
          
          getUserTier(userid,problemid,type,response.data.username, language);
@@ -175,7 +175,7 @@ export default function MatchingIdx1() {
    // update codelist using setCodelist
    var getCodelists = (userid, problemid, page=1, codelist) =>
    {  
-      axios.get(`/api/v1/code/?author=${userid}&problem=${problemid}&page=${page}&available_game=true`, {headers : header})
+      axios.get(`http://203.246.112.32:8000/api/v1/code/?author=${userid}&problem=${problemid}&page=${page}&available_game=true`, {headers : header})
       .then(response => {
          codelist = codelist.concat(response.data.results);
          if ( response.data.next != null ){
@@ -220,7 +220,7 @@ export default function MatchingIdx1() {
     
       if (isMatched){
          var repeat = setInterval(() => {
-            axios.get(`/api/v1/game/${gameid}/`, {headers:header})
+            axios.get(`http://203.246.112.32:8000/api/v1/game/${gameid}/`, {headers:header})
             .then(response => {
                var result = response.data.result;
                console.log(result);
