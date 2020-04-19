@@ -14,7 +14,7 @@ function sleep (delay) {
 // const api = new ApiFuncs()
 const version = {
   'version': 'v1',
-  'id': 160
+  'id': 179
 }
 const boardStatus = {
   chacksoo: "",
@@ -23,12 +23,15 @@ const boardStatus = {
   isAuto: false,
   idxLen : 0,
 }
+var header = {
+  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+}
 
 class Scene2 extends Phaser.Scene {
   constructor() {
     super("playGame");
     
-    axios.get(`/api/${version.version}/game/${version.id}/`)
+    axios.get(`/api/${version.version}/game/${version.id}/`, { headers: header})
     .then((response) => {
       console.log(response)
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
@@ -170,20 +173,20 @@ class Scene2 extends Phaser.Scene {
       this.yourChacksoo = this.add.text(modalWidth - 300, 160, '', { font: '48px Arial', fill: '#eec65b' });
 
       // make a group of ships
-      this.saitamaGroup = this.make.group({
-        key: "saitama",
+      this.blue_booGroup = this.make.group({
+        key: "blue_boo",
         frameQuantity: 64,
         max: 64
       });
       
-      this.garowGroup = this.make.group({
-        key: "garow",
+      this.pink_booGroup = this.make.group({
+        key: "pink_boo",
         frameQuantity: 64,
         max: 64
       });
       
       // align the group of ships in a grid
-      Phaser.Actions.GridAlign(this.saitamaGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.blue_booGroup.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
@@ -192,11 +195,11 @@ class Scene2 extends Phaser.Scene {
         cellHeight: 92,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -80 + (modalWidth-boardSize)/2,
-        y: -88
+        x: 95,
+        y: -170
       });
       
-      Phaser.Actions.GridAlign(this.garowGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.pink_booGroup.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
@@ -205,8 +208,8 @@ class Scene2 extends Phaser.Scene {
         cellHeight: 92,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -80 + (modalWidth-boardSize)/2,
-        y: -88
+        x: 95,
+        y: -170
       });
       
       // slider value
@@ -217,13 +220,13 @@ class Scene2 extends Phaser.Scene {
     update() {
       
       // rotate the ships
-      var children = this.saitamaGroup.getChildren();
-      var children2 = this.garowGroup.getChildren();
+      var children = this.blue_booGroup.getChildren();
+      var children2 = this.pink_booGroup.getChildren();
       
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
-        children[i].setScale(0.18);
-        children2[i].setScale(0.18);
+        children[i].setScale(0.13);
+        children2[i].setScale(0.13);
         
         if(boardStatus.chacksoo[((boardStatus.boardIdx+1)*64) + i] === "0"){
           children[i].visible = false;

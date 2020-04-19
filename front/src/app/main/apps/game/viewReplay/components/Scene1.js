@@ -7,8 +7,8 @@ class Scene1 extends Phaser.Scene {
   
     preload(){
       this.load.image("background", "assets/images/webGL/board.jpg");
-      this.load.image("saitama", "assets/images/webGL/saitama2.png");
-      this.load.image("garow", "assets/images/webGL/garow.png");
+      this.load.image("blue_boo", "assets/images/webGL/blue_boo.png");
+      this.load.image("pink_boo", "assets/images/webGL/pink_boo.png");
       this.load.image("me", "assets/images/webGL/user.png");
       this.load.image("you", "assets/images/webGL/user2.png");
       this.load.plugin('rexsliderplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexsliderplugin.min.js', true); // slider bar
