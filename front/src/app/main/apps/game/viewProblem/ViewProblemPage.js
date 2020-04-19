@@ -56,10 +56,13 @@ function KnowledgeBasePage() {
 
 
   var problemId = useSelector(state => state.getProblemId.getId.results[id2-1]);
-  var problemIdLocal = window.localStorage.getItem('ProblemId');
+  var problemIdLocal = window.localStorage.getItem('SelectedProblemId');
+  console.log(problemIdLocal);
   
   if(!problemId){
-    problemId = problemIdLocal[id2-1];
+    problemId = problemIdLocal;
+    console.log(problemId);
+    
   }
 
   useEffect( () => {

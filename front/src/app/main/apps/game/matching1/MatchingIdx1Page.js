@@ -50,8 +50,19 @@ export default function MatchingIdx1() {
    var id2 = id[1];
    var id3 = id2-1;
 
-   const problemId = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
-   const problemIdId=problemId.id;
+   var problemId = useSelector(({getProblemId}) => getProblemId.getId.results[id3]);
+   
+   if(!problemId){
+      
+      var problemIdId = window.localStorage.getItem('b_selectedId');
+      var problemTitle = window.localStorage.getItem('b_selectedTitle');
+   }
+   else{
+      var problemIdId = problemId.id;
+      var problemTitle = problemId.title;
+   }
+  
+
 
    const [codelist, setCodelist] = useState([]);
    const [opposite, setOpposite] = useState({
@@ -198,7 +209,7 @@ export default function MatchingIdx1() {
       },[]);
 
    useEffect(() => {
-      getUserInfo(pk, problemId.id, "challenger", "loading...");
+      getUserInfo(pk, problemIdId, "challenger", "loading...");
    },[]);
 
    useEffect(()=>{
@@ -336,7 +347,7 @@ export default function MatchingIdx1() {
                   <div className="w-full max-w-320 sm:w-1/3 p-12">
                      <Card className="relative" raised>
                         <div className="p-32 text-center">
-                           <Typography className="text-32">  {problemId.title} </Typography>
+                           <Typography className="text-32">  {problemTitle} </Typography>
                            <Typography color="textSecondary" className="text-16 font-medium">
                               Battle game
                            </Typography>
@@ -349,7 +360,7 @@ export default function MatchingIdx1() {
                                     color="inherit"
                                     className="text-32 mx-4 font-light leading-none"
                                  >
-                                    <div><img src="assets/images/games/4.jpg" alt="user profile"/></div>
+                                    <div><img src={`assets/images/games/${problemIdId}.jpg`} alt="user profile"/></div>
                                  </Typography>
                               </div>
                            </div>
@@ -392,7 +403,7 @@ export default function MatchingIdx1() {
 												to={`/apps/game/Replay`}> */}
                            <Button variant="contained" color="primary" className="w-full"
                            onClick={function(){
-                              goMatch(pk, problemId.id, state.code)
+                              goMatch(pk, problemIdId, state.code)
                              }}	
                            >
                               Matching

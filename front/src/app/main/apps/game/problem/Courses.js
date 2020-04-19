@@ -116,7 +116,9 @@ function Courses(props) {
 												<CardActions className="justify-center" >
 												<Link className="font-medium" 										
 												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
-													 <button> <h3>START</h3> </button>
+													 <button onClick = {() => {
+														 window.localStorage.setItem('SelectedProblemId', course.id);
+													 }}> <h3>START</h3> </button>
 												</Link>
 												</CardActions>
 												

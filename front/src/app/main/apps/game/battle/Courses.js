@@ -51,7 +51,9 @@ function Courses(props) {
 		  .then(response => {
 			   dispatch(Actions.getProblemId(response.data.results));
 			   setPosts(response.data.results);
-			   window.localStorage.setItem('battleProblemId', response.data.results);
+			   console.log(response.data.results);
+			   
+			//    console.log(window.localStorage.getItem('battleProblemId'))
 		  })
 		},[dispatch]);
 	
@@ -113,8 +115,10 @@ function Courses(props) {
 												<CardActions className="justify-center">
 												<Link className="font-medium"												
 												to={`/apps/game/matching1/MatchingIdx1Page/${course.id}`}>
-													 <button
-													> <h3>START</h3>
+													 <button onClick = {() => {
+														 window.localStorage.setItem('b_selectedId', course.id);
+														 window.localStorage.setItem('b_selectedTitle', course.title);
+													 }}> <h3>START</h3>
 													 </button>
 													 </Link>
 												</CardActions>
