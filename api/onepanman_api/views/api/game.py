@@ -155,7 +155,7 @@ class GameViewSet(viewsets.ModelViewSet):
             "id": challenger.id,
             "user": challenger.user.pk,
             "score": challenger_score,
-            "code": data["challenger_code_id"],
+            "code": data["challenger_code"],
             "playing": False,
         }
 
@@ -163,7 +163,7 @@ class GameViewSet(viewsets.ModelViewSet):
             "id": opposite.id,
             "user": opposite.user.pk,
             "score": opposite_score,
-            "code": data["opposite_code_id"],
+            "code": data["opposite_code"],
             "playing": False,
         }
 
