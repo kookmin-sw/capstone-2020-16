@@ -81,12 +81,12 @@ function UserMenu(props) {
 					</>
 				) : (
 					<>
-						<MenuItem component={Link} to="/pages/profile" onClick={userMenuClose} role="button">
+						{/* <MenuItem component={Link} to="/pages/profile" onClick={userMenuClose} role="button">
 							<ListItemIcon className="min-w-40">
 								<Icon>account_circle</Icon>
 							</ListItemIcon>
 							<ListItemText primary="My Profile" />
-						</MenuItem>
+						</MenuItem> */}
 						<MenuItem component={Link} to="/apps/mail" onClick={userMenuClose} role="button">
 							<ListItemIcon className="min-w-40">
 								<Icon>mail</Icon>
