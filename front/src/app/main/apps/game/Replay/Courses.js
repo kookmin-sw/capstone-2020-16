@@ -26,6 +26,8 @@ import * as Actions from 'app/store/actions';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 // import getProblemId from '../store/reducers/getProblemId.reducer';
+import ViewReplayPage from '../viewReplay/ViewReplayPage';
+
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -72,11 +74,11 @@ function Courses(props) {
 	useEffect(() => {
 
 		axios
-		.get(`api/v1/game/my/`, { headers:header })
+		.get(`/api/v1/game/my`, { headers:header })
 		  .then(response => {
 
-			   setPosts(response.data.results);
-			   console.log(response.data.results);
+			   setPosts(response.data);
+			   console.log(response.data);
 		  })
 		},[dispatch]);
 	
@@ -133,13 +135,9 @@ function Courses(props) {
 												
 												<Divider />
 												<CardActions className="justify-center">
-												<Link className="font-medium"												
-												// to={`/apps/game/matching1/MatchingIdx1Page/${course.id}`}
-												>
 													 <button
-													> <h3>START</h3>
+													> <h3><ViewReplayPage/></h3>
 													 </button>
-													 </Link>
 												</CardActions>
 												
 											</Card>
