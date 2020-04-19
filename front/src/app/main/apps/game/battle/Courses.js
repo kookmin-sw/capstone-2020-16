@@ -72,10 +72,9 @@ function Courses(props) {
 			headers: header
 		  })
 		  .then(response => {
-
-
 			   dispatch(Actions.getProblemId(response.data.results));
 			   setPosts(response.data.results);
+			   window.localStorage.setItem('battleProblemId', response.data.results);
 		  })
 		},[dispatch]);
 	

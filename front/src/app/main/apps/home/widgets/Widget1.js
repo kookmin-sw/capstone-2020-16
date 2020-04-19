@@ -12,12 +12,12 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 		  width: '30%',
 		},
 		{
-		  url: 'assets/images/games/2.jpg',
+		  url: 'assets/images/games/logo_title.jpg',
 		  title: 'Weekly Best Game',
 		  width: '40%',
 		},
 		{
-		  url: 'assets/images/games/3.jpg',
+		  url: 'assets/images/games/2.jpg',
 		  title: 'Montly Best Game',
 		  width: '30%',
 		},
