@@ -18,7 +18,7 @@ const version = {
 }
 const boardStatus = {
   chacksoo: "",
-  placement: "",
+  placement: [],
   boardIdx: 0,
   isAuto: false,
   idxLen : 0,
@@ -33,10 +33,10 @@ class Scene2 extends Phaser.Scene {
     
     axios.get(`/api/${version.version}/game/${version.id}/`, { headers: header})
     .then((response) => {
-      console.log(response)
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-        boardStatus.placement = response.data.placement_record.replace(/\n/gi, ' ').split(/ /);
+        boardStatus.placement = response.data.placement_record.split(/\n/);
         boardStatus.idxLen = boardStatus.chacksoo.length/64;
+        console.log(boardStatus.placement)
       })
       .catch((error) => {
         console.log(error.response.status);
@@ -76,14 +76,18 @@ class Scene2 extends Phaser.Scene {
               }
               this.nextIdxText = () => {
                 if(boardStatus.isAuto === false){
-                  boardStatus.boardIdx += 1;
-                  this.sliderDot.slider.value += 1/boardStatus.idxLen;
+                  if(boardStatus.boardIdx !== boardStatus.idxLen){
+                    boardStatus.boardIdx += 1;
+                    this.sliderDot.slider.value += 1/boardStatus.idxLen;
+                  }
                 }
               }
               this.previousIdxText = () => {
                 if(boardStatus.isAuto === false){
-                  boardStatus.boardIdx -= 1;
-                  this.sliderDot.slider.value -= 1/boardStatus.idxLen;
+                  if(boardStatus.boardIdx !== 0){
+                    boardStatus.boardIdx -= 1;
+                    this.sliderDot.slider.value -= 1/boardStatus.idxLen;
+                  }
                 }
               }
       
@@ -218,6 +222,7 @@ class Scene2 extends Phaser.Scene {
     
   
     update() {
+      console.log(boardStatus.boardIdx)
       
       // rotate the ships
       var children = this.blue_booGroup.getChildren();
@@ -246,27 +251,54 @@ class Scene2 extends Phaser.Scene {
         }
         
       };
+
       if(boardStatus.boardIdx%2 === 0){
-        if(boardStatus.placement[boardStatus.boardIdx*3] !== undefined){
-          this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[boardStatus.boardIdx*3 + 1] + ',' + boardStatus.placement[boardStatus.boardIdx*3 + 2]);
-          if(boardStatus.boardIdx === 0){
-            this.yourChacksoo.setText('chacksoo\n 준비')
+        // my turn
+        if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
+          if(boardStatus.placement[boardStatus.boardIdx].charAt(4) === '>'){
+            // my move
+            this.myChacksoo.setText('move\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
+            if(boardStatus.boardIdx === 0){
+              this.yourChacksoo.setText('chacksoo\n 준비');
+            }
           }
           else{
-            this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
+            // my chacksoo
+            this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(4));
+            if(boardStatus.boardIdx === 0){
+              this.yourChacksoo.setText('chacksoo\n 준비')
+            }
+            else{
+              this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx-1)].charAt(4));
+            }
           }
         }
         else{
+          // undefined
           this.myChacksoo.setText('chacksoo\n 준비');
           this.yourChacksoo.setText('chacksoo\n 준비');
         }
       }
       else{
-        if(boardStatus.placement[(boardStatus.boardIdx-1)*3] !== undefined){
-          this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx-1)*3 + 2]);
-          this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
+        // your turn
+        if(boardStatus.placement[(boardStatus.boardIdx)] !== undefined){
+          if(boardStatus.placement[(boardStatus.boardIdx)].charAt(4) === '>'){
+            // your move
+            this.yourChacksoo.setText('move\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
+          }
+          else{
+            // your chacksoo
+            // this.myChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)*3 + 1] + ',' + boardStatus.placement[(boardStatus.boardIdx)*3 + 2]);
+            if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
+              this.yourChacksoo.setText('chacksoo\n ' + boardStatus.placement[(boardStatus.boardIdx)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx)].charAt(4));
+            }
+            else{
+              this.yourChacksoo.setText('chacksoo\n 준비');
+            }
+          }
         }
         else{
+          // undefined
           this.myChacksoo.setText('chacksoo\n 준비');
           this.yourChacksoo.setText('chacksoo\n 준비');
         }
@@ -282,9 +314,8 @@ class Scene2 extends Phaser.Scene {
         sleep(500);
       }
       else{
-
         this.sliderDot.visible = true;
-        boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen);
+        boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
       }
 
 
