@@ -1,4 +1,5 @@
 import './CodeMirror.css'
+import './material.css'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import Button from "@material-ui/core/Button";
 import React, { useState } from 'react';
@@ -8,7 +9,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 // require('codemirror/lib/codemirror.css');
-require('codemirror/theme/material.css');
+// require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
 require('codemirror/mode/clike/clike.js');
@@ -90,6 +91,7 @@ function CodeEditor() {
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
           <select onChange={changeMode}>
+            <option value="Select Language">Select Language</option>
             <option value="python">Python</option>
             <option value="clike">C++</option>
             <option value="clike">C</option>
