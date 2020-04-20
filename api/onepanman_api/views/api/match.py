@@ -158,7 +158,7 @@ class Match(APIView):
                 "challenger_score": scores['challenger'],
                 "opposite_score": scores['opposite'],
                 "challenger_name": matchInfo['challenger_name'],
-                "opposite_name": matchInfo['opposite_name']
+                "opposite_name": matchInfo['opposite_name'],
             }
 
 

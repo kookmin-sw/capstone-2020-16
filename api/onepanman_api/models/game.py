@@ -136,6 +136,18 @@ class Game(models.Model):
         max_length=50,
     )
 
+    challenger_score_flu = models.IntegerField(
+        "challenger_score_flu",
+        db_column="CHALLENGER_SCORE_FLU",
+        default=20,
+    )
+
+    opposite_score_flu = models.IntegerField(
+        "opposite_score_flu",
+        db_column="OPPOSITE_SCORE_FLU",
+        default=20,
+    )
+
     def __str__(self):
         return '{}_{}_{}_{}'.format(self.id, self.problem.title, self.challenger.username,self.opposite.username)
 
