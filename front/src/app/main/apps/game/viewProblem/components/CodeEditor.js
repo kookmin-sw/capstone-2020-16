@@ -59,11 +59,7 @@ function CodeEditor() {
 
 
     const [option, setOption] = useState({
-<<<<<<< HEAD
         mode: "python",
-=======
-        mode: "Select Language",
->>>>>>> 2494902f69e0d05201d51a9ee113c86593e3bc55
         theme: 'material',
         lineNumbers: true
     });
@@ -94,16 +90,9 @@ function CodeEditor() {
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
           <select onChange={changeMode}>
-<<<<<<< HEAD
             <option value="python">Python</option>
             <option value="clike">C++</option>
             <option value="clike">C</option>
-=======
-          <option value="Select Language">Select Language</option>
-            <option value="Python">Python</option>
-            <option value="C++">C++</option>
-            <option value="C">C</option>
->>>>>>> 2494902f69e0d05201d51a9ee113c86593e3bc55
           </select>
         </div>
         <CodeMirror
