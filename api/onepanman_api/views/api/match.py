@@ -100,7 +100,7 @@ class Match(APIView):
                 break
 
         if check is False:
-            return {"error": "matching fail"}, 0
+            return {"error": "매칭 상대 없음"}, 0
 
         # 문제 규칙 정보 추가
         problems = Problem.objects.all().filter(id=problemid)
@@ -111,7 +111,7 @@ class Match(APIView):
             rule = json.loads(rule)
 
         except Exception as e:
-            return {'error': 'rule error'},0
+            return {'error': 'rule 정보 가져오기 에러'},0
             print("fail to read rule information : {}".format(e))
 
         matchInfo = {
@@ -226,21 +226,21 @@ class Match(APIView):
 
         except Exception as e:
             print("get function {}".format(e))
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "유저, 문제, 코드 정보 가 유효하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
         check = self.checkValid(userid, problemid, codeid)
         if check is False:
-            return Response({"error" : "정보가 유효하지 않습니다."})
+            return Response({"error" : "정보가 유효하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
         matchInfo, scores = self.match(userid, problemid, codeid)
 
         if "error" in matchInfo:
-            return Response(matchInfo)
+            return Response(matchInfo, status=status.HTTP_400_BAD_REQUEST)
 
         matchInfo = self.get_GameId(matchInfo, scores)
 
         if "error" in matchInfo:
-            return Response(matchInfo)
+            return Response(matchInfo, status=status.HTTP_400_BAD_REQUEST)
 
         return GetCoreResponse(matchInfo)
 
