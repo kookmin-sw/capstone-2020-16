@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
-require('codemirror/mode/javascript/javascript.js');
+require('codemirror/mode/clike/clike.js');
 
 
 
@@ -30,7 +30,7 @@ function codePost(userid, problemid, code, languageid, codename){
     name : codename
   }
 
-  console.log(data)
+  // console.log(data)
 
   axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
     headers: header
@@ -51,7 +51,7 @@ function CodeEditor() {
     if(!problemid){
       problemid = window.localStorage.getItem('SelectedProblemId');
     }
-    console.log(problemid);
+    // console.log(problemid);
   
   
     const [code, setCode] = useState(
@@ -59,19 +59,23 @@ function CodeEditor() {
 
 
     const [option, setOption] = useState({
+<<<<<<< HEAD
+        mode: "python",
+=======
         mode: "Select Language",
+>>>>>>> 2494902f69e0d05201d51a9ee113c86593e3bc55
         theme: 'material',
         lineNumbers: true
     });
 
 
     function changeMode(event) {
-        console.log(`beforeMode>>>>>>${option.mode}`);
+        // console.log(`beforeMode>>>>>>${option.mode}`);
         console.log(`event.target.value>>>>>>${event.target.value}`);
-        console.log(typeof option.mode)
-        if(event.target.value === "Python"){window.localStorage.setItem('language_id', 1);}
-        if(event.target.value === "C"){window.localStorage.setItem('language_id', 2);}
-        if(event.target.value === "C++"){window.localStorage.setItem('language_id', 3);}
+        // console.log(typeof option.mode)
+        if(event.target.value === "python"){window.localStorage.setItem('language_id', 1);}
+        if(event.target.value === "clike"){window.localStorage.setItem('language_id', 2);}
+        if(event.target.value === "clike"){window.localStorage.setItem('language_id', 3);}
         setOption({
             mode: event.target.value,
         });
@@ -81,7 +85,7 @@ function CodeEditor() {
 
 
     function changeCode(event) {
-        console.log(`event.target.value>>>>>>${event}`);
+        // console.log(`event.target.value>>>>>>${event}`);
         setCode(event);
 
     };
@@ -90,13 +94,20 @@ function CodeEditor() {
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
           <select onChange={changeMode}>
+<<<<<<< HEAD
+            <option value="python">Python</option>
+            <option value="clike">C++</option>
+            <option value="clike">C</option>
+=======
           <option value="Select Language">Select Language</option>
             <option value="Python">Python</option>
             <option value="C++">C++</option>
             <option value="C">C</option>
+>>>>>>> 2494902f69e0d05201d51a9ee113c86593e3bc55
           </select>
         </div>
         <CodeMirror
+          autoCursor={false}
           value={code}
           options={{
             mode: option.mode,
@@ -112,6 +123,7 @@ function CodeEditor() {
         to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
+        //  console.log(code)
          codePost(parseInt(window.localStorage.getItem('pk')), problemid, code, parseInt(window.localStorage.getItem('language_id')), "testCode")}
         }									 
        style={{
