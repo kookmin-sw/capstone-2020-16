@@ -36,12 +36,8 @@ export default class Test extends Component {
     const { tmp } = this.props;
 
     return (
-    
       <React.Fragment>
         <div className="flex">
-          <p>
-            Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
-          </p>
           <ButtonGroup
             variant="contained"
             color="primary"
@@ -54,6 +50,9 @@ export default class Test extends Component {
               NEXT
             </Button>
           </ButtonGroup>
+          {/* <p>
+            Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
+          </p> */}
         </div>
         <Document
           file={`/assets/PDF/${tmp}.pdf`}
