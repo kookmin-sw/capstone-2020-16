@@ -109,13 +109,19 @@ export default function MatchingIdx1() {
       .then(response => {
 
          var data = response.data;
+         if(data.error == undefined){
+            getUserInfo(data.challenger, data.problem, "challenger",data.challenger_language);
+            getUserInfo(data.opposite, data.problem, "opposite", data.opposite_language);
+            
+            setGameid(data.match_id);
+            setIsMatched(true);
+            setGameStatus('playing...');
+         }
+         else{
+            setGameStatus('matching error...!');
+         }
 
-         getUserInfo(data.challenger, data.problem, "challenger",data.challenger_language);
-         getUserInfo(data.opposite, data.problem, "opposite", data.opposite_language);
-         
-         setGameid(data.match_id);
-         setIsMatched(true);
-         setGameStatus('playing...');
+        
   
       })
       .catch(error => {
