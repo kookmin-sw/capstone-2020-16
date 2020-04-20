@@ -111,6 +111,7 @@ class Match(APIView):
             rule = json.loads(rule)
 
         except Exception as e:
+            return {'error': 'rule error'},0
             print("fail to read rule information : {}".format(e))
 
         matchInfo = {
@@ -177,7 +178,7 @@ class Match(APIView):
 
         except Exception as e:
             print("game data 생성 중 에러 발생 : {}".format(e))
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return {'error' : 'game 생성 error'}
 
 
         game_id = instance.id
@@ -237,6 +238,9 @@ class Match(APIView):
             return Response(matchInfo)
 
         matchInfo = self.get_GameId(matchInfo, scores)
+
+        if "error" in matchInfo:
+            return Response(matchInfo)
 
         return GetCoreResponse(matchInfo)
 
