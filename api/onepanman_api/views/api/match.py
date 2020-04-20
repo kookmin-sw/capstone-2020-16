@@ -130,6 +130,8 @@ class Match(APIView):
             "ending": rule["ending"],
             "board_size": problem.board_size,
             "board_info": problem.board_info,
+            "challenger_name": challenger.user.username,
+            "opposite_name": opposite.user.username
         }
 
         scores = {
@@ -155,6 +157,8 @@ class Match(APIView):
                 "record": "0",
                 "challenger_score": scores['challenger'],
                 "opposite_score": scores['opposite'],
+                "challenger_name": matchInfo['challenger_name'],
+                "opposite_name": matchInfo['opposite_name']
             }
 
 
@@ -174,6 +178,8 @@ class Match(APIView):
                 record=validated_data['record'],
                 challenger_score=validated_data['challenger_score'],
                 opposite_score=validated_data['opposite_score'],
+                challenger_name=validated_data['challenger_name'],
+                opposite_name=validated_data['opposite_name']
             )
 
         except Exception as e:

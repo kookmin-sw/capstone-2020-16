@@ -1,4 +1,5 @@
 import django_filters
+
 from onepanman_api.serializers import UserInformationInProblemSerializer, CodeSerializer
 from rest_framework import viewsets
 
@@ -212,6 +213,7 @@ class GameViewSet(viewsets.ModelViewSet):
         update_groupRanking()
 
         return Response(data)
+
 
 class MyGameView(APIView):
 
