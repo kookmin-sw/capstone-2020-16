@@ -1,0 +1,94 @@
+[1mdiff --git a/core/gamemanager.py b/core/gamemanager.py[m
+[1mindex dc9dd89..b922177 100644[m
+[1m--- a/core/gamemanager.py[m
+[1m+++ b/core/gamemanager.py[m
+[36m@@ -10,6 +10,8 @@[m [mfrom ending_rule import EndingRule[m
+ from game_data import GameData[m
+ from execute_code import Execution[m
+ [m
+[32m+[m[32mdef test():[m
+[32m+[m[32m    print('test')[m
+ [m
+ class GameManager:[m
+     def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num):[m
+[36m@@ -130,6 +132,7 @@[m [mclass GameManager:[m
+                 [m
+             #   change player[m
+             elif is_ending is False and self.error_msg is None:[m
+[32m+[m[32m                total_turn += 1[m
+                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'[m
+             elif self.error_msg is not None:[m
+                 if self.check_turn == 'challenger':[m
+[36m@@ -142,6 +145,9 @@[m [mclass GameManager:[m
+ [m
+         return winner, self.board_record, self.placement_record, match_result, self.error_msg[m
+ [m
+[32m+[m[32m    def test_code(self):[m
+[32m+[m[32m        print('test')[m
+[32m+[m
+     def compile_user_code(self):[m
+         try:[m
+             self.execution.execute_program(self.challenger.compile(), self.challenger.save_path)[m
+[1mdiff --git a/core/test_code.py b/core/test_code.py[m
+[1mindex 66929d6..6782bd5 100644[m
+[1m--- a/core/test_code.py[m
+[1m+++ b/core/test_code.py[m
+[36m@@ -1,4 +1,40 @@[m
+ import os[m
+[32m+[m[32mimport requests[m
+ [m
+ from gamemanager import GameManager[m
+[31m-from userprogram import UserProgram[m
+\ No newline at end of file[m
+[32m+[m[32mfrom gamemanager import test[m
+[32m+[m[32mfrom userprogram import UserProgram[m
+[32m+[m
+[32m+[m
+[32m+[m[32mdef test_code(data):[m
+[32m+[m[32m    match_data = data[m
+[32m+[m[32m    match_dir = os.getcwd()  # os.path.join(os.getcwd(), 'match')[m
+[32m+[m[32m    extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}[m
+[32m+[m[32m    update_url = 'http://203.246.112.32:8000/api/v1/game/' + str(match_data['match_id']) + '/'  # todo[m
+[32m+[m
+[32m+[m[32m    challenger_code_filename = 'challenger{0}'.format(extension[match_data['challenger_language']])[m
+[32m+[m[32m    oppositer_code_filename = 'oppositer{0}'.format(extension[match_data['opposite_language']])[m
+[32m+[m
+[32m+[m[32m    challenger_code_path = os.path.join(match_dir, challenger_code_filename)[m
+[32m+[m[32m    oppositer_code_path = os.path.join(match_dir, oppositer_code_filename)[m
+[32m+[m
+[32m+[m[32m    challenger_code = match_data['challenger_code'][m
+[32m+[m[32m    oppositer_code = match_data['opposite_code'][m
+[32m+[m
+[32m+[m[32m    with open(challenger_code_path, 'w') as f:[m
+[32m+[m[32m        f.write(challenger_code)[m
+[32m+[m
+[32m+[m[32m    with open(oppositer_code_path, 'w') as f:[m
+[32m+[m[32m        f.write(oppositer_code)[m
+[32m+[m
+[32m+[m[32m    game_manager = GameManager(challenger=challenger, oppositer=oppositer,[m
+[32m+[m[32m                               placement_rule=match_data['placement'], action_rule=match_data['action'],[m
+[32m+[m[32m                               ending_rule=match_data['ending'],[m
+[32m+[m[32m                               board_size=match_data['board_size'], board_info=match_data['board_info'],[m
+[32m+[m[32m                               obj_num=match_data['obj_num'])[m
+[32m+[m
+[32m+[m[32m    result = game_manager.test()[m
+[32m+[m[32m    print('result :', result)[m
+[32m+[m[32m    r = requests.patch(update_url, data={"available_game": result})[m
+[41m+[m
+[41m+[m
+[1mdiff --git a/core/timeout.py b/core/timeout.py[m
+[1mindex 25f4fb1..f073420 100644[m
+[1m--- a/core/timeout.py[m
+[1m+++ b/core/timeout.py[m
+[36m@@ -3,9 +3,11 @@[m [mimport errno[m
+ import os[m
+ import signal[m
+ [m
+[32m+[m
+ class TimeoutError(Exception):[m
+     pass[m
+ [m
+[32m+[m
+ def timeout(seconds=1, error_message=os.strerror(errno.ETIME)):[m
+     def decorator(func):[m
+         def _handle_timeout(signum, frame):[m
