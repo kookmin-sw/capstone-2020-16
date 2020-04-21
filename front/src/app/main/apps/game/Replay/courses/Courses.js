@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Courses(props) {
-	console.log('asdasdasdasd')
+	// console.log('asdasdasdasd')
 	const dispatch = useDispatch();
 	const courses = useSelector(({ academyApp }) => academyApp.courses.data);
 	const categories = useSelector(({ academyApp }) => academyApp.courses.categories);

@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -32,9 +33,11 @@ function Logo() {
 	return (
 		<div className={clsx(classes.root, 'flex items-center')}>
 			<img className="logo-icon" src="assets/images/logos/fuse.svg" alt="logo" />
+			<Link to={'/apps/home'} style={{ textDecoration: 'none' }}>
 			<Typography className="text-16 mx-12 font-light logo-text" color="inherit">
 				ㅇㅅㅇ
 			</Typography>
+			</Link>
 			<div className={clsx(classes.reactBadge, 'react-badge flex items-center py-4 px-8 rounded')}>
 				<img
 					className="react-logo"

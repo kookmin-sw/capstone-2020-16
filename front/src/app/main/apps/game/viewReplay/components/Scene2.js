@@ -1,9 +1,9 @@
 import Phaser from 'phaser'
 import axios from 'axios'
 
-const boardSize = 896;
-const modalWidth = 1500;
-const modalHeight = 1000;
+const boardSize = 627;
+const modalWidth = 1050;
+const modalHeight = 700;
 var renderSpeed = 500;
 
 const version = {
@@ -30,7 +30,7 @@ class Scene2 extends Phaser.Scene {
     
     axios.get(`http://203.246.112.32:8000/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
-        console.log(response)
+        // console.log(response)
         boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
         boardStatus.placement = response.data.placement_record.split(/\n/);
@@ -46,10 +46,10 @@ class Scene2 extends Phaser.Scene {
     create() {
       this.iter = 0; // used for itarations
       boardStatus.boardIdx = 0;
-      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.7);
+      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49);
       this.background.setOrigin(0.5, 0.5);
       // for slider
-      this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(10, 10); // add dot
+      this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(7, 7); // add dot
       this.sliderDot.slider = this.plugins.get('rexsliderplugin').add(this.sliderDot, {
         endPoints: [{
                 x: this.sliderDot.x - 200,
@@ -71,9 +71,9 @@ class Scene2 extends Phaser.Scene {
                 boardStatus.isAuto = !boardStatus.isAuto
                 
                 if(boardStatus.isAuto === true)
-                this.clickButton.setText("Auto Mode Button", { font: '24px Arial' })
+                this.clickButton.setText("Auto Mode Button", { font: '17px Arial' })
                 else
-                this.clickButton.setText("Manual Mode Button", { font: '24px Arial' })
+                this.clickButton.setText("Manual Mode Button", { font: '17px Arial' })
               }
               this.nextIdxText = () => {
                 if(boardStatus.isAuto === false){
@@ -94,7 +94,7 @@ class Scene2 extends Phaser.Scene {
       
       
       // auto manual button(text)
-      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 150, `${boardStatus.isAuto} Mode Button`, { font: '24px Arial', fill: '#eec65b' })
+      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 110, `${boardStatus.isAuto} Mode Button`, { font: '17px Arial', fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverState() )
       .on('pointerout', () => this.enterButtonRestState() )
@@ -171,23 +171,23 @@ class Scene2 extends Phaser.Scene {
       
       // add the background in the center of the scene
       if(parseInt(window.localStorage.getItem('pk')) === boardStatus.challengerId){
-        console.log('같다')
-        this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.1);
-        this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.1);
-        this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '나', { font: '48px Arial', fill: '#eec65b' });
-        this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '상대방', { font: '48px Arial', fill: '#eec65b' });
+        // console.log('같다')
+        this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.07);
+        this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.07);
+        this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '나', { font: '34px Arial', fill: '#eec65b' });
+        this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '상대방', { font: '34px Arial', fill: '#eec65b' });
       }
       else{
-        this.me = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"me").setScale(0.1);
-        this.you = this.add.image((modalWidth-boardSize)/4,100,"you").setScale(0.1);
-        this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '상대방', { font: '48px Arial', fill: '#eec65b' });
-        this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '나', { font: '48px Arial', fill: '#eec65b' });
+        this.me = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"me").setScale(0.07);
+        this.you = this.add.image((modalWidth-boardSize)/4,100,"you").setScale(0.07);
+        this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '상대방', { font: '34px Arial', fill: '#eec65b' });
+        this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '나', { font: '34px Arial', fill: '#eec65b' });
       }
-      // this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, 'Me', { font: '48px Arial', fill: '#eec65b' });
-      // this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, 'You', { font: '48px Arial', fill: '#eec65b' });
+      // this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, 'Me', { font: '34px Arial', fill: '#eec65b' });
+      // this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, 'You', { font: '34px Arial', fill: '#eec65b' });
       
-      this.myChacksoo = this.add.text(100, 160, '', { font: '48px Arial', fill: '#eec65b' });
-      this.yourChacksoo = this.add.text(modalWidth - 200, 160, '', { font: '48px Arial', fill: '#eec65b' });
+      this.myChacksoo = this.add.text(60, 160, '', { font: '34px Arial', fill: '#eec65b' });
+      this.yourChacksoo = this.add.text(modalWidth - 160, 160, '', { font: '34px Arial', fill: '#eec65b' });
 
       // make a group of ships
       this.blue_booGroup = this.make.group({
@@ -208,12 +208,12 @@ class Scene2 extends Phaser.Scene {
         width: 8,
         height: 8,
         // 이미지 하나 당 공간
-        cellWidth: 92,
-        cellHeight: 92,
+        cellWidth: 64,
+        cellHeight: 64,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: 95,
-        y: -170
+        x: -45,
+        y: -215
       });
       
       Phaser.Actions.GridAlign(this.pink_booGroup.getChildren(), {
@@ -221,17 +221,17 @@ class Scene2 extends Phaser.Scene {
         width: 8,
         height: 8,
         // 이미지 하나 당 공간
-        cellWidth: 92,
-        cellHeight: 92,
+        cellWidth: 64,
+        cellHeight: 64,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: 95,
-        y: -170
+        x: -45,
+        y: -215
       });
       
       // slider value
       // this.text = this.add.text(800,0, '', { font: '48px Arial', fill: '#eec65b' });
-      this.errMsg = this.add.text(modalWidth/2 - 400, 0, `${boardStatus.isError}`, { font: '48px Arial', fill: '#eec65b' });
+      this.errMsg = this.add.text(modalWidth/2 - 300, 0, `${boardStatus.isError}`, { font: '34px Arial', fill: '#eec65b' });
     }
     
   
@@ -244,8 +244,8 @@ class Scene2 extends Phaser.Scene {
       
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
-        children[i].setScale(0.13);
-        children2[i].setScale(0.13);
+        children[i].setScale(0.091);
+        children2[i].setScale(0.091);
         
         if(boardStatus.chacksoo[((boardStatus.boardIdx+1)*64) + i] === "0"){
           children[i].visible = false;
