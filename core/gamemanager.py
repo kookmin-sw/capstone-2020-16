@@ -80,7 +80,9 @@ class GameManager:
                     check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
                 except Exception as e:
                     check_placement = e
-                    print(f'check placement program error : {e}')
+                    self.error_msg = f'placement error : {e}'
+                    # break
+                    print(f'check placement program error in gamemanger : {e}')
 
                 if check_placement == 'OK':
                     self.board = new_board
@@ -89,8 +91,9 @@ class GameManager:
                         apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
                     except Exception as e:
                         print(f'apply action program error : {e}')
+
                         self.error_msg = f'{apply_action} : {e}'
-                        break
+                        # break
 
                     if apply_action == 'OK':
                         self.board = new_board
@@ -99,15 +102,15 @@ class GameManager:
                         except Exception as e:
                             print(f'check ending program error : {e}')
                             self.error_msg = f'{is_ending} : {e}'
-                            break
+                            # break
                     else:
                         print(f'apply action error {apply_action}')
                         self.error_msg = f'apply action error {apply_action}'
-                        break
+                        # break
                 else:
                     print(f'check placement error {check_placement}')
                     self.error_msg = f'check placement error {check_placement}'
-                    break
+                    # break
 
                 self.add_record(output)
             else:
@@ -115,6 +118,8 @@ class GameManager:
                     self.error_msg = 'time over'
                 else:
                     self.error_msg = f'program error in execute user program'
+
+            print('asd', is_ending, self.error_msg)
             if is_ending is True and self.error_msg is None:
                 if winner == 1:
                     winner = self.check_turn
@@ -127,12 +132,14 @@ class GameManager:
                     winner = 'draw'
                 match_result = 'finish'
                 self.error_msg = 'no error'
-                
+            
+            
             #   change player
             elif is_ending is False and self.error_msg is None:
                 total_turn += 1
                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
             elif self.error_msg is not None:
+                print('ajkshdnkj')
                 if self.check_turn == 'challenger':
                     winner = 'opposite'
                     match_result = 'challenger_error'
@@ -140,6 +147,8 @@ class GameManager:
                     winner = 'challenger'
                     match_result = 'opposite_error'
                 is_ending = True
+            else:
+                print('jasldk', self.error_msg)
 
         return winner, self.board_record, self.placement_record, match_result, self.error_msg
 
