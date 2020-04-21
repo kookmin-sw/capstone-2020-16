@@ -51,7 +51,7 @@ function JWTLoginTab(props) {
 					className="mb-16"
 					type="text"
 					name="email"
-					label="Username/Email"
+					label="Username"
 					value=""
 					validations={{
 						minLength: 4

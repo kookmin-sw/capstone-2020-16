@@ -18,6 +18,8 @@ from onepanman_api.permissions import UserReadOnly
 from onepanman_api.permissions import game
 from onepanman_api.util.getIp import get_client_ip
 
+from onepanman_api.models import Problem
+
 
 class GameViewSet(viewsets.ModelViewSet):
     queryset = Game.objects.all()
@@ -260,7 +262,16 @@ class MyGameView(APIView):
 
     def get(self, request, version):
 
-        queryset = Game.objects.all().filter(Q(challenger=request.user.pk) | Q(opposite=request.user.pk))
+        queryset = Game.objects.all().select_related('problem').filter(Q(challenger=request.user.pk) | Q(opposite=request.user.pk))
         serializer = GameSerializer(queryset, many=True)
+
+        problems = Problem.objects.all()
+        data = serializer.data
+
+        for i in range(len(data)):
+
+            problemid = data[i]['problem']
+            problem = problems.filter(id=problemid)[0]
+            data[i]['title'] = problem.title
 
         return Response(serializer.data)
