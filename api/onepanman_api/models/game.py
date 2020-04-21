@@ -122,6 +122,32 @@ class Game(models.Model):
         default=500,
     )
 
+    challenger_name = models.CharField(
+        "challenger_name",
+        db_column="CHALLENGER_NAME",
+        default="unknown",
+        max_length=50,
+    )
+
+    opposite_name = models.CharField(
+        "opposite_name",
+        db_column="OPPOSITE_NAME",
+        default="unknown",
+        max_length=50,
+    )
+
+    challenger_score_flu = models.IntegerField(
+        "challenger_score_flu",
+        db_column="CHALLENGER_SCORE_FLU",
+        default=20,
+    )
+
+    opposite_score_flu = models.IntegerField(
+        "opposite_score_flu",
+        db_column="OPPOSITE_SCORE_FLU",
+        default=20,
+    )
+
     def __str__(self):
         return '{}_{}_{}_{}'.format(self.id, self.problem.title, self.challenger.username,self.opposite.username)
 

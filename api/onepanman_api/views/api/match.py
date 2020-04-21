@@ -100,7 +100,7 @@ class Match(APIView):
                 break
 
         if check is False:
-            return {"error": "matching fail"}, 0
+            return {"error": "매칭 상대 없음"}, 0
 
         # 문제 규칙 정보 추가
         problems = Problem.objects.all().filter(id=problemid)
@@ -111,7 +111,7 @@ class Match(APIView):
             rule = json.loads(rule)
 
         except Exception as e:
-            return {'error': 'rule error'},0
+            return {'error': 'rule 정보 가져오기 에러'},0
             print("fail to read rule information : {}".format(e))
 
         matchInfo = {
@@ -130,6 +130,8 @@ class Match(APIView):
             "ending": rule["ending"],
             "board_size": problem.board_size,
             "board_info": problem.board_info,
+            "challenger_name": challenger.user.username,
+            "opposite_name": opposite.user.username
         }
 
         scores = {
@@ -155,6 +157,8 @@ class Match(APIView):
                 "record": "0",
                 "challenger_score": scores['challenger'],
                 "opposite_score": scores['opposite'],
+                "challenger_name": matchInfo['challenger_name'],
+                "opposite_name": matchInfo['opposite_name'],
             }
 
 
@@ -174,6 +178,8 @@ class Match(APIView):
                 record=validated_data['record'],
                 challenger_score=validated_data['challenger_score'],
                 opposite_score=validated_data['opposite_score'],
+                challenger_name=validated_data['challenger_name'],
+                opposite_name=validated_data['opposite_name']
             )
 
         except Exception as e:
@@ -226,21 +232,21 @@ class Match(APIView):
 
         except Exception as e:
             print("get function {}".format(e))
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "유저, 문제, 코드 정보 가 유효하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
         check = self.checkValid(userid, problemid, codeid)
         if check is False:
-            return Response({"error" : "정보가 유효하지 않습니다."})
+            return Response({"error" : "정보가 유효하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
         matchInfo, scores = self.match(userid, problemid, codeid)
 
         if "error" in matchInfo:
-            return Response(matchInfo)
+            return Response(matchInfo, status=status.HTTP_400_BAD_REQUEST)
 
         matchInfo = self.get_GameId(matchInfo, scores)
 
         if "error" in matchInfo:
-            return Response(matchInfo)
+            return Response(matchInfo, status=status.HTTP_400_BAD_REQUEST)
 
         return GetCoreResponse(matchInfo)
 

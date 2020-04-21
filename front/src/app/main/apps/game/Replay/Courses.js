@@ -37,14 +37,6 @@ function Courses(props) {
 
 	const dispatch = useDispatch();
 	
-	// const count = useSelector(({getProblemId}) => getProblemId.getId.results);
-	// const getId = (param) => {
-
-	// 	dispatch(Actions.getProblemId(param))
-		
-
-	// const count = useSelector(({getProblemId}) => getProblemId.getId.results[0]);
-	// console.log(count)
 
 	const classes = useStyles(props);
 
@@ -59,13 +51,100 @@ function Courses(props) {
 
 	useEffect(() => {
 
+
+
 		axios
 		.get(`http://203.246.112.32:8000/api/v1/game/my`, { headers:header })
 		  .then(response => {
 
 			   setPosts(response.data);
+			   console.log(response.data);
+			  
+
+			//    console.log(response.data.challenger_name);
 		  })
 		},[dispatch]);
+
+	
+	function getProblemName(problemID){
+
+		if(problemID === 1){
+			return '세균전'
+		}
+		else if(problemID === 2){
+			return '세균전 추가모드'
+		}
+		else{
+			return '알 수 없음 '
+		}
+
+		
+	}
+
+	function getOppositeName(challenger_name, opposite_name){
+		
+		if(challenger_name === window.localStorage.getItem("username")){
+			return opposite_name;
+		}
+		else if(opposite_name === window.localStorage.getItem("username")){
+			return challenger_name;
+		}
+		else{
+			return 'Unknown';
+		}
+		
+
+	}
+
+	function getGameTime(game_date){
+
+		var date = game_date.split("."); 
+		return date[0];
+	}
+
+	function getWinner(challenger, opposite, winner){
+		
+		if(challenger === parseInt(window.localStorage.getItem("pk")) && winner === "challenger"){
+			return 'WIN!';
+		}
+		else if(opposite === parseInt(window.localStorage.getItem("pk")) && winner === "opposite"){
+			return 'WIN!';
+		}
+		else if(challenger === parseInt(window.localStorage.getItem("pk")) && winner === "opposite"){
+			return 'LOSE!';
+		}
+		else if(opposite === parseInt(window.localStorage.getItem("pk")) && winner === "challenger"){
+			return 'LOSE!';
+		}
+		else{
+			return 'Draw!';
+		}
+		
+
+	}
+
+	function getScoreFlu(challenger_name, opposite_name, challenger_score_flu, opposite_score_flu){
+		
+		if(challenger_name ===  parseInt(window.localStorage.getItem("pk"))){
+			if(challenger_score_flu > 0){
+				return '+' + challenger_score_flu;
+			} else{
+			return challenger_score_flu;
+			}
+		}
+		else if(opposite_name ===  parseInt(window.localStorage.getItem("pk"))){
+			if(opposite_score_flu > 0){
+				return '+' + opposite_score_flu;
+			} else{
+			return opposite_score_flu;
+			}
+		}
+		else{
+			return '변동없음';
+		}
+		
+
+	}
 	
 		
 
@@ -103,24 +182,29 @@ function Courses(props) {
 								{posts.map(course => {
 									// const category = posts.find(_cat => _cat.value === course.title);
 									return (
-										<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={course.title}>
-											<Card elevation={1} className="flex flex-col h-256">
+										<div className="w-full pb-24 sm:w-1/9 sm:p-16" key={course.title}>
+											<Card elevation={1} className="flex flex-col h-128">
 												<div
 													className="flex flex-shrink-0 items-center justify-between px-24 h-64"
 												>
+													<Typography className="font-medium truncate" color="primary">
+														<h2>{`${getProblemName(course.problem)} 대전기록 vs ${getOppositeName(course.challenger_name, course.opposite_name)}`}</h2>
+														<h3>{`게임시각 : ${getGameTime(course.date)}`}</h3>
+														{/* {console.log(course.problem)} */}
+													</Typography>
 													<Typography className="font-medium truncate" color="inherit">
-														{`Vs Anonymous User ${course.opposite}`}
+														<h2>{ `대전결과 : ${getWinner(course.challenger, course.opposite, course.winner)}`}</h2>
+														<h3>{`점수변동 : ${getScoreFlu(course.challenger, course.opposite, course.challenger_score_flu, course.opposite_score_flu)}`}</h3>
 													</Typography>
 													
 				
 												</div>
-												<CardMedia className="flex items-center justify-center">
-												<img src={`assets/images/games/2.jpg`} width='150' alt='thumbnail'></img>
-												</CardMedia>
-												
+
 												<Divider />
 												<CardActions className="justify-center">
+													<h3>{"리플레이 보기"}</h3>
 													<ViewReplayPage tmp_id={course.id}/>
+													{/* <td align="left"><span className="prop-name required">children&nbsp;*</span></td> */}
 												</CardActions>
 												
 											</Card>
@@ -134,5 +218,4 @@ function Courses(props) {
 	);
 }
 
-// export default withReducer('academyApp', reducer)(Courses);
 export default Courses;

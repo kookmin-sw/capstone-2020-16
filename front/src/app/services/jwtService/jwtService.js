@@ -58,7 +58,7 @@ class JwtService extends FuseUtils.EventEmitter {
       // axios.post('/api/auth/register', data).then(response => {
       axios
         .post(
-          "/rest-auth/registration/",
+          "https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/rest-auth/registration/",
           querystring.stringify({
             username: data.username,
             email: data.email,

@@ -65,11 +65,25 @@ class LeaderandAdmin(permissions.BasePermission):
 # 수정 - 본인
 # 보기 - 코드 공개 여부에 따라 본인 + 관리자 / 모두
 class CodePermission(permissions.BasePermission):
+    isCore = False
+
+    dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.secrets')
+    SECRETS_BASE = os.path.join(dir, 'base.json')
+    secrets_base = json.loads(open(SECRETS_BASE, 'r').read())
 
     def has_permission(self, request, view):
+        ip = get_client_ip(request)
+
+        if ip == self.secrets_base['CORE_IP']:
+            return True
+
         return request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
+        ip = get_client_ip(request)
+
+        if ip == self.secrets_base['CORE_IP']:
+            return True
 
         if request.method in permissions.SAFE_METHODS:
             if obj.author.userInfo.isCodeOpen is True:
@@ -103,29 +117,30 @@ class game(permissions.BasePermission):
 
     isCore = False
 
-    dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.secrets/base.json')
-    secrets_base = json.loads(open(dir, 'r').read())
+    dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.secrets')
+    SECRETS_BASE = os.path.join(dir, 'base.json')
+    secrets_base = json.loads(open(SECRETS_BASE, 'r').read())
 
     # list 허용
     def has_permission(self, request, view):
         ip = get_client_ip(request)
 
         if ip == self.secrets_base['CORE_IP']:
-            self.isCore = True
+            return True
 
         if request.method == "POST":
             return request.user.is_staff
-        return request.user.is_authenticated or self.isCore
+        return request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
         ip = get_client_ip(request)
 
         if ip == self.secrets_base['CORE_IP']:
-            self.isCore = True
+            return True
 
         # retrieve 허용
         if request.method in permissions.SAFE_METHODS:
             return request.user.is_authenticated
 
         # 수정 삭제는 관리자만.
-        return request.user.is_staff or self.isCore
+        return request.user.is_staff

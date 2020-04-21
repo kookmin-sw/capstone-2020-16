@@ -1,4 +1,5 @@
 import django_filters
+
 from onepanman_api.serializers import UserInformationInProblemSerializer, CodeSerializer
 from rest_framework import viewsets
 
@@ -25,6 +26,32 @@ class GameViewSet(viewsets.ModelViewSet):
     filter_fields = ('problem', 'challenger', 'opposite')
 
     permission_classes = [game]
+
+    def game_score(self, data, c_score, o_score):
+        games = self.queryset.filter(id=data["id"])[0]
+
+        game_data = {
+            "problem": data["problem"],
+            "problem": data['problem'],
+            "challenger": data['challenger'],
+            "opposite": data['opposite'],
+            "challenger_code": data['challenger_code'],
+            "opposite_code": data['opposite_code'],
+            "record": "0",
+            "challenger_name": data['challenger_name'],
+            "opposite_name": data['opposite_name'],
+            "challenger_score_flu": c_score,
+            "opposite_score_flu": o_score
+        }
+
+        serializer = self.serializer_class(data=game_data)
+        serializer.is_valid(raise_exception=True)
+        valid_data = serializer.validated_data
+
+        games.challenger_score_flu = valid_data["challenger_score_flu"]
+        games.opposite_score_flu = valid_data["opposite_score_flu"]
+
+        games.save()
 
     def game_error(self, data):
         result = data["result"]
@@ -110,6 +137,11 @@ class GameViewSet(viewsets.ModelViewSet):
         except Exception as e:
             print("game_error - normal user's score error : {}".format(e))
 
+        if result =="challenger_error":
+            self.game_score(data, -50, 20)
+        else:
+            self.game_score(data, 20, -50)
+
         # save
         error_user.save()
         normal_user.save()
@@ -135,21 +167,26 @@ class GameViewSet(viewsets.ModelViewSet):
         # update score
         if winner == "challenger":
             if challenger.score < opposite.score:
-                challenger_score = challenger.score + 20 + score_bonus
-                opposite_score = opposite.score - 20 - score_bonus
+                challenger_score_flu = 20 + score_bonus
+                opposite_score_flu = -20 - score_bonus
             else :
-                challenger_score = challenger.score + 20
-                opposite_score = opposite.score - 20
+                challenger_score_flu = 20
+                opposite_score_flu = -20
         elif winner == "opposite":
             if challenger.score > opposite.score:
-                challenger_score = challenger.score - 20 - score_bonus
-                opposite_score = opposite.score + 20 + score_bonus
+                challenger_score_flu = -20 - score_bonus
+                opposite_score_flu = 20 + score_bonus
             else:
-                challenger_score = challenger.score - 20
-                opposite_score = opposite.score + 20
+                challenger_score_flu = -20
+                opposite_score_flu = 20
         elif winner == "draw":
-            challenger_score = challenger.score
-            opposite_score = opposite.score
+            challenger_score_flu = 0
+            opposite_score_flu = 0
+
+        challenger_score = challenger.score + challenger_score_flu
+        opposite_score = opposite.score + opposite_score_flu
+
+        self.game_score(data, challenger_score_flu, opposite_score_flu)
 
         challenger_data = {
             "id": challenger.id,
@@ -211,7 +248,11 @@ class GameViewSet(viewsets.ModelViewSet):
         update_groupScore()
         update_groupRanking()
 
+        game_data = Game.objects.all().filter(id=data["id"])[0]
+        data["challenger_score_flu"] = game_data.challenger_score_flu
+        data["opposite_score_flu"] = game_data.opposite_score_flu
         return Response(data)
+
 
 class MyGameView(APIView):
 
