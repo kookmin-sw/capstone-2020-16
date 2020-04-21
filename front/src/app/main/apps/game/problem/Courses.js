@@ -50,7 +50,7 @@ function Courses(props) {
 		.get('http://203.246.112.32:8000/api/v1/problem/')
 		.then(response => {
 			
-			console.log(response.data.results);
+			// console.log(response.data.results);
 			dispatch(Actions.getProblemId(response.data.results));
 			setPosts(response.data.results);
 			window.localStorage.setItem('ProblemId', response.data.results);

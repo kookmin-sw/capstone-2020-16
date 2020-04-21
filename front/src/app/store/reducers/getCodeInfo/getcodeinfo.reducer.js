@@ -26,7 +26,7 @@ const getId = (state = initialState, action) => {
 				}
 			})
 			.catch((error) => {
-				console.log(error)
+				// console.log(error)
 			})
 
 			return {

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // import * as Actions from 'app/auth/store/actions';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 // require('codemirror/lib/codemirror.css');
 // require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
@@ -37,10 +37,10 @@ function codePost(userid, problemid, code, languageid, codename){
     headers: header
   })
   .then( response => {
-    console.log(response);
+    // console.log(response);
   })
   .catch(error => {
-    console.log(error);
+    // console.log(error);
   })
 }
 

@@ -67,8 +67,6 @@ class JwtService extends FuseUtils.EventEmitter {
           })
         )
         .then(response => {
-          // console.log('asdasdasdaaaaaaaaaaaaaaa')
-          console.log(response);
           if (response.data.user) {
             // this.setSession(response.data.access_token);
             // console.log(response.data)'
@@ -83,7 +81,7 @@ class JwtService extends FuseUtils.EventEmitter {
           }
         })
         .catch(error => {
-          console.log(error.response);
+          // console.log(error.response);
         });
     });
   };
@@ -123,7 +121,7 @@ class JwtService extends FuseUtils.EventEmitter {
           }
         })
         .catch(error => {
-          console.log(error.response.status);
+          // console.log(error.response.status);
           if (error.response.status === 400) {
             alert("ID나 Password를 확인하세요.");
           }

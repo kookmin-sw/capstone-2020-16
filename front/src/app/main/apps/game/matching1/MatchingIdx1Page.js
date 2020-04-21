@@ -14,7 +14,7 @@ import Select from '@material-ui/core/Select';
 import { useSelector } from 'react-redux';
 // import * as Actions from 'app/store/actions';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 
 
@@ -44,7 +44,7 @@ export default function MatchingIdx1() {
    var header = {
       'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
     }
-   var username = window.localStorage.getItem('username');
+   // var username = window.localStorage.getItem('username');
    const pk = window.localStorage.getItem('pk');
    var id = document.location.href.split("MatchingIdx1Page/");
    var id2 = id[1];
@@ -109,8 +109,8 @@ export default function MatchingIdx1() {
       .then(response => {
 
          var data = response.data;
-         console.log(data.error);
-         if(data.error == undefined){
+         // console.log(data.error);
+         if(data.error === undefined){
             getUserInfo(data.challenger, data.problem, "challenger",data.challenger_language);
             getUserInfo(data.opposite, data.problem, "opposite", data.opposite_language);
             
@@ -126,7 +126,7 @@ export default function MatchingIdx1() {
   
       })
       .catch(error => {
-         console.log(`match error : ${error}`);
+         // console.log(`match error : ${error}`);
          setGameStatus('matching error...!');
       })
    }
@@ -136,7 +136,7 @@ export default function MatchingIdx1() {
       axios.get(`http://203.246.112.32:8000/api/v1/userInformationInProblem/?user=${userid}&problem=${problemid}`, {headers:header})
       .then(response => {
         
-         if (type == "challenger"){
+         if (type === "challenger"){
             
             setChallenger({
                ...challenger,
@@ -159,7 +159,7 @@ export default function MatchingIdx1() {
          }
       })
       .catch(error => {
-         console.log(error)
+         // console.log(error)
       })
    }
 
@@ -173,7 +173,7 @@ export default function MatchingIdx1() {
          getUserTier(userid,problemid,type,response.data.username, language);
       })
       .catch(error => {
-         console.log(error);
+         // console.log(error);
       })
 
       
@@ -187,18 +187,18 @@ export default function MatchingIdx1() {
       .then(response => {
          codelist = codelist.concat(response.data.results);
          if ( response.data.next != null ){
-            console.log("deep in!!");
+            // console.log("deep in!!");
             codelist += getCodelists(userid, problemid, 2, codelist);
          }
          else{
-            if (codelist.length == 0){
+            if (codelist.length === 0){
                var code = [{'id':0,'name':'you have not valid code to game'}];
                setCodelist(code);
             }
             else{
                var code = [];
                code.push(codelist[codelist.length-1]);
-               console.log(code);
+               // console.log(code);
                setCodelist(code);
             }
            
@@ -206,14 +206,14 @@ export default function MatchingIdx1() {
          }
       })
       .catch(error => {
-         console.log("error : cannot read code list");
-         console.log(error);
+         // console.log("error : cannot read code list");
+         // console.log(error);
       })
    }
 
    useEffect(() => {
       getCodelists(pk, problemIdId, 1, []);
-      console.log(codelist);
+      // console.log(codelist);
 
       },[]);
 
@@ -222,7 +222,7 @@ export default function MatchingIdx1() {
    },[]);
 
    useEffect(()=>{
-      console.log("change challenger or oppoiste");
+      // console.log("change challenger or oppoiste");
    },[challenger,opposite])
 
    useEffect(()=> {
@@ -232,13 +232,13 @@ export default function MatchingIdx1() {
             axios.get(`http://203.246.112.32:8000/api/v1/game/${gameid}/`, {headers:header})
             .then(response => {
                var result = response.data.result;
-               console.log(result);
+               // console.log(result);
                
-               if (result != "playing"){
+               if (result !== "playing"){
 
                   var winner = response.data.winner;
 
-                  if (winner == "challenger"){
+                  if (winner === "challenger"){
                      setCresult('win');
                      setOresult('lose');
                   }
@@ -254,7 +254,7 @@ export default function MatchingIdx1() {
 
             })
             .catch(error => {
-               console.log(`[error] get game Info : ${error}`);
+               // console.log(`[error] get game Info : ${error}`);
                
             })
          },3000);
