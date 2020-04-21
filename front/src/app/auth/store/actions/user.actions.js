@@ -105,7 +105,7 @@ export function setUserData(user) {
         Set User Data
          */
 		
-		console.log(user);
+		// console.log(user);
 		
 		const temp_data = {
 			uuid: 'XgbuVEXBU5gtSKdbQRP1Zbbby1i1',

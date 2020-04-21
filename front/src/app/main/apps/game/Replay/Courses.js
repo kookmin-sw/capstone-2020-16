@@ -182,7 +182,7 @@ function Courses(props) {
 								{posts.map(course => {
 									// const category = posts.find(_cat => _cat.value === course.title);
 									return (
-										<div className="w-full pb-24 sm:w-1/9 sm:p-16" key={course.title}>
+										<div className="w-full pb-24 sm:w-1/9 sm:p-16" key={course.id}>
 											<Card elevation={1} className="flex flex-col h-128">
 												<div
 													className="flex flex-shrink-0 items-center justify-between px-24 h-64"
@@ -202,7 +202,7 @@ function Courses(props) {
 
 												<Divider />
 												<CardActions className="justify-center">
-													{/* <h3>{"리플레이 보기"}</h3> */}
+													<h3>{course.id}</h3>
 													<ViewReplayPage tmp_id={course.id}/>
 													{/* <td align="left"><span className="prop-name required">children&nbsp;*</span></td> */}
 												</CardActions>

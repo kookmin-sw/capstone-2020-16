@@ -67,9 +67,15 @@ class JwtService extends FuseUtils.EventEmitter {
           })
         )
         .then(response => {
-          console.log("asdasd");
+          // console.log('asdasdasdaaaaaaaaaaaaaaa')
+          console.log(response);
           if (response.data.user) {
             // this.setSession(response.data.access_token);
+            // console.log(response.data)'
+            window.localStorage.setItem('pk', response.data.user.pk)
+            window.localStorage.setItem('jwt_access_token', response.data.token)
+            window.localStorage.setItem('username', response.data.user.username);
+            window.localStorage.setItem('password', data.password1);
             this.setSession(response.data.token);
             resolve(response.data.user);
           } else {
@@ -106,8 +112,8 @@ class JwtService extends FuseUtils.EventEmitter {
         })
         .then(response => {
           if (response.data.user) {
-            console.log(response);
-			this.setSession(response.data.token);
+            // console.log(response);
+			      this.setSession(response.data.token);
 			      window.localStorage.setItem("username", username);
             window.localStorage.setItem("password", password);
             window.localStorage.setItem('pk', response.data.user.pk);
@@ -153,7 +159,7 @@ class JwtService extends FuseUtils.EventEmitter {
         })
         .then(response => {
           if (response.data.user) {
-            console.log(response);
+            // console.log(response);
             this.setSession(response.data.token);
             resolve(response.data.user);
           } else {

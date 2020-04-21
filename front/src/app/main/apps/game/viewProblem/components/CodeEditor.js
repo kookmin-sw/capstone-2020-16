@@ -68,7 +68,7 @@ function CodeEditor() {
 
     function changeMode(event) {
         // console.log(`beforeMode>>>>>>${option.mode}`);
-        console.log(`event.target.value>>>>>>${event.target.value}`);
+        // console.log(`event.target.value>>>>>>${event.target.value}`);
         // console.log(typeof option.mode)
         if(event.target.value === "python"){window.localStorage.setItem('language_id', 1);}
         if(event.target.value === "clike"){window.localStorage.setItem('language_id', 2);}

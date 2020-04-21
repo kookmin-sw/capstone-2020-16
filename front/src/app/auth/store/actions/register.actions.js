@@ -24,7 +24,7 @@ export function submitRegister({
         password2: password_confirm
       })
       .then(user => {
-        console.log("success!");
+        // console.log(user);
         dispatch(UserActions.setUserData(user));
         return dispatch({
           type: REGISTER_SUCCESS
