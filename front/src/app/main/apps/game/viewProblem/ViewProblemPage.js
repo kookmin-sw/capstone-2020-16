@@ -1,9 +1,9 @@
 import CodeEditor from './components/CodeEditor';
 import ProblemViewer from './components/ProblemViewer';
-import FuseAnimate from '@fuse/core/FuseAnimate';
-import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+// import FuseAnimate from '@fuse/core/FuseAnimate';
+// import Typography from '@material-ui/core/Typography';
+// import clsx from 'clsx';
+// import { makeStyles } from '@material-ui/core/styles';
 // import Card from "@material-ui/core/Card";
 import Paper from "@material-ui/core/Paper";
 // import Button from "@material-ui/core/Button";
@@ -21,47 +21,47 @@ import * as Actions from 'app/store/actions';
 
 
 
-const useStyles = makeStyles(theme => ({
-  header: {
-    background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-    color: theme.palette.primary.contrastText
-  },
-  root: {
-    maxWidth: 345
-  },
-  media: {
-    height: 0,
-    // paddingTop: "56.25%" // 16:9
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest
-    })
-  },
-  expandOpen: {
-    transform: "rotate(180deg)"
-  },
-}));
+// const useStyles = makeStyles(theme => ({
+//   header: {
+//     background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+//     color: theme.palette.primary.contrastText
+//   },
+//   root: {
+//     maxWidth: 345
+//   },
+//   media: {
+//     height: 0,
+//     // paddingTop: "56.25%" // 16:9
+//   },
+//   expand: {
+//     transform: "rotate(0deg)",
+//     marginLeft: "auto",
+//     transition: theme.transitions.create("transform", {
+//       duration: theme.transitions.duration.shortest
+//     })
+//   },
+//   expandOpen: {
+//     transform: "rotate(180deg)"
+//   },
+// }));
 
 
 function KnowledgeBasePage() {
-  const classes = useStyles();
+  // const classes = useStyles();
   
   const dispatch = useDispatch();
 
-  var id = document.location.href.split("ViewProblemPage/"); console.log(id);
+  var id = document.location.href.split("ViewProblemPage/");
   var id2 = id[1];
 
 
   var problemId = useSelector(state => state.getProblemId.getId.results[id2-1]);
   var problemIdLocal = window.localStorage.getItem('SelectedProblemId');
-  console.log(problemIdLocal);
+  // console.log(problemIdLocal);
   
   if(!problemId){
     problemId = problemIdLocal;
-    console.log(problemId);
+    // console.log(problemId);
     
   }
 
@@ -70,9 +70,8 @@ function KnowledgeBasePage() {
   },[dispatch])
 
 	return (
-    
     <div className="flex flex-col flex-auto flex-shrink-0 w-full">
-      <div
+      {/* <div
         className={clsx(
           classes.header,
           "relative overflow-hidden flex flex-col flex-shrink-0 items-center justify-center text-center p-16 sm:p-24 h-200 sm:h-288"
@@ -96,15 +95,14 @@ function KnowledgeBasePage() {
             <span className="opacity-75">Let's Coding! Solve these Problems and Submit! </span>
           </Typography>
         </FuseAnimate>
-      </div>
-    
-      <div className="flex flex-row flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
-          <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
-            <ProblemViewer 
-             tmp={id2} 
-            ></ProblemViewer>
-          </div>
+      </div> */}
 
+      <div className="flex flex-row flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
+        <Paper variant="outlined">
+          <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
+            <ProblemViewer tmp={id2}></ProblemViewer>
+          </div>
+        </Paper>
         <Divider orientation="vertical" flexItem />
         <Paper variant="outlined">
           <div className="flex:1 flex-shrink-0 items-center justify-between px-24 ">
