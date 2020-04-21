@@ -53,24 +53,26 @@ function CodeEditor() {
       problemid = window.localStorage.getItem('SelectedProblemId');
     }
     // console.log(problemid);
-  
+   
   
     const [code, setCode] = useState(
         "Select Programming language first!!!!");
 
 
     const [option, setOption] = useState({
-        mode: "select",
+        mode: "python",
         theme: 'material',
         lineNumbers: true
     });
-
+    if(option.mode === "python"){window.localStorage.setItem('language_id', 1);}
+    if(option.mode === "clike"){window.localStorage.setItem('language_id', 2);}
+    if(option.mode === "clike"){window.localStorage.setItem('language_id', 3);}
 
     function changeMode(event) {
         // console.log(`beforeMode>>>>>>${option.mode}`);
         // console.log(`event.target.value>>>>>>${event.target.value}`);
         // console.log(typeof option.mode)
-        if(event.target.value === "select"){window.localStorage.setItem('language_id', 0);}
+        //if(event.target.value === "select"){window.localStorage.setItem('language_id', 0);}
         if(event.target.value === "python"){window.localStorage.setItem('language_id', 1);}
         if(event.target.value === "clike"){window.localStorage.setItem('language_id', 2);}
         if(event.target.value === "clike"){window.localStorage.setItem('language_id', 3);}
@@ -92,7 +94,7 @@ function CodeEditor() {
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
           <select onChange={changeMode}>
-            <option value="select">Select Language</option>
+            {/* <option value="select">Select Language</option> */}
             <option value="python">Python</option>
             <option value="clike">C++</option>
             <option value="clike">C</option>
