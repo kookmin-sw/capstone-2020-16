@@ -41,9 +41,21 @@ class Match(APIView):
     # 유저와 문제정보로 상대방을 매칭하고, 매칭 정보를 반환하는 함수
     def match(self, userid, problemid, codeid):
 
-        queryset_up = UserInformationInProblem.objects.all().filter(problem=problemid, available_game=True, playing=False).order_by('-score')
+        queryset_up = UserInformationInProblem.objects.all().select_related('code').filter(problem=problemid, playing=False).order_by('-score')
         challenger = queryset_up.filter(user=userid)
+
+        exclude_list =[]
+        for i in range(len(queryset_up)):
+            code_ = queryset_up[i].code
+            if code_.available_game is False:
+                exclude_list.append(queryset_up[i].id)
+
+        for e_id in exclude_list:
+            queryset_up.exclude(id=e_id)
+
         print(queryset_up)
+        print(type(queryset_up))
+        print(type(queryset_up[0]))
 
         challenger_code = Code.objects.all().filter(id=codeid)[0]
 
