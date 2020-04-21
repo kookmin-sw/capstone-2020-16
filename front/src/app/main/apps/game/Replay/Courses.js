@@ -202,7 +202,7 @@ function Courses(props) {
 
 												<Divider />
 												<CardActions className="justify-center">
-													<h3>{"리플레이 보기"}</h3>
+													{/* <h3>{"리플레이 보기"}</h3> */}
 													<ViewReplayPage tmp_id={course.id}/>
 													{/* <td align="left"><span className="prop-name required">children&nbsp;*</span></td> */}
 												</CardActions>

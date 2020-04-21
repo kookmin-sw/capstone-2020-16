@@ -65,7 +65,8 @@ function ViewReplayPage(props) {
 	return (
 		<div>
 			<IconButton onClick={handleOpen} component="span">
-				<PlayCircleFilledWhiteIcon style={{ color: pink[500] }}/>
+				{/* <PlayCircleFilledWhiteIcon style={{ color: pink[500] }}/> */}
+				<h3>{"리플레이 보기"}</h3>
 			</IconButton>
 			<Modal
 				aria-labelledby="simple-modal-title"
