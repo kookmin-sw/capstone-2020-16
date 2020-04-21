@@ -49,7 +49,7 @@ function Courses(props) {
 		  .then(response => {
 			   dispatch(Actions.getProblemId(response.data.results));
 			   setPosts(response.data.results);
-			   console.log(response.data.results);
+			//    console.log(response.data.results);
 			   
 			//    console.log(window.localStorage.getItem('battleProblemId'))
 		  })

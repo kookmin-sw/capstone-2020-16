@@ -20,10 +20,10 @@ const api = async (state = initialState, action) => {
 			await apiFunc.api_userfullInfo_list(version)
 			.then((result) => {
 				get_info = result
-				console.log(get_info.count)
+				// console.log(get_info.count)
 			})
 			.catch((error) => {
-				console.log(error)
+				// console.log(error)
 			})
 
 			return {

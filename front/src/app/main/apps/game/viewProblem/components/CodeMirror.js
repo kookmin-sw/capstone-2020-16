@@ -42,15 +42,15 @@ function CodeMirrorPage() {
 	// 	});
 	// }, []);
 	function changeMode(event) {
-		console.log(`beforeMode>>>>>>${option.mode}`);
-		console.log(`event.target.value>>>>>>${event.target.value}`);
+		// console.log(`beforeMode>>>>>>${option.mode}`);
+		// console.log(`event.target.value>>>>>>${event.target.value}`);
 		setOption({
 			mode: event.target.value
 		});
 	};
 	
 	function changeCode(event) {
-		console.log(`event.target.value>>>>>>${event}`);
+		// console.log(`event.target.value>>>>>>${event}`);
 		setCode(event);
 	};
 

@@ -30,7 +30,7 @@ class Scene2 extends Phaser.Scene {
     
     axios.get(`http://203.246.112.32:8000/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
-        console.log(response)
+        // console.log(response)
         boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
         boardStatus.placement = response.data.placement_record.split(/\n/);
@@ -171,7 +171,7 @@ class Scene2 extends Phaser.Scene {
       
       // add the background in the center of the scene
       if(parseInt(window.localStorage.getItem('pk')) === boardStatus.challengerId){
-        console.log('같다')
+        // console.log('같다')
         this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.07);
         this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.07);
         this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '나', { font: '34px Arial', fill: '#eec65b' });

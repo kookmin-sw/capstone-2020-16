@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 // import { Link } from 'react-router-dom';
 // import * as Actions from 'app/store/actions';
-import CardMedia from '@material-ui/core/CardMedia';
+// import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 import ViewReplayPage from '../viewReplay/ViewReplayPage';
 
@@ -45,7 +45,7 @@ function Courses(props) {
 	  }
 
 	 const pk = window.localStorage.getItem('pk');
-	 console.log(pk);
+	//  console.log(pk);
 
 	const [posts, setPosts] = useState([]);
 
@@ -57,8 +57,8 @@ function Courses(props) {
 		.get(`http://203.246.112.32:8000/api/v1/game/my`, { headers:header })
 		  .then(response => {
 
-			   setPosts(response.data);
-			   console.log(response.data);
+			setPosts(response.data);
+			//   console.log(response.data);
 			  
 
 			//    console.log(response.data.challenger_name);
@@ -66,20 +66,21 @@ function Courses(props) {
 		},[dispatch]);
 
 	
-	function getProblemName(problemID){
+	// function getProblemName(problemID){
 
-		if(problemID === 1){
-			return '세균전'
-		}
-		else if(problemID === 2){
-			return '세균전 추가모드'
-		}
-		else{
-			return '알 수 없음 '
-		}
-
+	// 	if(problemID === 1){
+	// 		return '세균전'
+	// 	}
+	// 	else if(problemID === 2){
+	// 		return '세균전 추가모드'
+	// 	}
+	// 	else{
+	// 		return '알 수 없음 '
+	// 	}
 		
-	}
+	// }
+
+
 
 	function getOppositeName(challenger_name, opposite_name){
 		
@@ -182,13 +183,13 @@ function Courses(props) {
 								{posts.map(course => {
 									// const category = posts.find(_cat => _cat.value === course.title);
 									return (
-										<div className="w-full pb-24 sm:w-1/9 sm:p-16" key={course.title}>
+										<div className="w-full pb-24 sm:w-1/9 sm:p-16" key={course.id}>
 											<Card elevation={1} className="flex flex-col h-128">
 												<div
 													className="flex flex-shrink-0 items-center justify-between px-24 h-64"
 												>
 													<Typography className="font-medium truncate" color="primary">
-														<h2>{`${getProblemName(course.problem)} 대전기록 vs ${getOppositeName(course.challenger_name, course.opposite_name)}`}</h2>
+														<h2>{`${course.title} 대전기록 vs ${getOppositeName(course.challenger_name, course.opposite_name)}`}</h2>
 														<h3>{`게임시각 : ${getGameTime(course.date)}`}</h3>
 														{/* {console.log(course.problem)} */}
 													</Typography>
