@@ -14,11 +14,12 @@ def test():
     print('test')
 
 class GameManager:
-    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num):
+    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num, test_case):
         self.board = np.zeros((board_size, board_size), dtype='i')
         self.board_info = board_info
         self.board_size = board_size
         self.board_record = ''
+        self.test_case = test_case
 
         # self.board = board_info
         self.check_turn = 'challenger'
@@ -46,8 +47,8 @@ class GameManager:
         winner = 0
 
         self.board_record += str(self.board_info) + ' \n'
-        self.parsing_board_info(self.board_info, self.board_size)
-        self.compile_user_code()    # not finish
+        self.board = self.parsing_board_info(self.board_info, self.board_size)
+        self.compile_user_code()
 
         while not is_ending:
             if total_turn > total_turn_limit:
@@ -73,7 +74,6 @@ class GameManager:
                 print(f'program error in execute user program : {e}')
                 self.error_msg = f'program error in execute user program : {e}'
                 break
-            
 
             if output and output != 'time over':
                 try:
@@ -110,9 +110,7 @@ class GameManager:
                     break
 
                 self.add_record(output)
-                print('asd', self.error_msg)
             else:
-                print('asdasd')
                 if output == 'time over':
                     self.error_msg = 'time over'
                 else:
@@ -146,7 +144,13 @@ class GameManager:
         return winner, self.board_record, self.placement_record, match_result, self.error_msg
 
     def test_code(self):
-        print('test')
+        test_case = self.test_case
+        board = np.zeros((self.board_size, self.board_size), dtype='i')
+        for case in test_case:
+            board = self.parsing_board_info(case, self.board_size)
+            self.compile_user_code()
+
+
 
     def compile_user_code(self):
         try:
@@ -199,6 +203,9 @@ class GameManager:
 
     def parsing_board_info(self, board_info, board_size):
         numbers = board_info.split()
+        board = np.zeros((board_size, board_size), dtype='i')
         for i in range(board_size):
             for j in range(board_size):
-                self.board[i][j] = int(numbers[i*board_size + j])
+                board[i][j] = int(numbers[i*board_size + j])
+
+        return board
