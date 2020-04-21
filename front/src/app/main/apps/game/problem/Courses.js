@@ -47,9 +47,7 @@ function Courses(props) {
 	useEffect(() => {
 
 		axios
-		.get('http://203.246.112.32:8000/api/v1/problem/', {
-			headers: header
-		  })
+		.get('http://203.246.112.32:8000/api/v1/problem/')
 		.then(response => {
 			
 			console.log(response.data.results);

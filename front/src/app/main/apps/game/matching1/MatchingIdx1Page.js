@@ -109,17 +109,25 @@ export default function MatchingIdx1() {
       .then(response => {
 
          var data = response.data;
+         console.log(data.error);
+         if(data.error == undefined){
+            getUserInfo(data.challenger, data.problem, "challenger",data.challenger_language);
+            getUserInfo(data.opposite, data.problem, "opposite", data.opposite_language);
+            
+            setGameid(data.match_id);
+            setIsMatched(true);
+            setGameStatus('playing...');
+         }
+         else{
+            setGameStatus('matching error...!');
+         }
 
-         getUserInfo(data.challenger, data.problem, "challenger",data.challenger_language);
-         getUserInfo(data.opposite, data.problem, "opposite", data.opposite_language);
-         
-         setGameid(data.match_id);
-         setIsMatched(true);
-         setGameStatus('playing...');
+        
   
       })
       .catch(error => {
          console.log(`match error : ${error}`);
+         setGameStatus('matching error...!');
       })
    }
 
@@ -190,6 +198,7 @@ export default function MatchingIdx1() {
             else{
                var code = [];
                code.push(codelist[codelist.length-1]);
+               console.log(code);
                setCodelist(code);
             }
            
@@ -203,7 +212,7 @@ export default function MatchingIdx1() {
    }
 
    useEffect(() => {
-      getCodelists(pk, 1, 1, []);
+      getCodelists(pk, problemIdId, 1, []);
       console.log(codelist);
 
       },[]);
