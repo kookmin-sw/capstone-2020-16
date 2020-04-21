@@ -70,34 +70,7 @@ function KnowledgeBasePage() {
   },[dispatch])
 
 	return (
-    <div className="flex flex-col flex-auto flex-shrink-0 w-full">
-      {/* <div
-        className={clsx(
-          classes.header,
-          "relative overflow-hidden flex flex-col flex-shrink-0 items-center justify-center text-center p-16 sm:p-24 h-200 sm:h-288"
-        )}
-      >
-        <FuseAnimate
-          animation="transition.slideUpIn"
-          duration={400}
-          delay={100}
-        >
-          <Typography color="inherit" className="text-24 sm:text-40 font-light">
-            Problem
-          </Typography>
-        </FuseAnimate>
-        <FuseAnimate duration={400} delay={600}>
-          <Typography
-            variant="subtitle1"
-            color="inherit"
-            className="mt-8 sm:mt-16 mx-auto max-w-512"
-          >
-            <span className="opacity-75">Let's Coding! Solve these Problems and Submit! </span>
-          </Typography>
-        </FuseAnimate>
-      </div> */}
-
-      <div className="flex flex-row flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
+      <div className="flex flex-row flex-1 max-w-2xl w-full px-8 sm:px-16 py-24">
         <Paper variant="outlined">
           <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
             <ProblemViewer tmp={id2}></ProblemViewer>
@@ -110,7 +83,6 @@ function KnowledgeBasePage() {
           </div>
         </Paper>
       </div>
-    </div>
   );
 }
 
