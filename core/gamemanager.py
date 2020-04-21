@@ -52,11 +52,13 @@ class GameManager:
         while not is_ending:
             if total_turn > total_turn_limit:
                 print("total_turn over")
+                self.error_msg = 'total turn over'
                 match_result = 'draw'
                 return match_result
 
             self.make_board_data()
-            #   user code execute
+
+            # user code execute
             output = None
             print(self.board)
             try:
@@ -73,14 +75,13 @@ class GameManager:
                 print(f'program error in execute user program : {e}')
                 self.error_msg = f'program error in execute user program : {e}'
                 break
-            
 
             if output and output != 'time over':
                 try:
                     check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
                 except Exception as e:
                     check_placement = e
-                    self.error_msg = f'placement error : {e}'
+                    self.error_msg = e
                     # break
                     print(f'check placement program error in gamemanger : {e}')
 
@@ -141,7 +142,6 @@ class GameManager:
                 total_turn += 1
                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
             elif self.error_msg is not None:
-                print('ajkshdnkj')
                 if self.check_turn == 'challenger':
                     winner = 'opposite'
                     match_result = 'challenger_error'
@@ -150,7 +150,7 @@ class GameManager:
                     match_result = 'opposite_error'
                 is_ending = True
             else:
-                print('jasldk', self.error_msg)
+                print(self.error_msg)
 
         return winner, self.board_record, self.placement_record, match_result, self.error_msg
 
