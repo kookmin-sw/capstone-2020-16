@@ -13,6 +13,7 @@ import axios from 'axios';
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
 require('codemirror/mode/clike/clike.js');
+require('codemirror/mode/go/go.js');
 
 
 
@@ -65,8 +66,8 @@ function CodeEditor() {
         lineNumbers: true
     });
     if(option.mode === "python"){window.localStorage.setItem('language_id', 1);}
-    if(option.mode === "clike"){window.localStorage.setItem('language_id', 2);}
     if(option.mode === "clike"){window.localStorage.setItem('language_id', 3);}
+    if(option.mode === "go"){window.localStorage.setItem('language_id', 2);}
 
     function changeMode(event) {
         // console.log(`beforeMode>>>>>>${option.mode}`);
@@ -74,8 +75,9 @@ function CodeEditor() {
         // console.log(typeof option.mode)
         //if(event.target.value === "select"){window.localStorage.setItem('language_id', 0);}
         if(event.target.value === "python"){window.localStorage.setItem('language_id', 1);}
-        if(event.target.value === "clike"){window.localStorage.setItem('language_id', 2);}
         if(event.target.value === "clike"){window.localStorage.setItem('language_id', 3);}
+        if(event.target.value === "go"){window.localStorage.setItem('language_id', 2);}
+        console.log(window.localStorage.getItem('language_id'))
         setOption({
             mode: event.target.value,
         });
@@ -97,7 +99,7 @@ function CodeEditor() {
             {/* <option value="select">Select Language</option> */}
             <option value="python">Python</option>
             <option value="clike">C++</option>
-            <option value="clike">C</option>
+            <option value="go">C</option>
           </select>
         </div>
         <CodeMirror
