@@ -10,6 +10,8 @@ from ending_rule import EndingRule
 from game_data import GameData
 from execute_code import Execution
 
+def test():
+    print('test')
 
 class GameManager:
     def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num):
@@ -136,6 +138,7 @@ class GameManager:
             
             #   change player
             elif is_ending is False and self.error_msg is None:
+                total_turn += 1
                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
             elif self.error_msg is not None:
                 print('ajkshdnkj')
@@ -150,6 +153,9 @@ class GameManager:
                 print('jasldk', self.error_msg)
 
         return winner, self.board_record, self.placement_record, match_result, self.error_msg
+
+    def test_code(self):
+        print('test')
 
     def compile_user_code(self):
         try:
