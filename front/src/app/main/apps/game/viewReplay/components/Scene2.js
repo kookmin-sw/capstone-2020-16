@@ -94,7 +94,7 @@ class Scene2 extends Phaser.Scene {
       
       
       // auto manual button(text)
-      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 150, `${boardStatus.isAuto} Mode Button`, { font: '17px Arial', fill: '#eec65b' })
+      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 110, `${boardStatus.isAuto} Mode Button`, { font: '17px Arial', fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverState() )
       .on('pointerout', () => this.enterButtonRestState() )
@@ -186,8 +186,8 @@ class Scene2 extends Phaser.Scene {
       // this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, 'Me', { font: '34px Arial', fill: '#eec65b' });
       // this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, 'You', { font: '34px Arial', fill: '#eec65b' });
       
-      this.myChacksoo = this.add.text(100, 160, '', { font: '34px Arial', fill: '#eec65b' });
-      this.yourChacksoo = this.add.text(modalWidth - 200, 160, '', { font: '34px Arial', fill: '#eec65b' });
+      this.myChacksoo = this.add.text(60, 160, '', { font: '34px Arial', fill: '#eec65b' });
+      this.yourChacksoo = this.add.text(modalWidth - 160, 160, '', { font: '34px Arial', fill: '#eec65b' });
 
       // make a group of ships
       this.blue_booGroup = this.make.group({
@@ -208,12 +208,12 @@ class Scene2 extends Phaser.Scene {
         width: 8,
         height: 8,
         // 이미지 하나 당 공간
-        cellWidth: 92,
-        cellHeight: 92,
+        cellWidth: 64,
+        cellHeight: 64,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: 95,
-        y: -170
+        x: -45,
+        y: -215
       });
       
       Phaser.Actions.GridAlign(this.pink_booGroup.getChildren(), {
@@ -221,17 +221,17 @@ class Scene2 extends Phaser.Scene {
         width: 8,
         height: 8,
         // 이미지 하나 당 공간
-        cellWidth: 92,
-        cellHeight: 92,
+        cellWidth: 64,
+        cellHeight: 64,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: 95,
-        y: -170
+        x: -45,
+        y: -215
       });
       
       // slider value
       // this.text = this.add.text(800,0, '', { font: '48px Arial', fill: '#eec65b' });
-      this.errMsg = this.add.text(modalWidth/2 - 400, 0, `${boardStatus.isError}`, { font: '34px Arial', fill: '#eec65b' });
+      this.errMsg = this.add.text(modalWidth/2 - 300, 0, `${boardStatus.isError}`, { font: '34px Arial', fill: '#eec65b' });
     }
     
   
