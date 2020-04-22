@@ -342,8 +342,8 @@ class Scene2 extends Phaser.Scene {
         boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
       }
 
-      console.log(boardStatus.boardIdx)
-      console.log(boardStatus.idxLen)
+      // console.log(boardStatus.boardIdx)
+      // console.log(boardStatus.idxLen)
       if(boardStatus.boardIdx >= (boardStatus.idxLen -2) && boardStatus.isAuto){
         // boardStatus.boardIdx -= 1;
         boardStatus.idxIncrement = false;
