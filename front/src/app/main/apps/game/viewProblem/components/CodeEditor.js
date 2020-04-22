@@ -88,7 +88,7 @@ function CodeEditor() {
           window.localStorage.setItem('language_id', 1); window.localStorage.setItem('editor_type', 'python');
         }
         else if(event.target.value === "cpp"){
-          setCode("#include <iostream>\n\nusing namespace std;\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\t cout << 1 << x << y;\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tcin >> board[i][j];\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
+          setCode("#include <iostream>\n\nusing namespace std;\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\tcout << 1 << x << y;\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tcin >> board[i][j];\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
           window.localStorage.setItem('language_id', 3); window.localStorage.setItem('editor_type', 'clike');
         }
         else if(event.target.value === "c"){
