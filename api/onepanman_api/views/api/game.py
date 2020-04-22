@@ -65,10 +65,12 @@ class GameViewSet(viewsets.ModelViewSet):
             error_user = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
             normal_user = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
             error_code = codeset.filter(id=data["challenger_code"])[0]
+            normal_code = codeset.filter(id=data["opposite_code"])[0]
         else:
             error_user = queryset.filter(user=data["opposite"], problem=data["problem"])[0]
             normal_user = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
             error_code = codeset.filter(id=data["opposite_code"])[0]
+            normal_code = codeset.filter(id=data["challenger_code"])[0]
 
         try:
             # update code to not available to game
@@ -98,7 +100,7 @@ class GameViewSet(viewsets.ModelViewSet):
             error_user_data = {
                 "id": error_user.id,
                 "score": error_score,
-                "user": error_user.pk,
+                "user": error_user.user.pk,
                 "code": error_code.id,
                 "available_game": False,
                 "playing": False,
@@ -123,8 +125,8 @@ class GameViewSet(viewsets.ModelViewSet):
             normal_user_data = {
                 "id": normal_user.id,
                 "score": normal_score,
-                "user": normal_user.pk,
-                "code": normal_user.code.id,
+                "user": normal_user.user.pk,
+                "code": normal_code.id,
                 "playing": False,
             }
 
@@ -234,6 +236,7 @@ class GameViewSet(viewsets.ModelViewSet):
         data = super().update(request, *args, **kwargs)
         data = data.data
         result = data["result"]
+
 
         if result == "playing":
             return Response(data)
