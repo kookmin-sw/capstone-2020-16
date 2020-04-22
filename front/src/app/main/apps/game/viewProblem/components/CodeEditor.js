@@ -2,7 +2,7 @@ import './CodeMirror.css'
 import './material.css'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import Button from "@material-ui/core/Button";
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import * as Actions from 'app/auth/store/actions';
@@ -48,12 +48,12 @@ function codePost(userid, problemid, code, languageid, codename){
 
 function CodeEditor() {
 
-    useEffect (() => {
-      return () =>{
-        window.localStorage.removeItem('editor_type');
-        window.localStorage.removeItem('language_id');
-      }
-    })
+    // useEffect (() => {
+    //   return () =>{
+    //     window.localStorage.removeItem('editor_type');
+    //     window.localStorage.removeItem('language_id');
+    //   }
+    // })
     var problemid = window.localStorage.getItem('SelectedProblemId');
     if(!problemid){
       problemid = window.localStorage.getItem('SelectedProblemId');
