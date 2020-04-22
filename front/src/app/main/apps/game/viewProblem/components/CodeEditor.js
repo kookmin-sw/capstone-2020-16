@@ -79,10 +79,25 @@ function CodeEditor() {
         // console.log(`event.target.value>>>>>>${event.target.value}`);
         // console.log(typeof option.mode)
         //if(event.target.value === "select"){window.localStorage.setItem('language_id', 0);}
-        if(event.target.value === "select"){window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');}
-        if(event.target.value === "python"){window.localStorage.setItem('language_id', 1); window.localStorage.setItem('editor_type', 'python');}
-        if(event.target.value === "cpp"){window.localStorage.setItem('language_id', 3); window.localStorage.setItem('editor_type', 'clike');}
-        if(event.target.value === "c"){window.localStorage.setItem('language_id', 2); window.localStorage.setItem('editor_type', 'clike');}
+        if(event.target.value === "select"){
+          setCode("Select Programming language first!!!!");
+          window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
+        }
+        else if(event.target.value === "python"){
+          setCode("def solve(board): \n\tx = 0\n\ty = 0\n\t# solve!!\n\tprint(1, x, y)\n\nif __name__ == '__main__':\n\tboard = []\n\tfor i in range(8):\n\t\tline = input()\n\t\tboard.append(list(map(int, line.strip('\\n').split())))\n\tsolve(board)");
+          window.localStorage.setItem('language_id', 1); window.localStorage.setItem('editor_type', 'python');
+        }
+        else if(event.target.value === "cpp"){
+          setCode("#include <iostream>\n\nusing namespace std;\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\t cout << 1 << x << y;\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tcin >> board[i][j];\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
+          window.localStorage.setItem('language_id', 3); window.localStorage.setItem('editor_type', 'clike');
+        }
+        else if(event.target.value === "c"){
+          setCode("#include <stdio.h>\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\tprintf(1, x, y);\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tscanf(\"%d\", &board[i][j]);\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
+          window.localStorage.setItem('language_id', 2); window.localStorage.setItem('editor_type', 'clike');
+        }
+        else{
+          window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
+        }
         console.log(window.localStorage.getItem('language_id'))
         setOption({
             mode: event.target.value,
@@ -101,7 +116,7 @@ function CodeEditor() {
     return (
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
-          <select onChange={changeMode}>
+          <select onChange={(value) => {changeMode(value)}}>
             {/* <option value="select">Select Language</option> */}
             <option value="select">Select Language</option>
             <option value="python">Python</option>
@@ -119,6 +134,7 @@ function CodeEditor() {
           }}
           onChange={(editor, data, value) => {
             changeCode(value);
+            // console.log(value);
           }}
         />
     <div className="mx-auto sm:px-16">
