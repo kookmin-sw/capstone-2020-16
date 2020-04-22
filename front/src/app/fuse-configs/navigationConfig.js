@@ -33,32 +33,32 @@ const navigationConfig = [
 				translate: 'GAME',
 				type: 'collapse',
 				children: [
-			
+					{
+						id: 'game-problem',
+						title: 'Problem',
+						type: 'item',
+						url: '/apps/game/problem',
+						icon:'school',
+					},
+					{
+						id: 'game-battle',
+						title: 'Battle',
+						type: 'item',
+						url: '/apps/game/battle',
+						icon:'person',
+					},
+					{
+						id: 'game-replay',
+						title: 'Replay',
+						translate: 'Replay',
+						type: 'item',
+						url: '/apps/game/Replay',
+						icon:'assessment',
+					}
 
 				]
 			},
-			{
-				id: 'game-problem',
-				title: 'Problem',
-				type: 'item',
-				url: '/apps/game/problem',
-				icon:'school',
-			},
-			{
-				id: 'game-battle',
-				title: 'Battle',
-				type: 'item',
-				url: '/apps/game/battle',
-				icon:'person',
-			},
-			{
-				id: 'game-replay',
-				title: 'Replay',
-				translate: 'Replay',
-				type: 'item',
-				url: '/apps/game/Replay',
-				icon:'assessment',
-			},
+			
 			// {
 			// 	id: 'matching',
 			// 	title: 'Matching',
