@@ -63,7 +63,7 @@ function JWTLoginTab(props) {
 						endAdornment: (
 							<InputAdornment position="end">
 								<Icon className="text-20" color="action">
-									email
+									person
 								</Icon>
 							</InputAdornment>
 						)

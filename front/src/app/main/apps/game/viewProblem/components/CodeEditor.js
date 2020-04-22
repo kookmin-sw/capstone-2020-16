@@ -2,7 +2,7 @@ import './CodeMirror.css'
 import './material.css'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import Button from "@material-ui/core/Button";
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import * as Actions from 'app/auth/store/actions';
@@ -13,7 +13,7 @@ import axios from 'axios';
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
 require('codemirror/mode/clike/clike.js');
-require('codemirror/mode/go/go.js');
+// require('codemirror/mode/go/go.js');
 
 
 
@@ -48,7 +48,12 @@ function codePost(userid, problemid, code, languageid, codename){
 
 function CodeEditor() {
 
-
+    // useEffect (() => {
+    //   return () =>{
+    //     window.localStorage.removeItem('editor_type');
+    //     window.localStorage.removeItem('language_id');
+    //   }
+    // })
     var problemid = window.localStorage.getItem('SelectedProblemId');
     if(!problemid){
       problemid = window.localStorage.getItem('SelectedProblemId');
@@ -65,18 +70,19 @@ function CodeEditor() {
         theme: 'material',
         lineNumbers: true
     });
-    if(option.mode === "python"){window.localStorage.setItem('language_id', 1);}
-    if(option.mode === "clike"){window.localStorage.setItem('language_id', 3);}
-    if(option.mode === "go"){window.localStorage.setItem('language_id', 2);}
+    // if(option.mode === "python"){window.localStorage.setItem('language_id', 1);}
+    // if(option.mode === "cpp"){window.localStorage.setItem('language_id', 3);}
+    // if(option.mode === "go"){window.localStorage.setItem('language_id', 2);}
 
     function changeMode(event) {
         // console.log(`beforeMode>>>>>>${option.mode}`);
         // console.log(`event.target.value>>>>>>${event.target.value}`);
         // console.log(typeof option.mode)
         //if(event.target.value === "select"){window.localStorage.setItem('language_id', 0);}
-        if(event.target.value === "python"){window.localStorage.setItem('language_id', 1);}
-        if(event.target.value === "clike"){window.localStorage.setItem('language_id', 3);}
-        if(event.target.value === "go"){window.localStorage.setItem('language_id', 2);}
+        if(event.target.value === "select"){window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');}
+        if(event.target.value === "python"){window.localStorage.setItem('language_id', 1); window.localStorage.setItem('editor_type', 'python');}
+        if(event.target.value === "cpp"){window.localStorage.setItem('language_id', 3); window.localStorage.setItem('editor_type', 'clike');}
+        if(event.target.value === "c"){window.localStorage.setItem('language_id', 2); window.localStorage.setItem('editor_type', 'clike');}
         console.log(window.localStorage.getItem('language_id'))
         setOption({
             mode: event.target.value,
@@ -97,16 +103,17 @@ function CodeEditor() {
         <div style={{ marginTop: 10 }}>
           <select onChange={changeMode}>
             {/* <option value="select">Select Language</option> */}
+            <option value="select">Select Language</option>
             <option value="python">Python</option>
-            <option value="clike">C++</option>
-            <option value="go">C</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
           </select>
         </div>
         <CodeMirror
           autoCursor={false}
           value={code}
           options={{
-            mode: option.mode,
+            mode: window.localStorage.getItem('editor_type'),
             theme: "material",
             lineNumbers: true
           }}
