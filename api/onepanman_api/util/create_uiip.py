@@ -10,7 +10,7 @@ def create_instance(userid, problemid, codeid):
             "problem": problemid,
             "code": codeid,
             "tier": "Bronze",
-            "score": 50,
+            "score": 1000,
         }
 
         serializer = UserInformationInProblemSerializer(data=data)
