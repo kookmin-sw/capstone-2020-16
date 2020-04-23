@@ -18,7 +18,8 @@ const boardStatus = {
   isError: "",
   renderTime: new Date().getTime(),
   challengerId: 0,
-  oppositeId: 0
+  oppositeId: 0,
+  idxIncrement: true,
 }
 var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
@@ -70,10 +71,14 @@ class Scene2 extends Phaser.Scene {
               this.updateClickCountText = () => {
                 boardStatus.isAuto = !boardStatus.isAuto
                 
-                if(boardStatus.isAuto === true)
-                this.clickButton.setText("Auto Mode Button", { font: '17px Arial' })
-                else
-                this.clickButton.setText("Manual Mode Button", { font: '17px Arial' })
+                if(boardStatus.isAuto === true){
+                  this.clickButton.setText("Auto Mode Button", { font: '17px Arial' })
+                  // this.sliderDot.visible = false;
+                }
+                else{
+                  // this.sliderDot.visible = true;
+                  this.clickButton.setText("Manual Mode Button", { font: '17px Arial' })
+                }
               }
               this.nextIdxText = () => {
                 if(boardStatus.isAuto === false){
@@ -231,7 +236,7 @@ class Scene2 extends Phaser.Scene {
       
       // slider value
       // this.text = this.add.text(800,0, '', { font: '48px Arial', fill: '#eec65b' });
-      this.errMsg = this.add.text(modalWidth/2 - 300, 0, `${boardStatus.isError}`, { font: '34px Arial', fill: '#eec65b' });
+      this.errMsg = this.add.text(modalWidth/2 - 300, 0, `${boardStatus.isError}`, { font: '15px Arial', fill: '#eec65b' });
     }
     
   
@@ -322,9 +327,11 @@ class Scene2 extends Phaser.Scene {
       this.iter += 0.001;
       if(boardStatus.isAuto){
         if(new Date().getTime() - boardStatus.renderTime > renderSpeed){
-          boardStatus.boardIdx += 1;
-          this.sliderDot.x += 400/boardStatus.idxLen;
-          this.sliderDot.slider.value += 1/boardStatus.idxLen;
+          if(boardStatus.idxIncrement){
+            boardStatus.boardIdx += 1;
+            this.sliderDot.x += 400/boardStatus.idxLen;
+            this.sliderDot.slider.value += 1/boardStatus.idxLen;
+          }
           boardStatus.renderTime = new Date().getTime()
         }
         this.sliderDot.visible = false;
@@ -335,11 +342,19 @@ class Scene2 extends Phaser.Scene {
         boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
       }
 
-
-      if(boardStatus.chacksoo[(boardStatus.boardIdx-1)*64] === undefined){
-        boardStatus.boardIdx = 0;
-        this.sliderDot.x = 550;
+      // console.log(boardStatus.boardIdx)
+      // console.log(boardStatus.idxLen)
+      if(boardStatus.boardIdx >= (boardStatus.idxLen -2) && boardStatus.isAuto){
+        // boardStatus.boardIdx -= 1;
+        boardStatus.idxIncrement = false;
+        // this.sliderDot.x = 550;
+        // boardStatus.isAuto = false;
+        // this.sliderDot.visible = false;
         this.sliderDot.slider.value = 0;
+      }
+      else{
+        boardStatus.idxIncrement = true;
+        // this.sliderDot.visible = true;
       }
     };
   }
