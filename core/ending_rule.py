@@ -13,6 +13,7 @@ class EndingRule:
         self.y1 = None
         self.x = None
         self.y = None
+        self.ending_result = ''
 
         self.board = None
         self.placement = None
@@ -36,7 +37,7 @@ class EndingRule:
         for function in self.rule_list:
             function()
             if self.ending_message is not False:
-                return self.ending_message, self.winner
+                return self.ending_message, self.winner#, self.ending_result
         return self.ending_message, 0
 
     def setting(self, data, board, placement):
@@ -133,6 +134,8 @@ class EndingRule:
         else:
             self.winner = 0
         self.ending_message = True
+        # if 
+        # self.ending_result = 
 
     def only_one_side(self):
         pass

@@ -19,7 +19,15 @@ class Execution:
             if '<' in command:
                 redirection_stdin = os.open(os.path.join(path, 'board.txt'), os.O_RDONLY)
                 os.dup2(redirection_stdin, 0)
-            os.execv(command[0], tuple(command[1:]))
+            try:
+                os.execv(command[0], tuple(command[1:]))    
+            except Exception as e:
+                print('asdasdasdasd')
+            
+            # out = subprocess.check_output(['python3 challenger.py < board.txt'], shell=True, encoding='utf-8')
+
+            with open('placement.txt', 'w') as fp:
+                fp.write(out)
 
         else:
             print('else', pid)

@@ -37,10 +37,11 @@ class PlacementRule:
         # 룰에 맞는 함수들 리스트에 추가
         self.check_game_type()
         if self.check_base_placement_rule() is False:
+            print('asdqwe', self.placement_message)
             return self.placement_message, self.board
         # self.add_rule_option()
         for rule in self.rule_list:
-            print(self.placement_rule_list[rule[0]])
+     #       print(self.placement_rule_list[rule[0]])
             self.placement_rule_list[rule[0]](rule)
             if self.placement_message == 'OK':
                 break
@@ -61,6 +62,7 @@ class PlacementRule:
         try:
             print(placement)
             if '>' in placement:
+                print(1)
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
                 self.y1 = list(map(int, placement.split('>')[0].split()))[1]
                 if self.check_range(self.x1, self.y1):
@@ -70,15 +72,18 @@ class PlacementRule:
                 if self.check_range(self.x, self.y):
                     raise Exception
                 self.obj_number = str(board[self.x1][self.y1])
-                print(self.x1,self.y1,self.x,self.y)
+                #print(self.x1,self.y1,self.x,self.y)
             else:
+                # print(2, list(map(str, placement.split())))
                 self.obj_number = list(map(str, placement.split()))[0]
                 self.x = list(map(int, placement.split()))[1]
                 self.y = list(map(int, placement.split()))[2]
+                # print('asdasd', self.x, self.y)
                 if self.check_range(self.x, self.y):
                     raise Exception
                 self.x1 = None
                 self.y1 = None
+                # print('aaaaaaaaaaaaaaaaaaaaaaa', self.x, self.y)
             self.board = board
             self.placement = placement
             self.rule_list.clear()
@@ -90,8 +95,7 @@ class PlacementRule:
                 self.obj_option = self.obj_rule[2]
             self.placement_message = None
         except Exception as e:            
-            self.placement_message = f'error in parsing user placement: {e}'
-            print(self.placement_message)
+            self.placement_message = f'It is invalid output: {placement}'
             raise Exception(self.placement_message)
 
     # 착수 종류
@@ -117,21 +121,32 @@ class PlacementRule:
             elif self.board[self.x1][self.y1] == 0:
                 self.placement_message = f'There is no stone : {self.x1, self.y1}. {self.x1, self.y1} > {self.x, self.y}'
                 return False
+            elif int(self.obj_number) < 0 :
+                self.placement_message = f'It is not your stone : {self.x1, self.y1}'
         elif self.placement_type == 'add':
             if (self.x < 0 or self.x > self.data.board_size) or (self.y < 0 or self.y > self.data.board_size):
                 self.placement_message = f'out of the board : {self.x, self.y}'
                 return False
+            elif int(self.obj_number) < 0 :
+                self.placement_message = f'It is not your stone : {self.x1, self.y1}'
 
+        print(self.x, self.y)
         if self.board[self.x][self.y] > 0:
+            print(1)
             self.placement_message = f'There is already a stone {self.x, self.y}'
             return False
 
         if self.board[self.x][self.y] < 0:
-            if 1 in self.obj_option:
-                return True
+            print('enemy123')
+            if self.obj_option:
+                if 1 in self.obj_option:
+                    print('enemy1')
+                    return True
             else:
+                print('enemy2')
                 self.placement_message = f'There is already a enemy stone {self.x, self.y}'
                 return False
+            
 
     def add_rule_method(self):
         pass
