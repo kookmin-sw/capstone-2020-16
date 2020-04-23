@@ -116,7 +116,7 @@ function Courses(props) {
 													 <button onClick = {() => {
 														 window.localStorage.setItem('b_selectedId', course.id);
 														 window.localStorage.setItem('b_selectedTitle', course.title);
-													 }}> <h3>START</h3>
+													 }}> <h3>BATTLE</h3>
 													 </button>
 													 </Link>
 												</CardActions>
