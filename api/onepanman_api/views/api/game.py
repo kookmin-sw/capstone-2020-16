@@ -76,7 +76,7 @@ class GameViewSet(viewsets.ModelViewSet):
             # update code to not available to game
             code_data = {
                 "id": error_code.id,
-                "author": error_user.pk,
+                "author": error_user.user.pk,
                 "language": error_code.language.id,
                 "name": error_code.name,
                 "available_game": False,
