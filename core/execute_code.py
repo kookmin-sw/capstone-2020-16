@@ -2,7 +2,7 @@ import os
 import time
 import signal
 import timeout
-
+import subprocess
 
 class Execution:
     def __init__(self, limit_time=2000):
@@ -24,7 +24,7 @@ class Execution:
             except Exception as e:
                 print('asdasdasdasd')
             
-            # out = subprocess.check_output(['python3 challenger.py < board.txt'], shell=True, encoding='utf-8')
+            out = subprocess.check_output(command, shell=True, encoding='utf-8')
 
             with open('placement.txt', 'w') as fp:
                 fp.write(out)
