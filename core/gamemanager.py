@@ -60,33 +60,32 @@ class GameManager:
 
             # user code execute
             output = None
-            print(self.board)
+            # print(self.board)
             try:
                 if os.path.isfile("placement.txt"):
                     os.remove("placement.txt")
                     # print('delete placement.txt')
                 if self.check_turn == 'challenger':
-                    print('cc')
+                    print('challenger')
+                    print(self.board)
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
                 elif self.check_turn == 'opposite':
-                    print('oo')
+                    print('opposite')
+                    print(self.board)
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
             except Exception as e:
-                print('eeeeeeeeeeeeeeeeeee')
-                print('eeee', type(e))
                 print(f'program error in execute user program : {e}')
                 self.error_msg = f'program error in execute user program : {e}'
                 break
-
+            print(output.strip())
             if output and output != 'time over':
                 try:
                     check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
                 except Exception as e:
                     check_placement = e
                     self.error_msg = e
-                    # break
                     print(f'check placement program error in gamemanger : {e}')
-                print(check_placement)
+                print('check_placement :', check_placement, '\n')
                 if check_placement == 'OK':
                     self.board = new_board
                     apply_action = ''

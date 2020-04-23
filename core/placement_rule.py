@@ -37,7 +37,6 @@ class PlacementRule:
         # 룰에 맞는 함수들 리스트에 추가
         self.check_game_type()
         if self.check_base_placement_rule() is False:
-            print('asdqwe', self.placement_message)
             return self.placement_message, self.board
         # self.add_rule_option()
         for rule in self.rule_list:
@@ -60,9 +59,7 @@ class PlacementRule:
     def setting(self, data, board, placement):
         self.data = data
         try:
-            print(placement)
             if '>' in placement:
-                print(1)
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
                 self.y1 = list(map(int, placement.split('>')[0].split()))[1]
                 if self.check_range(self.x1, self.y1):
@@ -130,20 +127,15 @@ class PlacementRule:
             elif int(self.obj_number) < 0 :
                 self.placement_message = f'It is not your stone : {self.x1, self.y1}'
 
-        print(self.x, self.y)
         if self.board[self.x][self.y] > 0:
-            print(1)
             self.placement_message = f'There is already a stone {self.x, self.y}'
             return False
 
         if self.board[self.x][self.y] < 0:
-            print('enemy123')
             if self.obj_option:
                 if 1 in self.obj_option:
-                    print('enemy1')
                     return True
             else:
-                print('enemy2')
                 self.placement_message = f'There is already a enemy stone {self.x, self.y}'
                 return False
             

@@ -11,7 +11,7 @@ class Execution:
     def execute_program(self, command, path):
         pid = os.fork()
         if pid == 0:
-            print('pid', pid)
+            # print('pid', pid)
             # os.nice(19)
             redirection_stdout = os.open(os.path.join(path + '/placement.txt'), os.O_RDWR | os.O_CREAT)
             os.dup2(redirection_stdout, 1)
@@ -19,18 +19,11 @@ class Execution:
             if '<' in command:
                 redirection_stdin = os.open(os.path.join(path, 'board.txt'), os.O_RDONLY)
                 os.dup2(redirection_stdin, 0)
-            try:
-                os.execv(command[0], tuple(command[1:]))    
-            except Exception as e:
-                print('asdasdasdasd')
             
-            out = subprocess.check_output(command, shell=True, encoding='utf-8')
-
-            with open('placement.txt', 'w') as fp:
-                fp.write(out)
+            os.execv(command[0], tuple(command[1:]))
 
         else:
-            print('else', pid)
+            # print('else', pid)
             try:
                 result, time = self.trace_program(pid)
             except Exception as e:
