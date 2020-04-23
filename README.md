@@ -36,11 +36,16 @@
 
 
 
-## II. 소개영상
+## II. 소개영상 및 중간 시행영상
 
+소개 영상
 
 [![Video Label](http://img.youtube.com/vi/onwGQSGU9kc/0.jpg)](https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be)
 
+
+중간 시행영상
+
+[![Video Label](http://img.youtube.com/vi/0Gv2LHSX710/0.jpg)](https://www.youtube.com/watch?v=0Gv2LHSX710&feature=youtu.be)
 
 ## III. 팀 소개
 
