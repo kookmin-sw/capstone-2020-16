@@ -139,13 +139,13 @@ class Game(models.Model):
     challenger_score_flu = models.IntegerField(
         "challenger_score_flu",
         db_column="CHALLENGER_SCORE_FLU",
-        default=20,
+        default=0,
     )
 
     opposite_score_flu = models.IntegerField(
         "opposite_score_flu",
         db_column="OPPOSITE_SCORE_FLU",
-        default=20,
+        default=0,
     )
 
     def __str__(self):
