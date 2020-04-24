@@ -57,6 +57,7 @@ function Courses(props) {
 		})
 	},[dispatch]);
 
+	
 	return (
 		<div className="flex flex-col flex-auto flex-shrink-0 w-full">
 			
