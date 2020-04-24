@@ -179,16 +179,41 @@ export default function MatchingIdx1() {
       
    }
 
+   var codepagaination = (next, codelist) => {
+      axios.get(next , {headers:header})
+      .then(response => {
+         codelist = codelist.concat(response.data.results);
+
+         if (response.data.next != null){
+            codelist += codepagaination(response.data.next, codelist);
+         }
+         else{
+            if (codelist.length === 0){
+               var code = [{'id':0,'name':'you have not valid code to game'}];
+               setCodelist(code);
+            }
+            else{
+               var code = [];
+               code.push(codelist[codelist.length-1]);
+               // console.log(code);
+               setCodelist(code);
+            }
+           
+            return codelist;
+         }
+      })
+   }
+
    // get code list
    // update codelist using setCodelist
-   var getCodelists = (userid, problemid, page=1, codelist) =>
+   var getCodelists = (userid, problemid, codelist) =>
    {  
-      axios.get(`http://203.246.112.32:8000/api/v1/code/?author=${userid}&problem=${problemid}&page=${page}&available_game=true`, {headers : header})
+      axios.get(`http://203.246.112.32:8000/api/v1/code/?author=${userid}&problem=${problemid}&available_game=true`, {headers:header})
       .then(response => {
          codelist = codelist.concat(response.data.results);
          if ( response.data.next != null ){
             // console.log("deep in!!");
-            codelist += getCodelists(userid, problemid, 2, codelist);
+            codelist += codepagaination(response.data.next, codelist);
          }
          else{
             if (codelist.length === 0){
@@ -212,7 +237,7 @@ export default function MatchingIdx1() {
    }
 
    useEffect(() => {
-      getCodelists(pk, problemIdId, 1, []);
+      getCodelists(pk, problemIdId, []);
       // console.log(codelist);
 
       },[]);
