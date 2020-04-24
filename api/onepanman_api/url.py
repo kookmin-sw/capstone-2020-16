@@ -49,6 +49,7 @@ urlpatterns = [
     path('game/my', views.api.game.MyGameView.as_view(), name="gamemy"),
     path('userInformationInProblem/my', views.api.userInformationInProblem.MyUserInformationInProblemView.as_view(), name="uiipmy"),
     path('userInfo/my', views.api.userInfo.MyUserInfoView.as_view(), name="userinfomy"),
+    path('rank/', views.api.userInformationInProblem.rank.as_view(), name="rank"),
 
     # rest_auth - 로그인 회원가입
     url(r'^rest-auth/', include('rest_auth.urls')),
