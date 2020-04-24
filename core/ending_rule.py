@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-
+import random
 
 class EndingRule:
     def __init__(self):
@@ -32,6 +32,8 @@ class EndingRule:
         self.setting(game_data, board, placement)
 
         self.rule_list.append(self.ending_condition_list[self.ending_rule])
+        self.check_available_place()
+        self.available
         if self.ending_option is not None:
             self.rule_list.append(self.ending_option_list[self.ending_option])
         for function in self.rule_list:
@@ -123,6 +125,9 @@ class EndingRule:
         my_cnt = 0
         your_cnt = 0
         # if available == True
+        print('in end')
+        print(self.board)
+        print(self.available)
         for line in self.board:
             for i in line:
                 if i == 0:
@@ -158,9 +163,9 @@ class EndingRule:
         else:
             return True
     
-    def check_available_place():
+    def check_available_place(self):
         poss = []
-        for x, line in enumerate(board):
+        for x, line in enumerate(self.board):
             for y, i in enumerate(line):
                 if i < 0:
                     poss.append((x, y))
@@ -170,17 +175,19 @@ class EndingRule:
         availalbe2 = None
 
         if self.obj_type == 1:
-            result, _, availalbe = self.get_stones(poss, 0, 0)
+            _, _, availalbe = self.get_stones(poss, 0, 0)
         else:
             _, _, availalbe = self.get_stones(poss, 0, 0)
             _, _, availalbe2 = self.get_stones(poss, 0, 1)
-        
+            pass
+        print('availalbe', availalbe)
         if availalbe or availalbe2:
             pass
         else:
-            self.available = True
+            print('nonononono')
+            self.available = False
 
-    def get_stones(poss, whose, space):
+    def get_stones(self, poss, whose, space):
         eight_dir_poss = []
         pos_r = None
         result = None
@@ -208,15 +215,15 @@ class EndingRule:
                     if next_x > 7 or next_x < 0 or next_y > 7 or next_y < 0:
                         continue
                     if whose == 0:
-                        if board[next_x][next_y] == 0:
+                        if self.board[next_x][next_y] == 0:
                             eight_dir_poss.append((next_x, next_y))
                             result = True
                     elif whose == 1:
-                        if board[next_x][next_y] > 0:
+                        if self.board[next_x][next_y] > 0:
                             eight_dir_poss.append((next_x, next_y))
                             result = True
                     elif whose == -1:
-                        if board[next_x][next_y] < 0:
+                        if self.board[next_x][next_y] < 0:
                             eight_dir_poss.append((next_x, next_y))
                             result = True
             pos_r = pos
