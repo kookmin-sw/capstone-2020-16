@@ -47,6 +47,8 @@ function Courses(props) {
          //    console.log(response.data.challenger_name);
         })
       },[dispatch]);
+
+      posts.reverse();
    // function getProblemName(problemID){
    //    if(problemID === 1){
    //       return '세균전'
