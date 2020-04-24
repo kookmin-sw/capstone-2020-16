@@ -119,7 +119,8 @@ class GameManager:
                 else:
                     print(type(output))
                     self.error_msg = f'program error in execute user program'
-
+            
+            print('is_ending', is_ending)
             if is_ending is True and self.error_msg is None:
                 print(1)
                 if winner == 1:

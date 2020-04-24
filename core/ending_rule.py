@@ -69,6 +69,10 @@ class EndingRule:
             if len(data.ending_rule[self.obj_number]) > 1:
                 self.ending_option = data.ending_rule[self.obj_number][1]
             self.ending_message = False
+            self.available = True
+            ##
+            self.obj_rule = data.placement_rule[self.obj_number]   # [[["이동or추가", "몇번이동", "최소 or x","최대 or y"], [이동2, , ,], ["추가", "최소", "최대"]],"옵션"]
+            self.obj_type = self.obj_rule[0]
         except Exception as e:
             print(f'error in parsing user placement in ending rule : {e}')
             self.ending_message = f'error in parsing user placement in ending rule : {e}'
@@ -118,10 +122,14 @@ class EndingRule:
     def full_board(self):
         my_cnt = 0
         your_cnt = 0
+        # if available == True
         for line in self.board:
             for i in line:
                 if i == 0:
-                    return
+                    if self.available == True:
+                        return
+                    else:
+                        continue
                 elif i < 0:
                     your_cnt += 1
                 elif i > 0:
@@ -149,3 +157,67 @@ class EndingRule:
             return False
         else:
             return True
+    
+    def check_available_place():
+        poss = []
+        for x, line in enumerate(board):
+            for y, i in enumerate(line):
+                if i < 0:
+                    poss.append((x, y))
+
+        result = None
+        availalbe = None
+        availalbe2 = None
+
+        if self.obj_type == 1:
+            result, _, availalbe = self.get_stones(poss, 0, 0)
+        else:
+            _, _, availalbe = self.get_stones(poss, 0, 0)
+            _, _, availalbe2 = self.get_stones(poss, 0, 1)
+        
+        if availalbe or availalbe2:
+            pass
+        else:
+            self.available = True
+
+    def get_stones(poss, whose, space):
+        eight_dir_poss = []
+        pos_r = None
+        result = None
+        x_list = []
+        y_list = []
+        if space == 0:
+            x_list = y_list = [-1, 0, 1]
+        elif space == 1:
+            x_list = y_list = [-2, -1, 0, 1, 2]
+        while not eight_dir_poss:
+            if not poss:
+                break
+            pos = random.choice(poss)
+            poss.remove(pos)
+            for x in x_list:
+                for y in y_list:
+                    if space == 0:
+                        if x == 0 and y == 0:
+                            continue
+                    elif space == 1:
+                        if abs(x) <= 1 and abs(y) <= 1:
+                            continue
+                    next_x = pos[0] + x
+                    next_y = pos[1] + y
+                    if next_x > 7 or next_x < 0 or next_y > 7 or next_y < 0:
+                        continue
+                    if whose == 0:
+                        if board[next_x][next_y] == 0:
+                            eight_dir_poss.append((next_x, next_y))
+                            result = True
+                    elif whose == 1:
+                        if board[next_x][next_y] > 0:
+                            eight_dir_poss.append((next_x, next_y))
+                            result = True
+                    elif whose == -1:
+                        if board[next_x][next_y] < 0:
+                            eight_dir_poss.append((next_x, next_y))
+                            result = True
+            pos_r = pos
+        return result, pos_r, eight_dir_poss
