@@ -63,7 +63,7 @@ const navigationConfig = [
 				title: 'Ranking',
 				translate: 'Ranking',
 				type: 'item',
-				icon: 'ThumbUp',
+				icon: 'thumb_up',
 				url: '/ranking'
 				
 			},
