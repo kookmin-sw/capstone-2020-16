@@ -122,7 +122,7 @@ function Courses(props) {
 													 <button onClick = {() => {
 														 window.localStorage.setItem('SelectedProblemId', course.id);
 														 console.log(course.id)
-													 }}> <h3>START</h3> </button>
+													 }}> <h3>Code Submit</h3> </button>
 												</Link>
 												</CardActions>
 												

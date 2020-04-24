@@ -92,7 +92,7 @@ function CodeEditor() {
           window.localStorage.setItem('language_id', 3); window.localStorage.setItem('editor_type', 'clike');
         }
         else if(event.target.value === "c"){
-          setCode("#include <stdio.h>\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\tprintf(1, x, y);\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tscanf(\"%d\", &board[i][j]);\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
+          setCode("#include <stdio.h>\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\tprintf(\"%d %d\", x, y);\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tscanf(\"%d\", &board[i][j]);\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
           window.localStorage.setItem('language_id', 2); window.localStorage.setItem('editor_type', 'clike');
         }
         else{
