@@ -58,6 +58,15 @@ const navigationConfig = [
 
 				]
 			},
+			{
+				id: 'Ranking',
+				title: 'Ranking',
+				translate: 'Ranking',
+				type: 'item',
+				icon: 'ThumbUp',
+				url: '/ranking'
+				
+			},
 			
 			// {
 			// 	id: 'matching',

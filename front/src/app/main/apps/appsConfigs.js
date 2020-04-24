@@ -5,6 +5,7 @@ import ViewProblemConfig from './game/viewProblem/ViewProblemConfig';
 import ViewReplayConfig from './game/viewReplay/ViewReplayConfig';
 import MatchingIdx1Config from './game/matching1/MatchingIdx1Config';
 import MatchingIdx2Config from './game/matching2/MatchingIdx2Config';
+import RankingConfig from './game/ranking/RankingConfig';
 // import CalendarAppConfig from './calendar/CalendarAppConfig';
 import ChatAppConfig from './chat/ChatAppConfig';
 // import ContactsAppConfig from './contacts/ContactsAppConfig';
@@ -35,7 +36,8 @@ const appsConfigs = [
 	ReplayConfig,
 	ProblemConfig,
 	BattleConfig,
-	NotesAppConfig
+	NotesAppConfig,
+	RankingConfig
 ];
 
 export default appsConfigs;
