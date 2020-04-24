@@ -4,7 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 
-import RankingTable from './components/RankingTable'
+// import RankingTable from './components/RankingTable'
+import RankingGrid from './components/RankingGrid'
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -47,7 +48,7 @@ function RankingPage(props) {
                  </Typography>
               </FuseAnimate>
            </div>
-           <RankingTable/>
+           <RankingGrid/>
         </div>
      );
 }
