@@ -1,6 +1,7 @@
 import json
 
 import django_filters
+from django.contrib.auth.models import User
 from onepanman_api.permissions import UserReadOnly
 from rest_framework import viewsets, status
 
@@ -23,6 +24,7 @@ class UserInformationInProblemViewSet(viewsets.ModelViewSet):
 
     permission_classes = [UserReadOnly]
 
+
 class MyUserInformationInProblemView(APIView):
 
     permission_classes = [UserReadOnly]
@@ -31,5 +33,24 @@ class MyUserInformationInProblemView(APIView):
 
         queryset = UserInformationInProblem.objects.all().filter(user=request.user.pk)
         serializer = UserInformationInProblemSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+class rank(APIView):
+
+    permission_classes = [UserReadOnly]
+
+    def get(self, request, version):
+
+        queryset = UserInformationInProblem.objects.all().filter(problem=request.query_params['problem'])
+        serializer = UserInformationInProblemSerializer(queryset, many=True)
+
+        print(serializer.data[0])
+        users = User.objects.all()
+        data = serializer.data
+
+        for i in range(len(data)):
+            user = users.filter(pk=data[i]['user'])[0]
+            data[i]["username"] = user.username
 
         return Response(serializer.data)

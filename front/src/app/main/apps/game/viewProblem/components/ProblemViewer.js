@@ -37,7 +37,7 @@ export default class Test extends Component {
 
     return (
       <React.Fragment>
-        <div className="flex">
+        <div className="flex" style={{justifyContent:'space-between'}}>
           <ButtonGroup
             variant="contained"
             color="primary"
@@ -50,9 +50,9 @@ export default class Test extends Component {
               NEXT
             </Button>
           </ButtonGroup>
-          {/* <p>
+          <p>
             Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
-          </p> */}
+          </p>
         </div>
         <Document
           file={`/assets/PDF/${tmp}.pdf`}
