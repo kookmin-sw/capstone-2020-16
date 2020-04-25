@@ -53,10 +53,6 @@ class Match(APIView):
         for e_id in exclude_list:
             queryset_up.exclude(id=e_id)
 
-        print(queryset_up)
-        print(type(queryset_up))
-        print(type(queryset_up[0]))
-
         challenger_code = Code.objects.all().filter(id=codeid)[0]
 
         # 유저가 게임중이면
@@ -107,7 +103,7 @@ class Match(APIView):
                 print(len(high_scores))
                 print("매칭 에러 : {}".format(e))
 
-            check = self.checkValid(opposite.user.pk, problemid, opposite.code.id)
+            check, error_msg = self.checkValid(opposite.user.pk, problemid, opposite.code.id)
             if check is True:
                 break
 
@@ -211,27 +207,32 @@ class Match(APIView):
         user_uiip = UserInformationInProblem.objects.all().filter(user=userid, problem=problemid)[0]
 
         if user_uiip.playing is True:
-            return False
+            error_msg = "user is playing"
+            print(error_msg)
+            return False, error_msg
 
         if len(user_code) < 1:
-            print("No exist code")
-            return False
+            error_msg = "No exist code"
+            print(error_msg)
+            return False, error_msg
 
         user_code = user_code[0]
 
         available = user_code.available_game
 
         if available is False:
-            print("No available code")
-            return False
+            error_msg = "No available code"
+            print(error_msg)
+            return False, error_msg
 
         problemInCode = user_code.problem.pk
 
         if int(problemid) is not problemInCode:
-            print("not matching problem with code")
-            return False
+            error_msg = "not matching problem with code"
+            print(error_msg)
+            return False, error_msg
 
-        return True
+        return True, "OK"
 
     def post(self, request, version):
         try:
@@ -246,9 +247,9 @@ class Match(APIView):
             print("get function {}".format(e))
             return Response({"error": "유저, 문제, 코드 정보 가 유효하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
-        check = self.checkValid(userid, problemid, codeid)
+        check, error_msg = self.checkValid(userid, problemid, codeid)
         if check is False:
-            return Response({"error" : "정보가 유효하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error" : error_msg}, status=status.HTTP_400_BAD_REQUEST)
 
         matchInfo, scores = self.match(userid, problemid, codeid)
 

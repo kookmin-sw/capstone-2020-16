@@ -42,7 +42,7 @@ class rank(APIView):
 
     def get(self, request, version):
 
-        queryset = UserInformationInProblem.objects.all().filter(problem=request.query_params['problem'])
+        queryset = UserInformationInProblem.objects.all().filter(problem=request.query_params['problem']).order_by('-score')
         serializer = UserInformationInProblemSerializer(queryset, many=True)
 
         print(serializer.data[0])
