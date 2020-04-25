@@ -38,32 +38,32 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(ranking, tier, username, score) {
-  return { ranking, tier, username, score };
-}
+// function createData(ranking, tier, username, score) {
+//   return { ranking, tier, username, score };
+// }
 
-const rows = [
-  createData('1', 'challenger', 'asdfasdf', 24, 4.0),
-  createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
-  createData('3', 'gold', '환장하겟네', 24, 6.0),
-  createData('4', 'silver', '바큐', 67, 4.3),
-  createData('5', 'bronze', 'kkkkkk', 49, 3.9),
-  createData('1', 'challenger', 'asdfasdf', 24, 4.0),
-  createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
-  createData('3', 'gold', '환장하겟네', 24, 6.0),
-  createData('4', 'silver', '바큐', 67, 4.3),
-  createData('5', 'bronze', 'kkkkkk', 49, 3.9),
-  createData('1', 'challenger', 'asdfasdf', 24, 4.0),
-  createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
-  createData('3', 'gold', '환장하겟네', 24, 6.0),
-  createData('4', 'silver', '바큐', 67, 4.3),
-  createData('5', 'bronze', 'kkkkkk', 49, 3.9),
-  createData('1', 'challenger', 'asdfasdf', 24, 4.0),
-  createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
-  createData('3', 'gold', '환장하겟네', 24, 6.0),
-  createData('4', 'silver', '바큐', 67, 4.3),
-  createData('5', 'bronze', 'kkkkkk', 49, 3.9),
-];
+// const rows = [
+//   createData('1', 'challenger', 'asdfasdf', 24, 4.0),
+//   createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
+//   createData('3', 'gold', '환장하겟네', 24, 6.0),
+//   createData('4', 'silver', '바큐', 67, 4.3),
+//   createData('5', 'bronze', 'kkkkkk', 49, 3.9),
+//   createData('1', 'challenger', 'asdfasdf', 24, 4.0),
+//   createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
+//   createData('3', 'gold', '환장하겟네', 24, 6.0),
+//   createData('4', 'silver', '바큐', 67, 4.3),
+//   createData('5', 'bronze', 'kkkkkk', 49, 3.9),
+//   createData('1', 'challenger', 'asdfasdf', 24, 4.0),
+//   createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
+//   createData('3', 'gold', '환장하겟네', 24, 6.0),
+//   createData('4', 'silver', '바큐', 67, 4.3),
+//   createData('5', 'bronze', 'kkkkkk', 49, 3.9),
+//   createData('1', 'challenger', 'asdfasdf', 24, 4.0),
+//   createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
+//   createData('3', 'gold', '환장하겟네', 24, 6.0),
+//   createData('4', 'silver', '바큐', 67, 4.3),
+//   createData('5', 'bronze', 'kkkkkk', 49, 3.9),
+// ];
 
 const useStyles = makeStyles({
   table: {
@@ -75,18 +75,19 @@ const useStyles = makeStyles({
   },
 });
 
-function RankingTable() {
+function RankingTable(props) {
   const classes = useStyles();
   React.useEffect(()=>{
-      axios.get('http://203.246.112.32:8000/api/v1/userInformationInProblem/', {headers: {'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')}})
+      axios.get(`http://203.246.112.32:8000/api/v1/rank/?problem=${props.id}`, {headers: {'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')}})
         .then((response)=>{
-            console.log(response);
+            console.log(response.data);
+            setRow(response.data)
         })
         .catch((error)=>{
             console.log(error);
         });
-  });
-  const [row, setRow] = React.useState('top');
+  },[]);
+  const [rows, setRow] = React.useState([]);
 
   return (
     <TableContainer className={classes.container} component={Paper}>
@@ -101,12 +102,12 @@ function RankingTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => {
-              if(row.username === '바큐'){
+          {rows.map((row, index) => {
+              if(row.user === parseInt(window.localStorage.getItem('pk'))){
                   return (
-                    <StyledTableRow key={row.ranking}>
+                    <StyledTableRow key={row.user}>
                     <StyledTableCellMe align="center" component="th" scope="row">
-                        {row.ranking}
+                        {index+1}
                     </StyledTableCellMe>
                     <StyledTableCellMe align="left">{row.tier}</StyledTableCellMe>
                     <StyledTableCellMe align="left">{row.username}</StyledTableCellMe>
@@ -117,9 +118,9 @@ function RankingTable() {
               }
               else{
                   return(
-                    <StyledTableRow key={row.ranking}>
+                    <StyledTableRow key={row.user}>
                     <StyledTableCell align="center" component="th" scope="row">
-                        {row.ranking}
+                        {index+1}
                     </StyledTableCell>
                     <StyledTableCell align="left">{row.tier}</StyledTableCell>
                     <StyledTableCell align="left">{row.username}</StyledTableCell>
