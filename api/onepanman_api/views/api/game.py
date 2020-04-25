@@ -42,6 +42,8 @@ class GameViewSet(viewsets.ModelViewSet):
             "record": "0",
             "challenger_name": data['challenger_name'],
             "opposite_name": data['opposite_name'],
+            "challenger_score": games.challenger_score + c_score,
+            "opposite_score": games.opposite_score + o_score,
             "challenger_score_flu": c_score,
             "opposite_score_flu": o_score
         }
@@ -57,7 +59,6 @@ class GameViewSet(viewsets.ModelViewSet):
 
     def game_error(self, data):
         result = data["result"]
-        print(data)
         queryset = UserInformationInProblem.objects.all()
         codeset = Code.objects.all()
 
@@ -71,6 +72,11 @@ class GameViewSet(viewsets.ModelViewSet):
             normal_user = queryset.filter(user=data["challenger"], problem=data["problem"])[0]
             error_code = codeset.filter(id=data["opposite_code"])[0]
             normal_code = codeset.filter(id=data["challenger_code"])[0]
+
+        if result =="challenger_error":
+            self.game_score(data, -50, 20)
+        else:
+            self.game_score(data, 20, -50)
 
         try:
             # update code to not available to game
@@ -140,11 +146,6 @@ class GameViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             print("game_error - normal user's score error : {}".format(e))
-
-        if result =="challenger_error":
-            self.game_score(data, -50, 20)
-        else:
-            self.game_score(data, 20, -50)
 
         # save
         error_user.save()
@@ -256,6 +257,8 @@ class GameViewSet(viewsets.ModelViewSet):
         game_data = Game.objects.all().filter(id=data["id"])[0]
         data["challenger_score_flu"] = game_data.challenger_score_flu
         data["opposite_score_flu"] = game_data.opposite_score_flu
+        data["challenger_score"] = game_data.challenger_score
+        data["opposite_score"] = game_data.opposite_score
         return Response(data)
 
 
