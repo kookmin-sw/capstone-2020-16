@@ -7,6 +7,18 @@ import React, { useState} from 'react';
 import { Link } from 'react-router-dom';
 // import * as Actions from 'app/auth/store/actions';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
+
 // import { useSelector } from 'react-redux';
 // require('codemirror/lib/codemirror.css');
 // require('codemirror/theme/material.css');
@@ -47,7 +59,7 @@ function codePost(userid, problemid, code, languageid, codename){
 
 
 function CodeEditor() {
-
+  const classes = useStyles();
     // useEffect (() => {
     //   return () =>{
     //     window.localStorage.removeItem('editor_type');
@@ -59,7 +71,11 @@ function CodeEditor() {
       problemid = window.localStorage.getItem('SelectedProblemId');
     }
     // console.log(problemid);
-   
+    const [value, setValue] = React.useState('My_Code');
+
+    const handleChange = (event) => {
+      setValue(event.target.value);
+    };
   
     const [code, setCode] = useState(
         "Select Programming language first!!!!");
@@ -137,13 +153,28 @@ function CodeEditor() {
             // console.log(value);
           }}
         />
-    <div className="mx-auto sm:px-16">
+　
+        <div className="mx-auto sm:px-256">
+
+
+
+        </div>
+    <div className="mx-auto sm:px-256">
+    <TextField
+          id="outlined-multiline-flexible"
+          label="Code Name"
+          multiline
+          rowsMax={4}
+          value={value}
+          onChange={handleChange}
+          variant="outlined"
+        />   
     <Link className="font-medium"												
         to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
         //  console.log(code)
-         codePost(parseInt(window.localStorage.getItem('pk')), problemid, code, parseInt(window.localStorage.getItem('language_id')), "testCode")}
+         codePost(parseInt(window.localStorage.getItem('pk')), problemid, code, parseInt(window.localStorage.getItem('language_id')), value)}
         }									 
        style={{
          textAlign: 'center',
