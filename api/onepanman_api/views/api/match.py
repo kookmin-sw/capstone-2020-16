@@ -75,32 +75,32 @@ class Match(APIView):
                 if len(queryset_up) < 1:
                     return {"error": "게임을 진행할 코드가 없습니다."}, 0
 
-                elif len(queryset_up) < 6:     # 게임을 플레이한 사람이 6명 미만인 경우
-                    opposite_index = random.randint(0, len(queryset_up)-1)
+                # elif len(queryset_up) < 6:     # 게임을 플레이한 사람이 6명 미만인 경우
+                opposite_index = random.randint(0, len(queryset_up)-1)
 
-                    opposite = queryset_up[opposite_index]
+                opposite = queryset_up[opposite_index]
 
-                elif len(high_scores) < 3:  # challenger가 top3인 경우 ( 위에 3명이 없는 경우 )
-                    opposite_list = high_scores[:]
-                    low_range = (3 + (3 - len(high_scores)))
-                    opposite_list += low_scores[:low_range]
-                    opposite_index = random.randint(0, 5)
-
-                    opposite = opposite_list[opposite_index]
-
-                elif len(low_scores) < 3:  # challenger가 최하위권인 경우 ( 아래에 3명이 없는 경우 )
-                    opposite_list = low_scores[:]
-                    high_range = len(high_scores) - (3 + (3 - len(low_scores)))
-                    opposite_list += high_scores[high_range:]
-                    opposite_index = random.randint(0, 5)
-                    # print("low length : {} , high length : {} , index : {} , list length : {} , high range : {}".format(len(low_scores), len(high_scores), opposite_index, len(opposite_list), high_range))
-                    opposite = opposite_list[opposite_index]
-
-                else:
-                    high_range = len(high_scores) -3
-                    opposite_list = high_scores[high_range:] + low_scores[:3]
-                    opposite_index = random.randint(0, 5)
-                    opposite = opposite_list[opposite_index]
+                # elif len(high_scores) < 3:  # challenger가 top3인 경우 ( 위에 3명이 없는 경우 )
+                #     opposite_list = high_scores[:]
+                #     low_range = (3 + (3 - len(high_scores)))
+                #     opposite_list += low_scores[:low_range]
+                #     opposite_index = random.randint(0, 5)
+                #
+                #     opposite = opposite_list[opposite_index]
+                #
+                # elif len(low_scores) < 3:  # challenger가 최하위권인 경우 ( 아래에 3명이 없는 경우 )
+                #     opposite_list = low_scores[:]
+                #     high_range = len(high_scores) - (3 + (3 - len(low_scores)))
+                #     opposite_list += high_scores[high_range:]
+                #     opposite_index = random.randint(0, 5)
+                #     # print("low length : {} , high length : {} , index : {} , list length : {} , high range : {}".format(len(low_scores), len(high_scores), opposite_index, len(opposite_list), high_range))
+                #     opposite = opposite_list[opposite_index]
+                #
+                # else:
+                #     high_range = len(high_scores) -3
+                #     opposite_list = high_scores[high_range:] + low_scores[:3]
+                #     opposite_index = random.randint(0, 5)
+                #     opposite = opposite_list[opposite_index]
 
             except Exception as e:
                 print(type(high_scores))
