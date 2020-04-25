@@ -268,7 +268,7 @@ class MyGameView(APIView):
 
     def get(self, request, version):
 
-        queryset = Game.objects.all().select_related('problem').filter(Q(challenger=request.user.pk) | Q(opposite=request.user.pk)).order_by('-date')
+        queryset = Game.objects.all().select_related('problem').filter(Q(challenger=request.user.pk) | Q(opposite=request.user.pk))
         serializer = GameSerializer(queryset, many=True)
 
         problems = Problem.objects.all()
