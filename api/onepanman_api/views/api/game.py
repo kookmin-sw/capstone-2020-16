@@ -54,6 +54,8 @@ class GameViewSet(viewsets.ModelViewSet):
 
         games.challenger_score_flu = valid_data["challenger_score_flu"]
         games.opposite_score_flu = valid_data["opposite_score_flu"]
+        games.challenger_score = valid_data["challenger_score"]
+        games.opposite_score = valid_data["opposite_score"]
 
         games.save()
 
