@@ -94,7 +94,7 @@ export default function MatchingIdx1() {
       }
       const config = {
          'method' : 'POST',
-         'url': 'http://203.246.112.32:8000/api/v1/match/',
+         'url': 'http://127.0.0.1:8000/api/v1/match/',
          'headers': {
             'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
           },
@@ -119,14 +119,14 @@ export default function MatchingIdx1() {
             setGameStatus('playing...');
          }
          else{
-            setGameStatus('matching error...!');
+            setGameStatus(`${data.error}`);
          }
 
         
   
       })
       .catch(error => {
-         // console.log(`match error : ${error}`);
+         console.log(`match error : ${error.data}`);
          setGameStatus('matching error...!');
       })
    }
