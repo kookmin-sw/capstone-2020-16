@@ -193,10 +193,10 @@ export default function MatchingIdx1() {
                setCodelist(code);
             }
             else{
-               var code = [];
-               code.push(codelist[codelist.length-1]);
+               // var code = [];
+               // code.push(codelist[codelist.length-1]);
                // console.log(code);
-               setCodelist(code);
+               setCodelist(codelist);
             }
            
             return codelist;
@@ -221,10 +221,10 @@ export default function MatchingIdx1() {
                setCodelist(code);
             }
             else{
-               var code = [];
-               code.push(codelist[codelist.length-1]);
+               // var code = [];
+               // code.push(codelist[codelist.length-1]);
                // console.log(code);
-               setCodelist(code);
+               setCodelist(codelist);
             }
            
             return codelist;
