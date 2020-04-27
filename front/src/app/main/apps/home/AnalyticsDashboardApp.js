@@ -52,13 +52,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const slideImages = [
-  "assets/images/profile/10.jpeg",
-  "assets/images/profile/11.jpeg",
-  "assets/images/profile/12.jpeg",
-  "assets/images/profile/13.jpeg",
-  "assets/images/profile/14.jpeg",
-  "assets/images/profile/15.jpeg",
-  "assets/images/profile/16.jpeg",
+  "assets/images/profile/1.jpg",
+  "assets/images/profile/2-1.jpg",
+  "assets/images/profile/3.jpg",
+  "assets/images/profile/4.jpg",
+  "assets/images/profile/5.jpg",
+  "assets/images/profile/6.jpg",
+  "assets/images/profile/7.jpg",
   "assets/images/profile/17.jpeg",
   "assets/images/profile/18.jpeg",
 ];

@@ -1,6 +1,7 @@
 .slide-container {
-  height: 100%;
+  
   width: 100%;
+  height: 100%;
   resize: cover;
   margin: auto; }
 
@@ -12,7 +13,7 @@ h3 {
   align-items: center;
   justify-content: center;
   background-size: cover;
-  height: 400px;
+  height: 500px;
 }
 
 .each-slide span {
