@@ -9,5 +9,8 @@ out
 gen
 api/
 front/
-
-
+Cache/
+Backups/
+User/
+TransportSecurity
+storage.json

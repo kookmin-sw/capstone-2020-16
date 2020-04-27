@@ -126,7 +126,7 @@ class PlacementRule:
                 return False
             elif int(self.obj_number) < 0 :
                 self.placement_message = f'It is not your stone : {self.x1, self.y1}'
-
+                return False
         if self.board[self.x][self.y] > 0:
             self.placement_message = f'There is already a stone {self.x, self.y}'
             return False
