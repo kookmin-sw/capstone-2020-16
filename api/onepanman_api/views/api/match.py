@@ -208,7 +208,6 @@ class Match(APIView):
 
         if user_uiip.playing is True:
             error_msg = "이미 게임 중 입니다."
-
             print(error_msg)
             return False, error_msg
 
@@ -250,8 +249,6 @@ class Match(APIView):
 
         check, error_msg = self.checkValid(userid, problemid, codeid)
         if check is False:
-            return Response({"error" : error_msg}, status=status.HTTP_400_BAD_REQUEST)
-
             return Response({"error" : error_msg})
 
         matchInfo, scores = self.match(userid, problemid, codeid)
