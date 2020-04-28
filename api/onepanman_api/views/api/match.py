@@ -108,7 +108,7 @@ class Match(APIView):
                 break
 
         if check is False:
-            return {"error": "매칭 상대 없음"}, 0
+            return {"error": "매칭 상대가 없습니다."}, 0
 
         # 문제 규칙 정보 추가
         problems = Problem.objects.all().filter(id=problemid)
@@ -207,12 +207,13 @@ class Match(APIView):
         user_uiip = UserInformationInProblem.objects.all().filter(user=userid, problem=problemid)[0]
 
         if user_uiip.playing is True:
-            error_msg = "user is playing"
+            error_msg = "이미 게임 중 입니다."
+
             print(error_msg)
             return False, error_msg
 
         if len(user_code) < 1:
-            error_msg = "No exist code"
+            error_msg = "코드가 존재하지 않습니다."
             print(error_msg)
             return False, error_msg
 
@@ -221,14 +222,14 @@ class Match(APIView):
         available = user_code.available_game
 
         if available is False:
-            error_msg = "No available code"
+            error_msg = "게임 가능한 코드가 아닙니다."
             print(error_msg)
             return False, error_msg
 
         problemInCode = user_code.problem.pk
 
         if int(problemid) is not problemInCode:
-            error_msg = "not matching problem with code"
+            error_msg = "코드와 문제가 맞지 않습니다."
             print(error_msg)
             return False, error_msg
 
@@ -251,15 +252,17 @@ class Match(APIView):
         if check is False:
             return Response({"error" : error_msg}, status=status.HTTP_400_BAD_REQUEST)
 
+            return Response({"error" : error_msg})
+
         matchInfo, scores = self.match(userid, problemid, codeid)
 
         if "error" in matchInfo:
-            return Response(matchInfo, status=status.HTTP_400_BAD_REQUEST)
+            return Response(matchInfo)
 
         matchInfo = self.get_GameId(matchInfo, scores)
 
         if "error" in matchInfo:
-            return Response(matchInfo, status=status.HTTP_400_BAD_REQUEST)
+            return Response(matchInfo)
 
         return GetCoreResponse(matchInfo)
 
