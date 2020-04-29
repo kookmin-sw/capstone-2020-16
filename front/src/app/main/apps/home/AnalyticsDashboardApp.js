@@ -15,6 +15,68 @@ import Widget6 from './widgets/Widget6';
 // import Widget8 from './widgets/Widget8';
 import Widget9 from './widgets/Widget9';
 
+import './components/popup.css';
+import { makeStyles } from "@material-ui/core/styles";
+import Divider from "@material-ui/core/Divider";
+import Button from "@material-ui/core/Button";
+import Modal from '@material-ui/core/Modal';
+import { Slide } from "react-slideshow-image";
+import { autoPlay } from 'react-swipeable-views-utils';
+
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}//----------------------------------------------
+
+
+// UseStyles
+const useStyles = makeStyles(theme => ({
+  // Modal paper 
+  paper: {
+    position: 'absolute',
+    width: 1000,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
+
+const slideImages = [
+  "assets/images/profile/1.jpg",
+  "assets/images/profile/2-1.jpg",
+  "assets/images/profile/3.jpg",
+  "assets/images/profile/4.jpg",
+  "assets/images/profile/5.jpg",
+  "assets/images/profile/6.jpg",
+  "assets/images/profile/7.jpg",
+  "assets/images/profile/8.jpg",
+  "assets/images/profile/9.jpg",
+];
+
+const properties = {
+  duration: 5000,
+  transitionDuration: 500,
+  infinite: true,
+  indicators: true,
+  arrows: true,
+  pauseOnHover: true,
+  onChange: (oldIndex, newIndex) => {
+    console.log(`slide transition from ${oldIndex} to ${newIndex}`);
+  },
+};
+
+
 function AnalyticsDashboardApp() {
 	const dispatch = useDispatch();
 	const widgets = useSelector(({ analyticsDashboardApp }) => analyticsDashboardApp.widgets.data);
