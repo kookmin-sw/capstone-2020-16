@@ -59,8 +59,8 @@ const slideImages = [
   "assets/images/profile/5.jpg",
   "assets/images/profile/6.jpg",
   "assets/images/profile/7.jpg",
-  "assets/images/profile/17.jpeg",
-  "assets/images/profile/18.jpeg",
+  "assets/images/profile/8.jpg",
+  "assets/images/profile/9.jpg",
 ];
 
 const properties = {
