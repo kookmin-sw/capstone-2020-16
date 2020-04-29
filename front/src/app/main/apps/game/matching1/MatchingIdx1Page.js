@@ -193,10 +193,13 @@ export default function MatchingIdx1() {
                setCodelist(code);
             }
             else{
-               // var code = [];
-               // code.push(codelist[codelist.length-1]);
-               // console.log(code);
-               setCodelist(codelist);
+               
+               if (codelist.length > 10){
+                  setCodelist(codelist.slice(codelist.length-10,codelist.length))
+               }
+               else{
+                  setCodelist(codelist);
+               }
             }
            
             return codelist;
@@ -221,10 +224,14 @@ export default function MatchingIdx1() {
                setCodelist(code);
             }
             else{
-               // var code = [];
-               // code.push(codelist[codelist.length-1]);
-               // console.log(code);
-               setCodelist(codelist);
+            
+               if (codelist.length > 10){
+                  setCodelist(codelist.slice(codelist.length-10,codelist.length))
+               }
+               else{
+                  setCodelist(codelist);
+               }
+               
             }
            
             return codelist;
