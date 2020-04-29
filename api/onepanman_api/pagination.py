@@ -54,3 +54,8 @@ class AppPagination(pagination.PageNumberPagination):
                 self.page_query_param,
                 self.page.paginator.num_pages,
             )
+
+class CodePagination(pagination.PageNumberPagination):
+    page_size = 15
+    page_query_param = 'page_size'
+    max_page_size = 1000
