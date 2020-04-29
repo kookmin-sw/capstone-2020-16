@@ -195,7 +195,7 @@ export default function MatchingIdx1() {
             else{
                
                if (codelist.length > 10){
-                  setCodelist(codelist.slice(codelist.length-11,codelist.length))
+                  setCodelist(codelist.slice(codelist.length-10,codelist.length))
                }
                else{
                   setCodelist(codelist);
@@ -226,7 +226,7 @@ export default function MatchingIdx1() {
             else{
             
                if (codelist.length > 10){
-                  setCodelist(codelist.slice(codelist.length-11,codelist.length-1))
+                  setCodelist(codelist.slice(codelist.length-10,codelist.length))
                }
                else{
                   setCodelist(codelist);
