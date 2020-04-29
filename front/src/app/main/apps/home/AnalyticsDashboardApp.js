@@ -14,6 +14,7 @@ import Widget6 from './widgets/Widget6';
 // import Widget7 from './widgets/Widget7';
 // import Widget8 from './widgets/Widget8';
 import Widget9 from './widgets/Widget9';
+
 import './components/popup.css';
 import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
@@ -76,25 +77,9 @@ const properties = {
 };
 
 
-
 function AnalyticsDashboardApp() {
 	const dispatch = useDispatch();
-  const widgets = useSelector(({ analyticsDashboardApp }) => analyticsDashboardApp.widgets.data);
-  const classes = useStyles();
-
-  // Modal constants
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-
+	const widgets = useSelector(({ analyticsDashboardApp }) => analyticsDashboardApp.widgets.data);
 
 	useEffect(() => {
 		dispatch(Actions.getWidgets());
@@ -104,90 +89,19 @@ function AnalyticsDashboardApp() {
 		return null;
 	}
 	return (
-    <div className="w-full">
-      <div className="mx-auto sm:px-16">
-        <Button
-          onClick={handleOpen}
-          style={{
-            textAlign: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 10,
-            marginBottom: 10,
-            paddingLeft: 40,
-            paddingRight: 40,
-            height: 40,
-          }}
-          variant="contained"
-          color="primary"
-        >
-          ㅇㅅㅇ 서비스 이용 안내 가이드
-        </Button>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={open}
-          onClose={handleClose}
-        >
-          <div style={modalStyle} className={classes.paper}>
-            {/* <h2 id="simple-modal-title">ㅇㅅㅇ 서비스 이용 안내 가이드</h2>
-            <Divider orientation="horizental" flexItem /> */}
-            <div className="slide-container">
-              <Slide {...properties}>
-                <div className="each-slide">
-                  <div style={{ backgroundImage: `url(${slideImages[0]})` }}>
-                  </div>
-                </div>
-                <div className="each-slide">
-                  <div style={{ backgroundImage: `url(${slideImages[1]})` }}>
-                  </div>
-                </div>
-                <div className="each-slide">
-                  <div style={{ backgroundImage: `url(${slideImages[2]})` }}>
-                  </div>
-                </div>
-                <div className="each-slide">
-                  <div style={{ backgroundImage: `url(${slideImages[3]})` }}>
-                  </div>
-                </div>
-                <div className="each-slide">
-                  <div style={{ backgroundImage: `url(${slideImages[4]})` }}>
-                  </div>
-                </div>
-                <div className="each-slide">
-                  <div style={{ backgroundImage: `url(${slideImages[5]})` }}>
-                  </div>
-                </div>
-                <div className="each-slide">
-                  <div style={{ backgroundImage: `url(${slideImages[6]})` }}>
-                  </div>
-                </div>
-                <div className="each-slide">
-                  <div style={{ backgroundImage: `url(${slideImages[7]})` }}>
-                  </div>
-                </div>
-                <div className="each-slide">
-                  <div style={{ backgroundImage: `url(${slideImages[8]})` }}>
-                  </div>
-                </div>
-              </Slide>
-            </div>
-          </div>
-        </Modal>
-      </div>
+		<div className="w-full">
+			<Widget1 data={widgets.widget1} />
 
-      <Widget1 data={widgets.widget1} />
+			<FuseAnimate animation="transition.slideUpIn" delay={200}>
+				<div className="flex flex-col md:flex-row sm:p-8 container">
+					<div className="flex flex-1 flex-col min-w-0">
+						<FuseAnimate delay={600}>
+							<Typography className="p-0 pb-0 text-18 font-0">
+								{/* S */}
+							</Typography>
+						</FuseAnimate>
 
-      <FuseAnimate animation="transition.slideUpIn" delay={200}>
-        <div className="flex flex-col md:flex-row sm:p-8 container">
-          <div className="flex flex-1 flex-col min-w-0">
-            <FuseAnimate delay={600}>
-              <Typography className="p-0 pb-0 text-18 font-0">
-                {/* S */}
-              </Typography>
-            </FuseAnimate>
-
-            {/* <div className="flex flex-col sm:flex sm:flex-row pb-32">
+						{/* <div className="flex flex-col sm:flex sm:flex-row pb-32">
 							<div className="widget flex w-full sm:w-1/3 p-16">
 							{/* <Router>
 								<div>
@@ -196,36 +110,38 @@ function AnalyticsDashboardApp() {
 									</Link>
 								</div>
 							</Router> */}
+					
 
-            {/* <div className="widget flex w-full sm:w-1/3 p-16">
+							{/* <div className="widget flex w-full sm:w-1/3 p-16">
 								<Widget3 data={widgets.widget3} />
 							</div>
 
 							<div className="widget w-full sm:w-1/3 p-16">
 								<Widget4 data={widgets.widget4} />
 							</div> */}
+						
 
-            <FuseAnimate delay={600}>
-              <Typography className="px-18 pb-8 tex-30 font-900">
-                <h1>Community</h1>
-              </Typography>
-            </FuseAnimate>
+						<FuseAnimate delay={600}>
+							<Typography className="px-18 pb-8 tex-30 font-900">
+								<h1>Community</h1>
+							</Typography>
+						</FuseAnimate>
 
-            <div className="widget w-full p-16 pb-32">
-              <Widget5 data={widgets.widget5} />
-            </div>
+						<div className="widget w-full p-16 pb-32">
+							<Widget5 data={widgets.widget5} />
+						</div>
 
-            {/* <FuseAnimate delay={600}>
+						{/* <FuseAnimate delay={600}>
 							<Typography className="px-16 pb-8 text-18 font-300">Where are your users?</Typography>
 						</FuseAnimate> */}
 
-            <div className="widget w-full p-16 pb-32">
-              <Widget6 data={widgets.widget6} />
-            </div>
-          </div>
+						<div className="widget w-full p-16 pb-32">
+							<Widget6 data={widgets.widget6} />
+						</div>
+					</div>
 
-          <div className="flex flex-wrap w-full md:w-320 pt-16">
-            {/* <div className="mb-32 w-full sm:w-1/2 md:w-full">
+					<div className="flex flex-wrap w-full md:w-320 pt-16">
+						{/* <div className="mb-32 w-full sm:w-1/2 md:w-full">
 							<FuseAnimate delay={600}>
 								<Typography className="px-16 pb-8 text-18 font-300">
 									What are your top devices?
@@ -247,23 +163,21 @@ function AnalyticsDashboardApp() {
 							</div>
 						</div> */}
 
-            <div className="mb-32 w-full sm:w-1/2 md:w-full">
-              <FuseAnimate delay={600}>
-                <Typography className="px-16 pb-8 text-18 font-900 lg:pt-0">
-                  <h1>RANK</h1>
-                </Typography>
-              </FuseAnimate>
-              <div className="widget w-full p-16">
-                <Widget9 data={widgets.widget9} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </FuseAnimate>
-    </div>
-  );
+						<div className="mb-32 w-full sm:w-1/2 md:w-full">
+							<FuseAnimate delay={600}>
+								<Typography className="px-16 pb-8 text-18 font-900 lg:pt-0">
+									<h1>RANK</h1>
+								</Typography>
+							</FuseAnimate>
+							<div className="widget w-full p-16">
+								<Widget9 data={widgets.widget9} />
+							</div>
+						</div>
+					</div>
+				</div>
+			</FuseAnimate>
+		</div>
+	);
 }
-
-
 
 export default withReducer('analyticsDashboardApp', reducer)(AnalyticsDashboardApp);
