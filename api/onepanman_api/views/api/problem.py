@@ -1,5 +1,6 @@
 from onepanman_api.permissions import ReadAll
 from rest_framework import viewsets, status
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from . import mixins
 
@@ -14,6 +15,7 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
     http_method_names = ['get', 'post', 'delete', 'put']
 
     permission_classes = [ReadAll]
+    parser_classes = (MultiPartParser, FormParser)
 
     def list(self, request, *args, **kwargs):
         queryset = models.Problem.objects.all()
