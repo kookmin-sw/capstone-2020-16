@@ -282,4 +282,4 @@ class MyGameView(APIView):
             problem = problems.filter(id=problemid)[0]
             data[i]['title'] = problem.title
 
-        return Response(serializer.data[:50])
+        return Response(serializer.data[-50:])
