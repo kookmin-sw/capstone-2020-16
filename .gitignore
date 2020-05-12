@@ -7,3 +7,19 @@
 *.iml
 out
 gen
+
+front
+api
+Network Persistent State
+TransportSecurity
+core/challenger
+core/challenger.cpp
+core/error_json/
+core/test_match.py
+rapid_render.json
+storage.json
+logs
+Cache/
+User/
+api/onepanman_api/util/
+front/src/app/store/reducers/getProblemId/getProblem.reducer.js
