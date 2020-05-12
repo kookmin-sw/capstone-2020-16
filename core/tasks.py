@@ -41,3 +41,20 @@ def play_game(data):
     volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
     client.containers.run(image=docker_img, volumes=volumes, auto_remove=True, privileged=True)#, tty=True, stdin_open=True)
 
+@app.task
+def test_code(data):
+    print('run container_for_test_code')
+    client = docker.from_env()
+    # containers_num = len(client.containers.list())
+
+    # while containers_num >= cpu_num:
+    #     time.sleep(1)
+    #     print('not enough cpu_num. waiting.....')
+    f_dir = os.getcwd() + '/testcode'
+    file_name = 'matchdata.json' + str(time.time())
+    match_data_file_path = os.path.join(f_dir, file_name)
+    with open(match_data_file_path, 'w') as f:
+        json.dump(data, f)
+    time.time()
+    volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
+    client.containers.run(image=docker_img, volumes=volumes, auto_remove=True, privileged=True)#, tty=True, stdin_open=True)

@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 
 from gamemanager import GameManager
 from gamemanager import test
@@ -36,6 +37,12 @@ def test_code(data):
     if result == 'finish':
         available = True
 
-    r = requests.patch(update_url, data={"available_game": available})
+    # r = requests.patch(update_url, data={"available_game": available})
 
+if __name__ == '__main__':
+    # json_data = json.loads(sys.argv[1])
+
+    with open('matchdata.json') as json_file:
+        json_data = json.load(json_file)
+    test_code(json_data)
 

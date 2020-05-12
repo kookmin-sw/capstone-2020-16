@@ -14,12 +14,11 @@ def test():
     print('test')
 
 class GameManager:
-    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num, test_case):
+    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num):
         self.board = np.zeros((board_size, board_size), dtype='i')
         self.board_info = board_info
         self.board_size = board_size
         self.board_record = ''
-        self.test_case = test_case
 
         # self.board = board_info
         self.check_turn = 'challenger'
