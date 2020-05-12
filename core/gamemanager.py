@@ -66,17 +66,17 @@ class GameManager:
                     os.remove("placement.txt")
                     # print('delete placement.txt')
                 if self.check_turn == 'challenger':
-                    print('challenger')
+                    print('####challenger')
                     print(self.board)
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
                 elif self.check_turn == 'opposite':
-                    print('opposite')
+                    print('####opposite')
                     print(self.board)
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
             except Exception as e:
                 print(f'program error in execute user program : {e}')
                 self.error_msg = f'program error in execute user program : {e}'
-                break
+
             print(output.strip())
             if output and output != 'time over':
                 try:
@@ -150,11 +150,18 @@ class GameManager:
                     winner = 'challenger'
                     match_result = 'opposite_error'
                 is_ending = True
+                print('wiiiiiiiiner', winner)
             else:
-                pass
+                print('elseeeeeeeeeeee')
                 # print(3, self.error_msg)
         if self.error_msg != 'no error':
             print('end error', str(self.error_msg))
+            if self.check_turn == 'challenger':
+                winner = 'opposite'
+                match_result = 'challenger_error'
+            else:
+                winner = 'challenger'
+                match_result = 'opposite_error'
             print(1)
             self.error_msg = str(self.error_msg) + f'--> placement = {output}'
         return winner, self.board_record, self.placement_record, match_result, self.error_msg

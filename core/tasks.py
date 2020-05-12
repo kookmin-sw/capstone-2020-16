@@ -20,11 +20,13 @@ app = Celery('tasks', broker='redis://localhost:6379', backend='redis://localhos
 # cpu_info
 cpu_num = multiprocessing.cpu_count()
 
-# docker image
-docker_img = "core"
+
 
 @app.task
 def play_game(data):
+    # docker image
+    docker_img = "core"
+    
     data = data
     print('run container')
     client = docker.from_env()
@@ -43,3 +45,25 @@ def play_game(data):
     volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
     client.containers.run(image=docker_img, volumes=volumes, auto_remove=True, privileged=True)#, tty=True, stdin_open=True)
 
+@app.task
+def test_code(data):
+    # docker image
+    docker_img = "test_code"
+
+    data = data
+    print('run container')
+    client = docker.from_env()
+    # containers_num = len(client.containers.list())
+
+    # while containers_num >= cpu_num:
+    #     time.sleep(1)
+    #     print('not enough cpu_num. waiting.....')
+    f_dir = os.getcwd() + '/test_code'
+    file_name = 'matchdata.json.' + time.strftime('%m-%d-%H-%M-%S', time.localtime(time.time())) + '_' + str(data['match_id'])
+    print(file_name)
+    match_data_file_path = os.path.join(f_dir, file_name)
+    print(match_data_file_path)
+    with open(match_data_file_path, 'w') as f:
+        json.dump(data, f)
+    volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
+    client.containers.run(image=docker_img, volumes=volumes, auto_remove=True, privileged=True)#, tty=True, stdin_open=True)

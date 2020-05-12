@@ -6,7 +6,7 @@ class EndingRule:
     def __init__(self):
         self.ending_message = False
         self.ending_condition_list = [self.full_board, self.only_one_side, self.one_line]
-        self.ending_option_list = [self.one_line_num]
+        self.ending_option_list = [self.one_line_num, self.check_available_place]
         self.placement_type = None
         self.winner = None
         self.x1 = None
@@ -27,6 +27,8 @@ class EndingRule:
 
         self.ending_rule = None
         self.ending_option = None
+
+        self.flag = True
 
     def check_ending(self, game_data, board, placement):
         self.setting(game_data, board, placement)
@@ -165,22 +167,26 @@ class EndingRule:
     
     def check_available_place(self):
         poss = []
+        poss2 = []
         for x, line in enumerate(self.board):
             for y, i in enumerate(line):
                 if i < 0:
                     poss.append((x, y))
-
+                    poss2.append((x, y))
+        # print('why not poss', poss)
         result = None
         availalbe = None
         availalbe2 = None
-
+        
         if self.obj_type == 1:
             _, _, availalbe = self.get_stones(poss, 0, 0)
         else:
+            print('rule2')
             _, _, availalbe = self.get_stones(poss, 0, 0)
-            _, _, availalbe2 = self.get_stones(poss, 0, 1)
+            _, _, availalbe2 = self.get_stones(poss2, 0, 1)
             pass
-        print('availalbe', availalbe)
+        print('available', availalbe)
+        print('available2', availalbe2)
         if availalbe or availalbe2:
             pass
         else:
@@ -188,6 +194,8 @@ class EndingRule:
             self.available = False
 
     def get_stones(self, poss, whose, space):
+        # if space == 1:
+        #     print('my poss', poss)
         eight_dir_poss = []
         pos_r = None
         result = None
@@ -212,6 +220,8 @@ class EndingRule:
                             continue
                     next_x = pos[0] + x
                     next_y = pos[1] + y
+                    # if space == 1:
+                    #     print(pos, (next_x, next_y))
                     if next_x > 7 or next_x < 0 or next_y > 7 or next_y < 0:
                         continue
                     if whose == 0:

@@ -3,6 +3,14 @@ MAINTAINER CMS0503 tyms0503@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN apt-get update
+RUN apt-get install locales
+RUN locale-gen ko_KR.UTF-8
+ENV LANG ko_KR.UTF-8
+ENV LANGUAGE ko_KR.UTF-8
+ENV LC_ALL ko_KR.UTF-8
+RUN update-locale LANG=ko_KR.UTF-8
+
 RUN apt-get update \
   && apt-get install -y python3-pip python3-dev \
   && cd /usr/local/bin \
@@ -21,3 +29,5 @@ COPY . /
 
 # CMD python3 match_game.py $data
 ENTRYPOINT python3 match_game.py
+# ENTRYPOINT python3 test_code.py
+# ENTRYPOINT python3 test_match.py

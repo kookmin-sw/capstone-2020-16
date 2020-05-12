@@ -5,6 +5,8 @@
 # IntelliJ project files
 .idea
 *.iml
+Network Persistent State
+rapid_render.json
 out
 gen
 api/
@@ -14,3 +16,33 @@ Backups/
 User/
 TransportSecurity
 storage.json
+core/a.py
+core/ex.py
+core/test.py
+core/test.txt
+core/test2.py
+core/challenger.c
+core/challenger.py
+core/challenger.cpp
+core/challenger
+core/oppositer.c
+core/oppositer.py
+core/dummy_data.json
+core/dummy_data2.json
+core/input.txt
+core/output.txt
+core/board.txt
+core/ex.txt
+core/op.txt
+core/placement.txt
+core/result.txt
+core/match/
+core/matchdata.json
+core/a.py
+core/challenger_add.py
+core/opposite_add.py
+core/error_json/
+core/.vscode/
+core/__pycache__/
+core/utils/__pycache__/
+core/test_match.py
