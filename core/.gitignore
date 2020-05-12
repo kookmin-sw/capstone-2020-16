@@ -3,7 +3,9 @@ test.py
 test.txt
 test2.py
 challenger.c
+challenger.cpp
 challenger.py
+challenger
 oppositer.c
 oppositer.py
 dummy_data.json
@@ -20,6 +22,10 @@ matchdata.json
 a.py
 challenger_add.py
 opposite_add.py
+error_json/
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
