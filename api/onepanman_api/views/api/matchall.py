@@ -1,14 +1,17 @@
 import json
 import tasks
 import threading
+
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.onepanman_api.models import UserInformationInProblem, Problem, Game
-from api.onepanman_api.util.update_uiip import update_playing
-from api.onepanman_api.views.api import match
+from onepanman_api.models import UserInformationInProblem, Problem, Game
+from onepanman_api.util.update_uiip import update_playing
+from onepanman_api.views.api import Match
 
 
-class matchall(APIView):
+class Matchall(APIView):
 
     check = False
 
@@ -24,20 +27,22 @@ class matchall(APIView):
         rule = problem.rule
         rule = json.loads(rule)
 
-        for challenger in queryset:
-            checkAvail = True
-            for opposite in queryset:
+        for query in queryset:
+            print(query.user.username)
+
+        for challenger_ in queryset:
+            for opposite_ in queryset:
+                challenger = UserInformationInProblem.objects.all().filter(id=challenger_.id)[0]
+                opposite = UserInformationInProblem.objects.all().filter(id=opposite_.id)[0]
 
                 if challenger.user.pk == opposite.user.pk:
                     continue
 
-                if not opposite.available_game or not challenger.available_game:
-                    checkAvail = False
+                if challenger.available_game is False or challenger.code.available_game is False:
                     break
 
-                if not challenger.code.available_game or not opposite.code.available_game:
-                    checkAvail = False
-                    break
+                if opposite.available_game is False or opposite.code.available_game is False:
+                    continue
 
                 match_info = {
                     "challenger": challenger.user.pk,
@@ -64,14 +69,14 @@ class matchall(APIView):
                     "opposite": opposite.score
                 }
 
-                match = match()
+                match = Match()
 
                 match_info = match.get_GameId(match_info, scores)
 
                 update_playing(challenger.user.pk, problemid, True)
                 update_playing(opposite.user.pk, problemid, True)
 
-                tasks.play_game.delay(match_info)
+                # tasks.play_game.delay(match_info)
 
                 self.timer(match_info['match_id'])
 
@@ -80,11 +85,10 @@ class matchall(APIView):
 
                 self.check = False
 
-            if not checkAvail:
-                break
+        return Response(status=status.HTTP_200_OK)
 
     def timer(self, game_id):
-        timer = threading.Timer(3, self.timer, [game_id])
+        timer = threading.Timer(5, self.timer, [game_id])
         timer.start()
 
         game = Game.objects.all().filter(id=game_id)[0]
@@ -92,3 +96,5 @@ class matchall(APIView):
         if game.result != "playing":
             self.check = True
             timer.cancel()
+
+
