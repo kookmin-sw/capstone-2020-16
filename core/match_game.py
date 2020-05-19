@@ -51,7 +51,9 @@ def match(data):
     #    f.write(placement_record)
     data = {"winner": winner, "record": board_record, "placement_record": placement_record, "result": result,
             "error_msg": error_msg}
-    print(data)
+    data2 = {"winner": winner, "placement_record": placement_record, "result": result,
+            "error_msg": error_msg}
+    print(data2)
     r = requests.patch(update_url, data=data)
     print('request ok')
 

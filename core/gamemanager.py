@@ -14,12 +14,11 @@ def test():
     print('test')
 
 class GameManager:
-    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num, test_case):
+    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num):
         self.board = np.zeros((board_size, board_size), dtype='i')
         self.board_info = board_info
         self.board_size = board_size
         self.board_record = ''
-        self.test_case = test_case
 
         # self.board = board_info
         self.check_turn = 'challenger'
@@ -53,37 +52,40 @@ class GameManager:
         while not is_ending:
             if total_turn > total_turn_limit:
                 print("total_turn over")
+                self.error_msg = 'total turn over'
                 match_result = 'draw'
                 return match_result
 
             self.make_board_data()
-            #   user code execute
+
+            # user code execute
             output = None
-            print(self.board)
+            # print(self.board)
             try:
                 if os.path.isfile("placement.txt"):
                     os.remove("placement.txt")
                     # print('delete placement.txt')
                 if self.check_turn == 'challenger':
-                    print('cc')
+                    print('####challenger')
+                    print(self.board)
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
                 elif self.check_turn == 'opposite':
-                    print('oo')
+                    print('####opposite')
+                    print(self.board)
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
             except Exception as e:
                 print(f'program error in execute user program : {e}')
                 self.error_msg = f'program error in execute user program : {e}'
-                break
 
+            print(output.strip())
             if output and output != 'time over':
                 try:
                     check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
                 except Exception as e:
                     check_placement = e
-                    self.error_msg = f'placement error : {e}'
-                    # break
+                    self.error_msg = e
                     print(f'check placement program error in gamemanger : {e}')
-
+                print('check_placement :', check_placement, '\n')
                 if check_placement == 'OK':
                     self.board = new_board
                     apply_action = ''
@@ -98,7 +100,7 @@ class GameManager:
                     if apply_action == 'OK':
                         self.board = new_board
                         try:
-                            is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output)
+                            is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output) # ending_result = self.ending_rule.check_ending(self.game_data, self.board, output)
                         except Exception as e:
                             print(f'check ending program error : {e}')
                             self.error_msg = f'{is_ending} : {e}'
@@ -108,19 +110,19 @@ class GameManager:
                         self.error_msg = f'apply action error {apply_action}'
                         # break
                 else:
-                    print(f'check placement error {check_placement}')
-                    self.error_msg = f'check placement error {check_placement}'
-                    # break
+                    self.error_msg = check_placement
 
                 self.add_record(output)
             else:
                 if output == 'time over':
                     self.error_msg = 'time over'
                 else:
+                    print(type(output))
                     self.error_msg = f'program error in execute user program'
-
-            print('asd', is_ending, self.error_msg)
+            
+            print('is_ending', is_ending)
             if is_ending is True and self.error_msg is None:
+                print(1)
                 if winner == 1:
                     winner = self.check_turn
                 elif winner == -1:
@@ -131,15 +133,16 @@ class GameManager:
                 else:
                     winner = 'draw'
                 match_result = 'finish'
-                self.error_msg = 'no error'
+                self.error_msg = 'no error' #ending_result
             
             
             #   change player
             elif is_ending is False and self.error_msg is None:
+                # print(2, is_ending, self.error_msg)
                 total_turn += 1
                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
             elif self.error_msg is not None:
-                print('ajkshdnkj')
+                # print('error', self.error_msg)
                 if self.check_turn == 'challenger':
                     winner = 'opposite'
                     match_result = 'challenger_error'
@@ -147,9 +150,20 @@ class GameManager:
                     winner = 'challenger'
                     match_result = 'opposite_error'
                 is_ending = True
+                print('wiiiiiiiiner', winner)
             else:
-                print('jasldk', self.error_msg)
-
+                print('elseeeeeeeeeeee')
+                # print(3, self.error_msg)
+        if self.error_msg != 'no error':
+            print('end error', str(self.error_msg))
+            if self.check_turn == 'challenger':
+                winner = 'opposite'
+                match_result = 'challenger_error'
+            else:
+                winner = 'challenger'
+                match_result = 'opposite_error'
+            print(1)
+            self.error_msg = str(self.error_msg) + f'--> placement = {output}'
         return winner, self.board_record, self.placement_record, match_result, self.error_msg
 
     def test_code(self):
