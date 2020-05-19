@@ -20,6 +20,7 @@ matchdata.json
 a.py
 challenger_add.py
 opposite_add.py
+.idea
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

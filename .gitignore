@@ -7,3 +7,6 @@
 *.iml
 out
 gen
+core/.idea/
+core/.idea
+core/.idea/vcs.xml
