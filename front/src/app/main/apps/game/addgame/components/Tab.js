@@ -7,6 +7,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Checkbox1 from './Checkbox1-1';
+import Checkbox2 from './Checkbox1-2';
+import Checkbox3 from './Checkbox1-3';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -20,7 +23,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={2}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -45,6 +48,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: 900,
+  },
+
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    width: 1300,
+    position: 'center',
+    minHeight: 400,
   },
 }));
 
@@ -72,9 +82,11 @@ export default function FullWidthTabs() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="첫번 째 돌 선택" {...a11yProps(0)} />
+          <Tab label="두번 째 돌 선택" {...a11yProps(1)} />
+          <Tab label="세번 째 돌 선택" {...a11yProps(2)} />
+          <Tab label="네번 째 돌 선택" {...a11yProps(3)} />
+
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -83,15 +95,30 @@ export default function FullWidthTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+          <div>
+        <Checkbox1></Checkbox1>        <Checkbox2></Checkbox2>         <Checkbox3></Checkbox3>
+          </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <div>
+        <Checkbox1></Checkbox1> <Checkbox2></Checkbox2> <Checkbox3></Checkbox3>
+          </div>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+          <div>
+        <Checkbox1></Checkbox1> <Checkbox2></Checkbox2> <Checkbox3></Checkbox3>
+          </div>
+        </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+          <div>
+        <Checkbox1></Checkbox1> <Checkbox2></Checkbox2> <Checkbox3></Checkbox3>
+          </div>
         </TabPanel>
       </SwipeableViews>
     </div>
   );
 }
+
+
+
+

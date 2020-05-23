@@ -13,10 +13,8 @@ import * as Actions from 'app/store/actions';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
-import Tab1 from './components/Tab1';
-import Tab2 from './components/Tab2';
-import Tab3 from './components/Tab3';
-import Tab4 from './components/Tab4';
+import Tab from './components/Tab';
+
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -78,7 +76,7 @@ function Courses(props) {
 			 
 			 <div className="flex flex-col flex-1 max-w-3xl w-full mx-auto px-8 sm:px-16 py-12">
 			<Card>
-				<div>
+				{/* <div>
 					<Button variant="contained" color="primary"
 					onClick={()=>{
 						setFlag(1);
@@ -110,23 +108,12 @@ function Courses(props) {
 					>
 					돌 4개
 					</Button>
-					</div>
+					</div> */}
 				<Divider/>
 				<div>
 				{
 						(() => {
-						  if (flag === 1) {
-							return <Tab1></Tab1>;
-							  }
-						  else if(flag === 2){
-							  return <Tab2></Tab2>
-						  }
-						  else if(flag === 3){
-							return <Tab3></Tab3>
-						  }
-						  else if(flag === 4){
-							return <Tab4></Tab4>
-						}
+							return <Tab></Tab>
 						})()
 				}
 
