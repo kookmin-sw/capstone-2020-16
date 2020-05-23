@@ -48,18 +48,80 @@ const useStyles2 = makeStyles({
 	},
   });
 
+sessionStorage.setItem("pieceType1", "-");
+sessionStorage.setItem("startType1", "-");
+sessionStorage.setItem("distance1", "-");
+sessionStorage.setItem("customDistance1", "-");
+sessionStorage.setItem("actionType1", "-");
+sessionStorage.setItem("actionCondition1", "-");
+sessionStorage.setItem("actionDirection1", "-");
+
+sessionStorage.setItem("pieceType2", "-");
+sessionStorage.setItem("startType2", "-");
+sessionStorage.setItem("distance2", "-");
+sessionStorage.setItem("customDistance2", "-");
+sessionStorage.setItem("actionType2", "-");
+sessionStorage.setItem("actionCondition2", "-");
+sessionStorage.setItem("actionDirection2", "-");
+
+sessionStorage.setItem("pieceType3", "-");
+sessionStorage.setItem("startType3", "-");
+sessionStorage.setItem("distance3", "-");
+sessionStorage.setItem("customDistance3", "-");
+sessionStorage.setItem("actionType3", "-");
+sessionStorage.setItem("actionCondition3", "-");
+sessionStorage.setItem("actionDirection3", "-");
+
+sessionStorage.setItem("pieceType4", "-");
+sessionStorage.setItem("startType4", "-");
+sessionStorage.setItem("distance4", "-");
+sessionStorage.setItem("customDistance4", "-");
+sessionStorage.setItem("actionType4", "-");
+sessionStorage.setItem("actionCondition4", "-");
+sessionStorage.setItem("actionDirection4", "-");
 
 
-
-function createData(name, calories, fat, carbs, protein, a, b, c) {
-	return { name, calories, fat, carbs, protein, a, b, c };
+function createData( piece, pieceType, startType, distance,customDistance, actionType, actionCondition, actionDirection) {
+	return { piece, pieceType, startType, distance, customDistance, actionType, actionCondition, actionDirection };
 }
 
 const rows = [
-	createData('첫번 째 돌', 159, 6.0, 24, 4.0, 4, 4, 4),
-	createData('두번 째 돌', 237, 9.0, 37, 4.3, 4, 4, 4),
-	createData('세번 째 돌', 262, 16.0, 24, 6.0, 4, 4, 4),
-	createData('네번 째 돌', 262, 16.0, 24, 6.0, 4, 4, 4),
+	createData('첫번 째 돌',
+		sessionStorage.getItem("pieceType1", "-"),
+		sessionStorage.getItem("startType1", "-"),
+		sessionStorage.getItem("distance1", "-"),
+		sessionStorage.getItem("customDistance1", "-"),
+		sessionStorage.getItem("actionType1", "-"),
+		sessionStorage.getItem("actionCondition1", "-"),
+		sessionStorage.getItem("actionDirection1", "-")
+		),
+	createData('두번 째 돌', 				
+		sessionStorage.getItem("pieceType2", "-"),
+		sessionStorage.getItem("startType2", "-"),
+		sessionStorage.getItem("distance2", "-"),
+		sessionStorage.getItem("customDistance2", "-"),
+		sessionStorage.getItem("actionType2", "-"),
+		sessionStorage.getItem("actionCondition2", "-"),
+		sessionStorage.getItem("actionDirection2", "-")
+	),
+	createData('세번 째 돌', 		
+		sessionStorage.getItem("pieceType3", "-"),
+		sessionStorage.getItem("startType3", "-"),
+		sessionStorage.getItem("distance3", "-"),
+		sessionStorage.getItem("customDistance3", "-"),
+		sessionStorage.getItem("actionType3", "-"),
+		sessionStorage.getItem("actionCondition3", "-"),
+		sessionStorage.getItem("actionDirection3", "-")
+	),
+	createData('네번 째 돌', 		
+		sessionStorage.getItem("pieceType4", "-"),
+		sessionStorage.getItem("startType4", "-"),
+		sessionStorage.getItem("distance4", "-"),
+		sessionStorage.getItem("customDistance4", "-"),
+		sessionStorage.getItem("actionType4", "-"),
+		sessionStorage.getItem("actionCondition4", "-"),
+		sessionStorage.getItem("actionDirection4", "-")
+	),
 ];
 
 
@@ -73,7 +135,7 @@ function Courses(props) {
 	}
 
 
-
+	const classes2 = useStyles2();
 
 	
 		
@@ -105,7 +167,7 @@ function Courses(props) {
 			 <div className="flex flex-col flex-1 max-w-3xl w-full mx-auto px-8 sm:px-16 py-12">
 			<Card>
 					<TableContainer component={Paper}>
-						<Table className={classes.table} aria-label="caption table">
+						<Table className={classes2.table} aria-label="caption table">
 							<caption>현재 설정한 돌의 정보를 볼 수 있습니다.</caption>
 							<TableHead>
 								<TableRow>
@@ -121,17 +183,17 @@ function Courses(props) {
 							</TableHead>
 							<TableBody>
 								{rows.map((row) => (
-									<TableRow key={row.name}>
+									<TableRow key={row.piece}>
 										<TableCell component="th" scope="row">
-											{row.name}
+											{row.piece}
 										</TableCell>
-										<TableCell align="right">{row.calories}</TableCell>
-										<TableCell align="right">{row.fat}</TableCell>
-										<TableCell align="right">{row.carbs}</TableCell>
-										<TableCell align="right">{row.protein}</TableCell>
-										<TableCell align="right">{row.a}</TableCell>
-										<TableCell align="right">{row.b}</TableCell>
-										<TableCell align="right">{row.c}</TableCell>
+										<TableCell align="right">{row.pieceType}</TableCell>
+										<TableCell align="right">{row.startType}</TableCell>
+										<TableCell align="right">{row.distance}</TableCell>
+										<TableCell align="right">{row.customDistance}</TableCell>
+										<TableCell align="right">{row.actionType}</TableCell>
+										<TableCell align="right">{row.actionCondition}</TableCell>
+										<TableCell align="right">{row.actionDirection}</TableCell>
 									</TableRow>
 								))}
 							</TableBody>
