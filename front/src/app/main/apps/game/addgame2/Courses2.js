@@ -1,18 +1,15 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
-import FuseAnimateGroup from '@fuse/core/FuseAnimateGroup';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import Divider from '@material-ui/core/Divider';
+	import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as Actions from 'app/store/actions';
-import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import SetPieceTab from './components/SetPieceTab';
 
 
@@ -55,10 +52,29 @@ function Courses(props) {
 	}
 
 
-	
+	const [title, setTitle] = useState("");
+  	const [description, setDescription] = useState("");
+	const [limitTime, setLimitTime] = useState(0);
+	const [limitMemory, setLimitMemory] = useState(0);
 
+	const titleChange = (event) => {
+		setTitle(event.target.value);
+	};
+
+	const descriptionChange = (event) => {
+		setDescription(event.target.value);
+	};
 	
-		
+	const limitTimeChange = (event) => {
+		setLimitTime(event.target.value);
+	};
+	
+	const limitMemeoryChange = (event) => {
+		setLimitMemory(event.target.value);
+	};
+	
+	
+	
 	return(
 		<div className="flex flex-col flex-auto flex-shrink-0 w-full">
 
@@ -84,7 +100,86 @@ function Courses(props) {
 			</div>
 			 
 			 <div className="flex flex-col flex-1 max-w-3xl w-full mx-auto px-8 sm:px-16 py-12">
+
 			<Card>
+			<Typography className="text-20 sm:text-40 font-light" color="textPrimary" gutterBottom>
+			문제 정보 입력하기
+			</Typography>
+			<Divider/>
+			<div>　</div>
+				<div>
+				{
+			          <Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
+						게임 제목　　
+						
+									<TextField
+										id="outlined-multiline-flexible"
+										label="게임 제목"
+										multiline
+										rowsMax={4}
+										value={title}
+										onChange={titleChange}
+										variant="outlined"
+									/>
+					  </Typography>
+
+
+
+				}
+				{
+					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
+					게임 설명　　
+					  
+									<TextField
+										  id="outlined-multiline-flexible"
+										  label="게임 설명"
+										  multiline
+										  rowsMax={4}
+										  value={description}
+										  onChange={descriptionChange}
+										  variant="outlined"
+													  />
+					</Typography>
+				}
+								{
+					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
+					제한 시간　　
+					  
+									<TextField
+										  id="outlined-multiline-flexible"
+										  label="제한 시간"
+										  multiline
+										  rowsMax={4}
+										  value={limitTime}
+										  onChange={limitTimeChange}
+										  variant="outlined"
+													  />
+					</Typography>
+				}
+				{
+					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
+					제한 메모리　
+					  
+									<TextField
+										  id="outlined-multiline-flexible"
+										  label="제한 메모리"
+										  multiline
+										  rowsMax={4}
+										  value={limitMemory}
+										  onChange={limitMemeoryChange}
+										  variant="outlined"
+													  />
+					</Typography>
+				}
+
+
+				</div>
+			<Divider/>	
+			</Card>
+			<Card>
+			<Typography className="text-20 sm:text-40 font-light" color="textPrimary" gutterBottom>
+			규칙 확인하기
+			</Typography>
 
 				<div>
 				{
@@ -93,9 +188,8 @@ function Courses(props) {
 						})()
 				}
 
-				</div>	
+				</div>
 			</Card>
-
 
 			</div>
 			<div className="mx-auto sm:px-256">
