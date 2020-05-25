@@ -13,7 +13,8 @@ const rows = [
 	createData('첫번 째 돌',
 		sessionStorage.getItem("startType1"),
 		sessionStorage.getItem("distance1"),
-		sessionStorage.getItem("customDistance1"),
+        sessionStorage.getItem("customDistanceX1"),
+        sessionStorage.getItem("customDistanceY1"),
 		sessionStorage.getItem("actionType1"),
 		sessionStorage.getItem("actionCondition1"),
 		sessionStorage.getItem("actionDirection1")
@@ -21,7 +22,8 @@ const rows = [
 	createData('두번 째 돌', 				
 		sessionStorage.getItem("startType2"),
 		sessionStorage.getItem("distance2"),
-		sessionStorage.getItem("customDistance2"),
+        sessionStorage.getItem("customDistanceX2"),
+        sessionStorage.getItem("customDistanceY2"),
 		sessionStorage.getItem("actionType2"),
 		sessionStorage.getItem("actionCondition2"),
 		sessionStorage.getItem("actionDirection2")
@@ -29,7 +31,8 @@ const rows = [
 	createData('세번 째 돌', 		
 		sessionStorage.getItem("startType3"),
 		sessionStorage.getItem("distance3"),
-		sessionStorage.getItem("customDistance3"),
+        sessionStorage.getItem("customDistanceX3"),
+        sessionStorage.getItem("customDistanceY3"),
 		sessionStorage.getItem("actionType3"),
 		sessionStorage.getItem("actionCondition3"),
 		sessionStorage.getItem("actionDirection3")
@@ -37,15 +40,16 @@ const rows = [
 	createData('네번 째 돌', 		
 		sessionStorage.getItem("startType4"),
 		sessionStorage.getItem("distance4"),
-		sessionStorage.getItem("customDistance4"),
+        sessionStorage.getItem("customDistanceX4"),
+        sessionStorage.getItem("customDistanceY4"),
 		sessionStorage.getItem("actionType4"),
 		sessionStorage.getItem("actionCondition4"),
 		sessionStorage.getItem("actionDirection4")
 	),
 ];
 
-function createData( piece, startType, distance,customDistance, actionType, actionCondition, actionDirection) {
-    return { piece, startType, distance, customDistance, actionType, actionCondition, actionDirection };
+function createData( piece, startType, distance,customDistanceX, customDistanceY, actionType, actionCondition, actionDirection) {
+    return { piece, startType, distance, customDistanceX, customDistanceY, actionType, actionCondition, actionDirection };
 }
 
 
@@ -72,7 +76,8 @@ export default function AutoGrid() {
                         <TableCell>돌</TableCell>
                         <TableCell align="center">착수 방식</TableCell>
                         <TableCell align="center">거리 설정</TableCell>
-                        <TableCell align="center">커스텀 거리 설정</TableCell>
+                        <TableCell align="center">커스텀 X 거리 설정</TableCell>
+                        <TableCell align="center">커스텀 Y 거리 설정</TableCell>
                         <TableCell align="center">액션 종류 설정</TableCell>
                         <TableCell align="center">액션 조건 설정</TableCell>
                         <TableCell align="center">액션 방향 설정</TableCell>
@@ -86,7 +91,8 @@ export default function AutoGrid() {
                             </TableCell>
                             <TableCell align="center">{row.startType}</TableCell>
                             <TableCell align="center">{row.distance}</TableCell>
-                            <TableCell align="center">{row.customDistance}</TableCell>
+                            <TableCell align="center">{row.customDistanceX}</TableCell>
+                            <TableCell align="center">{row.customDistanceY}</TableCell>
                             <TableCell align="center">{row.actionType}</TableCell>
                             <TableCell align="center">{row.actionCondition}</TableCell>
                             <TableCell align="center">{row.actionDirection}</TableCell>

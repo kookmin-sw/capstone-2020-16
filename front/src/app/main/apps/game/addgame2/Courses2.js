@@ -76,8 +76,7 @@ function Courses(props) {
 				<FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
-							새로운 조합으로 다양한 게임을 만들 수 있습니다.
-							가이드에 맞춰 새로운 게임을 만들어 보세요!
+							게임 설정 값을 확인하시고, 게임 정보를 입력 후 제출해주세요!
 		 				</span>
 					</Typography>
 				</FuseAnimate>
@@ -107,6 +106,24 @@ function Courses(props) {
 						textAlign: 'center',
 						justifyContent: 'center',
 						alignItems: 'center',
+						paddingLeft: 30,
+						paddingRight: 30,
+						marginBottom: 24,
+						height: 40
+					}}
+					variant="contained"
+					color="primary">
+					PREVIOUS
+     			</Button>
+			</Link>
+			　
+			<Link className="font-medium"
+				to={'/apps/game/addgame'}>
+				<Button
+					style={{
+						textAlign: 'center',
+						justifyContent: 'center',
+						alignItems: 'center',
 						paddingLeft: 40,
 						paddingRight: 40,
 						marginBottom: 24,
@@ -114,7 +131,7 @@ function Courses(props) {
 					}}
 					variant="contained"
 					color="primary">
-					NEXT
+					POST
      			</Button>
 			</Link>
 			</div>
