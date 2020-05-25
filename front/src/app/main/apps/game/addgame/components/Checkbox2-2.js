@@ -42,25 +42,30 @@ const useStyles2 = makeStyles({
   },
 });
 
+
+// sessionStorage.getItem("actionType1"),
+// sessionStorage.getItem("actionCondition1"),
+// sessionStorage.getItem("actionDirection1")
+
 export default function SimpleCard() {
   const classes = useStyles();
   const classes2 = useStyles2();
   
   const [flag,setFlag] = useState(0);
-  const [value, setValue] = useState('None');
-  const [value2, setValue2] = useState('None');
-  const [value3, setValue3] = useState('None');
+  const [value, setValue] = useState(sessionStorage.getItem("actionType2"));
+  const [value2, setValue2] = useState(sessionStorage.getItem("actionCondition2"));
+  const [value3, setValue3] = useState(sessionStorage.getItem("actionDirection2"));
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   const handleChange2 = (event) => {
-    setValue2(event.target.value2);
+    setValue2(event.target.value);
   };
 
   const handleChange3 = (event) => {
-    setValue3(event.target.value3);
+    setValue3(event.target.value);
   };
 
 
@@ -78,9 +83,9 @@ export default function SimpleCard() {
                   액션 종류 설정
                 </Typography>
                 <FormControl component="fieldset">
-                  <RadioGroup aria-label="select1" name="select1" value={value} onChange={handleChange}>
-                    <FormControlLabel value="option1-1" control={<Radio />} label="삭제" />
-                    <FormControlLabel value="option1-2" control={<Radio />} label="내 돌로 변경" />
+                  <RadioGroup aria-label="select2-3" name="select2-3" value={value} onChange={handleChange}>
+                    <FormControlLabel value="삭제" control={<Radio />} label="삭제" onClick={()=>{sessionStorage.setItem("actionType2", "삭제")}}/>
+                    <FormControlLabel value="내 돌로 변경" control={<Radio />} label="내 돌로 변경" onClick={()=>{sessionStorage.setItem("actionType2", "내 돌로 변경")}}/>
                   </RadioGroup>
                 </FormControl>
               </CardContent>
@@ -94,10 +99,10 @@ export default function SimpleCard() {
                   액션 조건 설정
                 </Typography>
                 <FormControl component="fieldset">
-                <RadioGroup aria-label="select2" name="select2" value2={value} onChange={handleChange2}>
-                  <FormControlLabel value="option2-1" control={<Radio />} label="인접할 때" onClick={()=>{setFlag(1);}} />
-                  <FormControlLabel value="option2-2" control={<Radio />} label="둘러쌀 때" onClick={()=>{setFlag(2);}}/>
-                  <FormControlLabel value="option2-3" control={<Radio />} label="상대방 자리에 내 돌을 착수했을 때" onClick={()=>{setFlag(3);}}/>
+                <RadioGroup aria-label="select2-4" name="select2-4" value2={value} onChange={handleChange2}>
+                  <FormControlLabel value="인접할 때" control={<Radio />} label="인접할 때" onClick={()=>{setFlag(1);sessionStorage.setItem("actionCondition2", "인접할 때")}} />
+                  <FormControlLabel value="둘러쌀 때" control={<Radio />} label="둘러쌀 때" onClick={()=>{setFlag(2);sessionStorage.setItem("actionCondition2", "둘러쌀 때")}}/>
+                  <FormControlLabel value="상대방 자리에 내 돌을 착수했을 때" control={<Radio />} label="상대방 자리에 내 돌을 착수했을 때" onClick={()=>{setFlag(3);sessionStorage.setItem("actionCondition2", "상대방 자리에 내 돌을 착수했을 때")}}/>
                 </RadioGroup>
                 </FormControl>
               </CardContent>
@@ -115,12 +120,12 @@ export default function SimpleCard() {
                       if (flag === 1 || flag === 2) {
                         return (
                           <FormControl component="fieldset">
-                            <RadioGroup aria-label="select3" name="select3" value3={value} onChange={handleChange3}>
-                              <FormControlLabel value="option3-1" control={<Radio />} label="양 옆" />
-                              <FormControlLabel value="option3-2" control={<Radio />} label="위 아래" />
-                              <FormControlLabel value="option3-3" control={<Radio />} label="x 방향" />
-                              <FormControlLabel value="option3-4" control={<Radio />} label="+ 방향" />
-                              <FormControlLabel value="option3-4" control={<Radio />} label="* 방향" />
+                            <RadioGroup aria-label="select2-5" name="select2-5" value3={value} onChange={handleChange3}>
+                              <FormControlLabel value="양 옆" control={<Radio />} label="양 옆" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection2", "양 옆")}} />
+                              <FormControlLabel value="위 아래" control={<Radio />} label="위 아래" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection2", "위 아래")}}/>
+                              <FormControlLabel value="X 방향" control={<Radio />} label="X 방향" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection2", "X 방향")}}/>
+                              <FormControlLabel value="+ 방향" control={<Radio />} label="+ 방향" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection2", "+ 방향")}}/>
+                              <FormControlLabel value="* 방향" control={<Radio />} label="* 방향" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection2", "* 방향")}}/>
                             </RadioGroup>
                           </FormControl>
                         );

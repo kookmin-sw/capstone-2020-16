@@ -2,6 +2,7 @@ import ProblemConfig from './game/problem/ProblemConfig';
 import BattleConfig from './game/battle/BattleConfig';
 import ReplayConfig from './game/Replay/ReplayConfig';
 import AddGameConfig from './game/addgame/AddGameConfig';
+import AddGameConfig2 from './game/addgame2/AddGameConfig2';
 import ViewProblemConfig from './game/viewProblem/ViewProblemConfig';
 import ViewReplayConfig from './game/viewReplay/ViewReplayConfig';
 import MatchingIdx1Config from './game/matching1/MatchingIdx1Config';
@@ -31,6 +32,7 @@ const appsConfigs = [
 	// CalendarAppConfig,
 	ChatAppConfig,
 	AddGameConfig,
+	AddGameConfig2,
 	// ECommerceAppConfig,
 	// ScrumboardAppConfig,
 	ViewProblemConfig,

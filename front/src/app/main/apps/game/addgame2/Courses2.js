@@ -13,7 +13,7 @@ import * as Actions from 'app/store/actions';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
-import Tab from './components/Tab';
+import SetPieceTab from './components/SetPieceTab';
 
 
 
@@ -41,7 +41,6 @@ const useStyles = makeStyles(theme => ({
 // 	  minWidth: 650,
 // 	},
 //   });
-
 
 
 
@@ -91,7 +90,7 @@ function Courses(props) {
 				<div>
 				{
 						(() => {
-							return <Tab></Tab>
+							return <SetPieceTab/>
 						})()
 				}
 
@@ -102,7 +101,7 @@ function Courses(props) {
 			</div>
 			<div className="mx-auto sm:px-256">
 			<Link className="font-medium"
-				to={'/apps/game/addgame2/'}>
+				to={'/apps/game/addgame'}>
 				<Button
 					style={{
 						textAlign: 'center',
