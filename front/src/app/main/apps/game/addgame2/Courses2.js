@@ -33,12 +33,6 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-// const useStyles2 = makeStyles({
-// 	table: {
-// 	  minWidth: 650,
-// 	},
-//   });
-
 
 
 
@@ -72,6 +66,12 @@ function Courses(props) {
 	const limitMemeoryChange = (event) => {
 		setLimitMemory(event.target.value);
 	};
+
+	const [state,setState] = useState(null);
+	
+	const handleFileInput = (e) => {
+		setState(e.target.value);
+	  }
 	
 	
 	
@@ -130,7 +130,7 @@ function Courses(props) {
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					게임 설명　　
 					  
-									<TextField
+									{/* <TextField
 										  id="outlined-multiline-flexible"
 										  label="게임 설명"
 										  multiline
@@ -138,7 +138,10 @@ function Courses(props) {
 										  value={description}
 										  onChange={descriptionChange}
 										  variant="outlined"
-													  />
+													  /> */}
+								<input type="file" name="file" onChange={(e) => handleFileInput} />
+								<button type="button" onClick={null} />
+
 					</Typography>
 				}
 								{

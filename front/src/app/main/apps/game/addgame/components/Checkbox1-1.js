@@ -97,7 +97,7 @@ export default function SimpleCard() {
         <FormControl component="fieldset">
       <RadioGroup aria-label="select1-1" name="select1-1" value={value} onChange={handleChange}>
         <FormControlLabel value="이동" control={<Radio />} label="이동" onClick={()=>{sessionStorage.setItem("startType1", "이동")}}/>
-        <FormControlLabel value="추가" control={<Radio />} label="추가" onClick={()=>{sessionStorage.setItem("startType1", "추가")}}/>
+        <FormControlLabel value="추가" control={<Radio />} label="추가" onClick={()=>{sessionStorage.setItem("startType1", "추가");}}/>
         <FormControlLabel value="둘 다" control={<Radio />} label="둘 다" onClick={()=>{sessionStorage.setItem("startType1", "둘 다")}}/>
       </RadioGroup>
         </FormControl>

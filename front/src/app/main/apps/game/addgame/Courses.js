@@ -37,16 +37,6 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-// const useStyles2 = makeStyles({
-// 	table: {
-// 	  minWidth: 650,
-// 	},
-//   });
-
-
-
-
-
 
 function Courses(props) {
 
