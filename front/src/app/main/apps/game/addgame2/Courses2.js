@@ -164,7 +164,7 @@ function Courses(props) {
 										  value={limitTime}
 										  onChange={limitTimeChange}
 										  variant="outlined"
-													  />
+									/>
 					</Typography>
 				}
 				<Divider/>
@@ -180,7 +180,7 @@ function Courses(props) {
 										  value={limitMemory}
 										  onChange={limitMemeoryChange}
 										  variant="outlined"
-													  />
+									/>
 					</Typography>
 				}
 
