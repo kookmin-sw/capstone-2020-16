@@ -10,7 +10,7 @@ const version = {
   'version': 'v1',
 }
 const boardStatus = {
-  chacksoo: "",
+  chacksoo: [],
   placement: [],
   boardIdx: 0,
   isAuto: false,
@@ -19,7 +19,7 @@ const boardStatus = {
   renderTime: new Date().getTime(),
   challengerId: 0,
   oppositeId: 0,
-  idxIncrement: true,
+  idxIncrement: true
 }
 var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
@@ -34,6 +34,7 @@ class Scene2 extends Phaser.Scene {
         // console.log(response)
         boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
+        console.log(boardStatus.chacksoo)
         boardStatus.placement = response.data.placement_record.split(/\n/);
         boardStatus.idxLen = boardStatus.chacksoo.length/64;
         boardStatus.challengerId = response.data.challenger;
@@ -47,7 +48,13 @@ class Scene2 extends Phaser.Scene {
     create() {
       this.iter = 0; // used for itarations
       boardStatus.boardIdx = 0;
-      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49);
+      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
+        .setInteractive()
+        .on('pointerup', () => {
+          alert(parseInt((this.sys.game.input.mousePointer.y - 55)/64) + ',' + parseInt((this.sys.game.input.mousePointer.x - 268)/64));
+          // alert(this.sys.game.input.mousePointer.x+','+ this.sys.game.input.mousePointer.y);
+        });
+      // this.background.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
       this.background.setOrigin(0.5, 0.5);
       // for slider
       this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(7, 7); // add dot
