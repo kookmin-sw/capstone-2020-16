@@ -26,15 +26,9 @@ cpu_num = multiprocessing.cpu_count()
 def play_game(data):
     # docker image
     docker_img = "core"
-    
     data = data
     print('run container')
     client = docker.from_env()
-    # containers_num = len(client.containers.list())
-
-    # while containers_num >= cpu_num:
-    #     time.sleep(1)
-    #     print('not enough cpu_num. waiting.....')
     f_dir = os.getcwd() + '/match'
     file_name = 'matchdata.json.' + time.strftime('%m-%d-%H-%M-%S', time.localtime(time.time())) + '_' + str(data['match_id'])
     print(file_name)
@@ -49,11 +43,6 @@ def play_game(data):
 def test_code(data):
     print('run container_for_test_code')
     client = docker.from_env()
-    # containers_num = len(client.containers.list())
-
-    # while containers_num >= cpu_num:
-    #     time.sleep(1)
-    #     print('not enough cpu_num. waiting.....')
     f_dir = os.getcwd() + '/test_code'
     file_name = 'matchdata.json.' + time.strftime('%m-%d-%H-%M-%S', time.localtime(time.time())) + '_' + str(data['match_id'])
     print(file_name)
