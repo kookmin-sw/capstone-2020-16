@@ -68,10 +68,15 @@ function Courses(props) {
 	};
 
 	const [state,setState] = useState(null);
+	const [state2,setState2] = useState(null);
 	
-	const handleFileInput = (e) => {
-		setState(e.target.value);
+	const handleFileInput = (event) => {
+		setState(event.target.value);
 	  }
+	
+	 const handleFileInput2 = (event) => {
+		setState2(event.target.value);
+	 }
 	
 	
 	
@@ -128,18 +133,19 @@ function Courses(props) {
 				}
 				{
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
-					게임 설명　　
+					게임 이미지 　
 					  
-									{/* <TextField
-										  id="outlined-multiline-flexible"
-										  label="게임 설명"
-										  multiline
-										  rowsMax={4}
-										  value={description}
-										  onChange={descriptionChange}
-										  variant="outlined"
-													  /> */}
-								<input type="file" name="file" onChange={(e) => handleFileInput} />
+								<input type="file" name="file" onChange={(event) => handleFileInput2} />
+								<button type="button" onClick={null} />
+
+					</Typography>
+				}
+
+				{
+					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
+					게임 PDF　　
+					  
+								<input type="file" name="file" onChange={(event) => handleFileInput} />
 								<button type="button" onClick={null} />
 
 					</Typography>
