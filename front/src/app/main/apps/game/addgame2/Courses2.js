@@ -77,7 +77,8 @@ function Courses(props) {
 
 
 	const [title, setTitle] = useState("");
-  	const [description, setDescription] = useState("");
+	const [description, setDescription] = useState("");
+	const [board, setBoard] = useState("");
 	const [limitTime, setLimitTime] = useState(0);
 	const [limitMemory, setLimitMemory] = useState(0);
 
@@ -93,8 +94,12 @@ function Courses(props) {
 		setLimitTime(event.target.value);
 	};
 	
-	const limitMemeoryChange = (event) => {
+	const limitMemoryChange = (event) => {
 		setLimitMemory(event.target.value);
+	};
+
+	const boardChange = (event) => {
+		setBoard(event.target.value);
 	};
 
 	const [state,setState] = useState(null);
@@ -188,7 +193,7 @@ function Courses(props) {
 					  
 									<TextField
 										  id="outlined-multiline-flexible"
-										  label="제한 시간"
+										  label="제한 시간(ms)"
 										  multiline
 										  rowsMax={4}
 										  value={limitTime}
@@ -197,7 +202,7 @@ function Courses(props) {
 									/>
 					</Typography>
 				}
-				<Divider/>
+								<Divider/>
 				{
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					제한 메모리　
@@ -208,7 +213,23 @@ function Courses(props) {
 										  multiline
 										  rowsMax={4}
 										  value={limitMemory}
-										  onChange={limitMemeoryChange}
+										  onChange={limitMemoryChange}
+										  variant="outlined"
+									/>
+					</Typography>
+				}
+				<Divider/>
+				{
+					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
+					보드 시작정보　
+					  
+									<TextField
+										  id="outlined-multiline-flexible"
+										  label="보드 시작정보"
+										  multiline
+										  rowsMax={10}
+										  value={board}
+										  onChange={boardChange}
 										  variant="outlined"
 									/>
 					</Typography>
