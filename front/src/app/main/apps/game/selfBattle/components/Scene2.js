@@ -19,7 +19,7 @@ const boardStatus = {
   renderTime: new Date().getTime(),
   challengerId: 0,
   oppositeId: 0,
-  idxIncrement: true
+  idxIncrement: false
 }
 var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
@@ -42,6 +42,7 @@ class Scene2 extends Phaser.Scene {
           }
           boardStatus.realChacksoo.push(tempChacksoo);
         }
+        boardStatus.boardIdx = boardStatus.realChacksoo.length - 1;
         boardStatus.placement = response.data.placement_record.split(/\n/);
         boardStatus.idxLen = boardStatus.realChacksoo.length;
         boardStatus.challengerId = response.data.challenger;
@@ -54,12 +55,17 @@ class Scene2 extends Phaser.Scene {
   
     create() {
       this.iter = 0; // used for itarations
-      boardStatus.boardIdx = 0;
+      boardStatus.boardIdx = boardStatus.realChacksoo.length - 1;
       this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
         .setInteractive()
         .on('pointerup', () => {
-          alert(parseInt((this.sys.game.input.mousePointer.y - 55)/64) + ',' + parseInt((this.sys.game.input.mousePointer.x - 268)/64));
-          // alert(this.sys.game.input.mousePointer.x+','+ this.sys.game.input.mousePointer.y);
+          let prevChacksoo = boardStatus.realChacksoo[boardStatus.boardIdx];
+          let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
+          if(prevChacksoo[cellX*8 + cellY] === "0"){
+            prevChacksoo[cellX*8 + cellY] = "1";
+          }else {
+            alert("cannot chacksoo there!!!!!!");
+          }
         });
       // this.background.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
       this.background.setOrigin(0.5, 0.5);
