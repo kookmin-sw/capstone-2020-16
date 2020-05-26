@@ -13,6 +13,7 @@ from onepanman_api.permissions import CodePermission
 from onepanman_api.models import UserInformationInProblem
 from onepanman_api.util.create_uiip import create_instance
 
+from onepanman_api.pagination import CodePagination
 
 
 class CodeViewSet(viewsets.ModelViewSet):
@@ -22,6 +23,7 @@ class CodeViewSet(viewsets.ModelViewSet):
     filter_fields = ('author', 'problem', 'available_game')
 
     permission_classes = [CodePermission]
+    pagination_class = CodePagination
 
     def create(self, request, *args, **kwargs):
         data = super().create(request, *args, **kwargs)
@@ -68,6 +70,7 @@ class CodeViewSet(viewsets.ModelViewSet):
 class MyCodeView(APIView):
 
     permission_classes = [CodePermission]
+    pagination_class = CodePagination
 
     def get(self, request, version):
 

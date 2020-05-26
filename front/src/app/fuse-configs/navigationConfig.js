@@ -67,6 +67,14 @@ const navigationConfig = [
 				]
 			},
 			{
+				id: 'Code List',
+				title: 'Code-List',
+				translate: 'Code-List',
+				type: 'item',
+				url: '/apps/codelist/',
+				
+			},
+			{
 				id: 'Ranking',
 				title: 'Ranking',
 				translate: 'Ranking',
