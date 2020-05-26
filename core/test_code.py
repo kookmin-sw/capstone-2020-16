@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 
 from gamemanager import GameManager
 from gamemanager import test
@@ -10,7 +11,7 @@ def test_code(data):
     match_data = data
     match_dir = os.getcwd()  # os.path.join(os.getcwd(), 'match')
     extension = {'': '', 'C': '.c', 'C++': '.cpp', 'PYTHON': '.py', 'JAVA': '.java'}
-    update_url = 'http://203.246.112.32:8000/api/v1/game/' + str(match_data['match_id']) + '/'  # todo
+    update_url = 'http://203.246.112.32:8000/api/v1/code/' + str(match_data['code_id']) + '/'
 
     challenger_code_filename = 'challenger{0}'.format(extension[match_data['challenger_language']])
     oppositer_code_filename = 'oppositer{0}'.format(extension[match_data['opposite_language']])
@@ -35,6 +36,10 @@ def test_code(data):
 
     result = game_manager.test()
     print('result :', result)
-    r = requests.patch(update_url, data={"available_game": result})
+    # r = requests.patch(update_url, data={"available_game": result})
 
 
+if __name__ == '__main__':
+    with open('testdata.json') as json_file:
+        json_data = json.load(json_file)
+    test_code(json_data)

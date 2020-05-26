@@ -8,7 +8,7 @@ class PlacementRule:
         self.placement_message = None
         self.placement_rule_list = [self.cross, self.diagonal, self.eight_dir, self.custom, self.add_close, self.add_any]
         # self.placement_rule_addlist = [self.add_close, self.add_any]
-        self.placement_rule_option = [self.block_move, self.take_out_and_add, self.only_reverse]
+        self.placement_rule_option = [self.block_move, self.remove, self.only_reverse]
 
         self.placement_type = None
         self.x1 = None
@@ -118,7 +118,7 @@ class PlacementRule:
             elif self.board[self.x1][self.y1] == 0:
                 self.placement_message = f'There is no stone : {self.x1, self.y1}. {self.x1, self.y1} > {self.x, self.y}'
                 return False
-            elif int(self.obj_number) < 0 :
+            elif int(self.obj_number) < 0:
                 self.placement_message = f'It is not your stone : {self.x1, self.y1}'
         elif self.placement_type == 'add':
             if (self.x < 0 or self.x > self.data.board_size) or (self.y < 0 or self.y > self.data.board_size):
@@ -131,14 +131,13 @@ class PlacementRule:
             self.placement_message = f'There is already a stone {self.x, self.y}'
             return False
 
-        if self.board[self.x][self.y] < 0:
+        if self.board[self.x][self.y] < 0:  # and (2 not in self.data.action_rule[self.obj_number][2]):
             if self.obj_option:
                 if 1 in self.obj_option:
                     return True
             else:
                 self.placement_message = f'There is already a enemy stone {self.x, self.y}'
                 return False
-            
 
     def add_rule_method(self):
         pass
@@ -250,7 +249,7 @@ class PlacementRule:
     def block_move(self):  # 이동시 충돌 무시 여부 TODO
         pass
 
-    def take_out_and_add(self):  # 상대방 돌이 존재할 시 없애고 추가
+    def remove(self):  # 상대방 돌이 존재할 시 없애고 추가
         pass
 
     def only_reverse(self):  # 상대방 돌을 뒤집을 수 있는 곳에만 돌 추가 가능
