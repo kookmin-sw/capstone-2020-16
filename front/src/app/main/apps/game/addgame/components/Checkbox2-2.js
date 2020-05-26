@@ -79,8 +79,9 @@ export default function SimpleCard() {
                 </Typography>
                 <FormControl component="fieldset">
                   <RadioGroup aria-label="select2-3" name="select2-3" value={value} onChange={handleChange}>
-                    <FormControlLabel value="삭제" control={<Radio />} label="삭제" onClick={()=>{sessionStorage.setItem("actionType2", "삭제")}}/>
+                    <FormControlLabel value="없음" control={<Radio />} label="없음" onClick={()=>{sessionStorage.setItem("actionType2", "없음")}}/>
                     <FormControlLabel value="내 돌로 변경" control={<Radio />} label="내 돌로 변경" onClick={()=>{sessionStorage.setItem("actionType2", "내 돌로 변경")}}/>
+                    <FormControlLabel value="disabled" disabled control={<Radio />} label="삭제" onClick={()=>{sessionStorage.setItem("actionType2", "삭제")}}/>
                   </RadioGroup>
                 </FormControl>
               </CardContent>
@@ -94,10 +95,10 @@ export default function SimpleCard() {
                   액션 조건 설정
                 </Typography>
                 <FormControl component="fieldset">
-                <RadioGroup aria-label="select2-4" name="select2-4" value={value2} onChange={handleChange2}>
-                  <FormControlLabel value="인접할 때" control={<Radio />} label="인접할 때" onClick={()=>{sessionStorage.setItem("actionCondition2", "인접할 때")}} />
-                  <FormControlLabel value="둘러쌀 때" control={<Radio />} label="둘러쌀 때" onClick={()=>{sessionStorage.setItem("actionCondition2", "둘러쌀 때")}}/>
-                  <FormControlLabel value="상대방 자리에 내 돌을 착수했을 때" control={<Radio />} label="상대방 자리에 내 돌을 착수했을 때" onClick={()=>{sessionStorage.setItem("actionCondition2", "상대방 자리에 내 돌을 착수했을 때")}}/>
+                <RadioGroup aria-label="select1-4" name="select1-4" value={value2} onChange={handleChange2}>
+                  <FormControlLabel value="없음" control={<Radio />} label="없음" onClick={()=>{sessionStorage.setItem("actionCondition1", "없음")}}/>
+                  <FormControlLabel value="disabled" disabled control={<Radio />} label="둘러쌀 때" onClick={()=>{sessionStorage.setItem("actionCondition1", "둘러쌀 때")}}/>
+                  <FormControlLabel value="인접할 때" control={<Radio />} label="인접할 때" onClick={()=>{sessionStorage.setItem("actionCondition1", "인접할 때")}} />
                 </RadioGroup>
                 </FormControl>
               </CardContent>

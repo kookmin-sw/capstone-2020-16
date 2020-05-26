@@ -79,8 +79,9 @@ export default function SimpleCard() {
                 </Typography>
                 <FormControl component="fieldset">
                   <RadioGroup aria-label="select4-3" name="select4-3" value={value} onChange={handleChange}>
-                    <FormControlLabel value="삭제" control={<Radio />} label="삭제" onClick={()=>{sessionStorage.setItem("actionType4", "삭제")}}/>
+                    <FormControlLabel value="없음" control={<Radio />} label="없음" onClick={()=>{sessionStorage.setItem("actionType4", "없음")}}/>
                     <FormControlLabel value="내 돌로 변경" control={<Radio />} label="내 돌로 변경" onClick={()=>{sessionStorage.setItem("actionType4", "내 돌로 변경")}}/>
+                    <FormControlLabel value="disabled" disabled control={<Radio />} label="삭제" onClick={()=>{sessionStorage.setItem("actionType4", "삭제")}}/>
                   </RadioGroup>
                 </FormControl>
               </CardContent>
@@ -95,9 +96,9 @@ export default function SimpleCard() {
                 </Typography>
                 <FormControl component="fieldset">
                 <RadioGroup aria-label="select4-4" name="select4-4" value={value2} onChange={handleChange2}>
+                  <FormControlLabel value="없음" control={<Radio />} label="없음" onClick={()=>{sessionStorage.setItem("actionCondition4", "없음")}}/>
+                  <FormControlLabel value="disabled" disabled control={<Radio />} label="둘러쌀 때" onClick={()=>{sessionStorage.setItem("actionCondition4", "둘러쌀 때")}}/>
                   <FormControlLabel value="인접할 때" control={<Radio />} label="인접할 때" onClick={()=>{sessionStorage.setItem("actionCondition4", "인접할 때")}} />
-                  <FormControlLabel value="둘러쌀 때" control={<Radio />} label="둘러쌀 때" onClick={()=>{sessionStorage.setItem("actionCondition4", "둘러쌀 때")}}/>
-                  <FormControlLabel value="상대방 자리에 내 돌을 착수했을 때" control={<Radio />} label="상대방 자리에 내 돌을 착수했을 때" onClick={()=>{sessionStorage.setItem("actionCondition4", "상대방 자리에 내 돌을 착수했을 때")}}/>
                 </RadioGroup>
                 </FormControl>
               </CardContent>
@@ -125,7 +126,7 @@ export default function SimpleCard() {
                           </FormControl>
                         );
                       }
-                      else if (sessionStorage.getItem("actionCondition4s") === "상대방 자리에 내 돌을 착수했을 때") { return '추가 설정 없음' }
+                      else if (sessionStorage.getItem("actionCondition4") === "상대방 자리에 내 돌을 착수했을 때") { return '추가 설정 없음' }
                       else { }
                     })()
                   }

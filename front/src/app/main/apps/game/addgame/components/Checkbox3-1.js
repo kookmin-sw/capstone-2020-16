@@ -49,8 +49,7 @@ export default function SimpleCard() {
   const classes = useStyles();
   const classes2 = useStyles2();
 
-  // const [flag,setFlag] = useState("0");
-  // const [flag2,setFlag2] = useState("0");
+ 
   const [value, setValue] = useState(sessionStorage.getItem("startType3"));
   const [value2, setValue2] = useState(sessionStorage.getItem("distance3"));
   const [X, setX] = useState(sessionStorage.getItem("customDistanceX3"));
@@ -97,7 +96,7 @@ export default function SimpleCard() {
         <FormControl component="fieldset">
       <RadioGroup aria-label="select3-1" name="select3-1" value={value} onChange={handleChange}>
         <FormControlLabel value="이동" control={<Radio />} label="이동" onClick={()=>{sessionStorage.setItem("startType3", "이동")}}/>
-        <FormControlLabel value="추가" control={<Radio />} label="추가" onClick={()=>{sessionStorage.setItem("startType3", "추가")}}/>
+        <FormControlLabel value="추가" control={<Radio />} label="추가" onClick={()=>{sessionStorage.setItem("startType3", "추가");}}/>
         <FormControlLabel value="둘 다" control={<Radio />} label="둘 다" onClick={()=>{sessionStorage.setItem("startType3", "둘 다")}}/>
       </RadioGroup>
         </FormControl>
@@ -119,10 +118,11 @@ export default function SimpleCard() {
 
                 <FormControl component="fieldset">
                 <RadioGroup aria-label="select3-2" name="select3-2" value={value2} onChange={handleChange2}>
-                  <FormControlLabel value="4방향" control={<Radio />} label="4방향" onClick={()=>{sessionStorage.setItem("distance3", "4방향")}}/>
+                <FormControlLabel value="+방향" control={<Radio />} label="+방향" onClick={()=>{sessionStorage.setItem("distance3", "+방향")}}/>
+                  <FormControlLabel value="X방향" control={<Radio />} label="X방향" onClick={()=>{sessionStorage.setItem("distance3", "X방향")}}/>
                   <FormControlLabel value="8방향" control={<Radio />} label="8방향(대각 포함)" onClick={()=>{sessionStorage.setItem("distance3", "8방향")}}/>
                   <FormControlLabel value="커스텀" control={<Radio />} label="커스텀" onClick={()=>{sessionStorage.setItem("distance3", "커스텀")}}/>
-                  <FormControlLabel value="어디에나" control={<Radio />} label="어디에나" onClick={()=>{sessionStorage.setItem("distance3", "어디에나")}}/>
+                  <FormControlLabel disalbed="어디에나" disabled control={<Radio />} label="어디에나" onClick={()=>{sessionStorage.setItem("distance3", "어디에나")}}/>
                 </RadioGroup>
                 </FormControl>
               );
@@ -144,7 +144,7 @@ export default function SimpleCard() {
       <div>
 				{
 						(() => {
-						  if ((sessionStorage.getItem("startType3") === "이동" || sessionStorage.getItem("startType3") === "둘 다") && sessionStorage.getItem("distance3") === "커스텀") {
+						  if ((sessionStorage.getItem("startType3") === "이동" || sessionStorage.getItem("startType3") === "둘 다") && sessionStorage.getItem("distance1") === "커스텀") {
 							return (
               <div>
                 <TextField

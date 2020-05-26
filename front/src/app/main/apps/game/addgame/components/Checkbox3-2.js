@@ -79,8 +79,9 @@ export default function SimpleCard() {
                 </Typography>
                 <FormControl component="fieldset">
                   <RadioGroup aria-label="select3-3" name="select3-3" value={value} onChange={handleChange}>
-                    <FormControlLabel value="삭제" control={<Radio />} label="삭제" onClick={()=>{sessionStorage.setItem("actionType3", "삭제")}}/>
+                    <FormControlLabel value="없음" control={<Radio />} label="없음" onClick={()=>{sessionStorage.setItem("actionType3", "없음")}}/>
                     <FormControlLabel value="내 돌로 변경" control={<Radio />} label="내 돌로 변경" onClick={()=>{sessionStorage.setItem("actionType3", "내 돌로 변경")}}/>
+                    <FormControlLabel value="disabled" disabled control={<Radio />} label="삭제" onClick={()=>{sessionStorage.setItem("actionType3", "삭제")}}/>
                   </RadioGroup>
                 </FormControl>
               </CardContent>
@@ -95,9 +96,9 @@ export default function SimpleCard() {
                 </Typography>
                 <FormControl component="fieldset">
                 <RadioGroup aria-label="select3-4" name="select3-4" value={value2} onChange={handleChange2}>
+                  <FormControlLabel value="없음" control={<Radio />} label="없음" onClick={()=>{sessionStorage.setItem("actionCondition3", "없음")}}/>
+                  <FormControlLabel value="disabled" disabled control={<Radio />} label="둘러쌀 때" onClick={()=>{sessionStorage.setItem("actionCondition3", "둘러쌀 때")}}/>
                   <FormControlLabel value="인접할 때" control={<Radio />} label="인접할 때" onClick={()=>{sessionStorage.setItem("actionCondition3", "인접할 때")}} />
-                  <FormControlLabel value="둘러쌀 때" control={<Radio />} label="둘러쌀 때" onClick={()=>{sessionStorage.setItem("actionCondition3", "둘러쌀 때")}}/>
-                  <FormControlLabel value="상대방 자리에 내 돌을 착수했을 때" control={<Radio />} label="상대방 자리에 내 돌을 착수했을 때" onClick={()=>{sessionStorage.setItem("actionCondition3", "상대방 자리에 내 돌을 착수했을 때")}}/>
                 </RadioGroup>
                 </FormControl>
               </CardContent>

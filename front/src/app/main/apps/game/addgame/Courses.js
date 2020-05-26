@@ -106,6 +106,7 @@ function Courses(props) {
 			</div>
 			<div className="mx-auto sm:px-256">
 			<Link className="font-medium"
+				onClick={console.log('ok')}
 				to={'/apps/game/addgame2/'}>
 				<Button
 					style={{

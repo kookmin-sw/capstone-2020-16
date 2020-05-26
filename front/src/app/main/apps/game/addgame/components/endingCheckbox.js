@@ -57,8 +57,8 @@ export default function SimpleCard(props) {
                   <FormControl component="fieldset">
                     <RadioGroup aria-label="select1" name="select1" value={value} onChange={handleChange}>
                       <FormControlLabel value="보드판 가득 찼을 때" control={<Radio />} label="보드판 가득 찼을 때" onClick={(event)=>{sessionStorage.setItem("EndingType", "보드판 가득 찼을 때");}} />
-
                       <FormControlLabel value="한 쪽 유저의 돌만 남았을 때" control={<Radio />} label="한 쪽 유저의 돌만 남았을 때" onClick={()=>{sessionStorage.setItem("EndingType", "한 쪽 유저의 돌만 남았을 때");}} />
+                      <FormControlLabel value="disabled" disabled control={<Radio />} label="한 줄일 때" onClick={()=>{sessionStorage.setItem("EndingType", "한 줄일 때");}} />
                     </RadioGroup>
                   </FormControl>
                 </CardContent>
