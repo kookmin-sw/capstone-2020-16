@@ -61,28 +61,6 @@ class Problem(models.Model):
         auto_now_add=True
     )
 
-    level = models.IntegerField(
-        '문제난이도',
-        db_column='LEVEL',
-        null=False,
-        blank=False,
-        default=1,
-    )
-
-    popularity = models.IntegerField(
-        '인기도',
-        db_column='POPULARITY',
-        null=False,
-        blank=False,
-        default=0,
-    )
-
-    icon = models.ImageField(
-        '문제아이콘',
-        db_column='ICON',
-        default="media/default.jpg",
-    )
-
     thumbnail = models.ImageField(
         '문제썸네일',
         db_column='THUMBNAIL',
@@ -98,7 +76,7 @@ class Problem(models.Model):
     board_info = models.TextField(
         "시작 보드 정보",
         db_column="BOARD_INFO",
-        default="0",
+        default="[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]",
     )
 
     rule = models.TextField(
