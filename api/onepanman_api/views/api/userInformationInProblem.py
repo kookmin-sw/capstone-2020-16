@@ -38,8 +38,6 @@ class MyUserInformationInProblemView(APIView):
 
 class rank(APIView):
 
-    permission_classes = [UserReadOnly]
-
     def get(self, request, version):
 
         queryset = UserInformationInProblem.objects.all().filter(problem=request.query_params['problem']).order_by('-score')
