@@ -14,6 +14,7 @@ front/
 Cache/
 Backups/
 User/
+logs/
 TransportSecurity
 storage.json
 core/a.py
@@ -46,3 +47,4 @@ core/.vscode/
 core/__pycache__/
 core/utils/__pycache__/
 core/test_match.py
+core/testcode.json
