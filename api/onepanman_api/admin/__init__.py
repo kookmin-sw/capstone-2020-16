@@ -10,7 +10,8 @@ from .notice import NoticeAdmin
 from .testcase import TestcaseAdmin
 from .userInfo import UserInfoAdmin
 from .userInformationInProblem import UserInformationInProblemAdmin
+from .rule import RuleAdmin
 
 __all__ = ['ProblemAdmin', 'ArticleAdmin', 'CodeAdmin', 'CommentAdmin', 'FriendAdmin', 'GameAdmin',
            'GroupInfoAdmin', 'LanguageAdmin', 'NoticeAdmin', 'TestcaseAdmin', 'UserInfoAdmin',
-           'UserInformationInProblemAdmin']
+           'UserInformationInProblemAdmin', 'RuleAdmin']
