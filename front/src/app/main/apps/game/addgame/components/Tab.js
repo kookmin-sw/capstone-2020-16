@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     width: 1250,
     position: 'center',
-    minHeight: 400,
+    minHeight: 450,
   },
 }));
 

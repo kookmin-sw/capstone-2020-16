@@ -70,7 +70,7 @@ export default function AutoGrid() {
         <div>
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="caption table">
-                <caption>현재 설정한 돌의 정보를 볼 수 있습니다.</caption>
+                <caption><h2>엔딩 정보 : {sessionStorage.getItem("EndingType")}</h2></caption>
                 <TableHead>
                     <TableRow>
                         <TableCell>돌</TableCell>

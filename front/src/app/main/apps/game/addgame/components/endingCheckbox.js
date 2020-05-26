@@ -33,18 +33,12 @@ const useStyles = makeStyles({
 export default function SimpleCard(props) {
   const classes = useStyles();
  
-  const [value, setValue] = useState(sessionStorage.getItem("pieceType1"));
+  const [value, setValue] = useState(sessionStorage.getItem("EndingType"));
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
 
-  // sessionStorage.getItem("startType1"),
-  // sessionStorage.getItem("distance1"),
-  // sessionStorage.getItem("customDistance1"),
-  // sessionStorage.getItem("actionType1"),
-  // sessionStorage.getItem("actionCondition1"),
-  // sessionStorage.getItem("actionDirection1")
 
 
   return (
@@ -57,14 +51,13 @@ export default function SimpleCard(props) {
               <Paper className={classes.paper}>
                 <CardContent>
                   <Typography className={classes.title} color="textPrimary" gutterBottom>
-                  돌 종류 설정
+                  엔딩 종류 설정
                   </Typography> 
                   <FormControl component="fieldset">
                     <RadioGroup aria-label="select1" name="select1" value={value} onChange={handleChange}>
-                      <FormControlLabel value="concave" control={<Radio />} label="오목 돌" onClick={(event)=>{sessionStorage.setItem("pieceType1", "concave");}} />
+                      <FormControlLabel value="보드판 가득 찼을 때" control={<Radio />} label="보드판 가득 찼을 때" onClick={(event)=>{sessionStorage.setItem("EndingType", "보드판 가득 찼을 때");}} />
 
-                      <FormControlLabel value="chess" control={<Radio />} label="체스" onClick={()=>{sessionStorage.setItem("pieceType1", "chess");}} />
-                      <FormControlLabel value="xiangqi" control={<Radio />} label="포(장기)" onClick={()=>{sessionStorage.setItem("pieceType1", "xiangqi");}} />
+                      <FormControlLabel value="한 쪽 유저의 돌만 남았을 때" control={<Radio />} label="한 쪽 유저의 돌만 남았을 때" onClick={()=>{sessionStorage.setItem("EndingType", "한 쪽 유저의 돌만 남았을 때");}} />
                     </RadioGroup>
                   </FormControl>
                 </CardContent>

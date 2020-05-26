@@ -14,6 +14,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Tab from './components/Tab';
+import Ending from './components/endingCheckbox';
 
 
 
@@ -89,13 +90,26 @@ function Courses(props) {
 			<Card>
 
 				<div>
+				<Typography className="text-20 sm:text-40 font-light" color="textPrimary" gutterBottom>
+				돌 정보 입력하기
+				</Typography>
+				<Divider/>
 				{
 						(() => {
 							return <Tab></Tab>
 						})()
 				}
 
-				</div>	
+				</div>
+				<div>
+				<Typography className="text-20 sm:text-40 font-light" color="textPrimary" gutterBottom>
+				엔딩 정보 입력하기
+				</Typography>
+				<Divider/>
+				{
+					<Ending/>
+				}
+				</div>
 			</Card>
 
 
