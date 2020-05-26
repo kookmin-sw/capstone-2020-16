@@ -9,7 +9,9 @@ Network Persistent State
 rapid_render.json
 out
 gen
-
+core/.idea/
+core/.idea
+core/.idea/vcs.xml
 logs
 User/
 api/onepanman_api/util/
