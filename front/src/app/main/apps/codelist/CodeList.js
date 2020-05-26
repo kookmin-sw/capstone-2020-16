@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 function CodeListPage() {
-    return();
+    return
 }
 
 export default CodeListPage;
