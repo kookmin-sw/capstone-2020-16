@@ -2,19 +2,9 @@ import React from 'react';
 import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './components/Scene1.js'
 import Scene2 from './components/Scene2.js'
-
-// import PlacementStateContainer from './container/PlacementStateContainer'
-
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-// import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
-// import pink from '@material-ui/core/colors/pink';
-// import MyInfo from './components/MyInfo'
-
-// import { Provider } from 'react-redux';
-// import reducer from './store/reducers';
-// const store = createStore(reducer);
 
 
 
@@ -39,13 +29,14 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-function ViewReplayPage(props) {
+function SelfBattle() {
+	window.localStorage.setItem('game_id', 1959);
 	const classes = useStyles();
 	const [modalStyle] = React.useState(getModalStyle);
 	const [open, setOpen] = React.useState(false);
 	
 	const handleOpen = () => {
-		window.localStorage.setItem('game_id', props.tmp_id);
+		window.localStorage.setItem('game_id', 1959);
 		setOpen(true);
 	};
 	
@@ -65,8 +56,7 @@ function ViewReplayPage(props) {
 	return (
 		<div>
 			<IconButton onClick={handleOpen} component="span">
-				{/* <PlayCircleFilledWhiteIcon style={{ color: pink[500] }}/> */}
-				<h3>{"리플레이 보기"}</h3>
+				<h3>{"self battle"}</h3>
 			</IconButton>
 			<Modal
 				aria-labelledby="simple-modal-title"
@@ -76,12 +66,10 @@ function ViewReplayPage(props) {
 			>
 				<div style={modalStyle} className={classes.paper}>
 					<IonPhaser game={game}/>
-					{/* <MyInfo></MyInfo> */}
-					{/* <PlacementStateContainer></PlacementStateContainer> */}
 				</div>
 			</Modal>
 		</div>
 	);
 }
 
-export default ViewReplayPage;
+export default SelfBattle;
