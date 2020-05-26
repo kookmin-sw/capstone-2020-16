@@ -125,6 +125,7 @@ function Courses(props) {
 														 console.log(course.id)
 													 }}> <h3>Code Submit</h3> </button>
 												</Link>
+												<Divider orientation="vertical" flexItem />
 												</CardActions>
 												
 											</Card>

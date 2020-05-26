@@ -110,15 +110,20 @@ function Courses(props) {
 												</CardMedia>
 												
 												<Divider />
+												
 												<CardActions className="justify-center">
+												
 												<Link className="font-medium"												
 												to={`/apps/game/matching1/MatchingIdx1Page/${course.id}`}>
 													 <button onClick = {() => {
 														 window.localStorage.setItem('b_selectedId', course.id);
 														 window.localStorage.setItem('b_selectedTitle', course.title);
 													 }}> <h3>BATTLE</h3>
+								
 													 </button>
+	
 													 </Link>
+													
 												</CardActions>
 												
 											</Card>
