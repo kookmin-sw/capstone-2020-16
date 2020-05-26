@@ -180,7 +180,7 @@ function Courses(props) {
 			<Typography className="text-20 sm:text-40 font-light" color="textPrimary" gutterBottom>
 			규칙 확인하기
 			</Typography>
-
+			<Divider/>
 				<div>
 				{
 						(() => {

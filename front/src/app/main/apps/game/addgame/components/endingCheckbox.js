@@ -34,6 +34,7 @@ export default function SimpleCard(props) {
   const classes = useStyles();
  
   const [value, setValue] = useState(sessionStorage.getItem("EndingType"));
+  // console.log(sessionStorage.getItem("EndingType"));
   const handleChange = (event) => {
     setValue(event.target.value);
   };

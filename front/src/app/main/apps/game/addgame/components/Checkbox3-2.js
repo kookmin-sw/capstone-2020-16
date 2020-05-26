@@ -43,15 +43,10 @@ const useStyles2 = makeStyles({
 });
 
 
-// sessionStorage.getItem("actionType1"),
-// sessionStorage.getItem("actionCondition1"),
-// sessionStorage.getItem("actionDirection1")
-
 export default function SimpleCard() {
   const classes = useStyles();
   const classes2 = useStyles2();
   
-  const [flag,setFlag] = useState(0);
   const [value, setValue] = useState(sessionStorage.getItem("actionType3"));
   const [value2, setValue2] = useState(sessionStorage.getItem("actionCondition3"));
   const [value3, setValue3] = useState(sessionStorage.getItem("actionDirection3"));
@@ -99,10 +94,10 @@ export default function SimpleCard() {
                   액션 조건 설정
                 </Typography>
                 <FormControl component="fieldset">
-                <RadioGroup aria-label="select3-4" name="select3-4" value2={value} onChange={handleChange2}>
-                  <FormControlLabel value="인접할 때" control={<Radio />} label="인접할 때" onClick={()=>{setFlag(1);sessionStorage.setItem("actionCondition3", "인접할 때")}} />
-                  <FormControlLabel value="둘러쌀 때" control={<Radio />} label="둘러쌀 때" onClick={()=>{setFlag(2);sessionStorage.setItem("actionCondition3", "둘러쌀 때")}}/>
-                  <FormControlLabel value="상대방 자리에 내 돌을 착수했을 때" control={<Radio />} label="상대방 자리에 내 돌을 착수했을 때" onClick={()=>{setFlag(3);sessionStorage.setItem("actionCondition3", "상대방 자리에 내 돌을 착수했을 때")}}/>
+                <RadioGroup aria-label="select3-4" name="select3-4" value={value2} onChange={handleChange2}>
+                  <FormControlLabel value="인접할 때" control={<Radio />} label="인접할 때" onClick={()=>{sessionStorage.setItem("actionCondition3", "인접할 때")}} />
+                  <FormControlLabel value="둘러쌀 때" control={<Radio />} label="둘러쌀 때" onClick={()=>{sessionStorage.setItem("actionCondition3", "둘러쌀 때")}}/>
+                  <FormControlLabel value="상대방 자리에 내 돌을 착수했을 때" control={<Radio />} label="상대방 자리에 내 돌을 착수했을 때" onClick={()=>{sessionStorage.setItem("actionCondition3", "상대방 자리에 내 돌을 착수했을 때")}}/>
                 </RadioGroup>
                 </FormControl>
               </CardContent>
@@ -117,20 +112,20 @@ export default function SimpleCard() {
                 <div>
                   {
                     (() => {
-                      if (flag === 1 || flag === 2) {
+                      if (sessionStorage.getItem("actionCondition3") === "인접할 때" || sessionStorage.getItem("actionCondition3") === "둘러쌀 때") {
                         return (
                           <FormControl component="fieldset">
-                            <RadioGroup aria-label="select3-5" name="select3-5" value3={value} onChange={handleChange3}>
-                              <FormControlLabel value="양 옆" control={<Radio />} label="양 옆" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection3", "양 옆")}} />
-                              <FormControlLabel value="위 아래" control={<Radio />} label="위 아래" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection3", "위 아래")}}/>
-                              <FormControlLabel value="X 방향" control={<Radio />} label="X 방향" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection3", "X 방향")}}/>
-                              <FormControlLabel value="+ 방향" control={<Radio />} label="+ 방향" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection3", "+ 방향")}}/>
-                              <FormControlLabel value="* 방향" control={<Radio />} label="* 방향" onClick={()=>{setFlag(1);sessionStorage.setItem("actionDirection3", "* 방향")}}/>
+                            <RadioGroup aria-label="select3-5" name="select3-5" value={value3} onChange={handleChange3}>
+                              <FormControlLabel value="양 옆" control={<Radio />} label="양 옆" onClick={()=>{sessionStorage.setItem("actionDirection3", "양 옆")}} />
+                              <FormControlLabel value="위 아래" control={<Radio />} label="위 아래" onClick={()=>{sessionStorage.setItem("actionDirection3", "위 아래")}}/>
+                              <FormControlLabel value="X 방향" control={<Radio />} label="X 방향" onClick={()=>{sessionStorage.setItem("actionDirection3", "X 방향")}}/>
+                              <FormControlLabel value="+ 방향" control={<Radio />} label="+ 방향" onClick={()=>{sessionStorage.setItem("actionDirection3", "+ 방향")}}/>
+                              <FormControlLabel value="* 방향" control={<Radio />} label="* 방향" onClick={()=>{sessionStorage.setItem("actionDirection3", "* 방향")}}/>
                             </RadioGroup>
                           </FormControl>
                         );
                       }
-                      else if (flag === 3) { return '추가 설정 없음' }
+                      else if (sessionStorage.getItem("actionCondition3") === "상대방 자리에 내 돌을 착수했을 때") { return '추가 설정 없음' }
                       else { }
                     })()
                   }
