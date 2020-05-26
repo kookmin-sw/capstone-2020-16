@@ -34,9 +34,16 @@ class Scene2 extends Phaser.Scene {
         // console.log(response)
         boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-        console.log(boardStatus.chacksoo)
+        boardStatus.realChacksoo = [];
+        for(let i = 0, chacksooIdx = 0; i < boardStatus.chacksoo.length; chacksooIdx++){
+          let tempChacksoo = [];
+          for(let j=0; j<64; j++){
+            tempChacksoo.push(boardStatus.chacksoo[i++]);
+          }
+          boardStatus.realChacksoo.push(tempChacksoo);
+        }
         boardStatus.placement = response.data.placement_record.split(/\n/);
-        boardStatus.idxLen = boardStatus.chacksoo.length/64;
+        boardStatus.idxLen = boardStatus.realChacksoo.length;
         boardStatus.challengerId = response.data.challenger;
         boardStatus.oppositeId = response.data.opposite;
       })
@@ -256,15 +263,15 @@ class Scene2 extends Phaser.Scene {
         children[i].setScale(0.091);
         children2[i].setScale(0.091);
         
-        if(boardStatus.chacksoo[((boardStatus.boardIdx+1)*64) + i] === "0"){
+        if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "0"){
           children[i].visible = false;
           children2[i].visible = false;
         }
-        else if(boardStatus.chacksoo[(boardStatus.boardIdx+1)*64 + i] === "1"){
+        else if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "1"){
           children[i].visible = true;
           children2[i].visible = false;
         }
-        else if(boardStatus.chacksoo[(boardStatus.boardIdx+1)*64 + i] === "-1"){
+        else if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "-1"){
           children[i].visible = false;
           children2[i].visible = true;
         }
