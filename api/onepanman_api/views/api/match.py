@@ -41,7 +41,8 @@ class Match(APIView):
     # 유저와 문제정보로 상대방을 매칭하고, 매칭 정보를 반환하는 함수
     def match(self, userid, problemid, codeid):
 
-        queryset_up = UserInformationInProblem.objects.all().select_related('code').filter(problem=problemid, playing=False).order_by('-score')
+        queryset_up = UserInformationInProblem.objects.all().select_related('code')\
+            .filter(problem=problemid, playing=False).order_by('-score')
         challenger = queryset_up.filter(user=userid)
 
         exclude_list =[]
@@ -63,44 +64,25 @@ class Match(APIView):
 
         queryset_up = queryset_up.exclude(user=userid)
 
-        high_scores = queryset_up.filter(score__gte=challenger.score).order_by('-score')
-        low_scores  = queryset_up.filter(score__lte=challenger.score).order_by('-score')
+        games = Game.objects.all().filter(challenger=userid, problem=problemid).order_by('-date')
+        ex_opposite = games[0].opposite
 
-        for i in range(5):
+
+        for i in range(20):
             try:
                 if len(queryset_up) < 1:
                     return {"error": "게임을 진행할 코드가 없습니다."}, 0
 
-                # elif len(queryset_up) < 6:     # 게임을 플레이한 사람이 6명 미만인 경우
                 opposite_index = random.randint(0, len(queryset_up)-1)
 
                 opposite = queryset_up[opposite_index]
 
-                # elif len(high_scores) < 3:  # challenger가 top3인 경우 ( 위에 3명이 없는 경우 )
-                #     opposite_list = high_scores[:]
-                #     low_range = (3 + (3 - len(high_scores)))
-                #     opposite_list += low_scores[:low_range]
-                #     opposite_index = random.randint(0, 5)
-                #
-                #     opposite = opposite_list[opposite_index]
-                #
-                # elif len(low_scores) < 3:  # challenger가 최하위권인 경우 ( 아래에 3명이 없는 경우 )
-                #     opposite_list = low_scores[:]
-                #     high_range = len(high_scores) - (3 + (3 - len(low_scores)))
-                #     opposite_list += high_scores[high_range:]
-                #     opposite_index = random.randint(0, 5)
-                #     # print("low length : {} , high length : {} , index : {} , list length : {} , high range : {}".format(len(low_scores), len(high_scores), opposite_index, len(opposite_list), high_range))
-                #     opposite = opposite_list[opposite_index]
-                #
-                # else:
-                #     high_range = len(high_scores) -3
-                #     opposite_list = high_scores[high_range:] + low_scores[:3]
-                #     opposite_index = random.randint(0, 5)
-                #     opposite = opposite_list[opposite_index]
+                if opposite.user.pk == ex_opposite.pk and i < 19:
+                    continue
+
+
 
             except Exception as e:
-                print(type(high_scores))
-                print(len(high_scores))
                 print("매칭 에러 : {}".format(e))
 
             check, error_msg = self.checkValid(opposite.user.pk, problemid, opposite.code.id)
@@ -119,8 +101,9 @@ class Match(APIView):
             rule = json.loads(rule)
 
         except Exception as e:
-            return {'error': 'rule 정보 가져오기 에러'},0
             print("fail to read rule information : {}".format(e))
+            return {'error': 'rule 정보 가져오기 에러'}, 0
+
 
         matchInfo = {
             "challenger": challenger.user.pk,

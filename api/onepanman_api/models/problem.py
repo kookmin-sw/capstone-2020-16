@@ -31,11 +31,12 @@ class Problem(models.Model):
         default=" ",
     )
 
-    description = models.TextField(
-        '설명',
+    description = models.FileField(
+        '문제PDF',
         db_column='DESCRIPTION',
         null=False,
-        blank=False
+        blank=False,
+        default='media/default.jpg'
     )
 
     limit_time = models.IntegerField(
@@ -76,16 +77,16 @@ class Problem(models.Model):
         default=0,
     )
 
-    icon = models.TextField(
+    icon = models.ImageField(
         '문제아이콘',
         db_column='ICON',
-        default="no icon",
+        default="media/default.jpg",
     )
 
-    thumbnail = models.TextField(
+    thumbnail = models.ImageField(
         '문제썸네일',
         db_column='THUMBNAIL',
-        default="no thumbnail"
+        default="media/default.jpg"
     )
 
     board_size = models.IntegerField(

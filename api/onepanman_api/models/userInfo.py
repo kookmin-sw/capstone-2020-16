@@ -80,10 +80,10 @@ class UserInfo(models.Model):
         auto_now_add=True,
     )
 
-    profileImage = models.TextField(
+    profileImage = models.ImageField(
         "프로필 사진",
         db_column="PROFILEIMAGE",
-        default="기본사진경로 넣기",
+        default="media/default.jpg",
     )
 
     tier = models.CharField(
