@@ -131,6 +131,7 @@ function Courses(props) {
 
 
 				}
+				<Divider/>
 				{
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					게임 이미지 　
@@ -140,17 +141,18 @@ function Courses(props) {
 
 					</Typography>
 				}
-
+				<Divider/>
 				{
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
-					게임 PDF　　
+					게임 설명 　　
 					  
 								<input type="file" name="file" onChange={(event) => handleFileInput} />
 								<button type="button" onClick={null} />
 
 					</Typography>
 				}
-								{
+				<Divider/>
+				{
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					제한 시간　　
 					  
@@ -165,6 +167,7 @@ function Courses(props) {
 													  />
 					</Typography>
 				}
+				<Divider/>
 				{
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					제한 메모리　
