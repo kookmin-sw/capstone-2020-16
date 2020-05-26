@@ -41,11 +41,8 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
                                                      description=data['description'],
                                                      limit_time=data['limit_time'],
                                                      limit_memory=data['limit_memory'],
-                                                     level=data['level'],
-                                                     popularity=data['popularity'],
-                                                     icon=data['icon'],
                                                      thumbnail=data['thumbnail'],
-                                                     board_size=data['board_size'],
+                                                     # board_size=data['board_size'],
                                                      board_info=data['board_info'],
                                                      rule=data['rule'])
 
@@ -66,9 +63,6 @@ class ProblemViewSet(mixins.VersionedSchemaMixin,
             qs.description = data['description']
             qs.limit_time = data['limit_time']
             qs.limit_memory = data['limit_memory']
-            qs.level = data['level']
-            qs.popularity = data['popularity']
-            qs.icon = data['icon']
             qs.thumbnail = data['thumbnail']
             qs.board_size = data['board_size']
             qs.board_info = data['board_info']
