@@ -9,6 +9,13 @@ Network Persistent State
 rapid_render.json
 out
 gen
+core/.idea/
+core/.idea
+core/.idea/vcs.xml
+logs
+User/
+api/onepanman_api/util/
+front/src/app/store/reducers/getProblemId/getProblem.reducer.js
 api/
 front/
 Cache/
