@@ -14,6 +14,36 @@ import SetPieceTab from './components/SetPieceTab';
 
 
 
+function problemPost(userId, problemTitle, problemDescription, limitTime, limitMemory, problemImg, boardInfo, rule){
+	var header = {
+	  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+	}
+	
+	var data = {
+	  editor: userId,
+	  title: problemTitle,
+	  description: problemDescription,
+	  limit_time: limitTime,
+	  limit_memory: limitMemory,
+	  thumbnail: problemImg,
+	  board_info: boardInfo,
+	  rule: rule
+
+	}
+  
+	axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/problem/", data, {
+	  headers: header
+	})
+	.then( response => {
+		alert(response);
+	  	console.log(response);
+	})
+	.catch(error => {
+		alert(error);
+	  	console.log(error);
+	})
+  }
+
 
 
 const useStyles = makeStyles(theme => ({
