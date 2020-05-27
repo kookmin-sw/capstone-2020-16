@@ -14,7 +14,8 @@ from .userInfo import UserInfoViewSet
 from .userInformationInProblem import UserInformationInProblemViewSet
 from .match import Match
 from .rule import RuleViewSet
+from .matchall import Matchall
 
 __all__ = ['ArticleViewSet', 'CommentViewSet', 'CodeViewSet', 'FriendViewSet', 'GameViewSet', 'GroupInfoViewSet',
            'GroupViewSet', 'LanguageViewSet', 'NoticeViewSet', 'ProblemViewSet', 'TestcaseViewSet',
-           'UserViewSet', 'UserInfoViewSet', 'UserInformationInProblemViewSet', 'Match', 'RuleViewSet']
+           'UserViewSet', 'UserInfoViewSet', 'UserInformationInProblemViewSet', 'Match', 'RuleViewSet', 'Matchall']
