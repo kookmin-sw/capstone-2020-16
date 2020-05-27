@@ -19,8 +19,6 @@ function problemPost(userId, problemTitle, problemDescription, limitTime, limitM
 	  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 	}
 
-
-
 	
 	var data = {
 	  editor: userId,
@@ -49,6 +47,7 @@ function problemPost(userId, problemTitle, problemDescription, limitTime, limitM
 
 
 
+
 const useStyles = makeStyles(theme => ({
 	header: {
 		background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
@@ -67,6 +66,48 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
+function placeGenerator(objNum){
+
+	var option1, option2, option3, option4;
+
+	if(sessionStorage.getItem(`startType${objNum}`) === "이동"){
+		option1 = 0;
+		if(sessionStorage.getItem(`distance${objNum}`) === "+방향")
+		{option2 = 0; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+		else if(sessionStorage.getItem(`distance${objNum}`) === "X방향")
+		{option2 = 1; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+		else if(sessionStorage.getItem(`distance${objNum}`) === "8방향")
+		{option2 = 2; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+		else if(sessionStorage.getItem(`distance${objNum}`) === "커스텀")
+		{option2 = 3; option3 = sessionStorage.getItem(`customDistanceX${objNum}`); option4= sessionStorage.getItem(`customDistanceY${objNum}`)}
+		else{ }
+
+		return `"${objNum}":[${option1},[${option2,option3,option4}],1]`
+	}
+	
+	else if(sessionStorage.getItem(`startType${objNum}`) === "둘 다"){
+		option1 = 2;
+		if(sessionStorage.getItem(`distance${objNum}`) === "+방향")
+		{option2 = 0; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+		else if(sessionStorage.getItem(`distance${objNum}`) === "X방향")
+		{option2 = 1; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+		else if(sessionStorage.getItem(`distance${objNum}`) === "8방향")
+		{option2 = 2; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+		else if(sessionStorage.getItem(`distance${objNum}`) === "커스텀")
+		{option2 = 3; option3 = sessionStorage.getItem(`customDistanceX${objNum}`); option4= sessionStorage.getItem(`customDistanceY${objNum}`)}
+		else{ }
+
+		return `"${objNum}":[${option1}, [[${option2,option3,option4}]],1]`
+	}
+
+	else{
+		option1 = 1;
+		return `"${objNum}":[${option1}, [0, 0, 0]], 1`
+	}
+
+}
+
+
 
 
 
@@ -78,7 +119,7 @@ function Courses(props) {
 		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 	}
 
-
+	const [objNum,setObjNum] = useState(null);
 	const [title, setTitle] = useState("");
 	// const [discription, setDiscription] = useState();
 	// const [img, setImg] = useState();
@@ -265,6 +306,37 @@ function Courses(props) {
 				}
 
 				</div>
+				{
+						(() => {
+							if (sessionStorage.getItem("startType1") !== null && sessionStorage.getItem("distance1") !== null
+								&& ((sessionStorage.getItem("customDistanceX1") !== null && sessionStorage.getItem("customDistanceY1") !== null) && (sessionStorage.getItem("customDistanceMin1") !== null && sessionStorage.getItem("customDistanceMax1") !== null))
+								&& (sessionStorage.getItem("actionType1") !== null && sessionStorage.getItem("actionCondition1") !== null)
+							) {
+								setObjNum("1");
+							}
+							else if (sessionStorage.getItem("startType2") !== null && sessionStorage.getItem("distance2") !== null
+								&& ((sessionStorage.getItem("customDistanceX2") !== null && sessionStorage.getItem("customDistanceY2") !== null) && (sessionStorage.getItem("customDistanceMin1") !== null && sessionStorage.getItem("customDistanceMax1") !== null))
+								&& (sessionStorage.getItem("actionType2") !== null && sessionStorage.getItem("actionCondition2") !== null)
+							) {
+								setObjNum("2");
+							}
+
+							else if (sessionStorage.getItem("startType3") !== null && sessionStorage.getItem("distance3") !== null
+								&& ((sessionStorage.getItem("customDistanceX3") !== null && sessionStorage.getItem("customDistanceY3") !== null) && (sessionStorage.getItem("customDistanceMin1") !== null && sessionStorage.getItem("customDistanceMax1") !== null))
+								&& (sessionStorage.getItem("actionType3") !== null && sessionStorage.getItem("actionCondition3") !== null)
+							) {
+								setObjNum("3");
+							}
+							else if (sessionStorage.getItem("startType4") !== null && sessionStorage.getItem("distance4") !== null
+								&& ((sessionStorage.getItem("customDistanceX4") !== null && sessionStorage.getItem("customDistanceY4") !== null) && (sessionStorage.getItem("customDistanceMin1") !== null && sessionStorage.getItem("customDistanceMax1") !== null))
+								&& (sessionStorage.getItem("actionType4") !== null && sessionStorage.getItem("actionCondition4") !== null)
+							) {
+								setObjNum("4");
+							}
+							else { }
+
+						})()
+				}
 			</Card>
 
 			</div>
