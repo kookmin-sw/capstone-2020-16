@@ -54,6 +54,8 @@ export default function SimpleCard() {
   const [value2, setValue2] = useState(sessionStorage.getItem("distance1"));
   const [X, setX] = useState(sessionStorage.getItem("customDistanceX1"));
   const [Y, setY] = useState(sessionStorage.getItem("customDistanceY1"));
+  const [min, setMin] = useState(sessionStorage.getItem("customDistanceMin1"));
+  const [max, setMax] = useState(sessionStorage.getItem("customDistanceMax1"));
 
   const handleChangeX = (event) => {
     setX(event.target.value);
@@ -65,6 +67,20 @@ export default function SimpleCard() {
   const handleChangeY = (event) => {
     setY(event.target.value);
     sessionStorage.setItem("customDistanceY1", event.target.value);
+  };
+
+  const handleChangeMin = (event) => {
+    setX(event.target.value);
+    sessionStorage.setItem("customDistanceMin1", event.target.value);
+    // console.log(event.target.value);
+    // console.log(sessionStorage.getItem("customDistanceX1", event.target.value));
+  };
+
+  const handleChangeMax = (event) => {
+    setX(event.target.value);
+    sessionStorage.setItem("customDistanceMax1", event.target.value);
+    // console.log(event.target.value);
+    // console.log(sessionStorage.getItem("customDistanceX1", event.target.value));
   };
 
   const handleChange = (event) => {
@@ -139,7 +155,7 @@ export default function SimpleCard() {
           <Paper className={classes.paper}>
           <CardContent>
           <Typography className={classes.title} color="textPrimary" gutterBottom>
-          커스텀 거리 설정
+          거리 설정
           </Typography>
       <div>
 				{
@@ -168,7 +184,32 @@ export default function SimpleCard() {
             />
             </div>
               );
-							  }
+            }
+            else if ((sessionStorage.getItem("startType1") === "이동" || sessionStorage.getItem("startType1") === "둘 다") && (sessionStorage.getItem("distance1") === "+방향"||sessionStorage.getItem("distance1") === "X방향" || sessionStorage.getItem("distance1") === "8방향")) {
+							return (
+              <div>
+                <TextField
+                id="outlined-multiline-flexible"
+                label="최소 거리"
+                multiline
+                rowsMax={4}
+                value={min}
+                onChange={handleChangeMin}
+                variant="outlined"
+              />
+              <div>　</div>
+              <TextField
+              id="outlined-multiline-flexible"
+              label="최대 거리"
+              multiline
+              rowsMax={4}
+              value={max}
+              onChange={handleChangeMax}
+              variant="outlined"
+            />
+            </div>
+              );
+            }
               else if(sessionStorage.getItem("startType1") === "추가"){ return '추가 설정 없음' }
               else{ }
 						})()

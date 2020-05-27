@@ -18,6 +18,9 @@ function problemPost(userId, problemTitle, problemDescription, limitTime, limitM
 	var header = {
 	  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 	}
+
+
+
 	
 	var data = {
 	  editor: userId,
@@ -77,7 +80,8 @@ function Courses(props) {
 
 
 	const [title, setTitle] = useState("");
-	const [description, setDescription] = useState("");
+	// const [discription, setDiscription] = useState();
+	// const [img, setImg] = useState();
 	const [board, setBoard] = useState("");
 	const [limitTime, setLimitTime] = useState(0);
 	const [limitMemory, setLimitMemory] = useState(0);
@@ -86,9 +90,9 @@ function Courses(props) {
 		setTitle(event.target.value);
 	};
 
-	const descriptionChange = (event) => {
-		setDescription(event.target.value);
-	};
+	// const discriptionChange = (event) => {
+	// 	setDiscription(event.target.value);
+	// };
 	
 	const limitTimeChange = (event) => {
 		setLimitTime(event.target.value);
@@ -107,12 +111,21 @@ function Courses(props) {
 	
 	const handleFileInput = (event) => {
 		setState(event.target.value);
-	  }
+	}
 	
 	 const handleFileInput2 = (event) => {
 		setState2(event.target.value);
-	 }
+	}
 	
+	const handlePost = (event) => {
+		const formData = new FormData();
+		formData.append('file', event.selectedFile);
+	}
+
+	const handlePost2 = (event) => {
+		const formData2 = new FormData();
+		formData2.append('file', event.selectedFile);
+	}
 	
 	
 	return(
@@ -172,7 +185,7 @@ function Courses(props) {
 					게임 이미지 　
 					  
 								<input type="file" name="file" onChange={(event) => handleFileInput2} />
-								<button type="button" onClick={null} />
+								<button type="button" onClick={handlePost} />
 
 					</Typography>
 				}
@@ -182,7 +195,7 @@ function Courses(props) {
 					게임 설명 　　
 					  
 								<input type="file" name="file" onChange={(event) => handleFileInput} />
-								<button type="button" onClick={null} />
+								<button type="button" onClick={handlePost2} />
 
 					</Typography>
 				}

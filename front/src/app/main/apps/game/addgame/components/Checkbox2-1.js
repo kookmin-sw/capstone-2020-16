@@ -54,6 +54,8 @@ export default function SimpleCard() {
   const [value2, setValue2] = useState(sessionStorage.getItem("distance2"));
   const [X, setX] = useState(sessionStorage.getItem("customDistanceX2"));
   const [Y, setY] = useState(sessionStorage.getItem("customDistanceY2"));
+  const [min, setMin] = useState(sessionStorage.getItem("customDistanceMin2"));
+  const [max, setMax] = useState(sessionStorage.getItem("customDistanceMax2"));
 
   const handleChangeX = (event) => {
     setX(event.target.value);
@@ -65,6 +67,20 @@ export default function SimpleCard() {
   const handleChangeY = (event) => {
     setY(event.target.value);
     sessionStorage.setItem("customDistanceY2", event.target.value);
+  };
+
+  const handleChangeMin = (event) => {
+    setX(event.target.value);
+    sessionStorage.setItem("customDistanceMin2", event.target.value);
+    // console.log(event.target.value);
+    // console.log(sessionStorage.getItem("customDistanceX1", event.target.value));
+  };
+
+  const handleChangeMax = (event) => {
+    setX(event.target.value);
+    sessionStorage.setItem("customDistanceMax2", event.target.value);
+    // console.log(event.target.value);
+    // console.log(sessionStorage.getItem("customDistanceX1", event.target.value));
   };
 
   const handleChange = (event) => {
@@ -139,12 +155,12 @@ export default function SimpleCard() {
           <Paper className={classes.paper}>
           <CardContent>
           <Typography className={classes.title} color="textPrimary" gutterBottom>
-          커스텀 거리 설정
+          거리 설정
           </Typography>
       <div>
 				{
 						(() => {
-						  if ((sessionStorage.getItem("startType2") === "이동" || sessionStorage.getItem("startType2") === "둘 다") && sessionStorage.getItem("distance1") === "커스텀") {
+						  if ((sessionStorage.getItem("startType2") === "이동" || sessionStorage.getItem("startType2") === "둘 다") && sessionStorage.getItem("distance2") === "커스텀") {
 							return (
               <div>
                 <TextField
@@ -168,7 +184,32 @@ export default function SimpleCard() {
             />
             </div>
               );
-							  }
+            }
+            else if ((sessionStorage.getItem("startType2") === "이동" || sessionStorage.getItem("startType2") === "둘 다") && (sessionStorage.getItem("distance2") === "+방향"||sessionStorage.getItem("distance2") === "X방향" || sessionStorage.getItem("distance2") === "8방향")) {
+							return (
+              <div>
+                <TextField
+                id="outlined-multiline-flexible"
+                label="최소 거리"
+                multiline
+                rowsMax={4}
+                value={min}
+                onChange={handleChangeMin}
+                variant="outlined"
+              />
+              <div>　</div>
+              <TextField
+              id="outlined-multiline-flexible"
+              label="최대 거리"
+              multiline
+              rowsMax={4}
+              value={max}
+              onChange={handleChangeMax}
+              variant="outlined"
+            />
+            </div>
+              );
+            }
               else if(sessionStorage.getItem("startType2") === "추가"){ return '추가 설정 없음' }
               else{ }
 						})()
