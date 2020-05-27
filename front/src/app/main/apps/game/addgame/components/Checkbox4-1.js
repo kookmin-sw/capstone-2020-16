@@ -134,8 +134,7 @@ export default function SimpleCard() {
 
                 <FormControl component="fieldset">
                 <RadioGroup aria-label="select4-2" name="select4-2" value={value2} onChange={handleChange2}>
-                <FormControlLabel value="+방향" control={<Radio />} label="+방향" onClick={()=>{sessionStorage.setItem("distance4", "+방향")}}/>
-                  <FormControlLabel value="X방향" control={<Radio />} label="X방향" onClick={()=>{sessionStorage.setItem("distance4", "X방향")}}/>
+                  <FormControlLabel value="4방향" control={<Radio />} label="4방향" onClick={()=>{sessionStorage.setItem("distance4", "4방향")}}/>
                   <FormControlLabel value="8방향" control={<Radio />} label="8방향(대각 포함)" onClick={()=>{sessionStorage.setItem("distance4", "8방향")}}/>
                   <FormControlLabel value="커스텀" control={<Radio />} label="커스텀" onClick={()=>{sessionStorage.setItem("distance4", "커스텀")}}/>
                   <FormControlLabel disalbed="어디에나" disabled control={<Radio />} label="어디에나" onClick={()=>{sessionStorage.setItem("distance4", "어디에나")}}/>
@@ -185,7 +184,7 @@ export default function SimpleCard() {
             </div>
               );
             }
-            else if ((sessionStorage.getItem("startType4") === "이동" || sessionStorage.getItem("startType4") === "둘 다") && (sessionStorage.getItem("distance4") === "+방향"||sessionStorage.getItem("distance4") === "X방향" || sessionStorage.getItem("distance4") === "8방향")) {
+            else if ((sessionStorage.getItem("startType4") === "이동" || sessionStorage.getItem("startType4") === "둘 다") && (sessionStorage.getItem("distance4") === "4방향" || sessionStorage.getItem("distance4") === "8방향")) {
 							return (
               <div>
                 <TextField
