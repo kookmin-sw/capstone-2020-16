@@ -26,7 +26,7 @@
   
   
   
-**Online Algorithm Battle Service**
+**Algorithm Board Game Platform Code On Board**
 
  Recently, as the AI boom has increased, interest in algorithms has also increased. In elementary, middle and high curriculum, software education mandatory plans were enforced, and many people, including majors, started practicing algorithm problem solving through algorithm training sites such as Baekjun and programmers.
 
@@ -109,7 +109,7 @@
 
 📧 **E-Mail** : dngusdnd@kookmin.ac.kr
 
-📌 **Role**   : API개발, DB 설계 및 구현
+📌 **Role**   : API개발, DB 설계 및 구현, Front-End 개발
 
 
 
