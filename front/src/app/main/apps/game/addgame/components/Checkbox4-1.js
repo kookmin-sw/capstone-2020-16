@@ -70,14 +70,14 @@ export default function SimpleCard() {
   };
 
   const handleChangeMin = (event) => {
-    setX(event.target.value);
+    setMin(event.target.value);
     sessionStorage.setItem("customDistanceMin4", event.target.value);
     // console.log(event.target.value);
     // console.log(sessionStorage.getItem("customDistanceX1", event.target.value));
   };
 
   const handleChangeMax = (event) => {
-    setX(event.target.value);
+    setMax(event.target.value);
     sessionStorage.setItem("customDistanceMax4", event.target.value);
     // console.log(event.target.value);
     // console.log(sessionStorage.getItem("customDistanceX1", event.target.value));

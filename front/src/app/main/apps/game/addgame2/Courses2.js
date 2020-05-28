@@ -14,38 +14,6 @@ import SetPieceTab from './components/SetPieceTab';
 
 
 
-function problemPost(userId, problemTitle, problemDescription, limitTime, limitMemory, problemImg, boardInfo, rule){
-	var header = {
-	  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
-	}
-
-	
-	var data = {
-	  editor: userId,
-	  title: problemTitle,
-	  description: problemDescription,
-	  limit_time: limitTime,
-	  limit_memory: limitMemory,
-	  thumbnail: problemImg,
-	  board_info: boardInfo,
-	  rule: rule
-
-	}
-  
-	axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/problem/", data, {
-	  headers: header
-	})
-	.then( response => {
-		alert(response);
-	  	console.log(response);
-	})
-	.catch(error => {
-		alert(error);
-	  	console.log(error);
-	})
-  }
-
-
 
 
 const useStyles = makeStyles(theme => ({
@@ -66,48 +34,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function placeGenerator(objNum){
-
-	var option1, option2, option3, option4;
-
-	if(sessionStorage.getItem(`startType${objNum}`) === "이동"){
-		option1 = 0;
-		if(sessionStorage.getItem(`distance${objNum}`) === "+방향")
-		{option2 = 0; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
-		else if(sessionStorage.getItem(`distance${objNum}`) === "X방향")
-		{option2 = 1; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
-		else if(sessionStorage.getItem(`distance${objNum}`) === "8방향")
-		{option2 = 2; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
-		else if(sessionStorage.getItem(`distance${objNum}`) === "커스텀")
-		{option2 = 3; option3 = sessionStorage.getItem(`customDistanceX${objNum}`); option4= sessionStorage.getItem(`customDistanceY${objNum}`)}
-		else{ }
-
-		return `"${objNum}":[${option1},[${option2,option3,option4}],1]`
-	}
-	
-	else if(sessionStorage.getItem(`startType${objNum}`) === "둘 다"){
-		option1 = 2;
-		if(sessionStorage.getItem(`distance${objNum}`) === "+방향")
-		{option2 = 0; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
-		else if(sessionStorage.getItem(`distance${objNum}`) === "X방향")
-		{option2 = 1; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
-		else if(sessionStorage.getItem(`distance${objNum}`) === "8방향")
-		{option2 = 2; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
-		else if(sessionStorage.getItem(`distance${objNum}`) === "커스텀")
-		{option2 = 3; option3 = sessionStorage.getItem(`customDistanceX${objNum}`); option4= sessionStorage.getItem(`customDistanceY${objNum}`)}
-		else{ }
-
-		return `"${objNum}":[${option1}, [[${option2,option3,option4}]],1]`
-	}
-
-	else{
-		option1 = 1;
-		return `"${objNum}":[${option1}, [0, 0, 0]], 1`
-	}
-
-}
-
-
 
 
 
@@ -118,14 +44,19 @@ function Courses(props) {
 	var header = {
 		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 	}
-
-	const [objNum,setObjNum] = useState(null);
+	var objNum = null;
+	var rule = null;
+	// const [rule,setRule] = useState("");
+	// const [objNum,setObjNum] = useState(null);
 	const [title, setTitle] = useState("");
 	// const [discription, setDiscription] = useState();
 	// const [img, setImg] = useState();
 	const [board, setBoard] = useState("");
 	const [limitTime, setLimitTime] = useState(0);
 	const [limitMemory, setLimitMemory] = useState(0);
+
+	const formData = new FormData();
+	const formData2 = new FormData();
 
 	const titleChange = (event) => {
 		setTitle(event.target.value);
@@ -159,16 +90,198 @@ function Courses(props) {
 	}
 	
 	const handlePost = (event) => {
-		const formData = new FormData();
 		formData.append('file', event.selectedFile);
 	}
 
 	const handlePost2 = (event) => {
-		const formData2 = new FormData();
 		formData2.append('file', event.selectedFile);
+	}
+
+	function placeGenerator(objNum){
+
+		var option1, option2, option3, option4;
+	
+		if(sessionStorage.getItem(`startType${objNum}`) === "이동"){
+			option1 = 0;
+			if(sessionStorage.getItem(`distance${objNum}`) === "+방향")
+			{option2 = 0; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+			else if(sessionStorage.getItem(`distance${objNum}`) === "X방향")
+			{option2 = 1; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+			else if(sessionStorage.getItem(`distance${objNum}`) === "8방향")
+			{option2 = 2; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+			else if(sessionStorage.getItem(`distance${objNum}`) === "커스텀")
+			{option2 = 3; option3 = sessionStorage.getItem(`customDistanceX${objNum}`); option4= sessionStorage.getItem(`customDistanceY${objNum}`)}
+			else{ }
+	
+			return `"${objNum}":[${option1}, [[${option2}, ${option3}, ${option4}]],1]`
+		}
+		
+		else if(sessionStorage.getItem(`startType${objNum}`) === "둘 다"){
+			option1 = 2;
+			if(sessionStorage.getItem(`distance${objNum}`) === "+방향")
+			{option2 = 0; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+			else if(sessionStorage.getItem(`distance${objNum}`) === "X방향")
+			{option2 = 1; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+			else if(sessionStorage.getItem(`distance${objNum}`) === "8방향")
+			{option2 = 2; option3 = sessionStorage.getItem(`customDistanceMin${objNum}`); option4= sessionStorage.getItem(`customDistanceMax${objNum}`)}
+			else if(sessionStorage.getItem(`distance${objNum}`) === "커스텀")
+			{option2 = 3; option3 = sessionStorage.getItem(`customDistanceX${objNum}`); option4= sessionStorage.getItem(`customDistanceY${objNum}`)}
+			else{ }
+	
+			return `"${objNum}":[${option1}, [[${option2}, ${option3}, ${option4}]],1]`
+		}
+	
+		else{
+			option1 = 1;
+			return `"${objNum}":[${option1}, [[0, 0, 0]], 1]`
+		}
+	
+	}
+	
+	function actionGenerator(objNum){
+	
+		var option1, option2;
+	
+		if(sessionStorage.getItem(`actionType${objNum}`) === "없음")
+		{option1 = 0;}
+		else if(sessionStorage.getItem(`actionType${objNum}`) === "내 돌")
+		{option1 = 1;}
+		else{}
+		
+		if(sessionStorage.getItem(`actionCondition${objNum}`) === "없음")
+		{option2 = 0; return `"${objNum}":[${option1}]`}
+		// else if(sessionStorage.getItem(`actionCondition${objNum}`) === "인접할 때")
+		// {option2 = 2;
+		// 	if(sessionStorage.getItem(`actionDirection${objNum}` === "양 옆"))
+		//	{}
+		// }
+		else{}
 	}
 	
 	
+	function endingGenerator(objNum){
+	
+		return `"${objNum} : [1]"`
+	
+	}
+	
+	{
+		(() => {
+			if (sessionStorage.getItem("startType1") !== null && sessionStorage.getItem("distance1") !== null
+				&& (sessionStorage.getItem("actionType1") !== null)
+			) {
+				// setObjNum(1);
+				objNum=1;
+			}
+			if (sessionStorage.getItem("startType2") !== null && sessionStorage.getItem("distance2") !== null
+				&& (sessionStorage.getItem("actionType2") !== null)
+			) {
+				// setObjNum(2);
+				objNum=2;
+			}
+
+			if (sessionStorage.getItem("startType3") !== null && sessionStorage.getItem("distance3") !== null
+				&& (sessionStorage.getItem("actionType3") !== null)
+			) {
+				// setObjNum(3);
+				objNum=3;
+			}
+			if (sessionStorage.getItem("startType4") !== null && sessionStorage.getItem("distance4") !== null
+				&& (sessionStorage.getItem("actionType4") !== null)
+			) {
+				// setObjNum(4);
+				objNum=4;
+			}
+			
+		})()
+	}
+	
+		{
+		(() => {
+			var placement1, action1, ending1, placement2, action2, ending2, placement3, action3, ending3, placement4, action4, ending4;
+
+				if(objNum === 1 ){
+					placement1 = placeGenerator(1); action1 = actionGenerator(1); ending1 = endingGenerator(1);
+				}
+				else if(objNum === 2 ){
+					placement1 = placeGenerator(1); action1 = actionGenerator(1); ending1 = endingGenerator(1);
+					placement2 = placeGenerator(2); action2 = actionGenerator(2); ending2 = endingGenerator(2);
+				}
+				else if(objNum === 3 ){
+					placement1 = placeGenerator(1); action1 = actionGenerator(1); ending1 = endingGenerator(1);
+					placement2 = placeGenerator(2); action2 = actionGenerator(2); ending2 = endingGenerator(2);
+					placement3 = placeGenerator(3); action3 = actionGenerator(3); ending3 = endingGenerator(3);
+				}
+				else if(objNum === 4 ){
+					placement1 = placeGenerator(1); action1 = actionGenerator(1); ending1 = endingGenerator(1);
+					placement2 = placeGenerator(2); action2 = actionGenerator(2); ending2 = endingGenerator(2);
+					placement3 = placeGenerator(3); action3 = actionGenerator(3); ending3 = endingGenerator(3);
+					placement4 = placeGenerator(4); action4 = actionGenerator(4); ending4 = endingGenerator(4);
+
+				}
+				else{}
+			
+
+			if(objNum === 1){
+				rule = `{"obj_num: ${objNum}, "placement" : {${placement1}}, "action" : {${action1}}, "ending" : {${ending1}}}`;
+			}
+			else if(objNum === 2){
+				rule = `{"obj_num: ${objNum}, "placement" : {${placement1},${placement2}}, "action" : {${action1}, ${action2}}, "ending" : {${ending1}, ${ending2}}}`;
+			}
+			else if(objNum === 3){
+				rule = `{"obj_num: ${objNum}, "placement" : {${placement1},${placement2},${placement3}}, "action" : {${action1}, ${action2}, ${action3}}, "ending" : {${ending1}, ${ending2}, ${ending3}}}`;
+			}
+			else if(objNum === 4){
+				rule = `{"obj_num: ${objNum}, "placement" : {${placement1},${placement2},${placement3},${placement4}}, "action" : {${action1}, ${action2}, ${action3}, ${action4}}, "ending" : {${ending1}, ${ending2}, ${ending3}, ${ending4}}}`;
+			}
+			else{}
+
+
+		})()
+	}
+
+
+
+	function problemPost(userId, problemTitle, problemDescription, limitTime, limitMemory, problemImg, boardInfo, rule){
+		var header = {
+		  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token'),
+		  'Content-Type': 'multipart/form-data'
+		}
+		var frm = new FormData();
+		var inFile = document.getElementById("file");
+		frm.append("file", inFile.files[0]);
+		frm.append("file2", inFile.files[1]);
+		
+		var data = {
+		  editor: userId,
+		  title: problemTitle,
+		  description: inFile.files[0],
+		  limit_time: limitTime,
+		  limit_memory: limitMemory,
+		  thumbnail: inFile.files[1],
+		  board_info: boardInfo,
+		  rule: rule
+	
+		}
+	  
+		axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/problem/", data, frm, {
+		  headers: header
+		  
+		})
+		.then( response => {
+			alert(response);
+			  console.log(response);
+		})
+		.catch(error => {
+			alert(error);
+			  console.log(error);
+			  console.log(data);
+		})
+	  }
+	
+
+
+
 	return(
 		<div className="flex flex-col flex-auto flex-shrink-0 w-full">
 
@@ -222,23 +335,26 @@ function Courses(props) {
 				}
 				<Divider/>
 				{
+					<form>
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					게임 이미지 　
-					  
-								<input type="file" name="file" onChange={(event) => handleFileInput2} />
-								<button type="button" onClick={handlePost} />
-
+					  			
+								<input type="file" name="file" id="file" onChange={(event) => handleFileInput2} />
+								<button type="button"/>
 					</Typography>
+					</form>
 				}
 				<Divider/>
 				{
+					<form>
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					게임 설명 　　
 					  
-								<input type="file" name="file" onChange={(event) => handleFileInput} />
-								<button type="button" onClick={handlePost2} />
+								<input type="file" name="file2" id="file2" onChange={(event) => handleFileInput} />
+								<button type="button" />
 
 					</Typography>
+					</form>
 				}
 				<Divider/>
 				{
@@ -306,37 +422,10 @@ function Courses(props) {
 				}
 
 				</div>
-				{
-						(() => {
-							if (sessionStorage.getItem("startType1") !== null && sessionStorage.getItem("distance1") !== null
-								&& ((sessionStorage.getItem("customDistanceX1") !== null && sessionStorage.getItem("customDistanceY1") !== null) && (sessionStorage.getItem("customDistanceMin1") !== null && sessionStorage.getItem("customDistanceMax1") !== null))
-								&& (sessionStorage.getItem("actionType1") !== null && sessionStorage.getItem("actionCondition1") !== null)
-							) {
-								setObjNum("1");
-							}
-							else if (sessionStorage.getItem("startType2") !== null && sessionStorage.getItem("distance2") !== null
-								&& ((sessionStorage.getItem("customDistanceX2") !== null && sessionStorage.getItem("customDistanceY2") !== null) && (sessionStorage.getItem("customDistanceMin1") !== null && sessionStorage.getItem("customDistanceMax1") !== null))
-								&& (sessionStorage.getItem("actionType2") !== null && sessionStorage.getItem("actionCondition2") !== null)
-							) {
-								setObjNum("2");
-							}
+				<div>
 
-							else if (sessionStorage.getItem("startType3") !== null && sessionStorage.getItem("distance3") !== null
-								&& ((sessionStorage.getItem("customDistanceX3") !== null && sessionStorage.getItem("customDistanceY3") !== null) && (sessionStorage.getItem("customDistanceMin1") !== null && sessionStorage.getItem("customDistanceMax1") !== null))
-								&& (sessionStorage.getItem("actionType3") !== null && sessionStorage.getItem("actionCondition3") !== null)
-							) {
-								setObjNum("3");
-							}
-							else if (sessionStorage.getItem("startType4") !== null && sessionStorage.getItem("distance4") !== null
-								&& ((sessionStorage.getItem("customDistanceX4") !== null && sessionStorage.getItem("customDistanceY4") !== null) && (sessionStorage.getItem("customDistanceMin1") !== null && sessionStorage.getItem("customDistanceMax1") !== null))
-								&& (sessionStorage.getItem("actionType4") !== null && sessionStorage.getItem("actionCondition4") !== null)
-							) {
-								setObjNum("4");
-							}
-							else { }
-
-						})()
-				}
+				</div>
+				{/* {console.log(objNum)} */}
 			</Card>
 
 			</div>
@@ -372,7 +461,9 @@ function Courses(props) {
 						height: 40
 					}}
 					variant="contained"
-					color="primary">
+					color="primary"
+					onClick={()=>{problemPost(1, title, formData, limitTime, limitMemory, formData2, board, rule)}}
+					>
 					POST
      			</Button>
 			</Link>
