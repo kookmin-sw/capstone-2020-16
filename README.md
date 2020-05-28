@@ -1,4 +1,4 @@
-## Online Algorithm Battle Service
+## Code on Board
 
 
 ## I. 프로젝트 소개
@@ -11,7 +11,7 @@
 팀페이지주소 : https://kookmin-sw.github.io/capstone-2020-16/
 
 
-**온라인 알고리즘 대전 서비스(Online Algorithm Battle Service)**
+**알고리즘 보드게임 플랫폼 코드 온 보드(Code on board)**
 
 
   근 몇 년간 AI 열풍이 불면서 알고리즘에 대한 관심도 높아졌다. 초중고 교육 현장에서는 sw교육 열풍이 불고 있고 전공자를 비롯한 많은 사람들이 백준과 프로그래머스 같은 알고리즘 트레이닝 사이트를 통해 알고리즘 트레이닝을 시작했다. 
