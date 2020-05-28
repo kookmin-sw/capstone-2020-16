@@ -5,7 +5,7 @@
 
 
 
-![ㅇㅅㅇ](https://user-images.githubusercontent.com/17774917/77642086-6fd67e80-6fa0-11ea-8b34-dde4db31fe73.JPG)
+![KakaoTalk_20200528_190250779](https://user-images.githubusercontent.com/17774917/83146806-c17ebf00-a131-11ea-8257-24178f9b316a.png)
 
 팀페이지주소 : https://kookmin-sw.github.io/capstone-2020-16/
 
