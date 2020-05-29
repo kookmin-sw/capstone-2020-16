@@ -12,6 +12,7 @@ const version = {
 const boardStatus = {
   chacksoo: [],
   placement: [],
+  realChacksoo: [["0"*64]],
   boardIdx: 0,
   isAuto: false,
   idxLen : 0,
@@ -19,7 +20,7 @@ const boardStatus = {
   renderTime: new Date().getTime(),
   challengerId: 0,
   oppositeId: 0,
-  idxIncrement: true
+  idxIncrement: false
 }
 var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
@@ -34,9 +35,16 @@ class Scene2 extends Phaser.Scene {
         // console.log(response)
         boardStatus.isError = response.data.error_msg;
         boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-        console.log(boardStatus.chacksoo)
+        for(let i = 0, chacksooIdx = 0; i < boardStatus.chacksoo.length; chacksooIdx++){
+          let tempChacksoo = [];
+          for(let j=0; j<64; j++){
+            tempChacksoo.push(boardStatus.chacksoo[i++]);
+          }
+          boardStatus.realChacksoo.push(tempChacksoo);
+        }
+        boardStatus.boardIdx = boardStatus.realChacksoo.length - 1;
         boardStatus.placement = response.data.placement_record.split(/\n/);
-        boardStatus.idxLen = boardStatus.chacksoo.length/64;
+        boardStatus.idxLen = boardStatus.realChacksoo.length - 1;
         boardStatus.challengerId = response.data.challenger;
         boardStatus.oppositeId = response.data.opposite;
       })
@@ -47,15 +55,24 @@ class Scene2 extends Phaser.Scene {
   
     create() {
       this.iter = 0; // used for itarations
-      boardStatus.boardIdx = 0;
+      boardStatus.boardIdx = boardStatus.realChacksoo.length - 1;
       this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
         .setInteractive()
         .on('pointerup', () => {
-          alert(parseInt((this.sys.game.input.mousePointer.y - 55)/64) + ',' + parseInt((this.sys.game.input.mousePointer.x - 268)/64));
-          // alert(this.sys.game.input.mousePointer.x+','+ this.sys.game.input.mousePointer.y);
+          let prevChacksoo = JSON.parse(JSON.stringify(boardStatus.realChacksoo[boardStatus.boardIdx]));
+          let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
+          if(prevChacksoo[cellX*8 + cellY] === "0"){
+            prevChacksoo[cellX*8 + cellY] = "1";
+            boardStatus.realChacksoo.push(prevChacksoo);
+            boardStatus.boardIdx++;
+            boardStatus.idxLen++;
+            console.log(boardStatus.realChacksoo[boardStatus.boardIdx]);
+          }else {
+            alert("cannot chacksoo there!!!!!!");
+          }
         });
-      // this.background.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
       this.background.setOrigin(0.5, 0.5);
+
       // for slider
       this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(7, 7); // add dot
       this.sliderDot.slider = this.plugins.get('rexsliderplugin').add(this.sliderDot, {
@@ -68,7 +85,7 @@ class Scene2 extends Phaser.Scene {
                 y: this.sliderDot.y
             }
         ],
-        value: 0
+        value: 1
       });
       this.add.graphics()
               .lineStyle(3, 0xeec65b, 1)
@@ -76,16 +93,7 @@ class Scene2 extends Phaser.Scene {
               
               // change isAuto value
               this.updateClickCountText = () => {
-                boardStatus.isAuto = !boardStatus.isAuto
-                
-                if(boardStatus.isAuto === true){
-                  this.clickButton.setText("Auto Mode Button", { font: '17px Arial' })
-                  // this.sliderDot.visible = false;
-                }
-                else{
-                  // this.sliderDot.visible = true;
-                  this.clickButton.setText("Manual Mode Button", { font: '17px Arial' })
-                }
+                this.clickButton.setText("Manual Mode", { font: '17px Arial' })
               }
               this.nextIdxText = () => {
                 if(boardStatus.isAuto === false){
@@ -106,18 +114,10 @@ class Scene2 extends Phaser.Scene {
       
       
       // auto manual button(text)
-      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 110, `${boardStatus.isAuto} Mode Button`, { font: '17px Arial', fill: '#eec65b' })
-      .setInteractive()
-      .on('pointerover', () => this.enterButtonHoverState() )
-      .on('pointerout', () => this.enterButtonRestState() )
-      .on('pointerdown', () => this.enterButtonActiveState() )
-      .on('pointerup', () => {
-        this.updateClickCountText();
-        this.enterButtonHoverState();
-      });
+      this.clickButton = this.add.text(modalWidth/2 - 50, modalHeight - 110, `${boardStatus.isAuto} Mode`, { font: '17px Arial', fill: '#eec65b' });
       
 
-      this.nextButton = this.add.text(this.sliderDot.x + 430, modalHeight - 60, "Next Button", { fill: '#eec65b' })
+      this.nextButton = this.add.text(this.sliderDot.slider.endPoints[1].x + 30, modalHeight - 60, "Next Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStateNext() )
       .on('pointerout', () => this.enterButtonRestStateNext() )
@@ -128,7 +128,7 @@ class Scene2 extends Phaser.Scene {
       });
       
 
-      this.previousButton = this.add.text(this.sliderDot.x - 180, modalHeight - 60, "Previous Button", { fill: '#eec65b' })
+      this.previousButton = this.add.text(this.sliderDot.slider.endPoints[0].x - 180, modalHeight - 60, "Previous Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStatePrevious() )
       .on('pointerout', () => this.enterButtonRestStatePrevious() )
@@ -256,22 +256,24 @@ class Scene2 extends Phaser.Scene {
         children[i].setScale(0.091);
         children2[i].setScale(0.091);
         
-        if(boardStatus.chacksoo[((boardStatus.boardIdx+1)*64) + i] === "0"){
-          children[i].visible = false;
-          children2[i].visible = false;
-        }
-        else if(boardStatus.chacksoo[(boardStatus.boardIdx+1)*64 + i] === "1"){
-          children[i].visible = true;
-          children2[i].visible = false;
-        }
-        else if(boardStatus.chacksoo[(boardStatus.boardIdx+1)*64 + i] === "-1"){
-          children[i].visible = false;
-          children2[i].visible = true;
-        }
-        else{
-          children[i].visible = false;
-          children2[i].visible = false;
-        }
+        if(boardStatus.boardIdx <= boardStatus.idxLen){
+          if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "0"){
+            children[i].visible = false;
+            children2[i].visible = false;
+          }
+          else if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "1"){
+            children[i].visible = true;
+            children2[i].visible = false;
+          }
+          else if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "-1"){
+            children[i].visible = false;
+            children2[i].visible = true;
+          }
+          else{
+            children[i].visible = false;
+            children2[i].visible = false;
+          }
+      }
         
       };
 
@@ -325,29 +327,8 @@ class Scene2 extends Phaser.Scene {
       
       // increment the iteration
       this.iter += 0.001;
-      if(boardStatus.isAuto){
-        if(new Date().getTime() - boardStatus.renderTime > renderSpeed){
-          if(boardStatus.idxIncrement){
-            boardStatus.boardIdx += 1;
-            this.sliderDot.x += 400/boardStatus.idxLen;
-            this.sliderDot.slider.value += 1/boardStatus.idxLen;
-          }
-          boardStatus.renderTime = new Date().getTime()
-        }
-        this.sliderDot.visible = false;
-      }
-      else{
-        this.sliderDot.visible = true;
-        boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
-      }
-
-      if(boardStatus.boardIdx >= (boardStatus.idxLen -2) && boardStatus.isAuto){
-        boardStatus.idxIncrement = false;
-        this.sliderDot.slider.value = 0;
-      }
-      else{
-        boardStatus.idxIncrement = true;
-      }
+      this.sliderDot.visible = true;
+      boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
     };
   }
   

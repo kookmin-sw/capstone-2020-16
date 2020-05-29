@@ -99,7 +99,7 @@ class Scene2 extends Phaser.Scene {
       
       
       // auto manual button(text)
-      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 110, `${boardStatus.isAuto} Mode Button`, { font: '17px Arial', fill: '#eec65b' })
+      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 110, `${boardStatus.isAuto ? "Auto" : "Manual"} Mode Button`, { font: '17px Arial', fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverState() )
       .on('pointerout', () => this.enterButtonRestState() )
