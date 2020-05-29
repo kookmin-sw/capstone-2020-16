@@ -59,10 +59,14 @@ class Scene2 extends Phaser.Scene {
       this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
         .setInteractive()
         .on('pointerup', () => {
-          let prevChacksoo = boardStatus.realChacksoo[boardStatus.boardIdx];
+          let prevChacksoo = JSON.parse(JSON.stringify(boardStatus.realChacksoo[boardStatus.boardIdx]));
           let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
           if(prevChacksoo[cellX*8 + cellY] === "0"){
             prevChacksoo[cellX*8 + cellY] = "1";
+            boardStatus.realChacksoo.push(prevChacksoo);
+            boardStatus.boardIdx++;
+            boardStatus.idxLen++;
+            console.log(boardStatus.realChacksoo[boardStatus.boardIdx]);
           }else {
             alert("cannot chacksoo there!!!!!!");
           }
