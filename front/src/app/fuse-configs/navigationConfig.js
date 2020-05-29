@@ -32,6 +32,7 @@ const navigationConfig = [
 				title: 'GAME',
 				translate: 'GAME',
 				type: 'collapse',
+				icon: 'games',
 				children: [
 					{
 						id: 'game-problem',
@@ -72,6 +73,7 @@ const navigationConfig = [
 				translate: 'Code-List',
 				type: 'item',
 				url: '/apps/codelist/',
+				icon: 'format_list_bulleted',
 				
 			},
 			{
