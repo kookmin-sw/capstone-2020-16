@@ -53,15 +53,15 @@ const navigationConfig = [
 						translate: 'Replay',
 						type: 'item',
 						url: '/apps/game/Replay',
-						icon:'assessment',
+						icon:'play_circle_filled',
 					},
 					{
 						id: 'game-selfBattle',
-						title: 'Self Battle',
-						translate: 'SelfBattle',
+						title: 'SelfBattle',
+						translate: 'Self Battle',
 						type: 'item',
 						url: '/SelfBattle',
-						icon:'assessment',
+						icon:'touch_app',
 					}
 
 				]
