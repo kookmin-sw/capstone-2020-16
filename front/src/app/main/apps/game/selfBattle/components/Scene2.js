@@ -12,7 +12,7 @@ const version = {
 const boardStatus = {
   chacksoo: [],
   placement: [],
-  realChacksoo: [],
+  realChacksoo: [["0"*64]],
   boardIdx: 0,
   isAuto: false,
   idxLen : 0,
@@ -81,7 +81,7 @@ class Scene2 extends Phaser.Scene {
                 y: this.sliderDot.y
             }
         ],
-        value: 0
+        value: 1
       });
       this.add.graphics()
               .lineStyle(3, 0xeec65b, 1)
@@ -113,7 +113,7 @@ class Scene2 extends Phaser.Scene {
       this.clickButton = this.add.text(modalWidth/2 - 50, modalHeight - 110, `${boardStatus.isAuto} Mode`, { font: '17px Arial', fill: '#eec65b' });
       
 
-      this.nextButton = this.add.text(this.sliderDot.x + 430, modalHeight - 60, "Next Button", { fill: '#eec65b' })
+      this.nextButton = this.add.text(this.sliderDot.slider.endPoints[1].x + 30, modalHeight - 60, "Next Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStateNext() )
       .on('pointerout', () => this.enterButtonRestStateNext() )
@@ -124,7 +124,7 @@ class Scene2 extends Phaser.Scene {
       });
       
 
-      this.previousButton = this.add.text(this.sliderDot.x - 180, modalHeight - 60, "Previous Button", { fill: '#eec65b' })
+      this.previousButton = this.add.text(this.sliderDot.slider.endPoints[0].x - 180, modalHeight - 60, "Previous Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStatePrevious() )
       .on('pointerout', () => this.enterButtonRestStatePrevious() )
@@ -324,11 +324,7 @@ class Scene2 extends Phaser.Scene {
       // increment the iteration
       this.iter += 0.001;
       this.sliderDot.visible = true;
-
-      if(boardStatus.boardIdx >= (boardStatus.idxLen -1)){
-        boardStatus.idxIncrement = false;
-        this.sliderDot.slider.value = 0.9;
-      }
+      boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
     };
   }
   
