@@ -252,10 +252,7 @@ class Scene2 extends Phaser.Scene {
         children[i].setScale(0.091);
         children2[i].setScale(0.091);
         
-        if(boardStatus.boardIdx < boardStatus.realChacksoo.length){
-          console.log("idxLen" + boardStatus.idxLen)
-          console.log("IDX" + boardStatus.boardIdx)
-          console.log("slider" + this.sliderDot.slider.value)
+        if(boardStatus.boardIdx <= boardStatus.idxLen){
           if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "0"){
             children[i].visible = false;
             children2[i].visible = false;
@@ -326,22 +323,7 @@ class Scene2 extends Phaser.Scene {
       
       // increment the iteration
       this.iter += 0.001;
-      // if(boardStatus.isAuto){
-      //   if(new Date().getTime() - boardStatus.renderTime > renderSpeed){
-      //     if(boardStatus.idxIncrement){
-      //       boardStatus.boardIdx += 1;
-      //       this.sliderDot.x += 400/boardStatus.idxLen;
-      //       this.sliderDot.slider.value += 1/boardStatus.idxLen;
-      //     }
-      //     boardStatus.renderTime = new Date().getTime()
-      //   }
-      //   this.sliderDot.visible = false;
-      // }
-      // else{
-        // this.sliderDot.slider.value += 1/boardStatus.idxLen;
       this.sliderDot.visible = true;
-      // boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
-      // }
 
       if(boardStatus.boardIdx >= (boardStatus.idxLen -1)){
         boardStatus.idxIncrement = false;
