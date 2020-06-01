@@ -155,42 +155,64 @@ class PlacementRule:
     # 이동일 때
     def cross(self, rule):  # 4방 십자
         if self.placement_type == 'add':
-            return
-        min_distance = rule[1]
-        max_distance = rule[2]
-        x_inc = abs(self.x1 - self.x)
-        y_inc = abs(self.y1 - self.y)
-        if max_distance == 0:
-            max_distance = 999
-        if (x_inc == 0 and min_distance <= y_inc <= max_distance) or \
-            (y_inc == 0 and min_distance <= x_inc <= max_distance):
-            self.placement_message = 'OK'
-            return True
-        else:
-            # if (x_inc > max_distance or x_inc < min_distance) or (y_inc > max_distance or y_inc < min_distance):
-            #     self.placement_message = f'out of object range {self.x1, self.y1} > {self.x, self.y}. object number : {self.obj_number}'
-            #     return False
-            # else:
-            #     self.placement_message = f'object{self.obj_number} is cross rule. {self.x1, self.y1} > {self.x, self.y}'
-            #     return False
+            dirr = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+            self.placement_message = f'object{self.obj_number} is add close(cross) rule. {self.x, self.y}'
+            for d in dirr:
+                x = self.x + d[0]
+                y = self.y + d[1]
+                if self.check_range(x, y):
+                    continue
+                if self.board[x][y] > 0:
+                    self.placement_message = 'OK'
+                    return True
             return False
+        else:
+            min_distance = rule[1]
+            max_distance = rule[2]
+            x_inc = abs(self.x1 - self.x)
+            y_inc = abs(self.y1 - self.y)
+            if max_distance == 0:
+                max_distance = 999
+            if (x_inc == 0 and min_distance <= y_inc <= max_distance) or \
+                (y_inc == 0 and min_distance <= x_inc <= max_distance):
+                self.placement_message = 'OK'
+                return True
+            else:
+                # if (x_inc > max_distance or x_inc < min_distance) or (y_inc > max_distance or y_inc < min_distance):
+                #     self.placement_message = f'out of object range {self.x1, self.y1} > {self.x, self.y}. object number : {self.obj_number}'
+                #     return False
+                # else:
+                #     self.placement_message = f'object{self.obj_number} is cross rule. {self.x1, self.y1} > {self.x, self.y}'
+                #     return False
+                return False
 
     def diagonal(self, rule):  # 4방 대각선
         if self.placement_type == 'add':
-            return
-        min_distance = rule[1]
-        max_distance = rule[2]
-        x_inc = abs(self.x1 - self.x)
-        y_inc = abs(self.y1 - self.y)
-        if max_distance == 0:
-            max_distance = 999
-        if x_inc == y_inc and \
-                min_distance <= x_inc <= max_distance and \
-                min_distance <= y_inc <= max_distance:
-            self.placement_message = 'OK'
-            return True
-        else:
+            dirr = [(-1, 1), (1, 1), (1, -1), (-1, -1)]
+            self.placement_message = f'object{self.obj_number} is add close(diagonal) rule. {self.x, self.y}'
+            for d in dirr:
+                x = self.x + d[0]
+                y = self.y + d[1]
+                if self.check_range(x, y):
+                    continue
+                if self.board[x][y] > 0:
+                    self.placement_message = 'OK'
+                    return True
             return False
+        else:
+            min_distance = rule[1]
+            max_distance = rule[2]
+            x_inc = abs(self.x1 - self.x)
+            y_inc = abs(self.y1 - self.y)
+            if max_distance == 0:
+                max_distance = 999
+            if x_inc == y_inc and \
+                    min_distance <= x_inc <= max_distance and \
+                    min_distance <= y_inc <= max_distance:
+                self.placement_message = 'OK'
+                return True
+            else:
+                return False
 
     def eight_dir(self, rule):  # 8방
         if self.placement_type == 'add':
