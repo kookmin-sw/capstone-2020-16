@@ -82,20 +82,20 @@ function Courses(props) {
 	const [state2,setState2] = useState(null);
 	
 	const handleFileInput = (event) => {
-		setState(event.target.value);
+		setState(event.target.files[0]);
 	}
 	
 	 const handleFileInput2 = (event) => {
-		setState2(event.target.value);
+		setState2(event.target.files[0]);
 	}
 	
-	const handlePost = (event) => {
-		formData.append('file', event.selectedFile);
-	}
+	// const handlePost = (event) => {
+	// 	formData.append('file', event.selectedFile);
+	// }
 
-	const handlePost2 = (event) => {
-		formData2.append('file', event.selectedFile);
-	}
+	// const handlePost2 = (event) => {
+	// 	formData2.append('file', event.selectedFile);
+	// }
 
 	function placeGenerator(objNum){
 
@@ -248,23 +248,35 @@ function Courses(props) {
 		  'Content-Type': 'multipart/form-data'
 		}
 		var frm = new FormData();
-		var inFile = document.getElementById("file");
-		frm.append("file", inFile.files[0]);
-		frm.append("file2", inFile.files[1]);
+		var inFile = document.getElementsByName("file");
+		frm.append("editor", userId);
+		frm.append("title", problemTitle);
+		frm.append("description", inFile[0].files[0]);
+		frm.append("limit_time", limitTime);
+		frm.append("limit_memory", limitMemory);
+		frm.append("thumbnail", inFile[1].files[0]);
+		frm.append("board_info", boardInfo);
+		frm.append("rule",rule);
 		
-		var data = {
-		  editor: userId,
-		  title: problemTitle,
-		  description: inFile.files[0],
-		  limit_time: limitTime,
-		  limit_memory: limitMemory,
-		  thumbnail: inFile.files[1],
-		  board_info: boardInfo,
-		  rule: rule
-	
+		for (var pair of frm.entries()){
+			console.log(pair[0] + ',' + pair[1]);
 		}
+
+		console.log(inFile[0].files[0])
+		
+		// var data = {
+		//   editor: userId,
+		//   title: problemTitle,
+		//   description: inFile.files[0],
+		//   limit_time: limitTime,
+		//   limit_memory: limitMemory,
+		//   thumbnail: inFile.files[1],
+		//   board_info: boardInfo,
+		//   rule: rule
+	
+		// }
 	  
-		axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/problem/", data, frm, {
+		axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/problem/", frm, {
 		  headers: header
 		  
 		})
@@ -275,7 +287,7 @@ function Courses(props) {
 		.catch(error => {
 			alert(error);
 			  console.log(error);
-			  console.log(data);
+			  console.log(frm);
 		})
 	  }
 	
@@ -350,7 +362,7 @@ function Courses(props) {
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					게임 설명 　　
 					  
-								<input type="file" name="file2" id="file2" onChange={(event) => handleFileInput} />
+								<input type="file" name="file" id="file" onChange={(event) => handleFileInput} />
 								<button type="button" />
 
 					</Typography>
