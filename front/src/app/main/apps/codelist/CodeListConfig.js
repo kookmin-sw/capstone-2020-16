@@ -9,7 +9,7 @@ const CodeListConfig = {
 	
 		{
 			path: '/apps/codelist',
-			component: React.lazy(() => import('./CodeList'))
+			component: React.lazy(() => import('./CodeList_Problem'))
 		},
 		{
 			path: '/apps/codelist',

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SpacingGrid(props) {
   const [game, setGame] = React.useState([]);
-  const [spacing, setSpacing] = React.useState(10);
+  const [spacing] = React.useState(10);
   const classes = useStyles(props);
   React.useEffect(()=>{
     axios.get('http://203.246.112.32:8000/api/v1/problem/')
