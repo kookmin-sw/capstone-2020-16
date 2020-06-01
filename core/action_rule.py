@@ -31,8 +31,8 @@ class ActionRule:
 
     def apply_action_rule(self, game_data, board, placement):
         self.setting(game_data, board, placement)
-        if not game_data.action_rule[self.obj_number]:
-            return 'OK', self.board
+        if bool(game_data.action_rule) is False:
+            return 'OK', board
 
         self.add_condition_rule()
         self.add_direction_rule()
@@ -56,8 +56,9 @@ class ActionRule:
 
                 self.x = list(map(int, placement.split('>')[1].split()))[0]
                 self.y = list(map(int, placement.split('>')[1].split()))[1]
-
+                # print(self.x1,self.y1,self.x,self.y)
                 self.obj_number = str(board[self.x][self.y])
+                # print(board, self.obj_number)
             else:
                 self.obj_number = list(map(str, placement.split()))[0]
 
@@ -69,15 +70,15 @@ class ActionRule:
             self.board = board
             self.placement = placement
             self.rule_list.clear()
-            if data.action_rule[self.obj_number]:
+            if self.obj_number in data.action_rule:
                 self.obj_rule = data.action_rule[self.obj_number]
                 self.obj_condition = self.obj_rule[0]
                 self.obj_dir = self.obj_rule[1]
                 self.obj_method = self.obj_rule[2]
             self.action_message = None
+            print('asdasd')
         except Exception as e:
-            self.placement_message = f'error in parsing user placement: {e}'
-            print(self.action_message)
+            self.action_message = f'error in parsing user placement: {e}'
             raise Exception(self.action_message)
 
     def add_condition_rule(self):

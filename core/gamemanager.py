@@ -14,7 +14,7 @@ def test():
     print('test')
 
 class GameManager:
-    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num):
+    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num, problem):
         self.board = np.zeros((board_size, board_size), dtype='i')
         self.board_info = board_info
         self.board_size = board_size
@@ -25,7 +25,7 @@ class GameManager:
         self.challenger = challenger
         self.opposite = oppositer
 
-        self.game_data = GameData(placement_rule, action_rule, ending_rule, board_size, board_info, obj_num)
+        self.game_data = GameData(placement_rule, action_rule, ending_rule, board_size, board_info, obj_num, problem)
         self.placement_rule = PlacementRule()
         self.action_rule = ActionRule()
         self.ending_rule = EndingRule()
@@ -91,6 +91,7 @@ class GameManager:
                     apply_action = ''
                     try:
                         apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
+                        print('qweqwe')
                     except Exception as e:
                         print(f'apply action program error : {e}')
 
