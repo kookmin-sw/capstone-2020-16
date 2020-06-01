@@ -148,6 +148,13 @@ class Game(models.Model):
         default=0,
     )
 
+    type = models.CharField(
+        "game type",
+        db_column="TYPE",
+        default="normal",
+        max_length=50,
+    )
+
     def __str__(self):
         return '{}_{}_{}_{}'.format(self.id, self.problem.title, self.challenger.username,self.opposite.username)
 
