@@ -62,7 +62,12 @@ class MyCodeView(APIView):
 
     def get(self, request, version):
 
-        queryset = Code.objects.all().filter(author=request.user.pk)
+        problem = request.query_params.get('problem')
+
+        if problem is None :
+            queryset = Code.objects.all().filter(author=request.user.pk)
+        else:
+            queryset = Code.objects.all().filter(author=request.user.pk, problem=problem)
         serializer = CodeSerializer(queryset, many=True)
 
         return Response(serializer.data)
