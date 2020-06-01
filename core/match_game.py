@@ -40,7 +40,7 @@ def match(data):
                                placement_rule=match_data['placement'], action_rule=match_data['action'],
                                ending_rule=match_data['ending'],
                                board_size=match_data['board_size'], board_info=match_data['board_info'],
-                               obj_num=match_data['obj_num'])
+                               obj_num=match_data['obj_num'], problem=match_data['problem'])
 
     winner, board_record, placement_record, result, error_msg = game_manager.play_game()
     # with open('result.txt', 'w') as f:

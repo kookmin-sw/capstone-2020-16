@@ -34,7 +34,8 @@ class EndingRule:
         self.setting(game_data, board, placement)
 
         self.rule_list.append(self.ending_condition_list[self.ending_rule])
-        self.check_available_place()
+        if game_data.problem == (1,2):
+            self.check_available_place()
         if self.ending_option is not None:
             self.rule_list.append(self.ending_option_list[self.ending_option])
         for function in self.rule_list:
