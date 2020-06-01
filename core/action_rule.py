@@ -5,9 +5,9 @@ import numpy as np
 class ActionRule:
     def __init__(self):
         self.action_message = None
-        self.rule_condition = [self.surround, self.adjacent]
-        self.rule_direction = [self.width, self.height, self.cross, self.diagonal, self.eight_dir]
-        self.rule_method = [self.reverse, self.remove]
+        self.rule_condition = [self.passs, self.surround, self.adjacent]
+        self.rule_direction = [self.passs, self.width, self.height, self.cross, self.diagonal, self.eight_dir]
+        self.rule_method = [self.passs, self.reverse, self.remove]
 
         self.data = None
         self.board = None
@@ -32,7 +32,7 @@ class ActionRule:
     def apply_action_rule(self, game_data, board, placement):
         self.setting(game_data, board, placement)
         if not game_data.action_rule[self.obj_number]:
-            return
+            return 'OK', self.board
 
         self.add_condition_rule()
         self.add_direction_rule()
@@ -123,9 +123,15 @@ class ActionRule:
 
     def remove(self):
         pass
+        # if self.board[self.x][self.y] < 0:
+        #     self.board[self.x1][self.y1] = 0
+        #     self.board[self.x][self.y] = self.obj_number
 
     def check_range(self, x, y):
         if (0 <= x < self.data.board_size) and (0 <= y < self.data.board_size):
             return False
         else:
             return True
+
+    def passs(self):
+        pass

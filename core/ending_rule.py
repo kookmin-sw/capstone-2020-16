@@ -35,7 +35,6 @@ class EndingRule:
 
         self.rule_list.append(self.ending_condition_list[self.ending_rule])
         self.check_available_place()
-        self.available
         if self.ending_option is not None:
             self.rule_list.append(self.ending_option_list[self.ending_option])
         for function in self.rule_list:
@@ -153,7 +152,12 @@ class EndingRule:
         # self.ending_result = 
 
     def only_one_side(self):
-        pass
+        for line in self.board:
+            for i in line:
+                if i < 0:
+                    return
+
+        self.ending_message = True
 
     # option
     def one_line_num(self):
