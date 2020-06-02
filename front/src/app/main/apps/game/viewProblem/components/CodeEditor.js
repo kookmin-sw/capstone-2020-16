@@ -32,19 +32,28 @@ function codePost(userid, problemid, code, languageid, codename){
     problem: problemid,
     name : codename
   }
-
-  axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
-    headers: header
-  })
-  .then( response => {
-    console.log(response);
-  })
-  .catch(error => {
-    console.log(error);
-  })
+  if(window.sessionStorage.getItem("SS_editMode") === "true"){
+    axios.put("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
+      headers: header
+    })
+    .then( response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  } else{
+    axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
+      headers: header
+    })
+    .then( response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
 }
-
-
 
 
 function CodeEditor() {
@@ -180,8 +189,9 @@ function CodeEditor() {
         to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
-         codePost(parseInt(window.localStorage.getItem('pk')), problemid, code, parseInt(window.localStorage.getItem('language_id')), value)}
-        }									 
+            codePost(parseInt(window.localStorage.getItem('pk')), problemid, code, parseInt(window.localStorage.getItem('language_id')), value)
+          }
+        }		 
        style={{
          textAlign: 'center',
          justifyContent: 'center',

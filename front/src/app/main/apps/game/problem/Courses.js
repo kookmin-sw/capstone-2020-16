@@ -120,7 +120,9 @@ function Courses(props) {
 												<Link className="font-medium" 										
 												to={`/ViewProblemPage/${course.id}`}>
 													 <button onClick = {() => {
-														 window.localStorage.setItem('SelectedProblemId', course.id);
+														window.localStorage.setItem('SelectedProblemId', course.id);
+														window.sessionStorage.removeItem("SS_editMode");
+														window.sessionStorage.removeItem("SS_codeId");
 													 }}> <h3>Code Submit</h3> </button>
 												</Link>
 												<Divider orientation="vertical" flexItem />

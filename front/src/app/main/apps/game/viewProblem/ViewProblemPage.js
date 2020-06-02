@@ -23,7 +23,7 @@ function KnowledgeBasePage() {
   }
 
   useEffect( () => {
-    dispatch(Actions.getProblem(problemId))
+    dispatch(Actions.getProblem(problemId));
   },[dispatch])
 
 	return (
