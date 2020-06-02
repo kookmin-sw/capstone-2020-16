@@ -1,188 +1,156 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import FuseAnimate from "@fuse/core/FuseAnimate";
+import FuseAnimateGroup from "@fuse/core/FuseAnimateGroup";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import Divider from "@material-ui/core/Divider";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-// import SimpleExpansionPanel from "./components/CardContent";
-import PropTypes from "prop-types";
-import Box from "@material-ui/core/Box";
-import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import clsx from "clsx";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import * as Actions from "app/store/actions";
+import CardMedia from "@material-ui/core/CardMedia";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   header: {
     background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
     color: theme.palette.getContrastText(theme.palette.primary.main),
   },
-  gamename: {
-    margin: theme.spacing(5),
+  headerIcon: {
+    position: "absolute",
+    top: -64,
+    left: 0,
+    opacity: 0.04,
+    fontSize: 512,
+    width: 512,
+    height: 512,
+    pointerEvents: "none",
   },
-  panel: {
-    margin: theme.spacing(2),
-  }
 }));
 
-const useRowStyles = makeStyles({
-  root: {
-    "& > *": {
-      borderBottom: "unset",
-    },
-  },
-});
-
-function createData(name) {
-  return {
-    name,
-    history: [
-      { date: "2020-01-05", time: "12:07", language: "Python", error: "O" },
-    ],
+function CodeList_Page(props) {
+  const dispatch = useDispatch();
+  var header = {
+    Authorization: "jwt " + window.localStorage.getItem("jwt_access_token"),
   };
-}
 
-function Row(props) {
-  const { row } = props;
-  const [open, setOpen] = React.useState(false);
-  const classes = useRowStyles();
+  const classes = useStyles(props);
+
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://203.246.112.32:8000/api/v1/problem/").then((response) => {
+      // console.log(response.data.results);
+      dispatch(Actions.getProblemId(response.data.results));
+      setPosts(response.data.results);
+      window.localStorage.setItem("ProblemId", response.data.results);
+    });
+  }, [dispatch]);
 
   return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
+    <div className="flex flex-col flex-auto flex-shrink-0 w-full">
+      <div
+        className={clsx(
+          classes.header,
+          "relative overflow-hidden flex flex-col flex-shrink-0 items-center justify-center text-center p-16 sm:p-24 h-200 sm:h-288"
+        )}
+      >
+        <FuseAnimate
+          animation="transition.slideUpIn"
+          duration={400}
+          delay={100}
+        >
+          <Typography color="inherit" className="text-24 sm:text-40 font-light">
+            Game List
+          </Typography>
+        </FuseAnimate>
+        <FuseAnimate duration={400} delay={600}>
+          <Typography
+            variant="subtitle1"
+            color="inherit"
+            className="mt-8 sm:mt-16 mx-auto max-w-512"
           >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                History
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Submit Time</TableCell>
-                    <TableCell align="right">Language</TableCell>
-                    <TableCell align="right">Error</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.time}</TableCell>
-                      <TableCell align="right">{historyRow.language}</TableCell>
-                      <TableCell align="right">{historyRow.error}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
+            <span className="opacity-75">
+              Welcome to Single Mode. Choose a Game to Play!
+            </span>
+          </Typography>
+        </FuseAnimate>
+      </div>
+      <div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
+        <FuseAnimateGroup
+          enter={{
+            animation: "transition.slideUpBigIn",
+          }}
+          className="flex flex-wrap py-24"
+        >
+          {posts.map((course) => {
+            // const category = posts.find(_cat => _cat.value === course.title);
+            return (
+              <div
+                className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16"
+                key={course.title}
+              >
+                <Card elevation={1} className="flex flex-col h-256">
+                  <div className="flex flex-shrink-0 items-center justify-between px-24 h-64">
+                    <Typography
+                      className="font-medium truncate"
+                      color="inherit"
+                    >
+                      {course.title}
+                    </Typography>
+                  </div>
+                  <CardMedia className="flex items-center justify-center">
+                    <Link
+                      className="font-medium"
+                      to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}
+                    >
+                      <img
+                        src={`assets/images/games/${course.id}.jpg`}
+                        onClick={() => {
+                          window.localStorage.setItem(
+                            "SelectedProblemId",
+                            course.id
+                          );
+                          console.log(course.id);
+                        }}
+                        width="300"
+                        alt="thumbnail"
+                      ></img>
+                    </Link>
+                  </CardMedia>
+
+                  <Divider />
+                  <CardActions className="justify-center">
+                    <Link
+                      className="font-medium"
+                      to={`/apps/codelist/CodeListPage/`}
+                    >
+                      <button
+                        onClick={() => {
+                          window.localStorage.setItem(
+                            "SelectedProblemId",
+                            course.id
+                          );
+                          console.log(course.id);
+                        }}
+                      >
+                        {" "}
+                        <h3>Code List</h3>{" "}
+                      </button>
+                    </Link>
+                    <Divider orientation="vertical" flexItem />
+                  </CardActions>
+                </Card>
+              </div>
+            );
+          })}
+        </FuseAnimateGroup>
+      </div>
+    </div>
   );
 }
 
-Row.propTypes = {
-  row: PropTypes.shape({
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        date: PropTypes.string.isRequired,
-        time: PropTypes.string.isRequired,
-        language: PropTypes.string.isRequired,
-        error: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-const rows = [
-  createData("아"),
-  createData("아아"),
-  createData("아아아"),
-  createData("아아아아"),
-  createData("아아아아아"),
-];
-
-function CodeListPage(props) {
-
-    const classes = useStyles(props);
-
-    return (
-      <div className="flex flex-col flex-auto flex-shrink-0 w-full">
-        <div
-          className={clsx(
-            classes.header,
-            "relative overflow-hidden flex flex-col flex-shrink-0 items-center justify-center text-center p-16 sm:p-24 h-200 sm:h-288"
-          )}
-        >
-          <FuseAnimate
-            animation="transition.slideUpIn"
-            duration={400}
-            delay={100}
-          >
-            <Typography
-              color="inherit"
-              className="text-24 sm:text-40 font-light"
-            >
-              Code List
-            </Typography>
-          </FuseAnimate>
-        </div>
-        {/* <div className={classes.gamename}>
-          <h2>세균전 level 01</h2>
-        </div>
-        <div className={classes.panel}>
-          <SimpleExpansionPanel></SimpleExpansionPanel>
-        </div> */}
-        <div>
-          <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
-              <TableHead>
-                <TableRow>
-                  <TableCell><h1>세균전 Level 01</h1></TableCell>
-                  <TableCell />
-                  <TableCell />
-                  <TableCell />
-                  <TableCell />
-                  <TableCell />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <Row key={row.name} row={row} />
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-      </div>
-    );
-}
-
-export default CodeListPage;
-
+// export default withReducer('academyApp', reducer)(Courses);
+export default CodeList_Page;
