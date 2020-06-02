@@ -55,9 +55,6 @@ function Courses(props) {
 	const [limitTime, setLimitTime] = useState(0);
 	const [limitMemory, setLimitMemory] = useState(0);
 
-	const formData = new FormData();
-	const formData2 = new FormData();
-
 	const titleChange = (event) => {
 		setTitle(event.target.value);
 	};
@@ -242,7 +239,7 @@ function Courses(props) {
 
 
 
-	function problemPost(userId, problemTitle, problemDescription, limitTime, limitMemory, problemImg, boardInfo, rule){
+	function problemPost(userId, problemTitle, limitTime, limitMemory, boardInfo, rule){
 		var header = {
 		  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token'),
 		  'Content-Type': 'multipart/form-data'
@@ -262,27 +259,17 @@ function Courses(props) {
 			console.log(pair[0] + ',' + pair[1]);
 		}
 
-		console.log(inFile[0].files[0])
+		//console.log(inFile[0].files[0])
 		
-		// var data = {
-		//   editor: userId,
-		//   title: problemTitle,
-		//   description: inFile.files[0],
-		//   limit_time: limitTime,
-		//   limit_memory: limitMemory,
-		//   thumbnail: inFile.files[1],
-		//   board_info: boardInfo,
-		//   rule: rule
-	
-		// }
 	  
 		axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/problem/", frm, {
 		  headers: header
 		  
 		})
 		.then( response => {
-			alert(response);
-			  console.log(response);
+			alert("문제가 생성되었습니다.");
+			//console.log(response);
+			sessionStorage.clear();
 		})
 		.catch(error => {
 			alert(error);
@@ -351,7 +338,7 @@ function Courses(props) {
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					게임 이미지 　
 					  			
-								<input type="file" name="file" id="file" onChange={(event) => handleFileInput2} />
+								<input type="file" name="file" id="file" onChange={(event) => handleFileInput} />
 								<button type="button"/>
 					</Typography>
 					</form>
@@ -362,7 +349,7 @@ function Courses(props) {
 					<Typography className="text-18 sm:text-30 font-light" color="textPrimary" gutterBottom>
 					게임 설명 　　
 					  
-								<input type="file" name="file" id="file" onChange={(event) => handleFileInput} />
+								<input type="file" name="file" id="file" onChange={(event) => handleFileInput2} />
 								<button type="button" />
 
 					</Typography>
@@ -461,7 +448,7 @@ function Courses(props) {
 			</Link>
 			　
 			<Link className="font-medium"
-				to={'/apps/game/addgame'}>
+				to={'/apps/game/problem'}>
 				<Button
 					style={{
 						textAlign: 'center',
@@ -474,7 +461,7 @@ function Courses(props) {
 					}}
 					variant="contained"
 					color="primary"
-					onClick={()=>{problemPost(1, title, formData, limitTime, limitMemory, formData2, board, rule)}}
+					onClick={()=>{problemPost(parseInt(window.localStorage.getItem('pk')), title, limitTime, limitMemory, board, rule)}}
 					>
 					POST
      			</Button>
