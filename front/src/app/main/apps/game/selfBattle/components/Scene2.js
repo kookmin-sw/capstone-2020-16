@@ -4,24 +4,12 @@ import axios from 'axios'
 const boardSize = 627;
 const modalWidth = 1050;
 const modalHeight = 700;
-var renderSpeed = 500;
+// var renderSpeed = 500;
 
 const version = {
   'version': 'v1',
 }
-const boardStatus = {
-  chacksoo: [],
-  placement: [],
-  realChacksoo: [["0"*64]],
-  boardIdx: 0,
-  isAuto: false,
-  idxLen : 0,
-  isError: "",
-  renderTime: new Date().getTime(),
-  challengerId: 0,
-  oppositeId: 0,
-  idxIncrement: false
-}
+
 var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 }
@@ -29,24 +17,36 @@ var header = {
 class Scene2 extends Phaser.Scene {
   constructor() {
     super("playGame");
-    
+    this.boardStatus = {
+      chacksoo: [],
+      placement: [],
+      realChacksoo: [["0"*64]],
+      boardIdx: 0,
+      isAuto: false,
+      idxLen : 0,
+      isError: "",
+      renderTime: new Date().getTime(),
+      challengerId: 0,
+      oppositeId: 0,
+      idxIncrement: false
+    }
     axios.get(`http://203.246.112.32:8000/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
         // console.log(response)
-        boardStatus.isError = response.data.error_msg;
-        boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-        for(let i = 0, chacksooIdx = 0; i < boardStatus.chacksoo.length; chacksooIdx++){
+        this.boardStatus.isError = response.data.error_msg;
+        this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
+        for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
           let tempChacksoo = [];
           for(let j=0; j<64; j++){
-            tempChacksoo.push(boardStatus.chacksoo[i++]);
+            tempChacksoo.push(this.boardStatus.chacksoo[i++]);
           }
-          boardStatus.realChacksoo.push(tempChacksoo);
+          this.boardStatus.realChacksoo.push(tempChacksoo);
         }
-        boardStatus.boardIdx = boardStatus.realChacksoo.length - 1;
-        boardStatus.placement = response.data.placement_record.split(/\n/);
-        boardStatus.idxLen = boardStatus.realChacksoo.length - 1;
-        boardStatus.challengerId = response.data.challenger;
-        boardStatus.oppositeId = response.data.opposite;
+        this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
+        this.boardStatus.placement = response.data.placement_record.split(/\n/);
+        this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
+        this.boardStatus.challengerId = response.data.challenger;
+        this.boardStatus.oppositeId = response.data.opposite;
       })
       .catch((error) => {
         // console.log(error.response.status);
@@ -55,18 +55,18 @@ class Scene2 extends Phaser.Scene {
   
     create() {
       this.iter = 0; // used for itarations
-      boardStatus.boardIdx = boardStatus.realChacksoo.length - 1;
+      this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
       this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
         .setInteractive()
         .on('pointerup', () => {
-          let prevChacksoo = JSON.parse(JSON.stringify(boardStatus.realChacksoo[boardStatus.boardIdx]));
+          let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
           let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
           if(prevChacksoo[cellX*8 + cellY] === "0"){
             prevChacksoo[cellX*8 + cellY] = "1";
-            boardStatus.realChacksoo.push(prevChacksoo);
-            boardStatus.boardIdx++;
-            boardStatus.idxLen++;
-            console.log(boardStatus.realChacksoo[boardStatus.boardIdx]);
+            this.boardStatus.realChacksoo.push(prevChacksoo);
+            this.boardStatus.boardIdx++;
+            this.boardStatus.idxLen++;
+            console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
           }else {
             alert("cannot chacksoo there!!!!!!");
           }
@@ -96,25 +96,25 @@ class Scene2 extends Phaser.Scene {
                 this.clickButton.setText("Manual Mode", { font: '17px Arial' })
               }
               this.nextIdxText = () => {
-                if(boardStatus.isAuto === false){
-                  if(boardStatus.boardIdx !== boardStatus.idxLen){
-                    boardStatus.boardIdx += 1;
-                    this.sliderDot.slider.value += 1/boardStatus.idxLen;
+                if(this.boardStatus.isAuto === false){
+                  if(this.boardStatus.boardIdx !== this.boardStatus.idxLen){
+                    this.boardStatus.boardIdx += 1;
+                    this.sliderDot.slider.value += 1/this.boardStatus.idxLen;
                   }
                 }
               }
               this.previousIdxText = () => {
-                if(boardStatus.isAuto === false){
-                  if(boardStatus.boardIdx !== 0){
-                    boardStatus.boardIdx -= 1;
-                    this.sliderDot.slider.value -= 1/boardStatus.idxLen;
+                if(this.boardStatus.isAuto === false){
+                  if(this.boardStatus.boardIdx !== 0){
+                    this.boardStatus.boardIdx -= 1;
+                    this.sliderDot.slider.value -= 1/this.boardStatus.idxLen;
                   }
                 }
               }
       
       
       // auto manual button(text)
-      this.clickButton = this.add.text(modalWidth/2 - 50, modalHeight - 110, `${boardStatus.isAuto} Mode`, { font: '17px Arial', fill: '#eec65b' });
+      this.clickButton = this.add.text(modalWidth/2 - 50, modalHeight - 110, `${this.boardStatus.isAuto} Mode`, { font: '17px Arial', fill: '#eec65b' });
       
 
       this.nextButton = this.add.text(this.sliderDot.slider.endPoints[1].x + 30, modalHeight - 60, "Next Button", { fill: '#eec65b' })
@@ -182,7 +182,7 @@ class Scene2 extends Phaser.Scene {
       // this.click
       
       // add the background in the center of the scene
-      if(parseInt(window.localStorage.getItem('pk')) === boardStatus.challengerId){
+      if(parseInt(window.localStorage.getItem('pk')) === this.boardStatus.challengerId){
         // console.log('같다')
         this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.07);
         this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.07);
@@ -240,12 +240,12 @@ class Scene2 extends Phaser.Scene {
       });
       
       // slider value65b' });
-      this.errMsg = this.add.text(modalWidth/2 - 300, 0, `${boardStatus.isError}`, { font: '15px Arial', fill: '#eec65b' });
+      this.errMsg = this.add.text(modalWidth/2 - 300, 0, `${this.boardStatus.isError}`, { font: '15px Arial', fill: '#eec65b' });
     }
     
   
     update() {
-      // console.log(boardStatus.boardIdx)
+      // console.log(this.boardStatus.boardIdx)
       
       // rotate the ships
       var children = this.blue_booGroup.getChildren();
@@ -256,16 +256,16 @@ class Scene2 extends Phaser.Scene {
         children[i].setScale(0.091);
         children2[i].setScale(0.091);
         
-        if(boardStatus.boardIdx <= boardStatus.idxLen){
-          if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "0"){
+        if(this.boardStatus.boardIdx <= this.boardStatus.idxLen){
+          if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "0"){
             children[i].visible = false;
             children2[i].visible = false;
           }
-          else if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "1"){
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "1"){
             children[i].visible = true;
             children2[i].visible = false;
           }
-          else if(boardStatus.realChacksoo[boardStatus.boardIdx][i] === "-1"){
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-1"){
             children[i].visible = false;
             children2[i].visible = true;
           }
@@ -277,20 +277,20 @@ class Scene2 extends Phaser.Scene {
         
       };
 
-      if(boardStatus.boardIdx%2 === 0){
+      if(this.boardStatus.boardIdx%2 === 0){
         // my turn
-        if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
-          if(boardStatus.placement[boardStatus.boardIdx].charAt(4) === '>'){
+        if(this.boardStatus.placement[this.boardStatus.boardIdx] !== undefined){
+          if(this.boardStatus.placement[this.boardStatus.boardIdx].charAt(4) === '>'){
             // my move
-            this.myChacksoo.setText('이동\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
-            if(boardStatus.boardIdx === 0){
+            this.myChacksoo.setText('이동\n ' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(0) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(2) + '>' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(6) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(8));
+            if(this.boardStatus.boardIdx === 0){
               this.yourChacksoo.setText('착수\n 준비');
             }
           }
           else{
             // my chacksoo
-            this.myChacksoo.setText('착수\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(4));
-            if(boardStatus.boardIdx === 0){
+            this.myChacksoo.setText('착수\n ' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(2) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(4));
+            if(this.boardStatus.boardIdx === 0){
               this.yourChacksoo.setText('착수\n 준비')
             }
           }
@@ -303,15 +303,15 @@ class Scene2 extends Phaser.Scene {
       }
       else{
         // your turn
-        if(boardStatus.placement[(boardStatus.boardIdx)] !== undefined){
-          if(boardStatus.placement[(boardStatus.boardIdx)].charAt(4) === '>'){
+        if(this.boardStatus.placement[(this.boardStatus.boardIdx)] !== undefined){
+          if(this.boardStatus.placement[(this.boardStatus.boardIdx)].charAt(4) === '>'){
             // your move
-            this.yourChacksoo.setText('이동\n ' + boardStatus.placement[boardStatus.boardIdx].charAt(0) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(2) + '>' + boardStatus.placement[boardStatus.boardIdx].charAt(6) + ',' + boardStatus.placement[boardStatus.boardIdx].charAt(8));
+            this.yourChacksoo.setText('이동\n ' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(0) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(2) + '>' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(6) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(8));
           }
           else{
             // your chacksoo
-            if(boardStatus.placement[boardStatus.boardIdx] !== undefined){
-              this.yourChacksoo.setText('착수\n ' + boardStatus.placement[(boardStatus.boardIdx)].charAt(2) + ',' + boardStatus.placement[(boardStatus.boardIdx)].charAt(4));
+            if(this.boardStatus.placement[this.boardStatus.boardIdx] !== undefined){
+              this.yourChacksoo.setText('착수\n ' + this.boardStatus.placement[(this.boardStatus.boardIdx)].charAt(2) + ',' + this.boardStatus.placement[(this.boardStatus.boardIdx)].charAt(4));
             }
             else{
               this.yourChacksoo.setText('착수\n 준비');
@@ -328,7 +328,7 @@ class Scene2 extends Phaser.Scene {
       // increment the iteration
       this.iter += 0.001;
       this.sliderDot.visible = true;
-      boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * boardStatus.idxLen + 0.00001);
+      this.boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * this.boardStatus.idxLen + 0.00001);
     };
   }
   
