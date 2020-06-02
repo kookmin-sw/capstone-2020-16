@@ -41,13 +41,10 @@ function codePost(userid, problemid, code, languageid, codename){
     name : codename
   }
   if(window.sessionStorage.getItem("SS_editMode") === "true"){
-    console.log(data);
-    console.log(header);
     axios.patch(`https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/${window.sessionStorage.getItem("SS_codeId")}/`, data, {
       headers: header
     })
     .then( response => {
-      console.log(response);
     })
     .catch(error => {
       console.log(error);
@@ -57,8 +54,6 @@ function codePost(userid, problemid, code, languageid, codename){
       headers: header
     })
     .then( response => {
-      
-      console.log(response);
     })
     .catch(error => {
       console.log(error);
@@ -86,7 +81,6 @@ function CodeEditor() {
       if(window.sessionStorage.getItem("SS_editMode") === "true"){
         axios.get(`https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/${window.sessionStorage.getItem("SS_codeId")}`, { headers: header})
           .then((response) => {
-            console.log(response);
             setCode(response.data.code);
             window.localStorage.setItem('language_id', response.data.language);
             prevCode = response.data.code;

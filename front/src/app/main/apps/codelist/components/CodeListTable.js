@@ -87,7 +87,7 @@ function RankingTable(props) {
             return (
               <StyledTableRow key={row.id}>
                 <StyledTableCellMe align="center">
-                  {row.problem}
+                  {row.title}
                 </StyledTableCellMe>
                 <StyledTableCellMe align="center">{row.name}</StyledTableCellMe>
                 <StyledTableCellMe align="left">{row.date}</StyledTableCellMe>
