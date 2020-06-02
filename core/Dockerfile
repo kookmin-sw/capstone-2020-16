@@ -28,6 +28,6 @@ RUN pip install numpy
 COPY . /
 
 # CMD python3 match_game.py $data
-ENTRYPOINT python3 match_game.py
+# CMD python3 match_game.py
 # ENTRYPOINT python3 test_code.py
 # ENTRYPOINT python3 test_match.py
