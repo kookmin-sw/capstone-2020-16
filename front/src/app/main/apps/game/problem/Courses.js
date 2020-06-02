@@ -106,8 +106,9 @@ function Courses(props) {
 												<CardMedia className="flex items-center justify-center">
 												<Link className="font-medium" 										
 												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
-												<img src={`assets/images/games/${course.id}.jpg`} 
-													onClick = {() =>{
+												{/* <img src={`assets/images/games/${course.id}.jpg`}  */}
+												<img src={course.thumbnail} 
+												onClick = {() =>{
 														window.localStorage.setItem('SelectedProblemId', course.id);
 														console.log(course.id)
 													}}
@@ -125,7 +126,7 @@ function Courses(props) {
 														 console.log(course.id)
 													 }}> <h3>Code Submit</h3> </button>
 												</Link>
-												<Divider orientation="vertical" flexItem />
+												{/* <Divider orientation="vertical" flexItem /> */}
 												</CardActions>
 												
 											</Card>
