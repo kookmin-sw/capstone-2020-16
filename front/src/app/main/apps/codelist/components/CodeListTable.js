@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios'
 import Button from "@material-ui/core/Button";
+import { Link } from 'react-router-dom';
 
 // 1: python 2: c 3:cpp
 
@@ -95,9 +96,20 @@ function RankingTable(props) {
                   {`${row.available_game}` ? "X" : "O"}
                 </StyledTableCellMe>
                 <StyledTableCellMe align="center">
-                  <Button variant="contained" color="primary">
-                    Edit
-                  </Button>
+                  <Link className="font-medium"
+                    to={`/ViewProblemPage/${row.language}`}>
+                    <Button variant="contained" color="primary"
+                      onClick = {() => {
+                        window.localStorage.setItem("SelectedProblemId", row.language);
+                        window.sessionStorage.setItem("SS_editMode", true);
+                        window.sessionStorage.setItem("SS_codeId", row.id);
+                        console.log(window.localStorage.getItem("SelectedProblemId"));
+                        console.log(window.sessionStorage.getItem("SS_editMode"));
+                        console.log(window.sessionStorage.getItem("SS_codeId"));
+                      }}>
+                      Edit
+                    </Button>
+                  </Link>
                 </StyledTableCellMe>
                 {/* {/* <StyledTableCellMe align="left">{row.protein}</StyledTableCellMe> */}
               </StyledTableRow>

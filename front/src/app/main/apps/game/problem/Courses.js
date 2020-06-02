@@ -105,11 +105,10 @@ function Courses(props) {
 												</div>
 												<CardMedia className="flex items-center justify-center">
 												<Link className="font-medium" 										
-												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
+												to={`/ViewProblemPage/${course.id}`}>
 												<img src={`assets/images/games/${course.id}.jpg`} 
 													onClick = {() =>{
 														window.localStorage.setItem('SelectedProblemId', course.id);
-														console.log(course.id)
 													}}
 													width='300' alt='thumbnail'></img>
 												</Link>
@@ -119,10 +118,11 @@ function Courses(props) {
 												<Divider />
 												<CardActions className="justify-center" >
 												<Link className="font-medium" 										
-												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
+												to={`/ViewProblemPage/${course.id}`}>
 													 <button onClick = {() => {
-														 window.localStorage.setItem('SelectedProblemId', course.id);
-														 console.log(course.id)
+														window.localStorage.setItem('SelectedProblemId', course.id);
+														window.sessionStorage.removeItem("SS_editMode");
+														window.sessionStorage.removeItem("SS_codeId");
 													 }}> <h3>Code Submit</h3> </button>
 												</Link>
 												<Divider orientation="vertical" flexItem />

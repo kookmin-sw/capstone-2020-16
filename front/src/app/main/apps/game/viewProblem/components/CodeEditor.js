@@ -3,9 +3,7 @@ import './material.css'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import Button from "@material-ui/core/Button";
 import React, { useState} from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import * as Actions from 'app/auth/store/actions';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -18,24 +16,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+let prevCode = "";
 
-// import { useSelector } from 'react-redux';
-// require('codemirror/lib/codemirror.css');
-// require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
 require('codemirror/mode/clike/clike.js');
-// require('codemirror/mode/go/go.js');
-
-
-
-
-
-function codePost(userid, problemid, code, languageid, codename){
-  var header = {
-    'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
-  }
-  
+var header = {
+  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+}
+function codePost(userid, problemid, code, languageid, codename){ 
   var data = {
     author: userid,
     code : code,
@@ -43,29 +32,36 @@ function codePost(userid, problemid, code, languageid, codename){
     problem: problemid,
     name : codename
   }
-
-  // console.log(data)
-
-  axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
-    headers: header
-  })
-  .then( response => {
-    // console.log(response);
-  })
-  .catch(error => {
-    // console.log(error);
-  })
+  if(window.sessionStorage.getItem("SS_editMode") === "true"){
+    console.log(data);
+    console.log(header);
+    axios.patch(`https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/${window.sessionStorage.getItem("SS_codeId")}/`, data, {
+      headers: header
+    })
+    .then( response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  } else{
+    axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
+      headers: header
+    })
+    .then( response => {
+      
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
 }
 
 
 function CodeEditor() {
   const classes = useStyles();
-    // useEffect (() => {
-    //   return () =>{
-    //     window.localStorage.removeItem('editor_type');
-    //     window.localStorage.removeItem('language_id');
-    //   }
-    // })
+  
     var problemid = window.localStorage.getItem('SelectedProblemId');
     if(!problemid){
       problemid = window.localStorage.getItem('SelectedProblemId');
@@ -76,27 +72,42 @@ function CodeEditor() {
     const handleChange = (event) => {
       setValue(event.target.value);
     };
-  
-    const [code, setCode] = useState(
-        "Select Programming language first!!!!");
+    const [code, setCode] = useState();
+    React.useEffect(() => {
+      if(window.sessionStorage.getItem("SS_editMode") === "true"){
+        axios.get(`https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/${window.sessionStorage.getItem("SS_codeId")}`, { headers: header})
+          .then((response) => {
+            console.log(response);
+            setCode(response.data.code);
+            window.localStorage.setItem('language_id', response.data.language);
+            prevCode = response.data.code;
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      } else{
+        setCode("Select Programming Language First!!!!!");
+      }
 
+      return function cleanUp(){
+        window.sessionStorage.removeItem("SS_codeId");
+        window.sessionStorage.removeItem("SS_editMode");
+      }
+    }, []);
 
     const [option, setOption] = useState({
         mode: "python",
         theme: 'material',
         lineNumbers: true
     });
-    // if(option.mode === "python"){window.localStorage.setItem('language_id', 1);}
-    // if(option.mode === "cpp"){window.localStorage.setItem('language_id', 3);}
-    // if(option.mode === "go"){window.localStorage.setItem('language_id', 2);}
 
     function changeMode(event) {
-        // console.log(`beforeMode>>>>>>${option.mode}`);
-        // console.log(`event.target.value>>>>>>${event.target.value}`);
-        // console.log(typeof option.mode)
-        //if(event.target.value === "select"){window.localStorage.setItem('language_id', 0);}
         if(event.target.value === "select"){
-          setCode("Select Programming language first!!!!");
+          if(window.sessionStorage.getItem("SS_editMode") === "true"){
+            setCode(prevCode);
+          } else{
+            setCode("Select Programming language first!!!!");
+          };
           window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
         }
         else if(event.target.value === "python"){
@@ -114,12 +125,9 @@ function CodeEditor() {
         else{
           window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
         }
-        console.log(window.localStorage.getItem('language_id'))
         setOption({
             mode: event.target.value,
         });
-        
-       
     };
 
 
@@ -129,11 +137,27 @@ function CodeEditor() {
 
     };
 
+    function setLanguageSelect(){
+      let codeId = parseInt(window.localStorage.getItem("language_id"));
+      if(codeId === 1){
+        window.localStorage.setItem('editor_type', 'python');
+        return "python";
+      } else if(codeId === 3){
+        window.localStorage.setItem('editor_type', 'clike');
+        return "cpp";
+      } else if (codeId === 2){
+        window.localStorage.setItem('editor_type', 'clike');
+        return "c";
+      } else{
+        window.localStorage.setItem('editor_type', 'select');
+        return "select";
+      }
+    }
+
     return (
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
-          <select onChange={(value) => {changeMode(value)}}>
-            {/* <option value="select">Select Language</option> */}
+          <select value={setLanguageSelect()} onChange={(value) => {changeMode(value)}}>
             <option value="select">Select Language</option>
             <option value="python">Python</option>
             <option value="cpp">C++</option>
@@ -173,9 +197,9 @@ function CodeEditor() {
         to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
-        //  console.log(code)
-         codePost(parseInt(window.localStorage.getItem('pk')), problemid, code, parseInt(window.localStorage.getItem('language_id')), value)}
-        }									 
+            codePost(parseInt(window.localStorage.getItem('pk')), problemid, code, parseInt(window.localStorage.getItem('language_id')), value)
+          }
+        }		 
        style={{
          textAlign: 'center',
          justifyContent: 'center',

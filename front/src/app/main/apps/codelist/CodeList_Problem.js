@@ -104,7 +104,7 @@ function CodeList_Page(props) {
                   <CardMedia className="flex items-center justify-center">
                     <Link
                       className="font-medium"
-                      to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}
+                      to={`/ViewProblemPage/${course.id}`}
                     >
                       <img
                         src={`assets/images/games/${course.id}.jpg`}
