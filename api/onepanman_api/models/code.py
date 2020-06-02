@@ -70,6 +70,13 @@ class Code(models.Model):
         auto_now_add=True,
     )
 
+    status = models.CharField(
+        "상태",
+        db_column="STATUS",
+        default="FAIL",
+        max_length=50,
+    )
+
     def __str__(self):
         return '{}_{}_{}_{}'.format(self.id, self.author.username, self.problem.title, self.language.name)
 
