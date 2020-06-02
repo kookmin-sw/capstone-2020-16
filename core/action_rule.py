@@ -41,10 +41,12 @@ class ActionRule:
         for function in self.rule_list:
             function()
             if self.action_message is not None:
-                return self.action_message, self.board
+                raise Exception(self.action_message)
+                # return self.action_message, self.board
 
         if self.action_message is None:
             self.action_message = 'OK'
+
         return self.action_message, self.board
 
     def setting(self, data, board, placement):
@@ -78,7 +80,7 @@ class ActionRule:
             self.action_message = None
             print('asdasd')
         except Exception as e:
-            self.action_message = f'error in parsing user placement: {e}'
+            self.action_message = e
             raise Exception(self.action_message)
 
     def add_condition_rule(self):

@@ -53,7 +53,8 @@ class PlacementRule:
             elif self.placement_type == 'add':
                 self.board[self.x][self.y] = self.obj_number
         else:
-            self.placement_message = f'miss position {self.x,self.y}'
+            raise Exception(f'miss position {self.x,self.y}')
+            # self.placement_message = f'miss position {self.x,self.y}'
 
         return self.placement_message, self.board
 
