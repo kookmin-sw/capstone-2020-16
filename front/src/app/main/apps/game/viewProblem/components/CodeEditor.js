@@ -97,6 +97,7 @@ function CodeEditor() {
           })
       } else{
         setCode("Select Programming Language First!!!!!");
+        setLoading(false);
       }
 
       return function cleanUp(){
