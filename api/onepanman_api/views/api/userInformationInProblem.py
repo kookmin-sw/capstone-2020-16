@@ -46,9 +46,19 @@ class rank(APIView):
         print(serializer.data[0])
         users = User.objects.all()
         data = serializer.data
-
+        data2 = []
         for i in range(len(data)):
             user = users.filter(pk=data[i]['user'])[0]
             data[i]["username"] = user.username
 
-        return Response(serializer.data)
+            rank_data = {
+                "username": user.username,
+                "tier": data[i]["tier"],
+                "score": data[i]["score"]
+            }
+
+            data2.append(rank_data)
+
+
+
+        return Response(data2)

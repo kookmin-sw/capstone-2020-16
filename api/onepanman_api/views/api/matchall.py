@@ -71,7 +71,7 @@ class Matchall(APIView):
 
                 match = Match()
 
-                match_info = match.get_GameId(match_info, scores)
+                match_info = match.get_GameId(match_info, scores, "rank")
 
                 update_playing(challenger.user.pk, problemid, True)
                 update_playing(opposite.user.pk, problemid, True)

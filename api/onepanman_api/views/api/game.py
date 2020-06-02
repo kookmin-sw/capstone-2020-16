@@ -20,6 +20,8 @@ from onepanman_api.util.getIp import get_client_ip
 
 from onepanman_api.models import Problem
 
+from onepanman_api.util.update_uiip import update_playing
+
 
 class GameViewSet(viewsets.ModelViewSet):
     queryset = Game.objects.all()
@@ -238,6 +240,13 @@ class GameViewSet(viewsets.ModelViewSet):
 
         data = super().update(request, *args, **kwargs)
         data = data.data
+        game_data = Game.objects.all().filter(id=data["id"])[0]
+
+        if game_data.type == "normal":
+            update_playing(game_data.challenger.pk, game_data.problem.pk, False)
+            update_playing(game_data.opposite.pk, game_data.problem.pk, False)
+            return Response(data)
+
         result = data["result"]
 
 
@@ -256,7 +265,7 @@ class GameViewSet(viewsets.ModelViewSet):
         update_groupScore()
         update_groupRanking()
 
-        game_data = Game.objects.all().filter(id=data["id"])[0]
+
         data["challenger_score_flu"] = game_data.challenger_score_flu
         data["opposite_score_flu"] = game_data.opposite_score_flu
         data["challenger_score"] = game_data.challenger_score

@@ -135,7 +135,7 @@ class Match(APIView):
         return matchInfo, scores
 
     # 게임에 사용될 인스턴스를 만들고, 그 id를 반환하는 함수
-    def get_GameId(self, info, scores):
+    def get_GameId(self, info, scores, type="normal"):
         try:
             matchInfo = info
 
@@ -150,6 +150,7 @@ class Match(APIView):
                 "opposite_score": scores['opposite'],
                 "challenger_name": matchInfo['challenger_name'],
                 "opposite_name": matchInfo['opposite_name'],
+                "type": type
             }
 
 
@@ -170,7 +171,8 @@ class Match(APIView):
                 challenger_score=validated_data['challenger_score'],
                 opposite_score=validated_data['opposite_score'],
                 challenger_name=validated_data['challenger_name'],
-                opposite_name=validated_data['opposite_name']
+                opposite_name=validated_data['opposite_name'],
+                type=validated_data['type']
             )
 
         except Exception as e:
