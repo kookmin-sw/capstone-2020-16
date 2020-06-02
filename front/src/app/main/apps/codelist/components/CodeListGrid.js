@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import RankingTable from './RankingTable';
+import CodeListTable from './CodeListTable';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,32 +19,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SpacingGrid(props) {
-  const [game, setGame] = React.useState([]);
+  const [codes, setCodes] = React.useState([]);
   const [spacing] = React.useState(10);
   const classes = useStyles(props);
-  React.useEffect(()=>{
-    axios.get('http://203.246.112.32:8000/api/v1/problem/')
-      .then((response)=>{
-        console.log(response.data)
-        setGame(response.data.results)
-      })
-      .catch((error)=>{
-        console.log(error)
-      });
-  }, []);
+
+  var header = {
+    Authorization: "jwt " + window.localStorage.getItem("jwt_access_token"),
+  };
 
   return (
         <Grid container className="w-full" justify="center" style={{marginTop: '50px'}} spacing={10}>
             <Grid item xs={10}>
                 <Grid container justify="center" spacing={spacing}>
-                    {game.map((games) => (
-                        <Grid key={games.id} item>
-                            <Paper className={classes.paper}>
-                              <h1>{games.title}</h1>
-                                <RankingTable id={games.id}/>
-                            </Paper>
-                        </Grid>
-                    ))}
+                  <Paper className={classes.paper}>
+                    <CodeListTable/>
+                  </Paper>
                 </Grid>
             </Grid>
         </Grid>
