@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import * as Actions from 'app/store/actions';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
+import SelfBattleButton from './SelfBattleButton'
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -49,11 +50,9 @@ function Courses(props) {
 		axios
 		.get('http://203.246.112.32:8000/api/v1/problem/')
 		.then(response => {
-			
-			// console.log(response.data.results);
 			dispatch(Actions.getProblemId(response.data.results));
 			setPosts(response.data.results);
-			window.localStorage.setItem('ProblemId', response.data.results);
+			window.sessionStorage.setItem('SS_ProblemId', response.data.results);
 		})
 	},[dispatch]);
 
@@ -69,13 +68,13 @@ function Courses(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-					Game List
+					Self Battle
 					</Typography>
 				</FuseAnimate>
 				<FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
-						Welcome to Single Mode. Choose a Game to Play!
+						Welcome to Self Battle Mode. Choose a Game to Play!
 						</span>
 					</Typography>
 				</FuseAnimate>
@@ -89,26 +88,25 @@ function Courses(props) {
 								}}
 								className="flex flex-wrap py-24"
 							>	
-								{posts.map(course => {
-									// const category = posts.find(_cat => _cat.value === course.title);
+								{posts.map(problem => {
 									return (
-										<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={course.title}>
+										<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={problem.title}>
 											<Card elevation={1} className="flex flex-col h-256">
 												<div
 													className="flex flex-shrink-0 items-center justify-between px-24 h-64"
 												>
 													<Typography className="font-medium truncate" color="inherit">
-														{course.title}
+														{problem.title}
 													</Typography>
 													
 				
 												</div>
 												<CardMedia className="flex items-center justify-center">
 												<Link className="font-medium" 										
-												to={`/ViewProblemPage/${course.id}`}>
-												<img src={course.thumbnail} 
+												to={`/SelfBattle/${problem.id}`}>
+												<img src={`assets/images/games/${problem.id}.jpg`} 
 													onClick = {() =>{
-														window.localStorage.setItem('SelectedProblemId', course.id);
+														window.sessionStorage.setItem('SS_SelectedProblemId', problem.id);
 													}}
 													width='300' alt='thumbnail'></img>
 												</Link>
@@ -118,14 +116,12 @@ function Courses(props) {
 												<Divider />
 												<CardActions className="justify-center" >
 												<Link className="font-medium" 										
-												to={`/ViewProblemPage/${course.id}`}>
+												to={`/SelfBattle/${problem.id}`}>
 													 <button onClick = {() => {
-														window.localStorage.setItem('SelectedProblemId', course.id);
-														window.sessionStorage.removeItem("SS_editMode");
-														window.sessionStorage.removeItem("SS_codeId");
-													 }}> <h3>Code Submit</h3> </button>
+														 window.sessionStorage.setItem('SS_SelectedProblemId', problem.id);
+													 }}> <SelfBattleButton></SelfBattleButton> </button>
 												</Link>
-												{/* <Divider orientation="vertical" flexItem /> */}
+												<Divider orientation="vertical" flexItem />
 												</CardActions>
 												
 											</Card>

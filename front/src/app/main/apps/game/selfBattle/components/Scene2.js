@@ -4,7 +4,7 @@ import axios from 'axios'
 const boardSize = 627;
 const modalWidth = 1050;
 const modalHeight = 700;
-var renderSpeed = 500;
+// var renderSpeed = 500;
 
 const version = {
   'version': 'v1',
@@ -18,8 +18,9 @@ class Scene2 extends Phaser.Scene {
   constructor() {
     super("playGame");
     this.boardStatus = {
-      chacksoo: "",
+      chacksoo: [],
       placement: [],
+      realChacksoo: [["0"*64]],
       boardIdx: 0,
       isAuto: false,
       idxLen : 0,
@@ -27,16 +28,23 @@ class Scene2 extends Phaser.Scene {
       renderTime: new Date().getTime(),
       challengerId: 0,
       oppositeId: 0,
-      idxIncrement: true,
+      idxIncrement: false
     }
-    
     axios.get(`http://203.246.112.32:8000/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
     .then((response) => {
         // console.log(response)
         this.boardStatus.isError = response.data.error_msg;
         this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
+        for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
+          let tempChacksoo = [];
+          for(let j=0; j<64; j++){
+            tempChacksoo.push(this.boardStatus.chacksoo[i++]);
+          }
+          this.boardStatus.realChacksoo.push(tempChacksoo);
+        }
+        this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
         this.boardStatus.placement = response.data.placement_record.split(/\n/);
-        this.boardStatus.idxLen = this.boardStatus.chacksoo.length/64;
+        this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
         this.boardStatus.challengerId = response.data.challenger;
         this.boardStatus.oppositeId = response.data.opposite;
       })
@@ -47,9 +55,24 @@ class Scene2 extends Phaser.Scene {
   
     create() {
       this.iter = 0; // used for itarations
-      this.boardStatus.boardIdx = 0;
-      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49);
+      this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
+      this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
+        .setInteractive()
+        .on('pointerup', () => {
+          let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
+          let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
+          if(prevChacksoo[cellX*8 + cellY] === "0"){
+            prevChacksoo[cellX*8 + cellY] = "1";
+            this.boardStatus.realChacksoo.push(prevChacksoo);
+            this.boardStatus.boardIdx++;
+            this.boardStatus.idxLen++;
+            console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+          }else {
+            alert("cannot chacksoo there!!!!!!");
+          }
+        });
       this.background.setOrigin(0.5, 0.5);
+
       // for slider
       this.sliderDot = this.add.image(modalWidth/2, modalHeight - 50, 'dot').setScale(7, 7); // add dot
       this.sliderDot.slider = this.plugins.get('rexsliderplugin').add(this.sliderDot, {
@@ -62,7 +85,7 @@ class Scene2 extends Phaser.Scene {
                 y: this.sliderDot.y
             }
         ],
-        value: 0
+        value: 1
       });
       this.add.graphics()
               .lineStyle(3, 0xeec65b, 1)
@@ -70,16 +93,7 @@ class Scene2 extends Phaser.Scene {
               
               // change isAuto value
               this.updateClickCountText = () => {
-                this.boardStatus.isAuto = !this.boardStatus.isAuto
-                
-                if(this.boardStatus.isAuto === true){
-                  this.clickButton.setText("Auto Mode Button", { font: '17px Arial' })
-                  // this.sliderDot.visible = false;
-                }
-                else{
-                  // this.sliderDot.visible = true;
-                  this.clickButton.setText("Manual Mode Button", { font: '17px Arial' })
-                }
+                this.clickButton.setText("Manual Mode", { font: '17px Arial' })
               }
               this.nextIdxText = () => {
                 if(this.boardStatus.isAuto === false){
@@ -100,18 +114,10 @@ class Scene2 extends Phaser.Scene {
       
       
       // auto manual button(text)
-      this.clickButton = this.add.text(modalWidth/2 - 100, modalHeight - 110, `${this.boardStatus.isAuto ? "Auto" : "Manual"} Mode Button`, { font: '17px Arial', fill: '#eec65b' })
-      .setInteractive()
-      .on('pointerover', () => this.enterButtonHoverState() )
-      .on('pointerout', () => this.enterButtonRestState() )
-      .on('pointerdown', () => this.enterButtonActiveState() )
-      .on('pointerup', () => {
-        this.updateClickCountText();
-        this.enterButtonHoverState();
-      });
+      this.clickButton = this.add.text(modalWidth/2 - 50, modalHeight - 110, `${this.boardStatus.isAuto} Mode`, { font: '17px Arial', fill: '#eec65b' });
       
 
-      this.nextButton = this.add.text(this.sliderDot.x + 430, modalHeight - 60, "Next Button", { fill: '#eec65b' })
+      this.nextButton = this.add.text(this.sliderDot.slider.endPoints[1].x + 30, modalHeight - 60, "Next Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStateNext() )
       .on('pointerout', () => this.enterButtonRestStateNext() )
@@ -122,7 +128,7 @@ class Scene2 extends Phaser.Scene {
       });
       
 
-      this.previousButton = this.add.text(this.sliderDot.x - 180, modalHeight - 60, "Previous Button", { fill: '#eec65b' })
+      this.previousButton = this.add.text(this.sliderDot.slider.endPoints[0].x - 180, modalHeight - 60, "Previous Button", { fill: '#eec65b' })
       .setInteractive()
       .on('pointerover', () => this.enterButtonHoverStatePrevious() )
       .on('pointerout', () => this.enterButtonRestStatePrevious() )
@@ -250,22 +256,24 @@ class Scene2 extends Phaser.Scene {
         children[i].setScale(0.091);
         children2[i].setScale(0.091);
         
-        if(this.boardStatus.chacksoo[((this.boardStatus.boardIdx+1)*64) + i] === "0"){
-          children[i].visible = false;
-          children2[i].visible = false;
-        }
-        else if(this.boardStatus.chacksoo[(this.boardStatus.boardIdx+1)*64 + i] === "1"){
-          children[i].visible = true;
-          children2[i].visible = false;
-        }
-        else if(this.boardStatus.chacksoo[(this.boardStatus.boardIdx+1)*64 + i] === "-1"){
-          children[i].visible = false;
-          children2[i].visible = true;
-        }
-        else{
-          children[i].visible = false;
-          children2[i].visible = false;
-        }
+        if(this.boardStatus.boardIdx <= this.boardStatus.idxLen){
+          if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "0"){
+            children[i].visible = false;
+            children2[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "1"){
+            children[i].visible = true;
+            children2[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-1"){
+            children[i].visible = false;
+            children2[i].visible = true;
+          }
+          else{
+            children[i].visible = false;
+            children2[i].visible = false;
+          }
+      }
         
       };
 
@@ -319,29 +327,8 @@ class Scene2 extends Phaser.Scene {
       
       // increment the iteration
       this.iter += 0.001;
-      if(this.boardStatus.isAuto){
-        if(new Date().getTime() - this.boardStatus.renderTime > renderSpeed){
-          if(this.boardStatus.idxIncrement){
-            this.boardStatus.boardIdx += 1;
-            this.sliderDot.x += 400/this.boardStatus.idxLen;
-            this.sliderDot.slider.value += 1/this.boardStatus.idxLen;
-          }
-          this.boardStatus.renderTime = new Date().getTime()
-        }
-        this.sliderDot.visible = false;
-      }
-      else{
-        this.sliderDot.visible = true;
-        this.boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * this.boardStatus.idxLen + 0.00001);
-      }
-
-      if(this.boardStatus.boardIdx >= (this.boardStatus.idxLen -2) && this.boardStatus.isAuto){
-        this.boardStatus.idxIncrement = false;
-        this.sliderDot.slider.value = 0;
-      }
-      else{
-        this.boardStatus.idxIncrement = true;
-      }
+      this.sliderDot.visible = true;
+      this.boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * this.boardStatus.idxLen + 0.00001);
     };
   }
   
