@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { css } from "@emotion/core";
+import PacmanLoader from "react-spinners/PacmanLoader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,6 +19,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 let prevCode = "";
+
+const override = css`
+  display: block;
+  margin: 2 auto;
+  border-color: red;
+`;
 
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
@@ -68,6 +76,7 @@ function CodeEditor() {
     }
     // console.log(problemid);
     const [value, setValue] = React.useState('My_Code');
+    const [loading, setLoading] = React.useState(true);
 
     const handleChange = (event) => {
       setValue(event.target.value);
@@ -81,12 +90,14 @@ function CodeEditor() {
             setCode(response.data.code);
             window.localStorage.setItem('language_id', response.data.language);
             prevCode = response.data.code;
+            setLoading(false);
           })
           .catch((error) => {
             console.log(error);
           })
       } else{
         setCode("Select Programming Language First!!!!!");
+        setLoading(false);
       }
 
       return function cleanUp(){
@@ -164,6 +175,7 @@ function CodeEditor() {
             <option value="c">C</option>
           </select>
         </div>
+        {loading ? 　<PacmanLoader css={override} size={100} color={"#36D7B7"} loading={loading} /> : 
         <CodeMirror
           autoCursor={false}
           value={code}
@@ -177,7 +189,7 @@ function CodeEditor() {
             // console.log(value);
           }}
         />
-　
+        }
         <div className="mx-auto sm:px-256">
 
 
