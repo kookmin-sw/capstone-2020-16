@@ -105,7 +105,7 @@ function Courses(props) {
 												</div>
 												<CardMedia className="flex items-center justify-center">
 												<Link className="font-medium" 										
-												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
+												to={`/ViewProblemPage/${course.id}`}>
 												<img src={`assets/images/games/${course.id}.jpg`} 
 													onClick = {() =>{
 														window.localStorage.setItem('SelectedProblemId', course.id);
@@ -119,7 +119,7 @@ function Courses(props) {
 												<Divider />
 												<CardActions className="justify-center" >
 												<Link className="font-medium" 										
-												to={`/apps/game/viewProblem/ViewProblemPage/${course.id}`}>
+												to={`/ViewProblemPage/${course.id}`}>
 													 <button onClick = {() => {
 														 window.localStorage.setItem('SelectedProblemId', course.id);
 														 console.log(course.id)

@@ -10,7 +10,7 @@ const ViewProblemConfig = {
 	},
 	routes: [
 		{
-			path: `/apps/game/viewProblem/ViewProblemPage/:id`,
+			path: `/ViewProblemPage/:id`,
 			component: React.lazy(() => import(`./ViewProblemPage`)),
 		}
 	]
