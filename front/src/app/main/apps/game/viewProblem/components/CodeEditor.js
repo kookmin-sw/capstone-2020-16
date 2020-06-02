@@ -3,9 +3,7 @@ import './material.css'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import Button from "@material-ui/core/Button";
 import React, { useState} from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import * as Actions from 'app/auth/store/actions';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -19,17 +17,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// import { useSelector } from 'react-redux';
-// require('codemirror/lib/codemirror.css');
-// require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
 require('codemirror/mode/clike/clike.js');
-// require('codemirror/mode/go/go.js');
-
-
-
-
 
 function codePost(userid, problemid, code, languageid, codename){
   var header = {
@@ -44,28 +34,21 @@ function codePost(userid, problemid, code, languageid, codename){
     name : codename
   }
 
-  // console.log(data)
-
   axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
     headers: header
   })
   .then( response => {
-    // console.log(response);
+    console.log(response);
   })
   .catch(error => {
-    // console.log(error);
+    console.log(error);
   })
 }
 
 
 function CodeEditor() {
   const classes = useStyles();
-    // useEffect (() => {
-    //   return () =>{
-    //     window.localStorage.removeItem('editor_type');
-    //     window.localStorage.removeItem('language_id');
-    //   }
-    // })
+  
     var problemid = window.localStorage.getItem('SelectedProblemId');
     if(!problemid){
       problemid = window.localStorage.getItem('SelectedProblemId');
@@ -86,15 +69,8 @@ function CodeEditor() {
         theme: 'material',
         lineNumbers: true
     });
-    // if(option.mode === "python"){window.localStorage.setItem('language_id', 1);}
-    // if(option.mode === "cpp"){window.localStorage.setItem('language_id', 3);}
-    // if(option.mode === "go"){window.localStorage.setItem('language_id', 2);}
 
     function changeMode(event) {
-        // console.log(`beforeMode>>>>>>${option.mode}`);
-        // console.log(`event.target.value>>>>>>${event.target.value}`);
-        // console.log(typeof option.mode)
-        //if(event.target.value === "select"){window.localStorage.setItem('language_id', 0);}
         if(event.target.value === "select"){
           setCode("Select Programming language first!!!!");
           window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
@@ -173,7 +149,6 @@ function CodeEditor() {
         to={'/apps/game/battle'}>
      <Button 
        onClick={function(){
-        //  console.log(code)
          codePost(parseInt(window.localStorage.getItem('pk')), problemid, code, parseInt(window.localStorage.getItem('language_id')), value)}
         }									 
        style={{
