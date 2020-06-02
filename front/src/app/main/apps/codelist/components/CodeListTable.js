@@ -101,6 +101,11 @@ function RankingTable(props) {
                     <Button variant="contained" color="primary"
                       onClick = {() => {
                         window.localStorage.setItem("SelectedProblemId", row.language);
+                        window.sessionStorage.setItem("SS_editMode", true);
+                        window.sessionStorage.setItem("SS_codeId", row.id);
+                        console.log(window.localStorage.getItem("SelectedProblemId"));
+                        console.log(window.sessionStorage.getItem("SS_editMode"));
+                        console.log(window.sessionStorage.getItem("SS_codeId"));
                       }}>
                       Edit
                     </Button>

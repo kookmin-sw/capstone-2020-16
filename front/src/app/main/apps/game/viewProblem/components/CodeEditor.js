@@ -16,16 +16,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+let prevCode = "";
 
 require('codemirror/theme/neat.css');
 require('codemirror/mode/python/python.js');
 require('codemirror/mode/clike/clike.js');
-
-function codePost(userid, problemid, code, languageid, codename){
-  var header = {
-    'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
-  }
-  
+var header = {
+  'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+}
+function codePost(userid, problemid, code, languageid, codename){ 
   var data = {
     author: userid,
     code : code,
@@ -46,6 +45,8 @@ function codePost(userid, problemid, code, languageid, codename){
 }
 
 
+
+
 function CodeEditor() {
   const classes = useStyles();
   
@@ -59,10 +60,23 @@ function CodeEditor() {
     const handleChange = (event) => {
       setValue(event.target.value);
     };
-  
-    const [code, setCode] = useState(
-        "Select Programming language first!!!!");
-
+    const [code, setCode] = useState();
+    React.useEffect(() => {
+      if(window.sessionStorage.getItem("SS_editMode") === "true"){
+        axios.get(`https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/${window.sessionStorage.getItem("SS_codeId")}`, { headers: header})
+          .then((response) => {
+            console.log(response);
+            setCode(response.data.code);
+            window.localStorage.setItem('language_id', response.data.language);
+            prevCode = response.data.code;
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      } else{
+        setCode("Select Programming Language First!!!!!");
+      }
+    }, []);
 
     const [option, setOption] = useState({
         mode: "python",
@@ -72,7 +86,11 @@ function CodeEditor() {
 
     function changeMode(event) {
         if(event.target.value === "select"){
-          setCode("Select Programming language first!!!!");
+          if(window.sessionStorage.getItem("SS_editMode") === "true"){
+            setCode(prevCode);
+          } else{
+            setCode("Select Programming language first!!!!");
+          };
           window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
         }
         else if(event.target.value === "python"){
@@ -90,12 +108,9 @@ function CodeEditor() {
         else{
           window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
         }
-        console.log(window.localStorage.getItem('language_id'))
         setOption({
             mode: event.target.value,
         });
-        
-       
     };
 
 
@@ -105,11 +120,27 @@ function CodeEditor() {
 
     };
 
+    function setLanguageSelect(){
+      let codeId = parseInt(window.localStorage.getItem("language_id"));
+      if(codeId === 1){
+        window.localStorage.setItem('editor_type', 'python');
+        return "python";
+      } else if(codeId === 3){
+        window.localStorage.setItem('editor_type', 'clike');
+        return "cpp";
+      } else if (codeId === 2){
+        window.localStorage.setItem('editor_type', 'clike');
+        return "c";
+      } else{
+        window.localStorage.setItem('editor_type', 'select');
+        return "select";
+      }
+    }
+
     return (
       <div className="w-full">
         <div style={{ marginTop: 10 }}>
-          <select onChange={(value) => {changeMode(value)}}>
-            {/* <option value="select">Select Language</option> */}
+          <select value={setLanguageSelect()} onChange={(value) => {changeMode(value)}}>
             <option value="select">Select Language</option>
             <option value="python">Python</option>
             <option value="cpp">C++</option>
