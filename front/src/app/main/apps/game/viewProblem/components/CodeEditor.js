@@ -33,7 +33,9 @@ function codePost(userid, problemid, code, languageid, codename){
     name : codename
   }
   if(window.sessionStorage.getItem("SS_editMode") === "true"){
-    axios.put("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
+    console.log(data);
+    console.log(header);
+    axios.patch(`https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/${window.sessionStorage.getItem("SS_codeId")}/`, data, {
       headers: header
     })
     .then( response => {
@@ -47,6 +49,7 @@ function codePost(userid, problemid, code, languageid, codename){
       headers: header
     })
     .then( response => {
+      
       console.log(response);
     })
     .catch(error => {
@@ -84,6 +87,11 @@ function CodeEditor() {
           })
       } else{
         setCode("Select Programming Language First!!!!!");
+      }
+
+      return function cleanUp(){
+        window.sessionStorage.removeItem("SS_codeId");
+        window.sessionStorage.removeItem("SS_editMode");
       }
     }, []);
 
