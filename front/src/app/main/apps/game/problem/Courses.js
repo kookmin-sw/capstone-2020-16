@@ -109,7 +109,6 @@ function Courses(props) {
 												<img src={`assets/images/games/${course.id}.jpg`} 
 													onClick = {() =>{
 														window.localStorage.setItem('SelectedProblemId', course.id);
-														console.log(course.id)
 													}}
 													width='300' alt='thumbnail'></img>
 												</Link>
@@ -122,7 +121,6 @@ function Courses(props) {
 												to={`/ViewProblemPage/${course.id}`}>
 													 <button onClick = {() => {
 														 window.localStorage.setItem('SelectedProblemId', course.id);
-														 console.log(course.id)
 													 }}> <h3>Code Submit</h3> </button>
 												</Link>
 												<Divider orientation="vertical" flexItem />
