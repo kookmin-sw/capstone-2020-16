@@ -117,6 +117,7 @@ export default function SimpleCard() {
                         return (
                           <FormControl component="fieldset">
                             <RadioGroup aria-label="select2-5" name="select2-5" value={value3} onChange={handleChange3}>
+                              <FormControlLabel value="없음" control={<Radio />} label="없음" onClick={()=>{sessionStorage.setItem("actionDirection2", "없음")}} />
                               <FormControlLabel value="양 옆" control={<Radio />} label="양 옆" onClick={()=>{sessionStorage.setItem("actionDirection2", "양 옆")}} />
                               <FormControlLabel value="위 아래" control={<Radio />} label="위 아래" onClick={()=>{sessionStorage.setItem("actionDirection2", "위 아래")}}/>
                               <FormControlLabel value="X 방향" control={<Radio />} label="X 방향" onClick={()=>{sessionStorage.setItem("actionDirection2", "X 방향")}}/>
