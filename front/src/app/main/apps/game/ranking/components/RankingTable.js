@@ -38,33 +38,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-// function createData(ranking, tier, username, score) {
-//   return { ranking, tier, username, score };
-// }
-
-// const rows = [
-//   createData('1', 'challenger', 'asdfasdf', 24, 4.0),
-//   createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
-//   createData('3', 'gold', '환장하겟네', 24, 6.0),
-//   createData('4', 'silver', '바큐', 67, 4.3),
-//   createData('5', 'bronze', 'kkkkkk', 49, 3.9),
-//   createData('1', 'challenger', 'asdfasdf', 24, 4.0),
-//   createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
-//   createData('3', 'gold', '환장하겟네', 24, 6.0),
-//   createData('4', 'silver', '바큐', 67, 4.3),
-//   createData('5', 'bronze', 'kkkkkk', 49, 3.9),
-//   createData('1', 'challenger', 'asdfasdf', 24, 4.0),
-//   createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
-//   createData('3', 'gold', '환장하겟네', 24, 6.0),
-//   createData('4', 'silver', '바큐', 67, 4.3),
-//   createData('5', 'bronze', 'kkkkkk', 49, 3.9),
-//   createData('1', 'challenger', 'asdfasdf', 24, 4.0),
-//   createData('2', 'platinum', 'ehfrptsp', 37, 4.3),
-//   createData('3', 'gold', '환장하겟네', 24, 6.0),
-//   createData('4', 'silver', '바큐', 67, 4.3),
-//   createData('5', 'bronze', 'kkkkkk', 49, 3.9),
-// ];
-
 const useStyles = makeStyles({
   table: {
     minWidth: 400,
@@ -79,7 +52,7 @@ const useStyles = makeStyles({
 function RankingTable(props) {
   const classes = useStyles();
   React.useEffect(()=>{
-      axios.get(`http://203.246.112.32:8000/api/v1/rank/?problem=${props.id}`, {headers: {'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')}})
+      axios.get(`http://203.246.112.32:8000/api/v1/rank/?problem=${props.id}`)
         .then((response)=>{
             console.log(response.data);
             setRow(response.data)
