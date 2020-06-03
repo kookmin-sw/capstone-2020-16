@@ -76,7 +76,7 @@ class GameManager:
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
             except Exception as e:
                 self.error_msg = e
-                print(self.error_msg)
+                # print(self.error_msg)
                 break
             print('OK')
             print('Output :', output, end='')
@@ -92,7 +92,7 @@ class GameManager:
                 check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
             except Exception as e:
                 self.error_msg = f'Error in check placement rule : {e}'
-                print(self.error_msg)
+                # print(self.error_msg)
                 break
             print(check_placement)
 
@@ -103,7 +103,7 @@ class GameManager:
                 apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
             except Exception as e:
                 self.error_msg = f'Error in check action rule : {e}'
-                print(self.error_msg)
+                # print(self.error_msg)
                 break
             print(apply_action)
 
@@ -114,7 +114,7 @@ class GameManager:
                 is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output) # ending_result = self.ending_rule.check_ending(self.game_data, self.board, output)
             except Exception as e:
                 self.error_msg = f'Error check ending rule : {e}'
-                print(self.error_msg, '\n')
+                # print(self.error_msg, '\n')
                 break
             print(is_ending, '\n')
 
@@ -142,7 +142,7 @@ class GameManager:
 
         # End game with error
         if self.error_msg != 'no error':
-            print('End error', str(self.error_msg))
+            print('End with error')
             if self.check_turn == 'challenger':
                 winner = 'opposite'
                 match_result = 'challenger_error'
@@ -150,10 +150,16 @@ class GameManager:
                 winner = 'challenger'
                 match_result = 'opposite_error'
 
-            if output is not None:
-                self.error_msg = str(self.error_msg) + f'--> placement = {output}'
+            if output == '':
+                print('no output')
+                if self.error_msg != 'Time Over':
+                    self.error_msg = 'RunTimeError' 
 
-        print('winner', winner)
+            else:
+                self.error_msg = str(self.error_msg) + f'--> placement = {output}'
+        
+        print(self.error_msg)
+        # print('winner', winner)
 
         return winner, self.board_record, self.placement_record, match_result, self.error_msg
 
