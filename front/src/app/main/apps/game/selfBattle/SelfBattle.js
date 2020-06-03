@@ -13,6 +13,7 @@ import * as Actions from 'app/store/actions';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 import SelfBattleButton from './SelfBattleButton'
+import CodeGrid from './components/CodeListGrid'
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -43,7 +44,7 @@ function Courses(props) {
 
 	const [posts, setPosts] = useState([]);
 	
-
+	const [battleId, setBattleId] = useState(-1);
 
 	useEffect(() => {
 
@@ -80,6 +81,7 @@ function Courses(props) {
 				</FuseAnimate>
 		
 			</div>
+			{battleId === -1 ?
 			<div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
 		
 							<FuseAnimateGroup
@@ -107,6 +109,7 @@ function Courses(props) {
 												<img src={`assets/images/games/${problem.id}.jpg`} 
 													onClick = {() =>{
 														window.sessionStorage.setItem('SS_SelectedProblemId', problem.id);
+														setBattleId(problem.id);
 													}}
 													width='300' alt='thumbnail'></img>
 												</Link>
@@ -119,7 +122,8 @@ function Courses(props) {
 												to={`/SelfBattle/${problem.id}`}>
 													 <button onClick = {() => {
 														 window.sessionStorage.setItem('SS_SelectedProblemId', problem.id);
-													 }}> <SelfBattleButton></SelfBattleButton> </button>
+														 setBattleId(problem.id);
+													 }}> Self Battle Start </button>
 												</Link>
 												<Divider orientation="vertical" flexItem />
 												</CardActions>
@@ -131,6 +135,14 @@ function Courses(props) {
 							</FuseAnimateGroup>
 						  
 			</div>
+			: <div>
+				<CodeGrid/>
+				<h1>
+					<button onClick={()=> {setBattleId(-1);}}>
+						Select other game
+					</button>
+				</h1>
+				</div>}
 		</div>
 	);
 }
