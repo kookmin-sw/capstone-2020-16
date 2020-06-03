@@ -3,6 +3,8 @@
 ### Example user template
 
 # IntelliJ project files
+.DS_Store
+_config.yml
 .idea
 *.iml
 Network Persistent State
