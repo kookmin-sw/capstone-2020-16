@@ -43,7 +43,7 @@ def play_game(data):
 @app.task
 def test_code(data):
     print('run container for test code')
-    docker_img = "test_code"
+    docker_img = "core"
     client = docker.from_env()
     f_dir = os.getcwd() + '/test_code'
     file_name = 'matchdata.json.' + time.strftime('%m-%d-%H-%M-%S', time.localtime(time.time())) + '_' + str(data['match_id'])
@@ -59,7 +59,7 @@ def test_code(data):
 @app.task
 def play_with_me(data):
     print('run container for play with me')
-    docker_img = "play_with_me"
+    docker_img = "core"
     client = docker.from_env()
     f_dir = os.getcwd() + '/play_with_me'
     file_name = 'matchdata.json.' + time.strftime('%m-%d-%H-%M-%S', time.localtime(time.time())) + '_' + str(
