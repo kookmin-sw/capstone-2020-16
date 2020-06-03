@@ -216,6 +216,28 @@ class Scene4 extends Phaser.Scene {
         frameQuantity: 64,
         max: 64
       });
+      this.look_1 = this.make.group({
+        key: "look_1",
+        frameQuantity: 64,
+        max: 64
+      });
+      
+      this.look_2 = this.make.group({
+        key: "look_2",
+        frameQuantity: 64,
+        max: 64
+      });
+      this.king_1 = this.make.group({
+        key: "king_1",
+        frameQuantity: 64,
+        max: 64
+      });
+      
+      this.king_2 = this.make.group({
+        key: "king_2",
+        frameQuantity: 64,
+        max: 64
+      });
       
       // align the group of ships in a grid
       Phaser.Actions.GridAlign(this.pawn_1.getChildren(), {
@@ -223,12 +245,12 @@ class Scene4 extends Phaser.Scene {
         width: 8,
         height: 8,
         // 이미지 하나 당 공간
-        cellWidth: 64,
+        cellWidth: 65,
         cellHeight: 64,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -45,
-        y: -215
+        x: -180,
+        y: -395
       });
       
       Phaser.Actions.GridAlign(this.pawn_2.getChildren(), {
@@ -236,12 +258,62 @@ class Scene4 extends Phaser.Scene {
         width: 8,
         height: 8,
         // 이미지 하나 당 공간
-        cellWidth: 64,
+        cellWidth: 65,
         cellHeight: 64,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -45,
-        y: -215
+        x: -180,
+        y: -395
+      });
+      Phaser.Actions.GridAlign(this.look_1.getChildren(), {
+        // 가로 세로 갯수
+        width: 8,
+        height: 8,
+        // 이미지 하나 당 공간
+        cellWidth: 65,
+        cellHeight: 64,
+        // 이미지 시작 지점
+        position: Phaser.Display.Align.TOP_LEFT,
+        x: -180,
+        y: -395
+      });
+      
+      Phaser.Actions.GridAlign(this.look_2.getChildren(), {
+        // 가로 세로 갯수
+        width: 8,
+        height: 8,
+        // 이미지 하나 당 공간
+        cellWidth: 65,
+        cellHeight: 64,
+        // 이미지 시작 지점
+        position: Phaser.Display.Align.TOP_LEFT,
+        x: -180,
+        y: -395
+      });
+      Phaser.Actions.GridAlign(this.king_1.getChildren(), {
+        // 가로 세로 갯수
+        width: 8,
+        height: 8,
+        // 이미지 하나 당 공간
+        cellWidth: 65,
+        cellHeight: 64,
+        // 이미지 시작 지점
+        position: Phaser.Display.Align.TOP_LEFT,
+        x: -180,
+        y: -395
+      });
+      
+      Phaser.Actions.GridAlign(this.king_2.getChildren(), {
+        // 가로 세로 갯수
+        width: 8,
+        height: 8,
+        // 이미지 하나 당 공간
+        cellWidth: 65,
+        cellHeight: 64,
+        // 이미지 시작 지점
+        position: Phaser.Display.Align.TOP_LEFT,
+        x: -180,
+        y: -395
       });
       
       // slider value65b' });
@@ -253,30 +325,86 @@ class Scene4 extends Phaser.Scene {
       // console.log(this.boardStatus.boardIdx)
       
       // rotate the ships
-      var children = this.pawn_1.getChildren();
-      var children2 = this.pawn_2.getChildren();
+      let children = this.pawn_1.getChildren();
+      let children2 = this.pawn_2.getChildren();
+      let children3 = this.look_1.getChildren();
+      let children4 = this.look_2.getChildren();
+      let children5 = this.king_1.getChildren();
+      let children6 = this.king_2.getChildren();
       
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
-        children[i].setScale(0.091);
-        children2[i].setScale(0.091);
+        children[i].setScale(0.081);
+        children2[i].setScale(0.081);
+        children3[i].setScale(0.081);
+        children4[i].setScale(0.081);
+        children5[i].setScale(0.081);
+        children6[i].setScale(0.081);
         
         if(this.boardStatus.boardIdx <= this.boardStatus.idxLen){
           if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "0"){
             children[i].visible = false;
             children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
           }
           else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "1"){
             children[i].visible = true;
             children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
           }
           else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-1"){
             children[i].visible = false;
             children2[i].visible = true;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "2"){
+            children[i].visible = false;
+            children2[i].visible = false;
+            children3[i].visible = true;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-2"){
+            children[i].visible = false;
+            children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = true;
+            children5[i].visible = false;
+            children6[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "3"){
+            children[i].visible = false;
+            children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = true;
+            children6[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-3"){
+            children[i].visible = false;
+            children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = true;
           }
           else{
             children[i].visible = false;
             children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
           }
       }
         
