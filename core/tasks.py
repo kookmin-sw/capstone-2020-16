@@ -70,5 +70,5 @@ def play_with_me(data):
     with open(match_data_file_path, 'w') as f:
         json.dump(data, f)
     volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
-    client.containers.run(image=docker_img, command='play_with_me', volumes=volumes, auto_remove=True,
+    client.containers.run(image=docker_img, command='python3 play_with_me.py', volumes=volumes, auto_remove=True,
                           privileged=True)
