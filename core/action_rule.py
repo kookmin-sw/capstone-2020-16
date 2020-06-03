@@ -78,7 +78,7 @@ class ActionRule:
                 self.obj_dir = self.obj_rule[1]
                 self.obj_method = self.obj_rule[2]
             self.action_message = None
-            print('asdasd')
+            # print('asdasd')
         except Exception as e:
             self.action_message = e
             raise Exception(self.action_message)

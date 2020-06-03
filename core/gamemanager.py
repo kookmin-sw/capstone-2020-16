@@ -54,6 +54,7 @@ class GameManager:
         self.compile_user_code()
 
         while not is_ending:
+            print('######')
             if total_turn > total_turn_limit:
                 print("total_turn over")
                 self.error_msg = 'total turn over'
@@ -64,24 +65,24 @@ class GameManager:
 
             ## Execute user code
             output = None
-            print('Execute user program...')
+            print('Execute user program...', end='')
             try:
                 if os.path.isfile("placement.txt"):
                     os.remove("placement.txt")
                     # print('delete placement.txt')
                 if self.check_turn == 'challenger':
-                    print('#### challenger')
-                    print(self.board)
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
                 elif self.check_turn == 'opposite':
-                    print('#### opposite')
-                    print(self.board)
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
             except Exception as e:
                 self.error_msg = e
                 print(self.error_msg)
                 break
-            print('OK', output)
+            print('OK')
+            print('Output :', output, end='')
+
+            print('Turn :', self.check_turn)
+            print(self.board)
 
             ## Start check rule
 
@@ -113,9 +114,9 @@ class GameManager:
                 is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output) # ending_result = self.ending_rule.check_ending(self.game_data, self.board, output)
             except Exception as e:
                 self.error_msg = f'Error check ending rule : {e}'
-                print(self.error_msg)
+                print(self.error_msg, '\n')
                 break
-            print(is_ending)
+            print(is_ending, '\n')
 
             self.add_record(output)
 

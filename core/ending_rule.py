@@ -35,6 +35,7 @@ class EndingRule:
 
         self.rule_list.append(self.ending_condition_list[self.ending_rule])
         if game_data.problem == (1, 2):
+            print('1212121212')
             self.check_available_place()
         if self.ending_option is not None:
             self.rule_list.append(self.ending_option_list[self.ending_option])
@@ -131,9 +132,9 @@ class EndingRule:
         my_cnt = 0
         your_cnt = 0
         # if available == True
-        print('in end')
-        print(self.board)
-        print(self.available)
+        # print('in end')
+        # print(self.board)
+        # print(self.available)
         for line in self.board:
             for i in line:
                 if i == 0:
