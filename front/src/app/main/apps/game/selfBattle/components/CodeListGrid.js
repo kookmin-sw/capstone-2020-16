@@ -18,11 +18,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SpacingGrid(props) {
+function CodeListGrid(props) {
   const [codes, setCodes] = React.useState([]);
   const [spacing] = React.useState(10);
   const classes = useStyles(props);
-
   var header = {
     Authorization: "jwt " + window.localStorage.getItem("jwt_access_token"),
   };
@@ -32,7 +31,7 @@ function SpacingGrid(props) {
             <Grid item xs={10}>
                 <Grid container justify="center" spacing={spacing}>
                   <Paper className={classes.paper}>
-                    <CodeListTable/>
+                    <CodeListTable battleId={props.battleId}/>
                   </Paper>
                 </Grid>
             </Grid>
@@ -40,4 +39,4 @@ function SpacingGrid(props) {
   );
 }
 
-export default SpacingGrid;
+export default CodeListGrid;

@@ -136,7 +136,7 @@ function Courses(props) {
 						  
 			</div>
 			: <div>
-				<CodeGrid/>
+				<CodeGrid battleId={battleId}/>
 				<h1>
 					<button onClick={()=> {setBattleId(-1);}}>
 						Select other game

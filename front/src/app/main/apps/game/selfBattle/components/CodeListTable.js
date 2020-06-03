@@ -52,8 +52,10 @@ function RankingTable(props) {
   React.useEffect(()=>{
       axios.get(`http://203.246.112.32:8000/api/v1/code/my`, {headers: {'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')}})
         .then((response)=>{
-            console.log(response.data);
-            setRow(response.data)
+            const temp_row = response.data.filter((row) => {
+              return row.problem === props.battleId;
+            });
+            setRow(temp_row);
         })
         .catch((error)=>{
             console.log(error);
@@ -103,15 +105,11 @@ function RankingTable(props) {
                         window.localStorage.setItem("SelectedProblemId", row.language);
                         window.sessionStorage.setItem("SS_editMode", true);
                         window.sessionStorage.setItem("SS_codeId", row.id);
-                        console.log(window.localStorage.getItem("SelectedProblemId"));
-                        console.log(window.sessionStorage.getItem("SS_editMode"));
-                        console.log(window.sessionStorage.getItem("SS_codeId"));
                       }}>
                       Edit
                     </Button>
                   </Link>
                 </StyledTableCellMe>
-                {/* {/* <StyledTableCellMe align="left">{row.protein}</StyledTableCellMe> */}
               </StyledTableRow>
             );
           })}
