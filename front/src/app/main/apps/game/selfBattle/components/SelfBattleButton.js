@@ -2,6 +2,8 @@ import React from 'react';
 import { IonPhaser } from '@ion-phaser/react'
 import Scene1 from './Scene1.js'
 import Scene2 from './Scene2.js'
+import Scene3 from './Scene3.js'
+import Scene4 from './Scene4.js'
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -29,13 +31,31 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-function SelfBattleButton() {
+function SelfBattleButton(props) {
 	window.localStorage.setItem('game_id', 1959);
 	const classes = useStyles();
 	const [modalStyle] = React.useState(getModalStyle);
 	const [open, setOpen] = React.useState(false);
+	const [game, setGame] = React.useState({
+		width: 1050,
+		height: 700,
+		backgroundColor: 0x192d3f,
+		scene: [Scene1, Scene2],
+		pixelArt: true,
+	})
 	
 	const handleOpen = () => {
+		console.log(props.gameId);
+		if(props.gameId === 3){
+			setGame({
+				width: 1050,
+				height: 700,
+				backgroundColor: 0x192d3f,
+				scene: [Scene3, Scene4],
+				pixelArt: true,
+			})
+		}
+		console.log(game)
 		window.localStorage.setItem('game_id', 1959);
 		setOpen(true);
 	};
@@ -44,14 +64,6 @@ function SelfBattleButton() {
 		window.localStorage.removeItem('game_id')
 		setOpen(false);
 	};
-
-	const game = {
-		width: 1050,
-		height: 700,
-		backgroundColor: 0x192d3f,
-		scene: [Scene1, Scene2],
-		pixelArt: true,
-	}
 	
 	return (
 		<div>

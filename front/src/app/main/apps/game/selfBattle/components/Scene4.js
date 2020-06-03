@@ -14,7 +14,7 @@ var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 }
 
-class Scene2 extends Phaser.Scene {
+class Scene4 extends Phaser.Scene {
   constructor() {
     super("playGame");
     this.boardStatus = {
@@ -205,20 +205,20 @@ class Scene2 extends Phaser.Scene {
       this.yourChacksoo = this.add.text(modalWidth - 160, 160, '', { font: '34px Arial', fill: '#eec65b' });
 
       // make a group of ships
-      this.blue_booGroup = this.make.group({
-        key: "blue_boo",
+      this.pawn_1 = this.make.group({
+        key: "pawn_1",
         frameQuantity: 64,
         max: 64
       });
       
-      this.pink_booGroup = this.make.group({
-        key: "pink_boo",
+      this.pawn_2 = this.make.group({
+        key: "pawn_2",
         frameQuantity: 64,
         max: 64
       });
       
       // align the group of ships in a grid
-      Phaser.Actions.GridAlign(this.blue_booGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.pawn_1.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
@@ -231,7 +231,7 @@ class Scene2 extends Phaser.Scene {
         y: -215
       });
       
-      Phaser.Actions.GridAlign(this.pink_booGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.pawn_2.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
@@ -253,8 +253,8 @@ class Scene2 extends Phaser.Scene {
       // console.log(this.boardStatus.boardIdx)
       
       // rotate the ships
-      var children = this.blue_booGroup.getChildren();
-      var children2 = this.pink_booGroup.getChildren();
+      var children = this.pawn_1.getChildren();
+      var children2 = this.pawn_2.getChildren();
       
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
@@ -337,4 +337,4 @@ class Scene2 extends Phaser.Scene {
     };
   }
   
-  export default Scene2;
+  export default Scene4;

@@ -100,7 +100,7 @@ function RankingTable(props) {
                 </StyledTableCellMe>
                 <StyledTableCellMe align="center">
                   <Button variant="contained" color="secondary">
-                    <SelfBattleButton/>
+                    <SelfBattleButton gameId={row.problem}/>
                   </Button>
                 </StyledTableCellMe>
               </StyledTableRow>
