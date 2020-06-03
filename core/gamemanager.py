@@ -171,31 +171,30 @@ class GameManager:
 
         is_ending = False
 
-        board_user = None
-        board_code = None
         placement_code = None
 
-        print('Star Check Rule...', end='')
+        print('Star Check Rule...')
         for i in range(2):
+            print('#######')
             self.make_board_data()
 
             output = None
-
+            print(self.board)
             ## Execute user code
-            print('Execute user program...')
+            print('Execute user program...', end='')
             if i == 1:  # only code turn
                 try:
                     if os.path.isfile("placement.txt"):
                         os.remove("placement.txt")
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
+                    placement_code = output
                 except Exception as e:
                     self.error_msg = f'Program error in execute user program : {e}'
                     print(self.error_msg)
                     break
-                print('OK', output)
             else:
                 output = placement
-
+            print('OK', output)
             ## Start Check Rule
 
             # Check Placement Rule
@@ -228,12 +227,15 @@ class GameManager:
             self.board = new_board
             print('Check ending rule...', end='')
             try:
-                is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, placement)
+                is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output)
             except Exception as e:
+                print('errrrrrrrrror')
                 self.error_msg = f'ending error : {e}'
                 print(self.error_msg)
                 break
             print(is_ending)
+            
+            self.add_record(output)
 
             # End game
             if is_ending is True:
@@ -254,7 +256,7 @@ class GameManager:
                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
 
         # End game with error
-        if self.error_msg != 'no error':
+        if self.error_msg != 'no error':# and self.error_msg is not None:
             print('End error', str(self.error_msg))
             if self.check_turn == 'challenger':
                 winner = 'opposite'
@@ -267,8 +269,8 @@ class GameManager:
                 self.error_msg = str(self.error_msg) + f'--> placement = {output}'
 
         print('winner', winner)
-
-        return match_result, winner, board_user, board_code, output
+        print(self.board_record)
+        return match_result, winner, self.board_record, placement_code
 
     def compile_user_code(self):
         try:

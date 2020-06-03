@@ -35,7 +35,6 @@ class EndingRule:
 
         self.rule_list.append(self.ending_condition_list[self.ending_rule])
         if game_data.problem == (1, 2):
-            print('1212121212')
             self.check_available_place()
         if self.ending_option is not None:
             self.rule_list.append(self.ending_option_list[self.ending_option])
@@ -84,7 +83,6 @@ class EndingRule:
             self.obj_type = self.obj_rule[0]
         except Exception as e:
             self.ending_message = e
-            print(self.ending_message)
 
     # 엔딩 조건
     def one_line(self, game_data, board, placement):  # TODO
