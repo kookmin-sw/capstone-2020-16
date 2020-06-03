@@ -57,6 +57,7 @@ class Scene2 extends Phaser.Scene {
       this.iter = 0; // used for itarations
       this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
       this.isMove = false;
+      this.movingStone = "";
       this.moveBefore = [];
       this.moveAfter = [];
       this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
@@ -64,16 +65,34 @@ class Scene2 extends Phaser.Scene {
         .on('pointerup', () => {
           let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
           let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
-          if(prevChacksoo[cellX*8 + cellY] === "0"){
-            prevChacksoo[cellX*8 + cellY] = "1";
+          if(this.isMove){
+            // checked a stone
+            this.moveAfter = [cellX, cellY];
+            prevChacksoo[parseInt(this.moveBefore[0])*8 + parseInt(this.moveBefore[1])] = "0";
+            prevChacksoo[cellX*8 + cellY] = this.movingStone;
             this.boardStatus.realChacksoo.push(prevChacksoo);
             this.boardStatus.boardIdx++;
             this.boardStatus.idxLen++;
             console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
-          }else if(prevChacksoo[cellX*8 + cellY] === "1"){
-            
-          }else {
-            alert("cannot chacksoo there!!!!!!");
+            console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+            this.moveBefore = [];
+            this.moveAfter = [];
+            this.movingStone = 0;
+            this.isMove = false;
+          } else{
+            // checking a stone
+            if(prevChacksoo[cellX*8 + cellY] !== "0"){
+              this.movingStone = prevChacksoo[cellX*8 + cellY];
+              this.moveBefore = [cellX, cellY];
+              this.isMove = true;
+              console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
+            } else if(prevChacksoo[cellX*8 + cellY] === "0"){
+              prevChacksoo[cellX*8 + cellY] = "1";
+              this.boardStatus.realChacksoo.push(prevChacksoo);
+              this.boardStatus.boardIdx++;
+              this.boardStatus.idxLen++;
+              console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+            }
           }
         });
       this.background.setOrigin(0.5, 0.5);
