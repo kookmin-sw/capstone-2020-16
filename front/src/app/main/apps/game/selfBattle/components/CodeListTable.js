@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import axios from 'axios'
 import Button from "@material-ui/core/Button";
 import { Link } from 'react-router-dom';
+import SelfBattleButton from './SelfBattleButton'
 
 // 1: python 2: c 3:cpp
 
@@ -98,17 +99,9 @@ function RankingTable(props) {
                   {`${row.available_game}` ? "X" : "O"}
                 </StyledTableCellMe>
                 <StyledTableCellMe align="center">
-                  <Link className="font-medium"
-                    to={`/ViewProblemPage/${row.language}`}>
-                    <Button variant="contained" color="primary"
-                      onClick = {() => {
-                        window.localStorage.setItem("SelectedProblemId", row.language);
-                        window.sessionStorage.setItem("SS_editMode", true);
-                        window.sessionStorage.setItem("SS_codeId", row.id);
-                      }}>
-                      Edit
-                    </Button>
-                  </Link>
+                  <Button variant="contained" color="secondary">
+                    <SelfBattleButton/>
+                  </Button>
                 </StyledTableCellMe>
               </StyledTableRow>
             );

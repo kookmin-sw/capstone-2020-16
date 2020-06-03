@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonPhaser } from '@ion-phaser/react'
-import Scene1 from './components/Scene1.js'
-import Scene2 from './components/Scene2.js'
+import Scene1 from './Scene1.js'
+import Scene2 from './Scene2.js'
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';

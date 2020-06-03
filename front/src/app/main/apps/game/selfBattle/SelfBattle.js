@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom';
 import * as Actions from 'app/store/actions';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
-import SelfBattleButton from './SelfBattleButton'
 import CodeGrid from './components/CodeListGrid'
 
 const useStyles = makeStyles(theme => ({
