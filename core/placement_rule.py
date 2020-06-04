@@ -8,7 +8,7 @@ class PlacementRule:
         self.placement_message = None
         self.placement_rule_list = [self.cross, self.diagonal, self.eight_dir, self.custom, self.add_close, self.add_any]
         # self.placement_rule_addlist = [self.add_close, self.add_any]
-        self.placement_rule_option = [self.block_move, self.take_out_and_add, self.only_reverse]
+        self.placement_rule_option = [self.block_move, self.remove, self.only_reverse]
 
         self.placement_type = None
         self.x1 = None
@@ -36,11 +36,12 @@ class PlacementRule:
 
         # 룰에 맞는 함수들 리스트에 추가
         self.check_game_type()
+        
         if self.check_base_placement_rule() is False:
             return self.placement_message, self.board
         # self.add_rule_option()
         for rule in self.rule_list:
-            print(self.placement_rule_list[rule[0]])
+            # print(self.placement_rule_list[rule[0]])
             self.placement_rule_list[rule[0]](rule)
             if self.placement_message == 'OK':
                 break
@@ -52,14 +53,14 @@ class PlacementRule:
             elif self.placement_type == 'add':
                 self.board[self.x][self.y] = self.obj_number
         else:
-            self.placement_message = f'miss position {self.x,self.y}'
+            raise Exception(f'miss position {self.x,self.y}')
+            # self.placement_message = f'miss position {self.x,self.y}'
 
         return self.placement_message, self.board
 
     def setting(self, data, board, placement):
         self.data = data
         try:
-            print(placement)
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
                 self.y1 = list(map(int, placement.split('>')[0].split()))[1]
@@ -70,15 +71,18 @@ class PlacementRule:
                 if self.check_range(self.x, self.y):
                     raise Exception
                 self.obj_number = str(board[self.x1][self.y1])
-                print(self.x1,self.y1,self.x,self.y)
+                #print(self.x1,self.y1,self.x,self.y)
             else:
+                # print(2, list(map(str, placement.split())))
                 self.obj_number = list(map(str, placement.split()))[0]
                 self.x = list(map(int, placement.split()))[1]
                 self.y = list(map(int, placement.split()))[2]
+                # print('asdasd', self.x, self.y)
                 if self.check_range(self.x, self.y):
                     raise Exception
                 self.x1 = None
                 self.y1 = None
+                # print('aaaaaaaaaaaaaaaaaaaaaaa', self.x, self.y)
             self.board = board
             self.placement = placement
             self.rule_list.clear()
@@ -90,8 +94,7 @@ class PlacementRule:
                 self.obj_option = self.obj_rule[2]
             self.placement_message = None
         except Exception as e:            
-            self.placement_message = f'error in parsing user placement: {e}'
-            print(self.placement_message)
+            self.placement_message = f'It is invalid output: {placement}'
             raise Exception(self.placement_message)
 
     # 착수 종류
@@ -117,18 +120,23 @@ class PlacementRule:
             elif self.board[self.x1][self.y1] == 0:
                 self.placement_message = f'There is no stone : {self.x1, self.y1}. {self.x1, self.y1} > {self.x, self.y}'
                 return False
+            elif int(self.obj_number) < 0:
+                self.placement_message = f'It is not your stone : {self.x1, self.y1}'
         elif self.placement_type == 'add':
             if (self.x < 0 or self.x > self.data.board_size) or (self.y < 0 or self.y > self.data.board_size):
                 self.placement_message = f'out of the board : {self.x, self.y}'
                 return False
-
+            elif int(self.obj_number) < 0 :
+                self.placement_message = f'It is not your stone : {self.x1, self.y1}'
+                return False
         if self.board[self.x][self.y] > 0:
             self.placement_message = f'There is already a stone {self.x, self.y}'
             return False
 
-        if self.board[self.x][self.y] < 0:
-            if 1 in self.obj_option:
-                return True
+        if self.board[self.x][self.y] < 0:  # and (2 not in self.data.action_rule[self.obj_number][2]):
+            if self.obj_option:
+                if 1 in self.obj_option:
+                    return True
             else:
                 self.placement_message = f'There is already a enemy stone {self.x, self.y}'
                 return False
@@ -149,42 +157,64 @@ class PlacementRule:
     # 이동일 때
     def cross(self, rule):  # 4방 십자
         if self.placement_type == 'add':
-            return
-        min_distance = rule[1]
-        max_distance = rule[2]
-        x_inc = abs(self.x1 - self.x)
-        y_inc = abs(self.y1 - self.y)
-        if max_distance == 0:
-            max_distance = 999
-        if (x_inc == 0 and min_distance <= y_inc <= max_distance) or \
-            (y_inc == 0 and min_distance <= x_inc <= max_distance):
-            self.placement_message = 'OK'
-            return True
-        else:
-            # if (x_inc > max_distance or x_inc < min_distance) or (y_inc > max_distance or y_inc < min_distance):
-            #     self.placement_message = f'out of object range {self.x1, self.y1} > {self.x, self.y}. object number : {self.obj_number}'
-            #     return False
-            # else:
-            #     self.placement_message = f'object{self.obj_number} is cross rule. {self.x1, self.y1} > {self.x, self.y}'
-            #     return False
+            dirr = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+            self.placement_message = f'object{self.obj_number} is add close(cross) rule. {self.x, self.y}'
+            for d in dirr:
+                x = self.x + d[0]
+                y = self.y + d[1]
+                if self.check_range(x, y):
+                    continue
+                if self.board[x][y] > 0:
+                    self.placement_message = 'OK'
+                    return True
             return False
+        else:
+            min_distance = rule[1]
+            max_distance = rule[2]
+            x_inc = abs(self.x1 - self.x)
+            y_inc = abs(self.y1 - self.y)
+            if max_distance == 0:
+                max_distance = 999
+            if (x_inc == 0 and min_distance <= y_inc <= max_distance) or \
+                (y_inc == 0 and min_distance <= x_inc <= max_distance):
+                self.placement_message = 'OK'
+                return True
+            else:
+                # if (x_inc > max_distance or x_inc < min_distance) or (y_inc > max_distance or y_inc < min_distance):
+                #     self.placement_message = f'out of object range {self.x1, self.y1} > {self.x, self.y}. object number : {self.obj_number}'
+                #     return False
+                # else:
+                #     self.placement_message = f'object{self.obj_number} is cross rule. {self.x1, self.y1} > {self.x, self.y}'
+                #     return False
+                return False
 
     def diagonal(self, rule):  # 4방 대각선
         if self.placement_type == 'add':
-            return
-        min_distance = rule[1]
-        max_distance = rule[2]
-        x_inc = abs(self.x1 - self.x)
-        y_inc = abs(self.y1 - self.y)
-        if max_distance == 0:
-            max_distance = 999
-        if x_inc == y_inc and \
-                min_distance <= x_inc <= max_distance and \
-                min_distance <= y_inc <= max_distance:
-            self.placement_message = 'OK'
-            return True
-        else:
+            dirr = [(-1, 1), (1, 1), (1, -1), (-1, -1)]
+            self.placement_message = f'object{self.obj_number} is add close(diagonal) rule. {self.x, self.y}'
+            for d in dirr:
+                x = self.x + d[0]
+                y = self.y + d[1]
+                if self.check_range(x, y):
+                    continue
+                if self.board[x][y] > 0:
+                    self.placement_message = 'OK'
+                    return True
             return False
+        else:
+            min_distance = rule[1]
+            max_distance = rule[2]
+            x_inc = abs(self.x1 - self.x)
+            y_inc = abs(self.y1 - self.y)
+            if max_distance == 0:
+                max_distance = 999
+            if x_inc == y_inc and \
+                    min_distance <= x_inc <= max_distance and \
+                    min_distance <= y_inc <= max_distance:
+                self.placement_message = 'OK'
+                return True
+            else:
+                return False
 
     def eight_dir(self, rule):  # 8방
         if self.placement_type == 'add':
@@ -243,7 +273,7 @@ class PlacementRule:
     def block_move(self):  # 이동시 충돌 무시 여부 TODO
         pass
 
-    def take_out_and_add(self):  # 상대방 돌이 존재할 시 없애고 추가
+    def remove(self):  # 상대방 돌이 존재할 시 없애고 추가
         pass
 
     def only_reverse(self):  # 상대방 돌을 뒤집을 수 있는 곳에만 돌 추가 가능

@@ -11,8 +11,12 @@ from game_data import GameData
 from execute_code import Execution
 
 
+def test():
+    print('test')
+
+
 class GameManager:
-    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num):
+    def __init__(self, challenger, oppositer, placement_rule, action_rule, ending_rule, board_size, board_info, obj_num, problem):
         self.board = np.zeros((board_size, board_size), dtype='i')
         self.board_info = board_info
         self.board_size = board_size
@@ -23,7 +27,7 @@ class GameManager:
         self.challenger = challenger
         self.opposite = oppositer
 
-        self.game_data = GameData(placement_rule, action_rule, ending_rule, board_size, board_info, obj_num)
+        self.game_data = GameData(placement_rule, action_rule, ending_rule, board_size, board_info, obj_num, problem)
         self.placement_rule = PlacementRule()
         self.action_rule = ActionRule()
         self.ending_rule = EndingRule()
@@ -37,77 +41,88 @@ class GameManager:
         self.error_msg = None
 
     def play_game(self):
+        print('## Start Game ##')
         total_turn = 0
-        total_turn_limit = self.game_data.board_size ** 3
+        total_turn_limit = 100 # self.game_data.board_size ** 3
         is_ending = False
         match_result = ''
         winner = 0
+        output = None
 
         self.board_record += str(self.board_info) + ' \n'
-        self.parsing_board_info(self.board_info, self.board_size)
-        self.compile_user_code()    # not finish
+        self.board = self.parsing_board_info(self.board_info, self.board_size)
+        self.compile_user_code()
 
         while not is_ending:
+            print('######')
             if total_turn > total_turn_limit:
                 print("total_turn over")
+                self.error_msg = 'total turn over'
                 match_result = 'draw'
                 return match_result
 
             self.make_board_data()
-            #   user code execute
+
+            ## Execute user code
             output = None
-            print(self.board)
+            print('Execute user program...', end='')
             try:
                 if os.path.isfile("placement.txt"):
                     os.remove("placement.txt")
                     # print('delete placement.txt')
                 if self.check_turn == 'challenger':
-                    print('cc')
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
                 elif self.check_turn == 'opposite':
-                    print('oo')
                     output = self.execution.execute_program(self.opposite.play(), self.opposite.save_path)
             except Exception as e:
-                print(f'program error in execute user program : {e}')
-                self.error_msg = f'program error in execute user program : {e}'
+                self.error_msg = e
+                # print(self.error_msg)
                 break
-            print('output', output)
+            print('OK')
+            print('Output :', output, end='')
+
+            print('Turn :', self.check_turn)
+            print(self.board)
+
+            ## Start check rule
+
+            # Check Placement Rule
+            print('Check placement rule...', end='')
             try:
                 check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
             except Exception as e:
-                check_placement = e
-                print(f'check placement program error : {e}')
-
-            if check_placement == 'OK':
-                self.board = new_board
-                apply_action = ''
-                try:
-                    apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
-                except Exception as e:
-                    print(f'apply action program error : {e}')
-                    self.error_msg = f'{apply_action} : {e}'
-                    break
-
-                if apply_action == 'OK':
-                    self.board = new_board
-                    try:
-                        is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output)
-                    except Exception as e:
-                        print(f'check ending program error : {e}')
-                        self.error_msg = f'{is_ending} : {e}'
-                        break
-                else:
-                    print(f'apply action error {apply_action}')
-                    self.error_msg = f'apply action error {apply_action}'
-                    break
-            else:
-                print(f'check placement error {check_placement}')
-                self.error_msg = f'check placement error {check_placement}'
+                self.error_msg = f'Error in check placement rule : {e}'
+                # print(self.error_msg)
                 break
+            print(check_placement)
+
+            # Check Action Rule
+            self.board = new_board
+            print('Check action rule...', end='')
+            try:
+                apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
+            except Exception as e:
+                self.error_msg = f'Error in check action rule : {e}'
+                # print(self.error_msg)
+                break
+            print(apply_action)
+
+            # Check Ending Rule
+            self.board = new_board
+            print('Check ending rule...', end='')
+            try:
+                is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output) # ending_result = self.ending_rule.check_ending(self.game_data, self.board, output)
+            except Exception as e:
+                self.error_msg = f'Error check ending rule : {e}'
+                # print(self.error_msg, '\n')
+                break
+            print(is_ending, '\n')
 
             self.add_record(output)
 
-            if is_ending is True and self.error_msg is None:
+            # End game
+            if is_ending is True:
+                print('End Game')
                 if winner == 1:
                     winner = self.check_turn
                 elif winner == -1:
@@ -115,22 +130,147 @@ class GameManager:
                         winner = 'opposite'
                     else:
                         winner = 'challenger'
+                else:
+                    winner = 'draw'
                 match_result = 'finish'
                 self.error_msg = 'no error'
-                
-            #   change player
-            elif is_ending is False and self.error_msg is None:
+
+            # change turn
+            elif is_ending is False:
+                total_turn += 1
                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
-            elif self.error_msg is not None:
-                if self.check_turn == 'challenger':
-                    winner = 'opposite'
-                    match_result = 'challenger_error'
-                else:
-                    winner = 'challenger'
-                    match_result = 'opposite_error'
-                is_ending = True
+
+        # End game with error
+        if self.error_msg != 'no error':
+            print('End with error')
+            if self.check_turn == 'challenger':
+                winner = 'opposite'
+                match_result = 'challenger_error'
+            else:
+                winner = 'challenger'
+                match_result = 'opposite_error'
+
+            if output == '':
+                print('no output')
+                if self.error_msg != 'Time Over':
+                    self.error_msg = 'RunTimeError' 
+
+            else:
+                self.error_msg = str(self.error_msg) + f'--> placement = {output}'
+        
+        print(self.error_msg)
+        # print('winner', winner)
 
         return winner, self.board_record, self.placement_record, match_result, self.error_msg
+
+    def play_with_me(self, placement):
+        print('Start Play With Me')
+        self.board_record += str(self.board_info) + ' \n'
+        self.board = self.parsing_board_info(self.board_info, self.board_size)
+        self.compile_user_code()
+
+        is_ending = False
+
+        placement_code = None
+        match_result = 'not finish'
+        print('Star Check Rule...')
+        for i in range(2):
+            print('#######')
+            self.make_board_data()
+
+            output = None
+            print(self.board)
+            ## Execute user code
+            print('Execute user program...', end='')
+            if i == 1:  # only code turn
+                try:
+                    if os.path.isfile("placement.txt"):
+                        os.remove("placement.txt")
+                    output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
+                    placement_code = output
+                except Exception as e:
+                    self.error_msg = f'Program error in execute user program : {e}'
+                    print(self.error_msg)
+                    break
+            else:
+                output = placement
+            print('OK', output)
+            ## Start Check Rule
+
+            # Check Placement Rule
+            try:
+                check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
+            except Exception as e:
+                self.error_msg = f'placement error : {e}'
+                print(self.error_msg)
+                break
+            print(check_placement)
+
+            # Check Action Rule
+            self.board = new_board
+            print('Check action rule...', end='')
+            try:
+                apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
+            except Exception as e:
+                self.error_msg = f'action error : {e}'
+                print(self.error_msg)
+                break
+            print(apply_action)
+
+            # Save board
+            if i == 0:
+                board_user = new_board
+            else:
+                board_code = new_board
+
+            # Check Ending Rule
+            self.board = new_board
+            print('Check ending rule...', end='')
+            try:
+                is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output)
+            except Exception as e:
+                print('errrrrrrrrror')
+                self.error_msg = f'ending error : {e}'
+                print(self.error_msg)
+                break
+            print(is_ending)
+            
+            self.add_record(output)
+
+            # End game
+            if is_ending is True:
+                print('End Game')
+                if winner == 1:
+                    winner = self.check_turn
+                elif winner == -1:
+                    if self.check_turn == 'challenger':
+                        winner = 'opposite'
+                    else:
+                        winner = 'challenger'
+                else:
+                    winner = 'draw'
+                match_result = 'finish'
+                self.error_msg = 'no error'
+
+            elif is_ending is False:
+                self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
+
+        # End game with error
+        if self.error_msg != 'no error' and self.error_msg is not None:
+            print('End error', str(self.error_msg))
+            if self.check_turn == 'challenger':
+                winner = 'opposite'
+                match_result = 'challenger_error'
+            else:
+                winner = 'challenger'
+                match_result = 'opposite_error'
+
+            if output is not None:
+                self.error_msg = str(self.error_msg) + f'--> placement = {output}'
+
+        print('winner', winner)
+        print(self.board_record)
+        return match_result, winner, self.board_record, placement_code
 
     def compile_user_code(self):
         try:
@@ -183,6 +323,9 @@ class GameManager:
 
     def parsing_board_info(self, board_info, board_size):
         numbers = board_info.split()
+        board = np.zeros((board_size, board_size), dtype='i')
         for i in range(board_size):
             for j in range(board_size):
-                self.board[i][j] = int(numbers[i*board_size + j])
+                board[i][j] = int(numbers[i*board_size + j])
+
+        return board

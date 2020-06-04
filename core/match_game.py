@@ -4,9 +4,6 @@ import json
 import requests
 
 from gamemanager import GameManager
-from utils.code_query import select_code
-from utils.util_user_info_in_problem import update_user_info_in_problem
-from utils.util_match import update_match_data
 from userprogram import UserProgram
 
 
@@ -40,7 +37,7 @@ def match(data):
                                placement_rule=match_data['placement'], action_rule=match_data['action'],
                                ending_rule=match_data['ending'],
                                board_size=match_data['board_size'], board_info=match_data['board_info'],
-                               obj_num=match_data['obj_num'])
+                               obj_num=match_data['obj_num'], problem=match_data['problem'])
 
     winner, board_record, placement_record, result, error_msg = game_manager.play_game()
     # with open('result.txt', 'w') as f:
@@ -51,7 +48,9 @@ def match(data):
     #    f.write(placement_record)
     data = {"winner": winner, "record": board_record, "placement_record": placement_record, "result": result,
             "error_msg": error_msg}
-    print(data)
+    data2 = {"winner": winner, "placement_record": placement_record, "result": result,
+            "error_msg": error_msg}
+    print(data2)
     r = requests.patch(update_url, data=data)
     print('request ok')
 
