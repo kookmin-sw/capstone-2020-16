@@ -16,3 +16,6 @@ TransportSecurity
 machineid
 Cache/
 storage.json
+core/play_with_me/
+core/match/
+core/test_code
