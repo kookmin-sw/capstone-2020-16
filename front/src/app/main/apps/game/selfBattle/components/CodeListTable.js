@@ -9,7 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios'
 import Button from "@material-ui/core/Button";
-import { Link } from 'react-router-dom';
 import SelfBattleButton from './SelfBattleButton'
 
 // 1: python 2: c 3:cpp

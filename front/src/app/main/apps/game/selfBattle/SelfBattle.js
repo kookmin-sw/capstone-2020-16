@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Button from "@material-ui/core/Button";
 import * as Actions from 'app/store/actions';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
@@ -103,27 +103,21 @@ function Courses(props) {
 				
 												</div>
 												<CardMedia className="flex items-center justify-center">
-												<Link className="font-medium" 										
-												to={`/SelfBattle/${problem.id}`}>
 												<img src={`assets/images/games/${problem.id}.jpg`} 
 													onClick = {() =>{
 														window.sessionStorage.setItem('SS_SelectedProblemId', problem.id);
 														setBattleId(problem.id);
 													}}
 													width='300' alt='thumbnail'></img>
-												</Link>
 												</CardMedia>
 												
 
 												<Divider />
 												<CardActions className="justify-center" >
-												<Link className="font-medium" 										
-												to={`/SelfBattle/${problem.id}`}>
 													 <button onClick = {() => {
 														 window.sessionStorage.setItem('SS_SelectedProblemId', problem.id);
 														 setBattleId(problem.id);
 													 }}> Self Battle Start </button>
-												</Link>
 												<Divider orientation="vertical" flexItem />
 												</CardActions>
 												
@@ -134,17 +128,18 @@ function Courses(props) {
 							</FuseAnimateGroup>
 						  
 			</div>
-			: <div>
-				<CodeGrid battleId={battleId}/>
-				<h1>
-					<button onClick={()=> {setBattleId(-1);}}>
+			: <div style={{margin: 0, marginTop: 0, justifyContent: 'center'}}>
+				<h1 style={{marginLeft: "15vw"}}>
+					<Button variant="contained" color="secondary" onClick={()=>{setBattleId(-1);}}>
 						Select other game
-					</button>
+					</Button>
 				</h1>
+				<CodeGrid battleId={battleId}/>
 				</div>}
 		</div>
 	);
 }
 
 // export default withReducer('academyApp', reducer)(Courses);
+
 export default (Courses);
