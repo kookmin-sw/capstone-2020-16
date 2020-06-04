@@ -43,7 +43,7 @@ class SelfBattle(APIView):
         result = tasks.play_with_me.delay(matchInfo)
 
         # redis로 받음
-        r = redis.StrictRedis(host="localhost", port=6379, db=0)
+        r = redis.StrictRedis(host="192.168.23.13", port=6379, db=0)
         dict_name = str(user.user.pk) + '_' + str(code.id)
         print(dict_name)
 
