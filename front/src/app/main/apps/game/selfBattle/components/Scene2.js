@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import axios from 'axios'
+import { stringify } from 'qs';
 
 const boardSize = 627;
 const modalWidth = 1050;
@@ -20,7 +21,7 @@ class Scene2 extends Phaser.Scene {
     this.boardStatus = {
       chacksoo: [],
       placement: [],
-      realChacksoo: [["0"*64]],
+      realChacksoo: [["1","0","0","0","0","0","0","-1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1","0","0","0","0","0","0","1"]],
       boardIdx: 0,
       isAuto: false,
       idxLen : 0,
@@ -54,7 +55,7 @@ class Scene2 extends Phaser.Scene {
             this.boardStatus.realChacksoo.push(prevChacksoo);
             this.boardStatus.boardIdx++;
             this.boardStatus.idxLen++;
-            // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+            console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
           } else{
             // other idx
             this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
@@ -69,14 +70,13 @@ class Scene2 extends Phaser.Scene {
             // console.log(this.boardStatus.realChacksoo.length);
             // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
           }
-          this.moveBefore = [];
-          this.moveAfter = [];
           this.movingStone = 0;
           this.isMove = false;
         } else{
           // checking a stone
           if(prevChacksoo[cellX*8 + cellY] !== "0"){
             this.movingStone = prevChacksoo[cellX*8 + cellY];
+            this.moveAfter = [];
             this.moveBefore = [cellX, cellY];
             this.isMove = true;
             // console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
@@ -92,7 +92,6 @@ class Scene2 extends Phaser.Scene {
               // other idx
               this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
               for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
-                // console.log("delete "+ i)
                 this.boardStatus.realChacksoo.pop();
               }
               // console.log("realchack" + this.boardStatus.realChacksoo.length);
@@ -101,6 +100,45 @@ class Scene2 extends Phaser.Scene {
             }
           }
         }
+        if(this.isMove === false){
+          console.log("axios Post!!");
+          let bodyData = {
+            "problem": window.sessionStorage.getItem("SS_gameId"),
+            "code": window.sessionStorage.getItem("SS_codeId"),
+            "board_info": this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 1],
+            "placement_info": this.moveAfter.length !== 0 ? this.moveBefore[0] + " " + this.moveBefore[1] + " > " + this.moveAfter[0] + " " + this.moveAfter[1] : JSON.stringify(cellX) + " " + JSON.stringify(cellY),
+          }
+          console.log(bodyData);
+          console.log(header)
+          axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, { headers: header,
+          body: bodyData})
+          .then((response) => {
+            console.log(response)
+            // this.boardStatus.isError = response.data.error_msg;
+            // this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
+            // for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
+            //   let tempChacksoo = [];
+            //   for(let j=0; j<64; j++){
+            //     tempChacksoo.push(this.boardStatus.chacksoo[i++]);
+            //   }
+            //   this.boardStatus.realChacksoo.push(tempChacksoo);
+            // }
+            // this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
+            // this.boardStatus.placement = response.data.placement_record.split(/\n/);
+            // this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
+            // this.boardStatus.challengerId = response.data.challenger;
+            // this.boardStatus.oppositeId = response.data.opposite;
+          })
+          .catch((error) => {
+            console.log(error.response.status);
+            console.log(error)
+          });
+          console.log("move before " + this.moveBefore);
+          console.log("move after " + this.moveAfter);
+          this.moveBefore = [];
+          this.moveAfter = [];
+        }
+        // console.log(this.moveBefore);
       });
     this.background.setOrigin(0.5, 0.5);
 
@@ -275,7 +313,7 @@ class Scene2 extends Phaser.Scene {
     
   
   update() {
-    console.log(this.boardStatus.boardIdx + ',' + this.boardStatus.idxLen + ',' + this.boardStatus.realChacksoo.length);
+    // console.log(this.boardStatus.boardIdx + ',' + this.boardStatus.idxLen + ',' + this.boardStatus.realChacksoo.length);
     
     // rotate the ships
     var children = this.blue_booGroup.getChildren();

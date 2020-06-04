@@ -20,7 +20,7 @@ class Scene4 extends Phaser.Scene {
     this.boardStatus = {
       chacksoo: [],
       placement: [],
-      realChacksoo: [["0"*64]],
+      realChacksoo: [["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"]],
       boardIdx: 0,
       isAuto: false,
       idxLen : 0,
@@ -382,7 +382,7 @@ class Scene4 extends Phaser.Scene {
             children5[i].visible = false;
             children6[i].visible = false;
           }
-          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "1"){
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "3"){
             children[i].visible = true;
             children2[i].visible = false;
             children3[i].visible = false;
@@ -390,7 +390,7 @@ class Scene4 extends Phaser.Scene {
             children5[i].visible = false;
             children6[i].visible = false;
           }
-          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-1"){
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-3"){
             children[i].visible = false;
             children2[i].visible = true;
             children3[i].visible = false;
@@ -414,7 +414,7 @@ class Scene4 extends Phaser.Scene {
             children5[i].visible = false;
             children6[i].visible = false;
           }
-          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "3"){
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "1"){
             children[i].visible = false;
             children2[i].visible = false;
             children3[i].visible = false;
@@ -422,7 +422,7 @@ class Scene4 extends Phaser.Scene {
             children5[i].visible = true;
             children6[i].visible = false;
           }
-          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-3"){
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-1"){
             children[i].visible = false;
             children2[i].visible = false;
             children3[i].visible = false;
