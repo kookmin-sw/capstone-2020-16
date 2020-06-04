@@ -3,7 +3,7 @@ import json
 from rest_framework import permissions
 import os
 from onepanman_api.util.getIp import get_client_ip
-from onepanman_api.models import Code
+from onepanman_api.models import Code, UserInfo
 
 # 생성 - 관리자
 # 삭제 - 관리자
@@ -87,7 +87,8 @@ class CodePermission(permissions.BasePermission):
             return True
 
         if request.method in permissions.SAFE_METHODS:
-            if obj.author.userInfo.isCodeOpen is True:
+            userinfo = UserInfo.objects.all().filter(user=obj.author.pk)[0]
+            if userinfo.isCodeOpen is True:
                 return request.user.is_authenticated
             else:
                 return request.user.username == obj.author.username or request.user.is_staff
