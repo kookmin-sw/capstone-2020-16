@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import CodeListTable from './CodeListTable';
-import axios from 'axios';
+// import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CodeListGrid(props) {
-  const [codes, setCodes] = React.useState([]);
+  // const [codes, setCodes] = React.useState([]);
   const [spacing] = React.useState(10);
   const classes = useStyles(props);
-  var header = {
-    Authorization: "jwt " + window.localStorage.getItem("jwt_access_token"),
-  };
+  // var header = {
+  //   Authorization: "jwt " + window.localStorage.getItem("jwt_access_token"),
+  // };
 
   return (
         <Grid container className="w-full" justify="center" style={{marginTop: '50px'}} spacing={10}>
