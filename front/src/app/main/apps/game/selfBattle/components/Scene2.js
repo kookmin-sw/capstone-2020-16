@@ -70,11 +70,20 @@ class Scene2 extends Phaser.Scene {
             this.moveAfter = [cellX, cellY];
             prevChacksoo[parseInt(this.moveBefore[0])*8 + parseInt(this.moveBefore[1])] = "0";
             prevChacksoo[cellX*8 + cellY] = this.movingStone;
-            this.boardStatus.realChacksoo.push(prevChacksoo);
-            this.boardStatus.boardIdx++;
-            this.boardStatus.idxLen++;
-            console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
-            console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+            if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
+              this.boardStatus.realChacksoo.push(prevChacksoo);
+              this.boardStatus.boardIdx++;
+              this.boardStatus.idxLen++;
+              console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+              console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+            } else{
+              this.boardStatus.realChacksoo[this.boardStatus.boardIdx++] = prevChacksoo;
+              for(let i = this.boardStatus.boardIdx; i<this.boardStatus.idxLen + 1; i++){
+                this.boardStatus.realChacksoo.remove(i);
+              }
+              this.boardStatus.idxLen = this.boardStatus.boardIdx;
+              console.log(this.boardStatus.realChacksoo);
+            }
             this.moveBefore = [];
             this.moveAfter = [];
             this.movingStone = 0;

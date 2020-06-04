@@ -55,6 +55,14 @@ function SelfBattleButton(props) {
 				scene: [Scene3, Scene4],
 				pixelArt: true,
 			})
+		} else{
+			setGame({
+				width: 1050,
+				height: 700,
+				backgroundColor: 0x192d3f,
+				scene: [Scene1, Scene2],
+				pixelArt: true,
+			})
 		}
 		console.log(game)
 		window.localStorage.setItem('game_id', 1959);

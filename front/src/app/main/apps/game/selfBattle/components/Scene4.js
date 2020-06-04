@@ -34,8 +34,11 @@ class Scene4 extends Phaser.Scene {
     .then((response) => {
         // console.log(response)
         this.boardStatus.isError = response.data.error_msg;
-        this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-        for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
+        let temp_ch_ms = "0 0 0 2 1 0 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 -2 0 0 0 \n0 0 0 2 0 1 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 -2 0 0 0 \n0 0 0 2 0 1 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 0 0 -2 0 \n";
+        // this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
+        this.boardStatus.chacksoo = temp_ch_ms.replace(/\n/gi, '').split(/ /);
+        console.log(this.boardStatus.chacksoo);
+        for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length - 1; chacksooIdx++){
           let tempChacksoo = [];
           for(let j=0; j<64; j++){
             tempChacksoo.push(this.boardStatus.chacksoo[i++]);
