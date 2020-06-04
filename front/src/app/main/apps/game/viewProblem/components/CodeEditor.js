@@ -48,6 +48,9 @@ function codePost(userid, problemid, code, languageid, codename){
     })
     .catch(error => {
       console.log(error);
+      if(error.response.status === 403){
+        window.location.reload();
+      }
     })
   } else{
     axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
