@@ -32,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function SelfBattleButton(props) {
+	// temp game_id edit here!!!!!!!!!!!!!!!!!!!!!!!!!!
 	window.localStorage.setItem('game_id', 1959);
 	const classes = useStyles();
 	const [modalStyle] = React.useState(getModalStyle);
