@@ -102,16 +102,23 @@ class Scene2 extends Phaser.Scene {
         }
         if(this.isMove === false){
           console.log("axios Post!!");
+          let boardInfo = "";
+          for(let i=0; i<64; i++){
+            if(i===63){
+              boardInfo += this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 1][i];
+            } else{
+              boardInfo += this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 1][i] + " ";
+            }
+          }
           let bodyData = {
             "problem": window.sessionStorage.getItem("SS_gameId"),
             "code": window.sessionStorage.getItem("SS_codeId"),
-            "board_info": this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 1],
+            "board_info": boardInfo,
             "placement_info": this.moveAfter.length !== 0 ? this.moveBefore[0] + " " + this.moveBefore[1] + " > " + this.moveAfter[0] + " " + this.moveAfter[1] : JSON.stringify(cellX) + " " + JSON.stringify(cellY),
           }
           console.log(bodyData);
           console.log(header)
-          axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, { headers: header,
-          body: bodyData})
+          axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, bodyData, { headers: header})
           .then((response) => {
             console.log(response)
             // this.boardStatus.isError = response.data.error_msg;
