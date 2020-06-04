@@ -77,6 +77,7 @@ class Scene2 extends Phaser.Scene {
               this.boardStatus.idxLen++;
               console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             } else{
+              // other idx
               this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
               for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
                 this.boardStatus.realChacksoo.splice(i, 1);
@@ -98,12 +99,22 @@ class Scene2 extends Phaser.Scene {
               this.moveBefore = [cellX, cellY];
               this.isMove = true;
               console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
-            } else if(prevChacksoo[cellX*8 + cellY] === "0"){
+            } else{
+              // other idx
               prevChacksoo[cellX*8 + cellY] = "1";
-              this.boardStatus.realChacksoo.push(prevChacksoo);
-              this.boardStatus.boardIdx++;
-              this.boardStatus.idxLen++;
-              console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+              if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
+                this.boardStatus.realChacksoo.push(prevChacksoo);
+                this.boardStatus.boardIdx++;
+                this.boardStatus.idxLen++;
+                console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+              } else{
+                this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
+                for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
+                  this.boardStatus.realChacksoo.splice(i, 1);
+                }
+                this.boardStatus.idxLen = this.boardStatus.boardIdx;
+                this.sliderDot.slider.value = 1;
+              }
             }
           }
         });
