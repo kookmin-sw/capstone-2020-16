@@ -65,6 +65,7 @@ class Scene2 extends Phaser.Scene {
         .on('pointerup', () => {
           let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
           let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
+          console.log(this.boardStatus.realChacksoo.length)
           if(this.isMove){
             // checked a stone
             this.moveAfter = [cellX, cellY];
@@ -74,15 +75,17 @@ class Scene2 extends Phaser.Scene {
               this.boardStatus.realChacksoo.push(prevChacksoo);
               this.boardStatus.boardIdx++;
               this.boardStatus.idxLen++;
-              console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
               console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             } else{
-              this.boardStatus.realChacksoo[this.boardStatus.boardIdx++] = prevChacksoo;
-              for(let i = this.boardStatus.boardIdx; i<this.boardStatus.idxLen + 1; i++){
-                this.boardStatus.realChacksoo.remove(i);
+              this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
+              for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
+                this.boardStatus.realChacksoo.splice(i, 1);
               }
               this.boardStatus.idxLen = this.boardStatus.boardIdx;
-              console.log(this.boardStatus.realChacksoo);
+              this.sliderDot.slider.value = 1;
+              console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
+              console.log(this.boardStatus.realChacksoo.length);
+              console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             }
             this.moveBefore = [];
             this.moveAfter = [];
@@ -278,7 +281,7 @@ class Scene2 extends Phaser.Scene {
     
   
     update() {
-      // console.log(this.boardStatus.boardIdx)
+      console.log(this.boardStatus.boardIdx + ',' + this.boardStatus.idxLen);
       
       // rotate the ships
       var children = this.blue_booGroup.getChildren();
