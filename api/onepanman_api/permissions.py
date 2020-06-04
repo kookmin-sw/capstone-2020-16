@@ -3,6 +3,7 @@ import json
 from rest_framework import permissions
 import os
 from onepanman_api.util.getIp import get_client_ip
+from onepanman_api.models import Code
 
 # 생성 - 관리자
 # 삭제 - 관리자
@@ -140,7 +141,16 @@ class game(permissions.BasePermission):
 
         # retrieve 허용
         if request.method in permissions.SAFE_METHODS:
+            print("authenticated? : {}, user: {}".format(request.user.is_authenticated, request.user.pk))
+            print("obj user: {}".format(obj.user.pk))
             return request.user.is_authenticated
 
         # 수정 삭제는 관리자만.
         return request.user.is_staff
+
+class selfBattlePermission(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        if request.method == "POST":
+            code = Code.objects.all().filter(id=request.data['code'])[0]
+            return request.user.pk == code.author.pk
