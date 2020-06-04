@@ -118,7 +118,7 @@ function AnalyticsDashboardApp() {
           variant="contained"
           color="primary"
         >
-          ㅇㅅㅇ 서비스 이용 안내 가이드
+          Code on Board 서비스 이용 안내 가이드
         </Button>
         <Modal
           aria-labelledby="simple-modal-title"
