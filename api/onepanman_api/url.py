@@ -51,6 +51,7 @@ urlpatterns = [
     path('userInfo/my', views.api.userInfo.MyUserInfoView.as_view(), name="userinfomy"),
     path('rank/', views.api.userInformationInProblem.rank.as_view(), name="rank"),
     path('matchall/', views.api.Matchall.as_view(), name='matchall'),
+    path('selfBattle/', views.api.SelfBattle.as_view(), name='selfBattle'),
 
     # rest_auth - 로그인 회원가입
     url(r'^rest-auth/', include('rest_auth.urls')),
