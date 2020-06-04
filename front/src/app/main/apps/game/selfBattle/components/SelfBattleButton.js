@@ -33,6 +33,8 @@ const useStyles = makeStyles(theme => ({
 
 function SelfBattleButton(props) {
 	// temp game_id edit here!!!!!!!!!!!!!!!!!!!!!!!!!!
+	window.sessionStorage.setItem("SS_codeId", props.codeId);
+	window.sessionStorage.setItem("SS_gameId", props.gameId);
 	window.localStorage.setItem('game_id', 1959);
 	const classes = useStyles();
 	const [modalStyle] = React.useState(getModalStyle);
@@ -47,6 +49,7 @@ function SelfBattleButton(props) {
 	
 	const handleOpen = () => {
 		console.log(props.gameId);
+		console.log(props.codeId);
 		if(props.gameId === 3){
 			setGame({
 				width: 1050,
