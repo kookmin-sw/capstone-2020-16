@@ -142,7 +142,6 @@ class game(permissions.BasePermission):
         # retrieve 허용
         if request.method in permissions.SAFE_METHODS:
             print("authenticated? : {}, user: {}".format(request.user.is_authenticated, request.user.pk))
-            print("obj user: {}".format(obj.user.pk))
             return request.user.is_authenticated
 
         # 수정 삭제는 관리자만.
