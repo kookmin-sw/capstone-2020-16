@@ -41,7 +41,7 @@ class PlacementRule:
             return self.placement_message, self.board
         # self.add_rule_option()
         for rule in self.rule_list:
-            print(self.placement_rule_list[rule[0]])
+            # print(self.placement_rule_list[rule[0]])
             self.placement_rule_list[rule[0]](rule)
             if self.placement_message == 'OK':
                 break
@@ -53,7 +53,8 @@ class PlacementRule:
             elif self.placement_type == 'add':
                 self.board[self.x][self.y] = self.obj_number
         else:
-            self.placement_message = f'miss position {self.x,self.y}'
+            raise Exception(f'miss position {self.x,self.y}')
+            # self.placement_message = f'miss position {self.x,self.y}'
 
         return self.placement_message, self.board
 

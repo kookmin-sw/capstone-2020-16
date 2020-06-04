@@ -3,6 +3,8 @@
 ### Example user template
 
 # IntelliJ project files
+.DS_Store
+_config.yml
 .idea
 *.iml
 Network Persistent State
@@ -44,6 +46,7 @@ core/ex.txt
 core/op.txt
 core/placement.txt
 core/result.txt
+core/play_with_me/
 core/match/
 core/matchdata.json
 core/a.py

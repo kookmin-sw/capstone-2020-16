@@ -28,7 +28,8 @@ class Execution:
                 result, time = self.trace_program(pid)
             except Exception as e:
                 os.kill(pid, signal.SIGSTOP)
-                return 'time over'
+                raise Exception('Time Over')
+                # return 'time over'
 
             if '<' in command:
                 while not os.path.isfile("placement.txt"):

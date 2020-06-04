@@ -34,14 +34,18 @@ class EndingRule:
         self.setting(game_data, board, placement)
 
         self.rule_list.append(self.ending_condition_list[self.ending_rule])
-        if game_data.problem == (1,2):
+        if game_data.problem == (1, 2):
             self.check_available_place()
         if self.ending_option is not None:
             self.rule_list.append(self.ending_option_list[self.ending_option])
         for function in self.rule_list:
             function()
             if self.ending_message is not False:
-                return self.ending_message, self.winner#, self.ending_result
+                if self.ending_message is True:
+                    return self.ending_message, self.winner  # , self.ending_result
+                else:
+                    raise Exception(self.ending_message)
+
         return self.ending_message, 0
 
     def setting(self, data, board, placement):
@@ -51,18 +55,18 @@ class EndingRule:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
                 self.y1 = list(map(int, placement.split('>')[0].split()))[1]
                 if self.check_range(self.x1, self.y1):
-                    raise Exception
+                    raise Exception(f'out of range')
                 self.x = list(map(int, placement.split('>')[1].split()))[0]
                 self.y = list(map(int, placement.split('>')[1].split()))[1]
                 if self.check_range(self.x, self.y):
-                    raise Exception
+                    raise Exception(f'out of range')
                 self.obj_number = str(board[self.x][self.y])
             else:
                 self.obj_number = list(map(str, placement.split()))[0]
                 self.x = list(map(int, placement.split()))[1]
                 self.y = list(map(int, placement.split()))[2]
                 if self.check_range(self.x, self.y):
-                    raise Exception
+                    raise Exception(f'out of range')
                 self.x1 = None
                 self.y1 = None
 
@@ -78,8 +82,7 @@ class EndingRule:
             self.obj_rule = data.placement_rule[self.obj_number]   # [[["이동or추가", "몇번이동", "최소 or x","최대 or y"], [이동2, , ,], ["추가", "최소", "최대"]],"옵션"]
             self.obj_type = self.obj_rule[0]
         except Exception as e:
-            print(f'error in parsing user placement in ending rule : {e}')
-            self.ending_message = f'error in parsing user placement in ending rule : {e}'
+            self.ending_message = e
 
     # 엔딩 조건
     def one_line(self, game_data, board, placement):  # TODO
@@ -127,9 +130,9 @@ class EndingRule:
         my_cnt = 0
         your_cnt = 0
         # if available == True
-        print('in end')
-        print(self.board)
-        print(self.available)
+        # print('in end')
+        # print(self.board)
+        # print(self.available)
         for line in self.board:
             for i in line:
                 if i == 0:
