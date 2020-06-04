@@ -55,6 +55,7 @@ function RankingTable(props) {
             const temp_row = response.data.filter((row) => {
               return row.problem === props.battleId;
             });
+            console.log(temp_row);
             setRow(temp_row);
         })
         .catch((error)=>{
@@ -99,7 +100,7 @@ function RankingTable(props) {
                 </StyledTableCellMe>
                 <StyledTableCellMe align="center">
                   <Button variant="contained" color="secondary">
-                    <SelfBattleButton gameId={row.problem}/>
+                    <SelfBattleButton gameId={row.problem} codeId={row.id}/>
                   </Button>
                 </StyledTableCellMe>
               </StyledTableRow>
