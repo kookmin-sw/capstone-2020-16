@@ -1,8 +1,6 @@
 import json
 import os
 
-from utils.program_run_query import select_compile_message
-
 
 class UserProgram:
     def __init__(self, user, user_idx, language, save_path, filename):

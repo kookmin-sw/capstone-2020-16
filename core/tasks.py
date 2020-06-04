@@ -9,9 +9,6 @@ import requests
 from celery import Celery
 
 from gamemanager import GameManager
-from utils.code_query import select_code
-from utils.util_user_info_in_problem import update_user_info_in_problem
-from utils.util_match import update_match_data
 from userprogram import UserProgram
 
 # celery app
@@ -36,8 +33,11 @@ def play_game(data):
     print(match_data_file_path)
     with open(match_data_file_path, 'w') as f:
         json.dump(data, f)
+    print(111)
     volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
+    print(222)
     client.containers.run(image=docker_img, command='python3 match_game.py', volumes=volumes, auto_remove=True, privileged=True)#, tty=True, stdin_open=True)
+    # client.containers.run(image=docker_img, volumes=volumes, auto_remove=True, privileged=True)#, tty=True, stdin_open=True)
 
 
 @app.task
@@ -63,7 +63,7 @@ def play_with_me(data):
     client = docker.from_env()
     f_dir = os.getcwd() + '/play_with_me'
     file_name = 'matchdata.json.' + time.strftime('%m-%d-%H-%M-%S', time.localtime(time.time())) + '_' + str(
-        data['match_id'])
+        data['challenger'])
     print(file_name)
     match_data_file_path = os.path.join(f_dir, file_name)
     print(match_data_file_path)
