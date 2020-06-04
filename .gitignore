@@ -7,3 +7,12 @@
 *.iml
 out
 gen
+Backups/
+CachedExtensions/
+logs/
+User/
+rapid_render.json
+TransportSecurity
+machineid
+Cache/
+storage.json
