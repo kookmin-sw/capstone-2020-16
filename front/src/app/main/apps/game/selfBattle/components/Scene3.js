@@ -1,14 +1,12 @@
 import Phaser from 'phaser'
 
-class Scene1 extends Phaser.Scene {
+class Scene3 extends Phaser.Scene {
     constructor() {
       super("bootGame");
     }
   
     preload(){
       this.load.image("background", "assets/images/webGL/board.jpg");
-      this.load.image("blue_boo", "assets/images/webGL/blue_boo.png");
-      this.load.image("pink_boo", "assets/images/webGL/pink_boo.png");
       this.load.image("pawn_1", "assets/images/webGL/pawn_1.png");
       this.load.image("pawn_2", "assets/images/webGL/pawn_2.png");
       this.load.image("look_1", "assets/images/webGL/look_1.png");
@@ -28,4 +26,4 @@ class Scene1 extends Phaser.Scene {
 
   }
 
-  export default Scene1;
+  export default Scene3;

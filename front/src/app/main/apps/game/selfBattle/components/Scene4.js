@@ -14,7 +14,7 @@ var header = {
   'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
 }
 
-class Scene2 extends Phaser.Scene {
+class Scene4 extends Phaser.Scene {
   constructor() {
     super("playGame");
     this.boardStatus = {
@@ -34,14 +34,18 @@ class Scene2 extends Phaser.Scene {
     .then((response) => {
         // console.log(response)
         this.boardStatus.isError = response.data.error_msg;
-        this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-        for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
+        let temp_ch_ms = "0 0 0 2 1 0 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 -2 0 0 0 \n0 0 0 2 0 1 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 -2 0 0 0 \n0 0 0 2 0 1 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 0 0 -2 0 \n";
+        // this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
+        this.boardStatus.chacksoo = temp_ch_ms.replace(/\n/gi, '').split(/ /);
+        // console.log(this.boardStatus.chacksoo);
+        for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length - 1; chacksooIdx++){
           let tempChacksoo = [];
           for(let j=0; j<64; j++){
             tempChacksoo.push(this.boardStatus.chacksoo[i++]);
           }
           this.boardStatus.realChacksoo.push(tempChacksoo);
         }
+        // console.log(this.boardStatus.realChacksoo.length)
         this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
         this.boardStatus.placement = response.data.placement_record.split(/\n/);
         this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
@@ -65,7 +69,6 @@ class Scene2 extends Phaser.Scene {
         .on('pointerup', () => {
           let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
           let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
-          // console.log(this.boardStatus.realChacksoo.length)
           if(this.isMove){
             // checked a stone
             this.moveAfter = [cellX, cellY];
@@ -75,15 +78,14 @@ class Scene2 extends Phaser.Scene {
               this.boardStatus.realChacksoo.push(prevChacksoo);
               this.boardStatus.boardIdx++;
               this.boardStatus.idxLen++;
+              // console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
               // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             } else{
               // other idx
               this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
               for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
-                // console.log("delete "+ i)
                 this.boardStatus.realChacksoo.pop();
               }
-              // console.log("realchack" + this.boardStatus.realChacksoo.length);
               this.boardStatus.idxLen = this.boardStatus.boardIdx;
               this.sliderDot.slider.value = 1;
               // console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
@@ -102,24 +104,7 @@ class Scene2 extends Phaser.Scene {
               this.isMove = true;
               // console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
             } else{
-              // check on non-stone area
-              prevChacksoo[cellX*8 + cellY] = "1";
-              if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
-                this.boardStatus.realChacksoo.push(prevChacksoo);
-                this.boardStatus.boardIdx++;
-                this.boardStatus.idxLen++;
-                // console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
-              } else{
-                // other idx
-                this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
-                for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
-                  // console.log("delete "+ i)
-                  this.boardStatus.realChacksoo.pop();
-                }
-                // console.log("realchack" + this.boardStatus.realChacksoo.length);
-                this.boardStatus.idxLen = this.boardStatus.boardIdx;
-                this.sliderDot.slider.value = 1;
-              }
+              alert("거기는 빈 곳입니다.");
             }
           }
         });
@@ -163,7 +148,8 @@ class Scene2 extends Phaser.Scene {
                   }
                 }
               }
-
+      
+      
       // auto manual button(text)
       this.clickButton = this.add.text(modalWidth/2 - 50, modalHeight - 110, `${this.boardStatus.isAuto} Mode`, { font: '17px Arial', fill: '#eec65b' });
       
@@ -251,43 +237,115 @@ class Scene2 extends Phaser.Scene {
       this.yourChacksoo = this.add.text(modalWidth - 160, 160, '', { font: '34px Arial', fill: '#eec65b' });
 
       // make a group of ships
-      this.blue_booGroup = this.make.group({
-        key: "blue_boo",
+      this.pawn_1 = this.make.group({
+        key: "pawn_1",
         frameQuantity: 64,
         max: 64
       });
       
-      this.pink_booGroup = this.make.group({
-        key: "pink_boo",
+      this.pawn_2 = this.make.group({
+        key: "pawn_2",
+        frameQuantity: 64,
+        max: 64
+      });
+      this.look_1 = this.make.group({
+        key: "look_1",
+        frameQuantity: 64,
+        max: 64
+      });
+      
+      this.look_2 = this.make.group({
+        key: "look_2",
+        frameQuantity: 64,
+        max: 64
+      });
+      this.king_1 = this.make.group({
+        key: "king_1",
+        frameQuantity: 64,
+        max: 64
+      });
+      
+      this.king_2 = this.make.group({
+        key: "king_2",
         frameQuantity: 64,
         max: 64
       });
       
       // align the group of ships in a grid
-      Phaser.Actions.GridAlign(this.blue_booGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.pawn_1.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
         // 이미지 하나 당 공간
-        cellWidth: 64,
+        cellWidth: 65,
         cellHeight: 64,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -45,
-        y: -215
+        x: -180,
+        y: -395
       });
       
-      Phaser.Actions.GridAlign(this.pink_booGroup.getChildren(), {
+      Phaser.Actions.GridAlign(this.pawn_2.getChildren(), {
         // 가로 세로 갯수
         width: 8,
         height: 8,
         // 이미지 하나 당 공간
-        cellWidth: 64,
+        cellWidth: 65,
         cellHeight: 64,
         // 이미지 시작 지점
         position: Phaser.Display.Align.TOP_LEFT,
-        x: -45,
-        y: -215
+        x: -180,
+        y: -395
+      });
+      Phaser.Actions.GridAlign(this.look_1.getChildren(), {
+        // 가로 세로 갯수
+        width: 8,
+        height: 8,
+        // 이미지 하나 당 공간
+        cellWidth: 65,
+        cellHeight: 64,
+        // 이미지 시작 지점
+        position: Phaser.Display.Align.TOP_LEFT,
+        x: -180,
+        y: -395
+      });
+      
+      Phaser.Actions.GridAlign(this.look_2.getChildren(), {
+        // 가로 세로 갯수
+        width: 8,
+        height: 8,
+        // 이미지 하나 당 공간
+        cellWidth: 65,
+        cellHeight: 64,
+        // 이미지 시작 지점
+        position: Phaser.Display.Align.TOP_LEFT,
+        x: -180,
+        y: -395
+      });
+      Phaser.Actions.GridAlign(this.king_1.getChildren(), {
+        // 가로 세로 갯수
+        width: 8,
+        height: 8,
+        // 이미지 하나 당 공간
+        cellWidth: 65,
+        cellHeight: 64,
+        // 이미지 시작 지점
+        position: Phaser.Display.Align.TOP_LEFT,
+        x: -180,
+        y: -395
+      });
+      
+      Phaser.Actions.GridAlign(this.king_2.getChildren(), {
+        // 가로 세로 갯수
+        width: 8,
+        height: 8,
+        // 이미지 하나 당 공간
+        cellWidth: 65,
+        cellHeight: 64,
+        // 이미지 시작 지점
+        position: Phaser.Display.Align.TOP_LEFT,
+        x: -180,
+        y: -395
       });
       
       // slider value65b' });
@@ -296,33 +354,89 @@ class Scene2 extends Phaser.Scene {
     
   
     update() {
-      console.log(this.boardStatus.boardIdx + ',' + this.boardStatus.idxLen + ',' + this.boardStatus.realChacksoo.length);
+      // console.log(this.boardStatus.boardIdx)
       
       // rotate the ships
-      var children = this.blue_booGroup.getChildren();
-      var children2 = this.pink_booGroup.getChildren();
+      let children = this.pawn_1.getChildren();
+      let children2 = this.pawn_2.getChildren();
+      let children3 = this.look_1.getChildren();
+      let children4 = this.look_2.getChildren();
+      let children5 = this.king_1.getChildren();
+      let children6 = this.king_2.getChildren();
       
       for (var i = 0; i < children.length; i++) {
         // // children[i].rotation += 0.1;
-        children[i].setScale(0.091);
-        children2[i].setScale(0.091);
+        children[i].setScale(0.081);
+        children2[i].setScale(0.081);
+        children3[i].setScale(0.081);
+        children4[i].setScale(0.081);
+        children5[i].setScale(0.081);
+        children6[i].setScale(0.081);
         
         if(this.boardStatus.boardIdx <= this.boardStatus.idxLen){
           if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "0"){
             children[i].visible = false;
             children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
           }
           else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "1"){
             children[i].visible = true;
             children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
           }
           else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-1"){
             children[i].visible = false;
             children2[i].visible = true;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "2"){
+            children[i].visible = false;
+            children2[i].visible = false;
+            children3[i].visible = true;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-2"){
+            children[i].visible = false;
+            children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = true;
+            children5[i].visible = false;
+            children6[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "3"){
+            children[i].visible = false;
+            children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = true;
+            children6[i].visible = false;
+          }
+          else if(this.boardStatus.realChacksoo[this.boardStatus.boardIdx][i] === "-3"){
+            children[i].visible = false;
+            children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = true;
           }
           else{
             children[i].visible = false;
             children2[i].visible = false;
+            children3[i].visible = false;
+            children4[i].visible = false;
+            children5[i].visible = false;
+            children6[i].visible = false;
           }
       }
         
@@ -382,4 +496,5 @@ class Scene2 extends Phaser.Scene {
       this.boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * this.boardStatus.idxLen + 0.00001);
     };
   }
-export default Scene2;
+  
+  export default Scene4;
