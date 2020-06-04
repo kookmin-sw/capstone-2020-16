@@ -24,6 +24,7 @@ RUN apt-get -y install g++
 
 RUN pip install requests
 RUN pip install numpy
+Run pip install redis
 
 COPY . /
 

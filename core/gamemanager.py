@@ -43,7 +43,7 @@ class GameManager:
     def play_game(self):
         print('## Start Game ##')
         total_turn = 0
-        total_turn_limit = self.game_data.board_size ** 3
+        total_turn_limit = 100 # self.game_data.board_size ** 3
         is_ending = False
         match_result = ''
         winner = 0
@@ -172,7 +172,7 @@ class GameManager:
         is_ending = False
 
         placement_code = None
-
+        match_result = 'not finish'
         print('Star Check Rule...')
         for i in range(2):
             print('#######')
@@ -256,7 +256,7 @@ class GameManager:
                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
 
         # End game with error
-        if self.error_msg != 'no error':# and self.error_msg is not None:
+        if self.error_msg != 'no error' and self.error_msg is not None:
             print('End error', str(self.error_msg))
             if self.check_turn == 'challenger':
                 winner = 'opposite'

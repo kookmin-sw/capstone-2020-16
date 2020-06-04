@@ -38,9 +38,9 @@ def play_with_me(data):
 
     result, winner, board_record, placement_code = game_manager.play_with_me(placement)
 
-    r = redis.StrictRedis(host="localhost", port=6379, db=0)
+    r = redis.StrictRedis(host="192.168.23.13", port=6379, db=0)
 
-    dict_name = str(json_data['challenger']) + str(json_data['challenger_code_id'])
+    dict_name = str(json_data['challenger']) + '_' + str(json_data['challenger_code_id'])
 
     result_dict = {
         'result': result,
