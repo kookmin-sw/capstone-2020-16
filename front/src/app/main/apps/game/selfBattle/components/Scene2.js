@@ -65,7 +65,7 @@ class Scene2 extends Phaser.Scene {
         .on('pointerup', () => {
           let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
           let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
-          console.log(this.boardStatus.realChacksoo.length)
+          // console.log(this.boardStatus.realChacksoo.length)
           if(this.isMove){
             // checked a stone
             this.moveAfter = [cellX, cellY];
@@ -75,18 +75,20 @@ class Scene2 extends Phaser.Scene {
               this.boardStatus.realChacksoo.push(prevChacksoo);
               this.boardStatus.boardIdx++;
               this.boardStatus.idxLen++;
-              console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+              // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             } else{
               // other idx
               this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
               for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
-                this.boardStatus.realChacksoo.splice(i, 1);
+                // console.log("delete "+ i)
+                this.boardStatus.realChacksoo.pop();
               }
+              // console.log("realchack" + this.boardStatus.realChacksoo.length);
               this.boardStatus.idxLen = this.boardStatus.boardIdx;
               this.sliderDot.slider.value = 1;
-              console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
-              console.log(this.boardStatus.realChacksoo.length);
-              console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+              // console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
+              // console.log(this.boardStatus.realChacksoo.length);
+              // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             }
             this.moveBefore = [];
             this.moveAfter = [];
@@ -98,20 +100,23 @@ class Scene2 extends Phaser.Scene {
               this.movingStone = prevChacksoo[cellX*8 + cellY];
               this.moveBefore = [cellX, cellY];
               this.isMove = true;
-              console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
+              // console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
             } else{
-              // other idx
+              // check on non-stone area
               prevChacksoo[cellX*8 + cellY] = "1";
               if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
                 this.boardStatus.realChacksoo.push(prevChacksoo);
                 this.boardStatus.boardIdx++;
                 this.boardStatus.idxLen++;
-                console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+                // console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
               } else{
+                // other idx
                 this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
                 for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
-                  this.boardStatus.realChacksoo.splice(i, 1);
+                  // console.log("delete "+ i)
+                  this.boardStatus.realChacksoo.pop();
                 }
+                // console.log("realchack" + this.boardStatus.realChacksoo.length);
                 this.boardStatus.idxLen = this.boardStatus.boardIdx;
                 this.sliderDot.slider.value = 1;
               }
@@ -158,8 +163,7 @@ class Scene2 extends Phaser.Scene {
                   }
                 }
               }
-      
-      
+
       // auto manual button(text)
       this.clickButton = this.add.text(modalWidth/2 - 50, modalHeight - 110, `${this.boardStatus.isAuto} Mode`, { font: '17px Arial', fill: '#eec65b' });
       
@@ -292,7 +296,7 @@ class Scene2 extends Phaser.Scene {
     
   
     update() {
-      console.log(this.boardStatus.boardIdx + ',' + this.boardStatus.idxLen);
+      console.log(this.boardStatus.boardIdx + ',' + this.boardStatus.idxLen + ',' + this.boardStatus.realChacksoo.length);
       
       // rotate the ships
       var children = this.blue_booGroup.getChildren();
@@ -378,5 +382,4 @@ class Scene2 extends Phaser.Scene {
       this.boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * this.boardStatus.idxLen + 0.00001);
     };
   }
-  
-  export default Scene2;
+export default Scene2;

@@ -37,7 +37,7 @@ class Scene4 extends Phaser.Scene {
         let temp_ch_ms = "0 0 0 2 1 0 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 -2 0 0 0 \n0 0 0 2 0 1 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 -2 0 0 0 \n0 0 0 2 0 1 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 0 0 -2 0 \n";
         // this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
         this.boardStatus.chacksoo = temp_ch_ms.replace(/\n/gi, '').split(/ /);
-        console.log(this.boardStatus.chacksoo);
+        // console.log(this.boardStatus.chacksoo);
         for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length - 1; chacksooIdx++){
           let tempChacksoo = [];
           for(let j=0; j<64; j++){
@@ -45,6 +45,7 @@ class Scene4 extends Phaser.Scene {
           }
           this.boardStatus.realChacksoo.push(tempChacksoo);
         }
+        // console.log(this.boardStatus.realChacksoo.length)
         this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
         this.boardStatus.placement = response.data.placement_record.split(/\n/);
         this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
@@ -73,11 +74,24 @@ class Scene4 extends Phaser.Scene {
             this.moveAfter = [cellX, cellY];
             prevChacksoo[parseInt(this.moveBefore[0])*8 + parseInt(this.moveBefore[1])] = "0";
             prevChacksoo[cellX*8 + cellY] = this.movingStone;
-            this.boardStatus.realChacksoo.push(prevChacksoo);
-            this.boardStatus.boardIdx++;
-            this.boardStatus.idxLen++;
-            console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
-            console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+            if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
+              this.boardStatus.realChacksoo.push(prevChacksoo);
+              this.boardStatus.boardIdx++;
+              this.boardStatus.idxLen++;
+              // console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+              // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+            } else{
+              // other idx
+              this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
+              for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
+                this.boardStatus.realChacksoo.pop();
+              }
+              this.boardStatus.idxLen = this.boardStatus.boardIdx;
+              this.sliderDot.slider.value = 1;
+              // console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
+              // console.log(this.boardStatus.realChacksoo.length);
+              // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+            }
             this.moveBefore = [];
             this.moveAfter = [];
             this.movingStone = 0;
@@ -88,7 +102,7 @@ class Scene4 extends Phaser.Scene {
               this.movingStone = prevChacksoo[cellX*8 + cellY];
               this.moveBefore = [cellX, cellY];
               this.isMove = true;
-              console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
+              // console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
             } else{
               alert("거기는 빈 곳입니다.");
             }
