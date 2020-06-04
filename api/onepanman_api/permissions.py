@@ -87,11 +87,7 @@ class CodePermission(permissions.BasePermission):
             return True
 
         if request.method in permissions.SAFE_METHODS:
-            userinfo = UserInfo.objects.all().filter(user=obj.author.pk)[0]
-            if userinfo.isCodeOpen is True:
-                return request.user.is_authenticated
-            else:
-                return request.user.username == obj.author.username or request.user.is_staff
+            return request.user.username == obj.author.username or request.user.is_staff
 
         return request.user.username == obj.author.username
 
