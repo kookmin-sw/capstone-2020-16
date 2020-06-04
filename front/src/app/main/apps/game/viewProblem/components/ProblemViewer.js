@@ -3,9 +3,11 @@
 // import { useDispatch, useSelector } from 'react-redux';
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import React, { Component } from "react";
+import React, { Component }from 'react';
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+
 
 export default class Test extends Component {
 
@@ -55,7 +57,7 @@ export default class Test extends Component {
           </p>
         </div>
         <Document
-          file={`/assets/PDF/${tmp}.pdf`}
+          file={tmp}
           onLoadSuccess={this.onDocumentLoadSuccess}
         >
           <Page pageNumber={pageNumber} />
