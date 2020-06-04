@@ -11,6 +11,6 @@ def play_game(data):
 def play_with_me(data):
     pass
 
-@app.tasks
+@app.task
 def test_code(data):
     pass
