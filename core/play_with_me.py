@@ -55,6 +55,6 @@ def play_with_me(data):
     r.set(dict_name, json_result_dict)
 
 if __name__ == '__main__':
-    with open('matchdata.json') as json_file:
+    with open('testme.json') as json_file:
         json_data = json.load(json_file)
     play_with_me(json_data)
