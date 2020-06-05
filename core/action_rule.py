@@ -34,8 +34,8 @@ class ActionRule:
         if bool(game_data.action_rule) is False:
             return 'OK', board
 
-        self.add_condition_rule()
         self.add_direction_rule()
+        self.add_condition_rule()
         self.add_method_rule()
 
         for function in self.rule_list:
