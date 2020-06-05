@@ -165,7 +165,7 @@ class GameManager:
 
     def play_with_me(self, placement):
         print('Start Play With Me')
-        self.board_record += str(self.board_info) + ' \n'
+        # self.board_record += str(self.board_info) + ' \n'
         self.board = self.parsing_board_info(self.board_info, self.board_size)
         self.compile_user_code()
 
@@ -173,17 +173,21 @@ class GameManager:
 
         placement_code = None
         match_result = 'not finish'
-        print('Star Check Rule...')
+        print('Start Check Rule...')
         for i in range(2):
-            print('#######')
+            print('\n' + '#######')
             self.make_board_data()
 
             output = None
-            print(self.board)
+            if i == 0:
+                print('Receive Borad')
+                print(self.board)
+
             ## Execute user code
-            print('Execute user program...', end='')
+            
             if i == 1:  # only code turn
                 try:
+                    print('Execute user program...', end='')
                     if os.path.isfile("placement.txt"):
                         os.remove("placement.txt")
                     output = self.execution.execute_program(self.challenger.play(), self.challenger.save_path)
@@ -193,11 +197,13 @@ class GameManager:
                     print(self.error_msg)
                     break
             else:
+                print('User placement:', placement,'...', end='')
                 output = placement
             print('OK', output)
             ## Start Check Rule
 
             # Check Placement Rule
+            print('Check Placement Rule...', end='')
             try:
                 check_placement, new_board = self.placement_rule.check_placement_rule(self.game_data, self.board, output)
             except Exception as e:
@@ -206,8 +212,17 @@ class GameManager:
                 break
             print(check_placement)
 
-            # Check Action Rule
+            # After placement board
             self.board = new_board
+
+            # Add board record
+            if i == 1:
+                self.add_data(self.board*(-1), output)
+                print('# After Code placement board')
+                print(self.board*(-1))
+                
+
+            # Check Action Rule
             print('Check action rule...', end='')
             try:
                 apply_action, new_board = self.action_rule.apply_action_rule(self.game_data, self.board, output)
@@ -217,14 +232,10 @@ class GameManager:
                 break
             print(apply_action)
 
-            # Save board
-            if i == 0:
-                board_user = new_board
-            else:
-                board_code = new_board
+            # After action board
+            self.board = new_board
 
             # Check Ending Rule
-            self.board = new_board
             print('Check ending rule...', end='')
             try:
                 is_ending, winner = self.ending_rule.check_ending(self.game_data, self.board, output)
@@ -233,9 +244,16 @@ class GameManager:
                 self.error_msg = f'ending error : {e}'
                 print(self.error_msg)
                 break
-            print(is_ending)
+            print(is_ending, '\n')
             
-            self.add_record(output)
+            if i == 0:
+                print('# After user placement board')
+                print(self.board)
+                self.add_record(output) 
+            else:
+                self.add_data(self.board*(-1), output)
+                print('# After Code action board')
+                print(self.board * (-1))
 
             # End game
             if is_ending is True:

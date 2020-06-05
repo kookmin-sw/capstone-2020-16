@@ -7,3 +7,16 @@
 *.iml
 out
 gen
+Backups/
+CachedExtensions/
+logs/
+User/
+rapid_render.json
+TransportSecurity
+machineid
+Cache/
+storage.json
+core/play_with_me/
+core/match/
+core/test_code
+core/testme.json
