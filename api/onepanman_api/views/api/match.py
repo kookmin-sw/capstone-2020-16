@@ -64,8 +64,13 @@ class Match(APIView):
 
         queryset_up = queryset_up.exclude(user=userid)
 
+        # 같은 유저와 연속 매칭 막기
         games = Game.objects.all().filter(challenger=userid, problem=problemid).order_by('-date')
-        ex_opposite = games[0].opposite
+        if len(games) > 0:
+            ex_opposite_pk = games[0].opposite.pk
+        else :
+            # 게임이 첫 판이면 전판 유저가 없다.
+            ex_opposite_pk = 0
 
 
         for i in range(20):
@@ -77,7 +82,7 @@ class Match(APIView):
 
                 opposite = queryset_up[opposite_index]
 
-                if opposite.user.pk == ex_opposite.pk and i < 19:
+                if opposite.user.pk == ex_opposite_pk and i < 19:
                     continue
 
 
