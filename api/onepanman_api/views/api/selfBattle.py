@@ -52,11 +52,14 @@ class SelfBattle(APIView):
 
             while r.exists(dict_name) == 0:
                 pass
+
             json_dict = r.get(dict_name).decode('utf-8')
             test_dict = dict(json.loads(json_dict))
 
             # redis에서 삭제
             r.delete(dict_name)
+
+            print(r.exists(dict_name))
         except Exception as e:
             print("redis&celery error : {}".format(e))
 
