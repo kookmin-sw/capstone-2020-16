@@ -26,6 +26,8 @@ class Scene2 extends Phaser.Scene {
     this.boardStatus = {
       chacksoo: [],
       placement: "",
+      challengerPlacement:[],
+      oppositePlacement:[],
       realChacksoo: [["1","0","0","0","0","0","0","-1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1","0","0","0","0","0","0","1"]],
       boardIdx: 0,
       isAuto: false,
@@ -36,7 +38,7 @@ class Scene2 extends Phaser.Scene {
       challengerId: 0,
       oppositeId: 0,
       idxIncrement: false,
-      oppositePlacement: "",
+      // oppositePlacement: "",
     };
     this.iter = 0; // used for itarations
     this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
@@ -64,8 +66,12 @@ class Scene2 extends Phaser.Scene {
             } else{
               // other idx
               this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
-              for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
+              for(let i = this.boardStatus.boardIdx + 1, j=0; i<this.boardStatus.idxLen + 1; i++, j++){
                 this.boardStatus.realChacksoo.pop();
+                if(j%2 === 0){
+                  this.boardStatus.challengerPlacement.pop();
+                  this.boardStatus.oppositePlacement.pop();
+                }
               }
 
               this.boardStatus.idxLen = this.boardStatus.boardIdx;
@@ -94,8 +100,12 @@ class Scene2 extends Phaser.Scene {
                 this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
 
                 // erase back boards
-                for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
+                for(let i = this.boardStatus.boardIdx + 1, j=0; i<this.boardStatus.idxLen + 1; i++, j++){
                   this.boardStatus.realChacksoo.pop();
+                  if(j%2 === 0){
+                    this.boardStatus.challengerPlacement.pop();
+                    this.boardStatus.oppositePlacement.pop();
+                  }
                 }
                 this.boardStatus.idxLen = this.boardStatus.boardIdx;
                 this.sliderDot.slider.value = 1;
@@ -120,11 +130,12 @@ class Scene2 extends Phaser.Scene {
               "placement_info": this.moveAfter.length !== 0 ? this.moveBefore[0] + " " + this.moveBefore[1] + " > " + this.moveAfter[0] + " " + this.moveAfter[1] :"1 " + JSON.stringify(cellX) + " " + JSON.stringify(cellY),
             };
             this.boardStatus.placement = bodyData.placement_info;
+            this.boardStatus.challengerPlacement.push(bodyData.placement_info);
             
             axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, bodyData, { headers: header})
             .then((response) => {
               this.boardStatus.gameStatus = response.data.result;
-              this.boardStatus.oppositePlacement = response.data.placement_code;
+              this.boardStatus.oppositePlacement.push(response.data.placement_code);
               this.boardStatus.chacksoo = response.data.board_record.replace(/\n/gi, '').split(/ /);
               
               if(response.data.result === "finish"){
@@ -358,18 +369,18 @@ class Scene2 extends Phaser.Scene {
 
     // placement info
     if(this.boardStatus.boardIdx%3 === 1){
-      if(this.boardStatus.placement.length > 6){
-        this.myChacksoo.setText(this.boardStatus.placement);
+      if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)].length > 6){
+        this.myChacksoo.setText(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)]);
       } else{
-        let moveInfo = this.boardStatus.placement[2] + "," + this.boardStatus.placement[4];
+        let moveInfo = this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][2] + "," + this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][4];
         this.myChacksoo.setText(moveInfo);
       }
       this.yourChacksoo.setText("ready");
     } else if(this.boardStatus.boardIdx%3 === 0 && this.boardStatus.boardIdx > 0){
-      if(this.boardStatus.oppositePlacement.length > 6){
-        this.yourChacksoo.setText(this.boardStatus.oppositePlacement);
+      if(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)].length > 6){
+        this.yourChacksoo.setText(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)]);
       } else{
-        let moveInfo = this.boardStatus.oppositePlacement[2] + "," + this.boardStatus.oppositePlacement[4];
+        let moveInfo = this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][2] + "," + this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][4];
         this.yourChacksoo.setText(moveInfo);
       }
       this.myChacksoo.setText("ready");
@@ -393,6 +404,8 @@ class Scene2 extends Phaser.Scene {
     // }
     if(this.boardStatus.gameStatus === "finish"){
       this.gameStatus.setText(this.boardStatus.winner);
+    } else if(this.boardStatus.gameStatus === "not finish"){
+      this.gameStatus.setText("not finish");
     } else{
       this.gameStatus.setText(this.boardStatus.errMsg);
     }

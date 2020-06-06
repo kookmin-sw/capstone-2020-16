@@ -99,7 +99,7 @@ class Scene4 extends Phaser.Scene {
                 "code": window.sessionStorage.getItem("SS_codeId"),
                 "board_info": boardInfo,
                 "placement_info": this.moveAfter.length !== 0 ? this.moveBefore[0] + " " + this.moveBefore[1] + " > " + this.moveAfter[0] + " " + this.moveAfter[1] :this.movingStone + " " + JSON.stringify(cellX) + " " + JSON.stringify(cellY),
-              }
+              };
               console.log("bodyData")
               console.log(bodyData);
               console.log("placement_info" + bodyData.placement_info);
