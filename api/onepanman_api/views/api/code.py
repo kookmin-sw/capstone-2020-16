@@ -44,6 +44,14 @@ class CodeViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
+        # userInformationInProblem 객체가 존재하는지 확인하고 생성한다.
+        user = serializer.data["author"]
+        problem = serializer.data["problem"]
+        queryset = UserInformationInProblem.objects.all().filter(user=user, problem=problem)
+
+        if len(queryset) < 1:
+            create_instance(user, problem, serializer.data["id"])
+
         self.test_code(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -72,26 +80,18 @@ class CodeViewSet(viewsets.ModelViewSet):
 
         if 'available_game' not in request.data:
             self.test_code(serializer.data)
-        else:
-            available = request.data['available_game']
-            # 게임 가능한 코드이면
-            if available:
-                user = serializer.data["author"]
-                problem = serializer.data["problem"]
-                queryset = UserInformationInProblem.objects.all().filter(user=user, problem=problem)
 
-                # userInformationInProblem 객체가 존재하는지 확인하고 생성한다.
-                if len(queryset) < 1:
-                    create_instance(user, problem, serializer.data["id"])
 
         return Response(serializer.data)
 
     def test_code(self, data):
+
         problem = Problem.objects.all().filter(id=data["problem"])[0]
-        rule = json.loads(problem.rule)
-
+        try:
+            rule = json.loads(problem.rule)
+        except Exception as e:
+            print(problem.rule)
         language = Language.objects.all().filter(id=data["language"])[0]
-
         test_data = {
             "code_id": data['id'],
             "challenger": data['author'],
@@ -107,6 +107,8 @@ class CodeViewSet(viewsets.ModelViewSet):
 
         # 여기서 celery 코드 추가!
         tasks.test_code.delay(test_data)
+
+        return
 
 
 class MyCodeView(APIView):
