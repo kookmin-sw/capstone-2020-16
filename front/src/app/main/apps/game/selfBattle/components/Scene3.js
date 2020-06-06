@@ -7,6 +7,7 @@ class Scene3 extends Phaser.Scene {
   
     preload(){
       this.load.image("background", "assets/images/webGL/board.jpg");
+      this.load.image("spinner", "assets/images/webGL/spinner.png");
       this.load.image("pawn_1", "assets/images/webGL/pawn_1.png");
       this.load.image("pawn_2", "assets/images/webGL/pawn_2.png");
       this.load.image("look_1", "assets/images/webGL/look_1.png");

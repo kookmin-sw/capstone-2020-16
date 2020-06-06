@@ -48,6 +48,7 @@ function SelfBattleButton(props) {
 	})
 	
 	const handleOpen = () => {
+		window.sessionStorage.setItem('SS_sceneLife', true);
 		console.log(props.gameId);
 		console.log(props.codeId);
 		if(props.gameId === 3){
@@ -73,6 +74,8 @@ function SelfBattleButton(props) {
 	};
 	
 	const handleClose = () => {
+		console.log("close");
+		window.sessionStorage.setItem('SS_sceneLife', false);
 		window.localStorage.removeItem('game_id')
 		setOpen(false);
 	};
