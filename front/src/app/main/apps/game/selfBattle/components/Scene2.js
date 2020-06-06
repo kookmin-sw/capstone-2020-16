@@ -38,7 +38,7 @@ class Scene2 extends Phaser.Scene {
       challengerId: 0,
       oppositeId: 0,
       idxIncrement: false,
-      // oppositePlacement: "",
+      isLoading: false,
     };
     this.iter = 0; // used for itarations
     this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
@@ -62,7 +62,7 @@ class Scene2 extends Phaser.Scene {
               this.boardStatus.realChacksoo.push(prevChacksoo);
               this.boardStatus.boardIdx++;
               this.boardStatus.idxLen++;
-              console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+              // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             } else{
               // other idx
               this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
@@ -107,6 +107,11 @@ class Scene2 extends Phaser.Scene {
                     this.boardStatus.oppositePlacement.pop();
                   }
                 }
+
+                if(this.boardStatus.gameStatus === "challenger_error" || this.boardStatus.gameStatus === "opposite_error"){
+                  this.boardStatus.challengerPlacement.pop();
+                }
+                
                 this.boardStatus.idxLen = this.boardStatus.boardIdx;
                 this.sliderDot.slider.value = 1;
               }
@@ -132,10 +137,16 @@ class Scene2 extends Phaser.Scene {
             this.boardStatus.placement = bodyData.placement_info;
             this.boardStatus.challengerPlacement.push(bodyData.placement_info);
             
+            this.boardStatus.isLoading = true;
+            
             axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, bodyData, { headers: header})
             .then((response) => {
+              console.log(response);
+              this.boardStatus.isLoading = false;
               this.boardStatus.gameStatus = response.data.result;
-              this.boardStatus.oppositePlacement.push(response.data.placement_code);
+              if(response.data.placement_code !== null){
+                this.boardStatus.oppositePlacement.push(response.data.placement_code);
+              }
               this.boardStatus.chacksoo = response.data.board_record.replace(/\n/gi, '').split(/ /);
               
               if(response.data.result === "finish"){
@@ -287,7 +298,7 @@ class Scene2 extends Phaser.Scene {
     
     this.myChacksoo = this.add.text(60, 160, '', { font: '34px Arial', fill: '#eec65b' });
     this.yourChacksoo = this.add.text(modalWidth - 160, 160, '', { font: '34px Arial', fill: '#eec65b' });
-
+    
     // make a group of ships
     this.blue_booGroup = this.make.group({
       key: "blue_boo",
@@ -331,12 +342,18 @@ class Scene2 extends Phaser.Scene {
     // slider value65b' });
     // this.add.text(60, 160, '', { font: '34px Arial', fill: '#eec65b' });
     this.gameStatus = this.add.text(modalWidth/2 - 300, 0, "", { font: '30px Arial', fill: '#eec65b' });
+    this.spinner = this.add.image(modalWidth/2, modalHeight/2 ,"spinner").setScale(0.2);
   }
-    
+  
   
   update() {
-    // console.log(this.boardStatus.boardIdx + ',' + this.boardStatus.idxLen + ',' + this.boardStatus.realChacksoo.length);
-    
+    // spinner
+    if(this.boardStatus.isLoading === false){
+      this.spinner.visible = false;
+    } else{
+      this.spinner.visible = true;
+      this.spinner.rotation += 0.05;
+    }
     // rotate the ships
     var children = this.blue_booGroup.getChildren();
     var children2 = this.pink_booGroup.getChildren();
@@ -393,17 +410,9 @@ class Scene2 extends Phaser.Scene {
       this.yourChacksoo.setText("action");
     }
 
-    // if(response.data.result === "finish"){
-    //   this.boardStatus.winner = response.data.winner;
-    // } else if(response.data.result === "challenger_error"){
-    //   this.boardStatus.errMsg = "challenger_error";
-    // } else if(response.data.result === "opposite_error"){
-    //   this.boardStatus.errMsg = "challenger_error";
-    // } else{
-    //   this.boardStatus.errMsg = "";
-    // }
+    // game status
     if(this.boardStatus.gameStatus === "finish"){
-      this.gameStatus.setText(this.boardStatus.winner);
+      this.gameStatus.setText("winner is " + this.boardStatus.winner);
     } else if(this.boardStatus.gameStatus === "not finish"){
       this.gameStatus.setText("not finish");
     } else{
@@ -414,7 +423,8 @@ class Scene2 extends Phaser.Scene {
     this.iter += 0.001;
     this.sliderDot.visible = true;
     this.boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * this.boardStatus.idxLen + 0.00001);
-    
+    // console.log(this.boardStatus.challengerPlacement);
+    // console.log(this.boardStatus.oppositePlacement);
   };
 
 }

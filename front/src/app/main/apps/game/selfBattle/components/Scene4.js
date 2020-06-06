@@ -23,15 +23,20 @@ class Scene4 extends Phaser.Scene {
     create() {
       this.boardStatus = {
         chacksoo: [],
-        placement: [],
+        placement: "",
+        challengerPlacement:[],
+        oppositePlacement:[],
         realChacksoo: [["0","0","0","-2","-1","0","0","0","0","0","0","-3","-3","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","3","3","0","0","0","0","0","0","1","2","0","0","0"]],
         boardIdx: 0,
         isAuto: false,
         idxLen : 0,
-        isError: "",
+        gameStatus: "",
+        errMsg: "",
+        winner: "",
         challengerId: 0,
         oppositeId: 0,
-        idxIncrement: false
+        idxIncrement: false,
+        isLoading: false,
       }
       this.iter = 0; // used for itarations
       this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
@@ -57,23 +62,25 @@ class Scene4 extends Phaser.Scene {
                 this.boardStatus.realChacksoo.push(prevChacksoo);
                 this.boardStatus.boardIdx++;
                 this.boardStatus.idxLen++;
-                // console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
-                console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
               } else{
                 // other idx
                 this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
-                for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
+                for(let i = this.boardStatus.boardIdx + 1, j=0; i<this.boardStatus.idxLen + 1; i++, j++){
                   this.boardStatus.realChacksoo.pop();
+                  if(j%2 === 0){
+                    this.boardStatus.challengerPlacement.pop();
+                    this.boardStatus.oppositePlacement.pop();
+                  }
                 }
+
+                if(this.boardStatus.gameStatus === "challenger_error" || this.boardStatus.gameStatus === "opposite_error"){
+                  this.boardStatus.challengerPlacement.pop();
+                }
+
                 this.boardStatus.idxLen = this.boardStatus.boardIdx;
                 this.sliderDot.slider.value = 1;
-                // console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
-                // console.log(this.boardStatus.realChacksoo.length);
-                // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
               }
-              // this.moveBefore = [];
-              // this.moveAfter = [];
-              // this.movingStone = 0;
+
               this.isMove = false;
             } else{
               // checking a stone
@@ -85,7 +92,6 @@ class Scene4 extends Phaser.Scene {
               }
             }
             if(this.isMove === false){
-              console.log("axios Post!!");
               let boardInfo = "";
               for(let i=0; i<64; i++){
                 if(i===63){
@@ -100,19 +106,30 @@ class Scene4 extends Phaser.Scene {
                 "board_info": boardInfo,
                 "placement_info": this.moveAfter.length !== 0 ? this.moveBefore[0] + " " + this.moveBefore[1] + " > " + this.moveAfter[0] + " " + this.moveAfter[1] :this.movingStone + " " + JSON.stringify(cellX) + " " + JSON.stringify(cellY),
               };
-              console.log("bodyData")
-              console.log(bodyData);
-              console.log("placement_info" + bodyData.placement_info);
+              this.boardStatus.challengerPlacement.push(bodyData.placement_info);
+              
+              this.boardStatus.isLoading = true;
               axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, bodyData, { headers: header})
               .then((response) => {
-                console.log("response");
                 console.log(response)
-                // console.log(response.data.board_record)
-                this.boardStatus.isError = response.data.result;
+                this.boardStatus.isLoading = false;
+                this.boardStatus.gameStatus = response.data.result;
+                if(response.data.placement_code !== null){
+                  this.boardStatus.oppositePlacement.push(response.data.placement_code);
+                }
                 this.boardStatus.chacksoo = response.data.board_record.replace(/\n/gi, '').split(/ /);
+                
+                if(response.data.result === "finish"){
+                  this.boardStatus.winner = response.data.winner;
+                } else if(response.data.result === "challenger_error"){
+                  this.boardStatus.errMsg = "challenger_error";
+                } else if(response.data.result === "opposite_error"){
+                  this.boardStatus.errMsg = "challenger_error";
+                } else{
+                  this.boardStatus.errMsg = "";
+                }
                 this.boardStatus.chacksoo.pop();
-                console.log("this.boardStatus.chacksoo");
-                console.log(this.boardStatus.chacksoo);
+                
                 for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
                   let tempChacksoo = [];
                   for(let j=0; j<64; j++){
@@ -120,24 +137,15 @@ class Scene4 extends Phaser.Scene {
                   }
                   this.boardStatus.realChacksoo.push(tempChacksoo);
                 }
-                console.log("realCacksoo");
-                console.log(this.boardStatus.realChacksoo);
+
                 this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
                 this.boardStatus.placement = response.data.placement_code.split(/\n/);
                 this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
-                console.log("boardIdx" + this.boardStatus.boardIdx);
-                // this.boardStatus.challengerId = response.data.challenger;
-                // this.boardStatus.oppositeId = response.data.opposite;
               })
               .catch((error) => {
-                // console.log(error.response.status);
                 console.log(error)
               });
-              // console.log("move before " + this.moveBefore);
-              // console.log("move after " + this.moveAfter);
-              console.log("this.boardStatus.realChacksoo")
-              console.log(this.boardStatus.realChacksoo.length)
-              console.log("boardIdx" + this.boardStatus.boardIdx);
+
               this.moveBefore = [];
               this.moveAfter = [];
             }
@@ -266,7 +274,7 @@ class Scene4 extends Phaser.Scene {
       
       this.myChacksoo = this.add.text(60, 160, '', { font: '34px Arial', fill: '#eec65b' });
       this.yourChacksoo = this.add.text(modalWidth - 160, 160, '', { font: '34px Arial', fill: '#eec65b' });
-
+      
       // make a group of ships
       this.pawn_1 = this.make.group({
         key: "pawn_1",
@@ -380,13 +388,19 @@ class Scene4 extends Phaser.Scene {
       });
       
       // slider value65b' });
-      this.errMsg = this.add.text(modalWidth/2 - 300, 0, `${this.boardStatus.isError}`, { font: '15px Arial', fill: '#eec65b' });
+      this.gameStatus = this.add.text(modalWidth/2 - 300, 0, "", { font: '30px Arial', fill: '#eec65b' });
+      this.spinner = this.add.image(modalWidth/2, modalHeight/2 ,"spinner").setScale(0.2);
     }
     
   
     update() {
-      // console.log(this.boardStatus.boardIdx)
-      
+      // spinner
+      if(this.boardStatus.isLoading === false){
+        this.spinner.visible = false;
+      } else{
+        this.spinner.visible = true;
+        this.spinner.rotation += 0.05;
+      }
       // rotate the ships
       let children = this.pawn_1.getChildren();
       let children2 = this.pawn_2.getChildren();
@@ -473,54 +487,41 @@ class Scene4 extends Phaser.Scene {
         
       };
 
-      if(this.boardStatus.boardIdx%2 === 0){
-        // my turn
-        if(this.boardStatus.placement[this.boardStatus.boardIdx] !== undefined){
-          if(this.boardStatus.placement[this.boardStatus.boardIdx].charAt(4) === '>'){
-            // my move
-            this.myChacksoo.setText('이동\n ' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(0) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(2) + '>' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(6) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(8));
-            if(this.boardStatus.boardIdx === 0){
-              this.yourChacksoo.setText('착수\n 준비');
-            }
-          }
-          else{
-            // my chacksoo
-            this.myChacksoo.setText('착수\n ' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(2) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(4));
-            if(this.boardStatus.boardIdx === 0){
-              this.yourChacksoo.setText('착수\n 준비')
-            }
-          }
+      // placement info
+      if(this.boardStatus.boardIdx%3 === 1){
+        if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)].length > 6){
+          this.myChacksoo.setText(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)]);
+        } else{
+          let moveInfo = this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][2] + "," + this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][4];
+          this.myChacksoo.setText(moveInfo);
         }
-        else{
-          // undefined
-          this.myChacksoo.setText('착수\n 준비');
-          this.yourChacksoo.setText('착수\n 준비');
+        this.yourChacksoo.setText("ready");
+      } else if(this.boardStatus.boardIdx%3 === 0 && this.boardStatus.boardIdx > 0){
+        if(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)].length > 6){
+          this.yourChacksoo.setText(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)]);
+        } else{
+          let moveInfo = this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][2] + "," + this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][4];
+          this.yourChacksoo.setText(moveInfo);
         }
-      }
-      else{
-        // your turn
-        if(this.boardStatus.placement[(this.boardStatus.boardIdx)] !== undefined){
-          if(this.boardStatus.placement[(this.boardStatus.boardIdx)].charAt(4) === '>'){
-            // your move
-            this.yourChacksoo.setText('이동\n ' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(0) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(2) + '>' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(6) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(8));
-          }
-          else{
-            // your chacksoo
-            if(this.boardStatus.placement[this.boardStatus.boardIdx] !== undefined){
-              this.yourChacksoo.setText('착수\n ' + this.boardStatus.placement[(this.boardStatus.boardIdx)].charAt(2) + ',' + this.boardStatus.placement[(this.boardStatus.boardIdx)].charAt(4));
-            }
-            else{
-              this.yourChacksoo.setText('착수\n 준비');
-            }
-          }
-        }
-        else{
-          // undefined
-          this.myChacksoo.setText('착수\n 준비');
-          this.yourChacksoo.setText('착수\n 준비');
-        }
+        this.myChacksoo.setText("ready");
+        // this.yourChacksoo.setText(this.boardStatus.oppositePlacement);
+      } else if(this.boardStatus.boardIdx === 0){
+        this.myChacksoo.setText("ready");
+        this.yourChacksoo.setText("ready");
+      } else{
+        this.myChacksoo.setText("action");
+        this.yourChacksoo.setText("action");
       }
       
+      // game status
+      if(this.boardStatus.gameStatus === "finish"){
+        this.gameStatus.setText(this.boardStatus.winner);
+      } else if(this.boardStatus.gameStatus === "not finish"){
+        this.gameStatus.setText("not finish");
+      } else{
+        this.gameStatus.setText(this.boardStatus.errMsg);
+      }
+
       // increment the iteration
       this.iter += 0.001;
       this.sliderDot.visible = true;
