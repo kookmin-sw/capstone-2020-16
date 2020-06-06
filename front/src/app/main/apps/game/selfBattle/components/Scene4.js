@@ -17,47 +17,23 @@ var header = {
 class Scene4 extends Phaser.Scene {
   constructor() {
     super("playGame");
-    this.boardStatus = {
-      chacksoo: [],
-      placement: [],
-      realChacksoo: [["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"]],
-      boardIdx: 0,
-      isAuto: false,
-      idxLen : 0,
-      isError: "",
-      renderTime: new Date().getTime(),
-      challengerId: 0,
-      oppositeId: 0,
-      idxIncrement: false
-    }
-    axios.get(`http://203.246.112.32:8000/api/${version.version}/game/${window.localStorage.getItem('game_id')}/`, { headers: header})
-    .then((response) => {
-        // console.log(response)
-        this.boardStatus.isError = response.data.error_msg;
-        let temp_ch_ms = "0 0 0 2 1 0 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 -2 0 0 0 \n0 0 0 2 0 1 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 -2 0 0 0 \n0 0 0 2 0 1 0 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 -3 0 0 0 0 0 0 -1 0 0 -2 0 \n";
-        // this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-        this.boardStatus.chacksoo = temp_ch_ms.replace(/\n/gi, '').split(/ /);
-        // console.log(this.boardStatus.chacksoo);
-        for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length - 1; chacksooIdx++){
-          let tempChacksoo = [];
-          for(let j=0; j<64; j++){
-            tempChacksoo.push(this.boardStatus.chacksoo[i++]);
-          }
-          this.boardStatus.realChacksoo.push(tempChacksoo);
-        }
-        // console.log(this.boardStatus.realChacksoo.length)
-        this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
-        this.boardStatus.placement = response.data.placement_record.split(/\n/);
-        this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
-        this.boardStatus.challengerId = response.data.challenger;
-        this.boardStatus.oppositeId = response.data.opposite;
-      })
-      .catch((error) => {
-        // console.log(error.response.status);
-      });
+    this.boardStatus = {};
     }
   
     create() {
+      this.boardStatus = {
+        chacksoo: [],
+        placement: [],
+        realChacksoo: [["0","0","0","-2","-1","0","0","0","0","0","0","-3","-3","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","3","3","0","0","0","0","0","0","1","2","0","0","0"]],
+        boardIdx: 0,
+        isAuto: false,
+        idxLen : 0,
+        isError: "",
+        renderTime: new Date().getTime(),
+        challengerId: 0,
+        oppositeId: 0,
+        idxIncrement: false
+      }
       this.iter = 0; // used for itarations
       this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
       this.isMove = false;
@@ -67,45 +43,108 @@ class Scene4 extends Phaser.Scene {
       this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
         .setInteractive()
         .on('pointerup', () => {
-          let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
-          let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
-          if(this.isMove){
-            // checked a stone
-            this.moveAfter = [cellX, cellY];
-            prevChacksoo[parseInt(this.moveBefore[0])*8 + parseInt(this.moveBefore[1])] = "0";
-            prevChacksoo[cellX*8 + cellY] = this.movingStone;
-            if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
-              this.boardStatus.realChacksoo.push(prevChacksoo);
-              this.boardStatus.boardIdx++;
-              this.boardStatus.idxLen++;
-              // console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
-              // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
-            } else{
-              // other idx
-              this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
-              for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
-                this.boardStatus.realChacksoo.pop();
-              }
-              this.boardStatus.idxLen = this.boardStatus.boardIdx;
-              this.sliderDot.slider.value = 1;
-              // console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
-              // console.log(this.boardStatus.realChacksoo.length);
-              // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
-            }
-            this.moveBefore = [];
-            this.moveAfter = [];
-            this.movingStone = 0;
-            this.isMove = false;
-          } else{
-            // checking a stone
-            if(prevChacksoo[cellX*8 + cellY] !== "0"){
-              this.movingStone = prevChacksoo[cellX*8 + cellY];
-              this.moveBefore = [cellX, cellY];
-              this.isMove = true;
-              // console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
-            } else{
+          if(this.boardStatus.boardIdx % 3 === 0){
+            let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
+            let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
+            if(prevChacksoo[cellX*8 + cellY] === "0" && this.isMove === false){
               alert("거기는 빈 곳입니다.");
+            } else{
+            if(this.isMove){
+              // checked a stone
+              this.moveAfter = [cellX, cellY];
+              prevChacksoo[parseInt(this.moveBefore[0])*8 + parseInt(this.moveBefore[1])] = "0";
+              prevChacksoo[cellX*8 + cellY] = this.movingStone;
+              if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
+                this.boardStatus.realChacksoo.push(prevChacksoo);
+                this.boardStatus.boardIdx++;
+                this.boardStatus.idxLen++;
+                // console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+                console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+              } else{
+                // other idx
+                this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
+                for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
+                  this.boardStatus.realChacksoo.pop();
+                }
+                this.boardStatus.idxLen = this.boardStatus.boardIdx;
+                this.sliderDot.slider.value = 1;
+                // console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
+                // console.log(this.boardStatus.realChacksoo.length);
+                // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
+              }
+              // this.moveBefore = [];
+              // this.moveAfter = [];
+              // this.movingStone = 0;
+              this.isMove = false;
+            } else{
+              // checking a stone
+              if(prevChacksoo[cellX*8 + cellY] !== "0"){
+                this.movingStone = prevChacksoo[cellX*8 + cellY];
+                this.moveBefore = [cellX, cellY];
+                this.isMove = true;
+                // console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
+              }
             }
+            if(this.isMove === false){
+              console.log("axios Post!!");
+              let boardInfo = "";
+              for(let i=0; i<64; i++){
+                if(i===63){
+                  boardInfo += this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 2][i];
+                } else{
+                  boardInfo += this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 2][i] + " ";
+                }
+              }
+              let bodyData = {
+                "problem": window.sessionStorage.getItem("SS_gameId"),
+                "code": window.sessionStorage.getItem("SS_codeId"),
+                "board_info": boardInfo,
+                "placement_info": this.moveAfter.length !== 0 ? this.moveBefore[0] + " " + this.moveBefore[1] + " > " + this.moveAfter[0] + " " + this.moveAfter[1] :this.movingStone + " " + JSON.stringify(cellX) + " " + JSON.stringify(cellY),
+              }
+              console.log("bodyData")
+              console.log(bodyData);
+              console.log("placement_info" + bodyData.placement_info);
+              axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, bodyData, { headers: header})
+              .then((response) => {
+                console.log("response");
+                console.log(response)
+                // console.log(response.data.board_record)
+                this.boardStatus.isError = response.data.result;
+                this.boardStatus.chacksoo = response.data.board_record.replace(/\n/gi, '').split(/ /);
+                this.boardStatus.chacksoo.pop();
+                console.log("this.boardStatus.chacksoo");
+                console.log(this.boardStatus.chacksoo);
+                for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
+                  let tempChacksoo = [];
+                  for(let j=0; j<64; j++){
+                    tempChacksoo.push(this.boardStatus.chacksoo[i++]);
+                  }
+                  this.boardStatus.realChacksoo.push(tempChacksoo);
+                }
+                console.log("realCacksoo");
+                console.log(this.boardStatus.realChacksoo);
+                this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
+                this.boardStatus.placement = response.data.placement_code.split(/\n/);
+                this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
+                console.log("boardIdx" + this.boardStatus.boardIdx);
+                // this.boardStatus.challengerId = response.data.challenger;
+                // this.boardStatus.oppositeId = response.data.opposite;
+              })
+              .catch((error) => {
+                // console.log(error.response.status);
+                console.log(error)
+              });
+              // console.log("move before " + this.moveBefore);
+              // console.log("move after " + this.moveAfter);
+              console.log("this.boardStatus.realChacksoo")
+              console.log(this.boardStatus.realChacksoo.length)
+              console.log("boardIdx" + this.boardStatus.boardIdx);
+              this.moveBefore = [];
+              this.moveAfter = [];
+            }
+          }
+          } else{
+            alert("not your turn");
           }
         });
       this.background.setOrigin(0.5, 0.5);
