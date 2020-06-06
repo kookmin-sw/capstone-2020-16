@@ -29,7 +29,6 @@ class Scene4 extends Phaser.Scene {
         isAuto: false,
         idxLen : 0,
         isError: "",
-        renderTime: new Date().getTime(),
         challengerId: 0,
         oppositeId: 0,
         idxIncrement: false
@@ -258,19 +257,12 @@ class Scene4 extends Phaser.Scene {
       // this.click
       
       // add the background in the center of the scene
-      if(parseInt(window.localStorage.getItem('pk')) === this.boardStatus.challengerId){
-        // console.log('같다')
-        this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.07);
-        this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.07);
-        this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '나', { font: '34px Arial', fill: '#eec65b' });
-        this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '상대방', { font: '34px Arial', fill: '#eec65b' });
-      }
-      else{
-        this.me = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"me").setScale(0.07);
-        this.you = this.add.image((modalWidth-boardSize)/4,100,"you").setScale(0.07);
-        this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '상대방', { font: '34px Arial', fill: '#eec65b' });
-        this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '나', { font: '34px Arial', fill: '#eec65b' });
-      }
+      // console.log('같다')
+      this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.07);
+      this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.07);
+      this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '나', { font: '34px Arial', fill: '#eec65b' });
+      this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '상대방', { font: '34px Arial', fill: '#eec65b' });
+      
       
       this.myChacksoo = this.add.text(60, 160, '', { font: '34px Arial', fill: '#eec65b' });
       this.yourChacksoo = this.add.text(modalWidth - 160, 160, '', { font: '34px Arial', fill: '#eec65b' });

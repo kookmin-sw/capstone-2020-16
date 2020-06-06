@@ -25,16 +25,18 @@ class Scene2 extends Phaser.Scene {
   create() {
     this.boardStatus = {
       chacksoo: [],
-      placement: [],
+      placement: "",
       realChacksoo: [["1","0","0","0","0","0","0","-1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","-1","0","0","0","0","0","0","1"]],
       boardIdx: 0,
       isAuto: false,
       idxLen : 0,
-      isError: "",
-      renderTime: new Date().getTime(),
+      gameStatus: "",
+      errMsg: "",
+      winner: "",
       challengerId: 0,
       oppositeId: 0,
-      idxIncrement: false
+      idxIncrement: false,
+      oppositePlacement: "",
     };
     this.iter = 0; // used for itarations
     this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
@@ -48,7 +50,7 @@ class Scene2 extends Phaser.Scene {
         if((this.boardStatus.boardIdx)%3 === 0){
           let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
           let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
-          // console.log(this.boardStatus.realChacksoo.length)
+
           if(this.isMove){
             // checked a stone
             this.moveAfter = [cellX, cellY];
@@ -63,15 +65,11 @@ class Scene2 extends Phaser.Scene {
               // other idx
               this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
               for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
-                // console.log("delete "+ i)
                 this.boardStatus.realChacksoo.pop();
               }
-              // console.log("realchack" + this.boardStatus.realChacksoo.length);
+
               this.boardStatus.idxLen = this.boardStatus.boardIdx;
               this.sliderDot.slider.value = 1;
-              // console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
-              // console.log(this.boardStatus.realChacksoo.length);
-              // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             }
             this.movingStone = 0;
             this.isMove = false;
@@ -94,18 +92,17 @@ class Scene2 extends Phaser.Scene {
               } else{
                 // other idx
                 this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
+
+                // erase back boards
                 for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
                   this.boardStatus.realChacksoo.pop();
                 }
-                // console.log("realchack" + this.boardStatus.realChacksoo.length);
                 this.boardStatus.idxLen = this.boardStatus.boardIdx;
                 this.sliderDot.slider.value = 1;
               }
             }
           }
           if(this.isMove === false){
-          
-            console.log("axios Post!!");
             let boardInfo = "";
             for(let i=0; i<64; i++){
               if(i===63){
@@ -114,25 +111,33 @@ class Scene2 extends Phaser.Scene {
                 boardInfo += this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 2][i] + " ";
               }
             }
+
+            // data to post
             let bodyData = {
               "problem": window.sessionStorage.getItem("SS_gameId"),
               "code": window.sessionStorage.getItem("SS_codeId"),
               "board_info": boardInfo,
               "placement_info": this.moveAfter.length !== 0 ? this.moveBefore[0] + " " + this.moveBefore[1] + " > " + this.moveAfter[0] + " " + this.moveAfter[1] :"1 " + JSON.stringify(cellX) + " " + JSON.stringify(cellY),
-            }
-            console.log("board_info")
-            console.log(bodyData.board_info);
-            console.log("placement_info" + bodyData.placement_info);
+            };
+            this.boardStatus.placement = bodyData.placement_info;
+            
             axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, bodyData, { headers: header})
             .then((response) => {
-              console.log("response");
-              console.log(response)
-              // console.log(response.data.board_record)
-              this.boardStatus.isError = response.data.result;
+              this.boardStatus.gameStatus = response.data.result;
+              this.boardStatus.oppositePlacement = response.data.placement_code;
               this.boardStatus.chacksoo = response.data.board_record.replace(/\n/gi, '').split(/ /);
+              
+              if(response.data.result === "finish"){
+                this.boardStatus.winner = response.data.winner;
+              } else if(response.data.result === "challenger_error"){
+                this.boardStatus.errMsg = "challenger_error";
+              } else if(response.data.result === "opposite_error"){
+                this.boardStatus.errMsg = "challenger_error";
+              } else{
+                this.boardStatus.errMsg = "";
+              }
               this.boardStatus.chacksoo.pop();
-              console.log("this.boardStatus.chacksoo");
-              console.log(this.boardStatus.chacksoo);
+
               for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
                 let tempChacksoo = [];
                 for(let j=0; j<64; j++){
@@ -140,31 +145,21 @@ class Scene2 extends Phaser.Scene {
                 }
                 this.boardStatus.realChacksoo.push(tempChacksoo);
               }
-              console.log("realCacksoo");
-              console.log(this.boardStatus.realChacksoo);
+
               this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
               this.boardStatus.placement = response.data.placement_code.split(/\n/);
               this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
-              console.log("boardIdx" + this.boardStatus.boardIdx);
-              // this.boardStatus.challengerId = response.data.challenger;
-              // this.boardStatus.oppositeId = response.data.opposite;
             })
             .catch((error) => {
-              // console.log(error.response.status);
               console.log(error)
             });
-            // console.log("move before " + this.moveBefore);
-            // console.log("move after " + this.moveAfter);
-            console.log("this.boardStatus.realChacksoo")
-            console.log(this.boardStatus.realChacksoo.length)
-            console.log("boardIdx" + this.boardStatus.boardIdx);
+
             this.moveBefore = [];
             this.moveAfter = [];
           } 
         } else{
           alert("not your turn")
         }
-        // console.log(this.moveBefore);
       });
     this.background.setOrigin(0.5, 0.5);
 
@@ -323,7 +318,8 @@ class Scene2 extends Phaser.Scene {
     });
     
     // slider value65b' });
-    this.errMsg = this.add.text(modalWidth/2 - 300, 0, `${this.boardStatus.isError}`, { font: '15px Arial', fill: '#eec65b' });
+    // this.add.text(60, 160, '', { font: '34px Arial', fill: '#eec65b' });
+    this.gameStatus = this.add.text(modalWidth/2 - 300, 0, "", { font: '30px Arial', fill: '#eec65b' });
   }
     
   
@@ -360,52 +356,45 @@ class Scene2 extends Phaser.Scene {
       
     };
 
-    if(this.boardStatus.boardIdx%2 === 0){
-      // my turn
-      if(this.boardStatus.placement[this.boardStatus.boardIdx] !== undefined){
-        if(this.boardStatus.placement[this.boardStatus.boardIdx].charAt(4) === '>'){
-          // my move
-          this.myChacksoo.setText('이동\n ' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(0) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(2) + '>' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(6) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(8));
-          if(this.boardStatus.boardIdx === 0){
-            this.yourChacksoo.setText('착수\n 준비');
-          }
-        }
-        else{
-          // my chacksoo
-          this.myChacksoo.setText('착수\n ' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(2) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(4));
-          if(this.boardStatus.boardIdx === 0){
-            this.yourChacksoo.setText('착수\n 준비')
-          }
-        }
+    // placement info
+    if(this.boardStatus.boardIdx%3 === 1){
+      if(this.boardStatus.placement.length > 6){
+        this.myChacksoo.setText(this.boardStatus.placement);
+      } else{
+        let moveInfo = this.boardStatus.placement[2] + "," + this.boardStatus.placement[4];
+        this.myChacksoo.setText(moveInfo);
       }
-      else{
-        // undefined
-        this.myChacksoo.setText('착수\n 준비');
-        this.yourChacksoo.setText('착수\n 준비');
+      this.yourChacksoo.setText("ready");
+    } else if(this.boardStatus.boardIdx%3 === 0 && this.boardStatus.boardIdx > 0){
+      if(this.boardStatus.oppositePlacement.length > 6){
+        this.yourChacksoo.setText(this.boardStatus.oppositePlacement);
+      } else{
+        let moveInfo = this.boardStatus.oppositePlacement[2] + "," + this.boardStatus.oppositePlacement[4];
+        this.yourChacksoo.setText(moveInfo);
       }
+      this.myChacksoo.setText("ready");
+      // this.yourChacksoo.setText(this.boardStatus.oppositePlacement);
+    } else if(this.boardStatus.boardIdx === 0){
+      this.myChacksoo.setText("ready");
+      this.yourChacksoo.setText("ready");
+    } else{
+      this.myChacksoo.setText("action");
+      this.yourChacksoo.setText("action");
     }
-    else{
-      // your turn
-      if(this.boardStatus.placement[(this.boardStatus.boardIdx)] !== undefined){
-        if(this.boardStatus.placement[(this.boardStatus.boardIdx)].charAt(4) === '>'){
-          // your move
-          this.yourChacksoo.setText('이동\n ' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(0) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(2) + '>' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(6) + ',' + this.boardStatus.placement[this.boardStatus.boardIdx].charAt(8));
-        }
-        else{
-          // your chacksoo
-          if(this.boardStatus.placement[this.boardStatus.boardIdx] !== undefined){
-            this.yourChacksoo.setText('착수\n ' + this.boardStatus.placement[(this.boardStatus.boardIdx)].charAt(2) + ',' + this.boardStatus.placement[(this.boardStatus.boardIdx)].charAt(4));
-          }
-          else{
-            this.yourChacksoo.setText('착수\n 준비');
-          }
-        }
-      }
-      else{
-        // undefined
-        this.myChacksoo.setText('착수\n 준비');
-        this.yourChacksoo.setText('착수\n 준비');
-      }
+
+    // if(response.data.result === "finish"){
+    //   this.boardStatus.winner = response.data.winner;
+    // } else if(response.data.result === "challenger_error"){
+    //   this.boardStatus.errMsg = "challenger_error";
+    // } else if(response.data.result === "opposite_error"){
+    //   this.boardStatus.errMsg = "challenger_error";
+    // } else{
+    //   this.boardStatus.errMsg = "";
+    // }
+    if(this.boardStatus.gameStatus === "finish"){
+      this.gameStatus.setText(this.boardStatus.winner);
+    } else{
+      this.gameStatus.setText(this.boardStatus.errMsg);
     }
     
     // increment the iteration
