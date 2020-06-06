@@ -55,7 +55,7 @@ function RankingTable(props) {
             const temp_row = response.data.filter((row) => {
               return row.problem === props.battleId;
             });
-            console.log(temp_row);
+            // console.log(temp_row);
             setRow(temp_row);
         })
         .catch((error)=>{

@@ -18,6 +18,11 @@ var header = {
 class Scene2 extends Phaser.Scene {
   constructor() {
     super("playGame");
+    this.boardStatus = {};
+    console.log("cons");
+  }
+  
+  create() {
     this.boardStatus = {
       chacksoo: [],
       placement: [],
@@ -31,9 +36,6 @@ class Scene2 extends Phaser.Scene {
       oppositeId: 0,
       idxIncrement: false
     };
-  }
-  
-  create() {
     this.iter = 0; // used for itarations
     this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
     this.isMove = false;
@@ -43,107 +45,124 @@ class Scene2 extends Phaser.Scene {
     this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
       .setInteractive()
       .on('pointerup', () => {
-        let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
-        let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
-        // console.log(this.boardStatus.realChacksoo.length)
-        if(this.isMove){
-          // checked a stone
-          this.moveAfter = [cellX, cellY];
-          prevChacksoo[parseInt(this.moveBefore[0])*8 + parseInt(this.moveBefore[1])] = "0";
-          prevChacksoo[cellX*8 + cellY] = this.movingStone;
-          if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
-            this.boardStatus.realChacksoo.push(prevChacksoo);
-            this.boardStatus.boardIdx++;
-            this.boardStatus.idxLen++;
-            console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
-          } else{
-            // other idx
-            this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
-            for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
-              // console.log("delete "+ i)
-              this.boardStatus.realChacksoo.pop();
-            }
-            // console.log("realchack" + this.boardStatus.realChacksoo.length);
-            this.boardStatus.idxLen = this.boardStatus.boardIdx;
-            this.sliderDot.slider.value = 1;
-            // console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
-            // console.log(this.boardStatus.realChacksoo.length);
-            // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
-          }
-          this.movingStone = 0;
-          this.isMove = false;
-        } else{
-          // checking a stone
-          if(prevChacksoo[cellX*8 + cellY] !== "0"){
-            this.movingStone = prevChacksoo[cellX*8 + cellY];
-            this.moveAfter = [];
-            this.moveBefore = [cellX, cellY];
-            this.isMove = true;
-            // console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
-          } else{
-            // check on non-stone area
-            prevChacksoo[cellX*8 + cellY] = "1";
+        if((this.boardStatus.boardIdx)%3 === 0){
+          let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
+          let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
+          // console.log(this.boardStatus.realChacksoo.length)
+          if(this.isMove){
+            // checked a stone
+            this.moveAfter = [cellX, cellY];
+            prevChacksoo[parseInt(this.moveBefore[0])*8 + parseInt(this.moveBefore[1])] = "0";
+            prevChacksoo[cellX*8 + cellY] = this.movingStone;
             if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
               this.boardStatus.realChacksoo.push(prevChacksoo);
               this.boardStatus.boardIdx++;
               this.boardStatus.idxLen++;
-              // console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+              console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             } else{
               // other idx
               this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
               for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
+                // console.log("delete "+ i)
                 this.boardStatus.realChacksoo.pop();
               }
               // console.log("realchack" + this.boardStatus.realChacksoo.length);
               this.boardStatus.idxLen = this.boardStatus.boardIdx;
               this.sliderDot.slider.value = 1;
+              // console.log(this.boardStatus.boardIdx +',' + this.boardStatus.idxLen);
+              // console.log(this.boardStatus.realChacksoo.length);
+              // console.log(this.moveBefore + ">" + this.moveAfter + " move" + this.movingStone);
             }
-          }
-        }
-        if(this.isMove === false){
-          console.log("axios Post!!");
-          let boardInfo = "";
-          for(let i=0; i<64; i++){
-            if(i===63){
-              boardInfo += this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 1][i];
+            this.movingStone = 0;
+            this.isMove = false;
+          } else{
+            // checking a stone
+            if(prevChacksoo[cellX*8 + cellY] !== "0"){
+              this.movingStone = prevChacksoo[cellX*8 + cellY];
+              this.moveAfter = [];
+              this.moveBefore = [cellX, cellY];
+              this.isMove = true;
+              // console.log("check a stone " + this.moveBefore + "stone:" + this.movingStone);
             } else{
-              boardInfo += this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 1][i] + " ";
+              // check on non-stone area
+              prevChacksoo[cellX*8 + cellY] = "1";
+              if(this.boardStatus.boardIdx === this.boardStatus.idxLen){
+                this.boardStatus.realChacksoo.push(prevChacksoo);
+                this.boardStatus.boardIdx++;
+                this.boardStatus.idxLen++;
+                // console.log(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]);
+              } else{
+                // other idx
+                this.boardStatus.realChacksoo[++this.boardStatus.boardIdx] = prevChacksoo;
+                for(let i = this.boardStatus.boardIdx + 1; i<this.boardStatus.idxLen + 1; i++){
+                  this.boardStatus.realChacksoo.pop();
+                }
+                // console.log("realchack" + this.boardStatus.realChacksoo.length);
+                this.boardStatus.idxLen = this.boardStatus.boardIdx;
+                this.sliderDot.slider.value = 1;
+              }
             }
           }
-          let bodyData = {
-            "problem": window.sessionStorage.getItem("SS_gameId"),
-            "code": window.sessionStorage.getItem("SS_codeId"),
-            "board_info": boardInfo,
-            "placement_info": this.moveAfter.length !== 0 ? this.moveBefore[0] + " " + this.moveBefore[1] + " > " + this.moveAfter[0] + " " + this.moveAfter[1] : JSON.stringify(cellX) + " " + JSON.stringify(cellY),
-          }
-          console.log(bodyData);
-          console.log(header)
-          axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, bodyData, { headers: header})
-          .then((response) => {
-            console.log(response)
-            // this.boardStatus.isError = response.data.error_msg;
-            // this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
-            // for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
-            //   let tempChacksoo = [];
-            //   for(let j=0; j<64; j++){
-            //     tempChacksoo.push(this.boardStatus.chacksoo[i++]);
-            //   }
-            //   this.boardStatus.realChacksoo.push(tempChacksoo);
-            // }
-            // this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
-            // this.boardStatus.placement = response.data.placement_record.split(/\n/);
-            // this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
-            // this.boardStatus.challengerId = response.data.challenger;
-            // this.boardStatus.oppositeId = response.data.opposite;
-          })
-          .catch((error) => {
-            console.log(error.response.status);
-            console.log(error)
-          });
-          console.log("move before " + this.moveBefore);
-          console.log("move after " + this.moveAfter);
-          this.moveBefore = [];
-          this.moveAfter = [];
+          if(this.isMove === false){
+          
+            console.log("axios Post!!");
+            let boardInfo = "";
+            for(let i=0; i<64; i++){
+              if(i===63){
+                boardInfo += this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 2][i];
+              } else{
+                boardInfo += this.boardStatus.realChacksoo[this.boardStatus.realChacksoo.length - 2][i] + " ";
+              }
+            }
+            let bodyData = {
+              "problem": window.sessionStorage.getItem("SS_gameId"),
+              "code": window.sessionStorage.getItem("SS_codeId"),
+              "board_info": boardInfo,
+              "placement_info": this.moveAfter.length !== 0 ? this.moveBefore[0] + " " + this.moveBefore[1] + " > " + this.moveAfter[0] + " " + this.moveAfter[1] :"1 " + JSON.stringify(cellX) + " " + JSON.stringify(cellY),
+            }
+            console.log("board_info")
+            console.log(bodyData.board_info);
+            console.log("placement_info" + bodyData.placement_info);
+            axios.post(`http://203.246.112.32:8000/api/${version.version}/selfBattle/`, bodyData, { headers: header})
+            .then((response) => {
+              console.log("response");
+              console.log(response)
+              // console.log(response.data.board_record)
+              this.boardStatus.isError = response.data.result;
+              this.boardStatus.chacksoo = response.data.board_record.replace(/\n/gi, '').split(/ /);
+              this.boardStatus.chacksoo.pop();
+              console.log("this.boardStatus.chacksoo");
+              console.log(this.boardStatus.chacksoo);
+              for(let i = 0, chacksooIdx = 0; i < this.boardStatus.chacksoo.length; chacksooIdx++){
+                let tempChacksoo = [];
+                for(let j=0; j<64; j++){
+                  tempChacksoo.push(this.boardStatus.chacksoo[i++]);
+                }
+                this.boardStatus.realChacksoo.push(tempChacksoo);
+              }
+              console.log("realCacksoo");
+              console.log(this.boardStatus.realChacksoo);
+              this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
+              this.boardStatus.placement = response.data.placement_code.split(/\n/);
+              this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
+              console.log("boardIdx" + this.boardStatus.boardIdx);
+              // this.boardStatus.challengerId = response.data.challenger;
+              // this.boardStatus.oppositeId = response.data.opposite;
+            })
+            .catch((error) => {
+              // console.log(error.response.status);
+              console.log(error)
+            });
+            // console.log("move before " + this.moveBefore);
+            // console.log("move after " + this.moveAfter);
+            console.log("this.boardStatus.realChacksoo")
+            console.log(this.boardStatus.realChacksoo.length)
+            console.log("boardIdx" + this.boardStatus.boardIdx);
+            this.moveBefore = [];
+            this.moveAfter = [];
+          } 
+        } else{
+          alert("not your turn")
         }
         // console.log(this.moveBefore);
       });
@@ -254,22 +273,11 @@ class Scene2 extends Phaser.Scene {
     this.previousIdxText();
     this.nextIdxText();
     
-    // this.click
-    
-    // add the background in the center of the scene
-    if(parseInt(window.localStorage.getItem('pk')) === this.boardStatus.challengerId){
-      // console.log('같다')
-      this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.07);
-      this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.07);
-      this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '나', { font: '34px Arial', fill: '#eec65b' });
-      this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '상대방', { font: '34px Arial', fill: '#eec65b' });
-    }
-    else{
-      this.me = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"me").setScale(0.07);
-      this.you = this.add.image((modalWidth-boardSize)/4,100,"you").setScale(0.07);
-      this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '상대방', { font: '34px Arial', fill: '#eec65b' });
-      this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '나', { font: '34px Arial', fill: '#eec65b' });
-    }
+    // render user picture
+    this.me = this.add.image((modalWidth-boardSize)/4,100,"me").setScale(0.07);
+    this.you = this.add.image(modalWidth - (modalWidth-boardSize)/4,100,"you").setScale(0.07);
+    this.myName = this.add.text((modalWidth-boardSize)/4 - 30, 5, '나', { font: '34px Arial', fill: '#eec65b' });
+    this.yourName = this.add.text(modalWidth - (modalWidth-boardSize)/4 - 35, 5, '상대방', { font: '34px Arial', fill: '#eec65b' });
     
     this.myChacksoo = this.add.text(60, 160, '', { font: '34px Arial', fill: '#eec65b' });
     this.yourChacksoo = this.add.text(modalWidth - 160, 160, '', { font: '34px Arial', fill: '#eec65b' });
@@ -404,7 +412,9 @@ class Scene2 extends Phaser.Scene {
     this.iter += 0.001;
     this.sliderDot.visible = true;
     this.boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * this.boardStatus.idxLen + 0.00001);
+    
   };
+
 }
 
 export default Scene2;
