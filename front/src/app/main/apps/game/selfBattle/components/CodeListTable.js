@@ -95,9 +95,7 @@ function RankingTable(props) {
                 <StyledTableCellMe align="center">{row.name}</StyledTableCellMe>
                 <StyledTableCellMe align="left">{row.date}</StyledTableCellMe>
                 <StyledTableCellMe align="center">{PL}</StyledTableCellMe>
-                <StyledTableCellMe align="center">
-                  {`${row.available_game}` ? "X" : "O"}
-                </StyledTableCellMe>
+                <StyledTableCellMe align="center">{row.status}</StyledTableCellMe>
                 <StyledTableCellMe align="center">
                   <Button variant="contained" color="secondary">
                     <SelfBattleButton gameId={row.problem} codeId={row.id}/>
