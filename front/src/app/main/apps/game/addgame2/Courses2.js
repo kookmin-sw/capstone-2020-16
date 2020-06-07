@@ -248,10 +248,10 @@ function Courses(props) {
 		var inFile = document.getElementsByName("file");
 		frm.append("editor", userId);
 		frm.append("title", problemTitle);
-		frm.append("description", inFile[0].files[0]);
+		frm.append("description", inFile[1].files[0]);
 		frm.append("limit_time", limitTime);
 		frm.append("limit_memory", limitMemory);
-		frm.append("thumbnail", inFile[1].files[0]);
+		frm.append("thumbnail", inFile[0].files[0]);
 		frm.append("board_info", boardInfo);
 		frm.append("rule",rule);
 		
