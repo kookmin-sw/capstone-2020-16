@@ -103,7 +103,7 @@ function Courses(props) {
 				
 												</div>
 												<CardMedia className="flex items-center justify-center">
-												<img src={`assets/images/games/${problem.id}.jpg`} 
+												<img src={problem.thumbnail} 
 													onClick = {() =>{
 														window.sessionStorage.setItem('SS_SelectedProblemId', problem.id);
 														setBattleId(problem.id);

@@ -105,7 +105,7 @@ function Courses(props) {
 												<CardMedia className="flex items-center justify-center">
 												<Link className="font-medium"												
 												to={`/apps/game/matching1/MatchingIdx1Page/${course.id}`}>
-													<img src={`assets/images/games/${course.id}.jpg`} width='300' alt='thumbnail'></img>
+													<img src={course.thumbnail} width='300' alt='thumbnail'></img>
 												</Link>
 												</CardMedia>
 												
