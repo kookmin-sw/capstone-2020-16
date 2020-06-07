@@ -158,7 +158,7 @@ function Courses(props) {
 	
 	function endingGenerator(objNum){
 	
-		return `"${objNum} : [[1]]"`
+		return `"${objNum}" : [[1]]`
 	
 	}
 	
@@ -220,16 +220,16 @@ function Courses(props) {
 			
 
 			if(objNum === 1){
-				rule = `{"obj_num: ${objNum}", "placement" : {${placement1}}, "action" : {${action1}}, "ending" : {${ending1}}}`;
+				rule = `{"obj_num": ${objNum}, "placement" : {${placement1}}, "action" : {${action1}}, "ending" : {${ending1}}}`;
 			}
 			else if(objNum === 2){
-				rule = `{"obj_num: ${objNum}", "placement" : {${placement1},${placement2}}, "action" : {${action1}, ${action2}}, "ending" : {${ending1}, ${ending2}}}`;
+				rule = `{"obj_num": ${objNum}, "placement" : {${placement1},${placement2}}, "action" : {${action1}, ${action2}}, "ending" : {${ending1}, ${ending2}}}`;
 			}
 			else if(objNum === 3){
-				rule = `{"obj_num: ${objNum}", "placement" : {${placement1},${placement2},${placement3}}, "action" : {${action1}, ${action2}, ${action3}}, "ending" : {${ending1}, ${ending2}, ${ending3}}}`;
+				rule = `{"obj_num": ${objNum}, "placement" : {${placement1},${placement2},${placement3}}, "action" : {${action1}, ${action2}, ${action3}}, "ending" : {${ending1}, ${ending2}, ${ending3}}}`;
 			}
 			else if(objNum === 4){
-				rule = `{"obj_num: ${objNum}", "placement" : {${placement1},${placement2},${placement3},${placement4}}, "action" : {${action1}, ${action2}, ${action3}, ${action4}}, "ending" : {${ending1}, ${ending2}, ${ending3}, ${ending4}}}`;
+				rule = `{"obj_num": ${objNum}, "placement" : {${placement1},${placement2},${placement3},${placement4}}, "action" : {${action1}, ${action2}, ${action3}, ${action4}}, "ending" : {${ending1}, ${ending2}, ${ending3}, ${ending4}}}`;
 			}
 			else{}
 
