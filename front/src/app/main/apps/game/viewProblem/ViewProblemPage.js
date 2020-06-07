@@ -6,15 +6,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import * as Actions from 'app/store/actions';
 import axios from 'axios';
-
+import PacmanLoader from "react-spinners/PacmanLoader";
+import { css } from "@emotion/core";
 
 function KnowledgeBasePage() {
+  const override = css`
+    display: block;
+    margin: 2 auto;
+    border-color: red;
+    position: absolute;
+    z-index: 1000;
+  `;
   
   const dispatch = useDispatch();
 
   var id = document.location.href.split("ViewProblemPage/");
   var id2 = id[1];
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   
   var header = {
 		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
@@ -38,9 +47,8 @@ function KnowledgeBasePage() {
       headers: header
     })
 		.then(response => {
-			
       setPosts(response.data);
- 
+      setLoading(false);
     })
     
 	},[dispatch]);
@@ -50,7 +58,7 @@ function KnowledgeBasePage() {
       <div className="flex flex-row flex-1 max-w-2xl w-full px-8 sm:px-16 py-24">
         <Paper variant="outlined">
           <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
-            <ProblemViewer tmp={posts.description}></ProblemViewer>
+            {loading ? <PacmanLoader css={override} size={100} color={"#36D7B7"} loading={loading} />:<ProblemViewer tmp={posts.description}></ProblemViewer>}
           </div>
         </Paper>
         <Divider orientation="vertical" flexItem />
