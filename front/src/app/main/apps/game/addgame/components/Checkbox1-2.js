@@ -96,7 +96,7 @@ export default function SimpleCard() {
                 </Typography>
                 <FormControl component="fieldset">
                 <RadioGroup aria-label="select1-4" name="select1-4" value={value2} onChange={handleChange2}>
-                  <FormControlLabel value="없음" control={<Radio />} label="없음" onClick={()=>{sessionStorage.setItem("actionCondition1", "없음")}}/>
+                  <FormControlLabel value="없음" control={<Radio />} label="없음" onClick={()=>{sessionStorage.setItem("actionCondition1", "없음");sessionStorage.setItem("actionDirection1", "없음")}}/>
                   <FormControlLabel value="disabled" disabled control={<Radio />} label="둘러쌀 때" onClick={()=>{sessionStorage.setItem("actionCondition1", "둘러쌀 때")}}/>
                   <FormControlLabel value="인접할 때" control={<Radio />} label="인접할 때" onClick={()=>{sessionStorage.setItem("actionCondition1", "인접할 때")}} />
                 </RadioGroup>

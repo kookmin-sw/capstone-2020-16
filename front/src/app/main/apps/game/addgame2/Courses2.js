@@ -146,7 +146,7 @@ function Courses(props) {
 		else{}
 		
 		if(sessionStorage.getItem(`actionCondition${objNum}`) === "없음")
-		{option2 = 0; return `"${objNum}":[${option1}]`}
+		{option2 = 0; return `"${objNum}":[${option1},0,0]`}
 		// else if(sessionStorage.getItem(`actionCondition${objNum}`) === "인접할 때")
 		// {option2 = 2;
 		// 	if(sessionStorage.getItem(`actionDirection${objNum}` === "양 옆"))
@@ -158,7 +158,7 @@ function Courses(props) {
 	
 	function endingGenerator(objNum){
 	
-		return `"${objNum} : [1]"`
+		return `"${objNum} : [[1]]"`
 	
 	}
 	
