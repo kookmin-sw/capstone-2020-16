@@ -53,9 +53,9 @@ function codePost(userid, problemid, code, languageid, codename){
       }
     })
   } else{
-    console.log(data);
-    console.log(header);
-    axios.post("http://203.246.112.32:8000/api/v1/code/", data, {
+    // console.log(data);
+    // console.log(header);
+    axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
       headers: header
     })
     .then( response => {
