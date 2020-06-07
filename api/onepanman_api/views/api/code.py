@@ -34,10 +34,15 @@ class CodeViewSet(viewsets.ModelViewSet):
     pagination_class = CodePagination
 
     def create(self, request, *args, **kwargs):
-        _mutable = request.data._mutable
-        request.data._mutable = True
-        request.data['status'] = "TESTING"
-        request.data._mutable = _mutable
+
+        # 임시방편
+        if type(request.data) == type(dict()):
+            request.data['status'] = "TESTING"
+        else:
+            _mutable = request.data._mutable
+            request.data._mutable = True
+            request.data['status'] = "TESTING"
+            request.data._mutable = _mutable
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
