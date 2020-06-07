@@ -515,7 +515,7 @@ class Scene4 extends Phaser.Scene {
       
       // game status
       if(this.boardStatus.gameStatus === "finish"){
-        this.gameStatus.setText(this.boardStatus.winner);
+        this.gameStatus.setText("winner is " + this.boardStatus.winner);
       } else if(this.boardStatus.gameStatus === "not finish"){
         this.gameStatus.setText("not finish");
       } else{
