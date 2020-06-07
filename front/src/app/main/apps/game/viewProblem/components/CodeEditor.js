@@ -53,6 +53,8 @@ function codePost(userid, problemid, code, languageid, codename){
       }
     })
   } else{
+    console.log(data);
+    console.log(header);
     axios.post("https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/code/", data, {
       headers: header
     })
@@ -100,6 +102,7 @@ function CodeEditor() {
       return function cleanUp(){
         window.sessionStorage.removeItem("SS_codeId");
         window.sessionStorage.removeItem("SS_editMode");
+        window.localStorage.removeItem("language_id");
       }
     }, []);
 
