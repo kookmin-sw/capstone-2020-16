@@ -83,7 +83,7 @@ function SelfBattleButton(props) {
 	return (
 		<div>
 			<IconButton onClick={handleOpen} component="span">
-				<h3>{"self battle"}</h3>
+				<h3>{"battle"}</h3>
 			</IconButton>
 			<Modal
 				aria-labelledby="simple-modal-title"
