@@ -33,8 +33,11 @@ class EndingRule:
     def check_ending(self, game_data, board, placement):
         self.setting(game_data, board, placement)
 
-        self.rule_list.append(self.ending_condition_list[self.ending_rule])
-        if game_data.problem == (1, 2):
+        for i in range(len(self.ending_rule)):
+            self.rule_list.append(self.ending_condition_list[self.ending_rule[i]])
+        
+        if game_data.problem in (1, 2):
+            print(2)
             self.check_available_place()
         if self.ending_option is not None:
             self.rule_list.append(self.ending_option_list[self.ending_option])
@@ -156,11 +159,13 @@ class EndingRule:
         # self.ending_result = 
 
     def only_one_side(self):
+        challenger = 0
+        opposite = 0
         for line in self.board:
             for i in line:
                 if i < 0:
                     return
-
+        self.winner = 1
         self.ending_message = True
 
     # option
@@ -234,14 +239,18 @@ class EndingRule:
                         continue
                     if whose == 0:
                         if self.board[next_x][next_y] == 0:
+                            # print(1,pos,next_x, next_y)
+                            # print(self.board)
                             eight_dir_poss.append((next_x, next_y))
                             result = True
                     elif whose == 1:
                         if self.board[next_x][next_y] > 0:
+                            # print(2,self.board[next_x][next_y])
                             eight_dir_poss.append((next_x, next_y))
                             result = True
                     elif whose == -1:
                         if self.board[next_x][next_y] < 0:
+                            # print(3,self.board[next_x][next_y])
                             eight_dir_poss.append((next_x, next_y))
                             result = True
             pos_r = pos
