@@ -118,7 +118,7 @@ function AnalyticsDashboardApp() {
           variant="contained"
           color="primary"
         >
-          ㅇㅅㅇ 서비스 이용 안내 가이드
+          Code on Board 서비스 이용 안내 가이드
         </Button>
         <Modal
           aria-labelledby="simple-modal-title"
@@ -211,14 +211,15 @@ function AnalyticsDashboardApp() {
 								<Widget4 data={widgets.widget4} />
 							</div> */}
 
-            <FuseAnimate delay={600}>
-              <Typography className="px-18 pb-8 tex-30 font-900">
-                <h1>Community</h1>
+            <FuseAnimate delay={600}>    
+              <Typography variant="h3" gutterBottom>
+              <h3>　</h3>
+                 　Code On Board Game Guide
               </Typography>
             </FuseAnimate>
 
             <div className="widget w-full p-16 pb-32">
-              <Widget5 data={widgets.widget5} />
+              　　　<Widget5 data={widgets.widget5} />
             </div>
 
             {/* <FuseAnimate delay={600}>
@@ -231,33 +232,15 @@ function AnalyticsDashboardApp() {
           </div>
 
           <div className="flex flex-wrap w-full md:w-320 pt-16">
-            {/* <div className="mb-32 w-full sm:w-1/2 md:w-full">
-							<FuseAnimate delay={600}>
-								<Typography className="px-16 pb-8 text-18 font-300">
-									What are your top devices?
-								</Typography>
-							</FuseAnimate>
-
-							<div className="widget w-full p-16">
-								<Widget7 data={widgets.widget7} />
-							</div>
-						</div>
-
-						<div className="mb-32 w-full sm:w-1/2 md:w-full">
-							<FuseAnimate delay={600}>
-								<div className="px-16 pb-8 text-18 font-300">How are your sales?</div>
-							</FuseAnimate>
-
-							<div className="widget w-full p-16">
-								<Widget8 data={widgets.widget8} />
-							</div>
-						</div> */}
 
             <div className="mb-32 w-full sm:w-1/2 md:w-full">
               <FuseAnimate delay={600}>
-                <Typography className="px-16 pb-8 text-18 font-900 lg:pt-0">
-                  <h1>RANK</h1>
-                </Typography>
+              <Typography variant="h3" gutterBottom>
+              <h3>　</h3>
+                 Rank
+              <h3>　</h3>
+              
+              </Typography>
               </FuseAnimate>
               <div className="widget w-full p-16">
                 <Widget9 data={widgets.widget9} />
