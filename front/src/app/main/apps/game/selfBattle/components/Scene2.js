@@ -342,7 +342,7 @@ class Scene2 extends Phaser.Scene {
     // slider value65b' });
     // this.add.text(60, 160, '', { font: '34px Arial', fill: '#eec65b' });
     this.gameStatus = this.add.text(modalWidth/2 - 300, 0, "", { font: '30px Arial', fill: '#eec65b' });
-    this.spinner = this.add.image(modalWidth/2, modalHeight/2 ,"spinner").setScale(0.2);
+    this.spinner = this.add.image(modalWidth/2, modalHeight/2 ,"spinner").setScale(0.1);
   }
   
   
