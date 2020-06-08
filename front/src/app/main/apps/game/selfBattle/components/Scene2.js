@@ -49,9 +49,9 @@ class Scene2 extends Phaser.Scene {
     this.background = this.add.image(modalWidth/2, boardSize/2, "background").setScale(0.49)
       .setInteractive()
       .on('pointerup', () => {
+        let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
+        let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
         if((this.boardStatus.boardIdx)%3 === 0){
-          let prevChacksoo = JSON.parse(JSON.stringify(this.boardStatus.realChacksoo[this.boardStatus.boardIdx]));
-          let cellX = parseInt((this.sys.game.input.mousePointer.y - 55)/64), cellY = parseInt((this.sys.game.input.mousePointer.x - 268)/64);
 
           if(this.isMove){
             // checked a stone
@@ -386,11 +386,19 @@ class Scene2 extends Phaser.Scene {
 
     // placement info
     if(this.boardStatus.boardIdx%3 === 1){
-      if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)].length > 6){
-        this.myChacksoo.setText(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)]);
+      if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)] !== undefined){
+        if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)].length > 6){
+          this.myChacksoo.setText(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)]);
+        } else{
+          let moveInfo = this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][2] + "," + this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][4];
+          this.myChacksoo.setText(moveInfo);
+        }
       } else{
-        let moveInfo = this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][2] + "," + this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][4];
-        this.myChacksoo.setText(moveInfo);
+        if(true){
+          this.myChacksoo.setText("0,0");
+          // let moveInfo = this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][2] + "," + this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][4];
+          // this.myChacksoo.setText(moveInfo);
+        }
       }
       this.yourChacksoo.setText("ready");
     } else if(this.boardStatus.boardIdx%3 === 0 && this.boardStatus.boardIdx > 0){
