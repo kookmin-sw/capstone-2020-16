@@ -1,11 +1,15 @@
 import ProblemConfig from './game/problem/ProblemConfig';
 import BattleConfig from './game/battle/BattleConfig';
 import ReplayConfig from './game/Replay/ReplayConfig';
+import AddGameConfig from './game/addgame/AddGameConfig';
+import AddGameConfig2 from './game/addgame2/AddGameConfig2';
 import ViewProblemConfig from './game/viewProblem/ViewProblemConfig';
 import ViewReplayConfig from './game/viewReplay/ViewReplayConfig';
 import MatchingIdx1Config from './game/matching1/MatchingIdx1Config';
 import MatchingIdx2Config from './game/matching2/MatchingIdx2Config';
 import RankingConfig from './game/ranking/RankingConfig';
+import SelfBattleConfig from './game/selfBattle/SelfBattleConfig';
+import CodeListConfig from './codelist/CodeListConfig';
 // import CalendarAppConfig from './calendar/CalendarAppConfig';
 import ChatAppConfig from './chat/ChatAppConfig';
 // import ContactsAppConfig from './contacts/ContactsAppConfig';
@@ -29,6 +33,9 @@ const appsConfigs = [
 	// ContactsAppConfig,
 	// CalendarAppConfig,
 	ChatAppConfig,
+	CodeListConfig,
+	AddGameConfig,
+	AddGameConfig2,
 	// ECommerceAppConfig,
 	// ScrumboardAppConfig,
 	ViewProblemConfig,
@@ -37,7 +44,8 @@ const appsConfigs = [
 	ProblemConfig,
 	BattleConfig,
 	NotesAppConfig,
-	RankingConfig
+	RankingConfig,
+	SelfBattleConfig
 ];
 
 export default appsConfigs;

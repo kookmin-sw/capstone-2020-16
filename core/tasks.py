@@ -52,7 +52,7 @@ def test_code(data):
     print(match_data_file_path)
     with open(match_data_file_path, 'w') as f:
         json.dump(data, f)
-    volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
+    volumes = {match_data_file_path: {'bind': '/testdata.json', 'mode': 'rw'}}
     client.containers.run(image=docker_img, command='python3 test_code.py', volumes=volumes, auto_remove=True, privileged=True)#, tty=True, stdin_open=True)
 
 
@@ -62,14 +62,17 @@ def play_with_me(data):
     docker_img = "core"
     client = docker.from_env()
     f_dir = os.getcwd() + '/play_with_me'
-    file_name = 'matchdata.json.' + time.strftime('%m-%d-%H-%M-%S', time.localtime(time.time())) + '_' + str(
+    file_name = 'testme.json.' + time.strftime('%m-%d-%H-%M-%S', time.localtime(time.time())) + '_' + str(
         data['challenger'])
     print(file_name)
     match_data_file_path = os.path.join(f_dir, file_name)
     print(match_data_file_path)
     with open(match_data_file_path, 'w') as f:
         json.dump(data, f)
-    volumes = {match_data_file_path: {'bind': '/matchdata.json', 'mode': 'rw'}}
+    with open(match_data_file_path) as json_file:
+        json_data = json.load(json_file)
+    print(json_data)
+    volumes = {match_data_file_path: {'bind': '/testme.json', 'mode': 'rw'}}
     client.containers.run(image=docker_img, command='python3 play_with_me.py', volumes=volumes, auto_remove=True,
                           privileged=True)
 

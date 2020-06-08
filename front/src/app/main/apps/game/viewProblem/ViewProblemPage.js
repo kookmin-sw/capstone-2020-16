@@ -1,79 +1,64 @@
 import CodeEditor from './components/CodeEditor';
 import ProblemViewer from './components/ProblemViewer';
-// import FuseAnimate from '@fuse/core/FuseAnimate';
-// import Typography from '@material-ui/core/Typography';
-// import clsx from 'clsx';
-// import { makeStyles } from '@material-ui/core/styles';
-// import Card from "@material-ui/core/Card";
 import Paper from "@material-ui/core/Paper";
-// import Button from "@material-ui/core/Button";
-// import ButtonGroup from "@material-ui/core/ButtonGroup";
-// import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
-// import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import * as Actions from 'app/store/actions';
-import React, { useEffect } from 'react';
-// import {Courses} from 'app/main/apps/game/problem/Courses';
+import React, { useEffect, useState } from 'react';
 import * as Actions from 'app/store/actions';
-
-
-
-
-
-// const useStyles = makeStyles(theme => ({
-//   header: {
-//     background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-//     color: theme.palette.primary.contrastText
-//   },
-//   root: {
-//     maxWidth: 345
-//   },
-//   media: {
-//     height: 0,
-//     // paddingTop: "56.25%" // 16:9
-//   },
-//   expand: {
-//     transform: "rotate(0deg)",
-//     marginLeft: "auto",
-//     transition: theme.transitions.create("transform", {
-//       duration: theme.transitions.duration.shortest
-//     })
-//   },
-//   expandOpen: {
-//     transform: "rotate(180deg)"
-//   },
-// }));
-
+import axios from 'axios';
+import PacmanLoader from "react-spinners/PacmanLoader";
+import { css } from "@emotion/core";
 
 function KnowledgeBasePage() {
-  // const classes = useStyles();
+  const override = css`
+    display: block;
+    margin: 2 auto;
+    border-color: red;
+    position: absolute;
+    z-index: 1000;
+  `;
   
   const dispatch = useDispatch();
 
   var id = document.location.href.split("ViewProblemPage/");
   var id2 = id[1];
-
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  var header = {
+		'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
+  }
 
   var problemId = useSelector(state => state.getProblemId.getId.results[id2-1]);
   var problemIdLocal = window.localStorage.getItem('SelectedProblemId');
-  // console.log(problemIdLocal);
   
   if(!problemId){
     problemId = problemIdLocal;
-    // console.log(problemId);
-    
   }
 
   useEffect( () => {
-    dispatch(Actions.getProblem(problemId))
+    dispatch(Actions.getProblem(problemId));
   },[dispatch])
+
+	useEffect(() => {
+
+		axios
+		.get(`https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/problem/${id2}`, {
+      headers: header
+    })
+		.then(response => {
+      setPosts(response.data);
+      setLoading(false);
+    })
+    
+	},[dispatch]);
+
 
 	return (
       <div className="flex flex-row flex-1 max-w-2xl w-full px-8 sm:px-16 py-24">
         <Paper variant="outlined">
           <div className="flex:1 flex-shrink-0 items-center justify-between px-24 h-64">
-            <ProblemViewer tmp={id2}></ProblemViewer>
+            {loading ? <PacmanLoader css={override} size={100} color={"#36D7B7"} loading={loading} />:<ProblemViewer tmp={posts.description}></ProblemViewer>}
           </div>
         </Paper>
         <Divider orientation="vertical" flexItem />

@@ -215,13 +215,6 @@ class GameManager:
             # After placement board
             self.board = new_board
 
-            # Add board record
-            if i == 1:
-                self.add_data(self.board*(-1), output)
-                print('# After Code placement board')
-                print(self.board*(-1))
-                
-
             # Check Action Rule
             print('Check action rule...', end='')
             try:
@@ -230,7 +223,7 @@ class GameManager:
                 self.error_msg = f'action error : {e}'
                 print(self.error_msg)
                 break
-            print(apply_action)
+            print(apply_action, new_board)
 
             # After action board
             self.board = new_board
@@ -247,9 +240,9 @@ class GameManager:
             print(is_ending, '\n')
             
             if i == 0:
-                print('# After user placement board')
+                print('# After user action board')
                 print(self.board)
-                self.add_record(output) 
+                self.add_data(self.board, output) 
             else:
                 self.add_data(self.board*(-1), output)
                 print('# After Code action board')
@@ -272,7 +265,7 @@ class GameManager:
 
             elif is_ending is False:
                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
-
+                self.board *= -1
         # End game with error
         if self.error_msg != 'no error' and self.error_msg is not None:
             print('End error', str(self.error_msg))

@@ -1,6 +1,7 @@
 import os
 import json
 import redis
+import time
 
 from gamemanager import GameManager
 from gamemanager import test
@@ -44,13 +45,17 @@ def play_with_me(data):
 
     dict_name = str(json_data['challenger']) + '_' + str(json_data['challenger_code_id'])
 
+    while r.exists(dict_name) == 1:
+        pass
+
     result_dict = {
         'result': result,
         'winner': winner,
         'board_record': board_record,
-        'placement_code': placement_code
+        'placement_code': placement_code,
+        'time': time.strftime('%m-%d-%H-%M-%S', time.localtime(time.time()))
     }
-
+    print(result_dict)
     json_result_dict = json.dumps(result_dict, ensure_ascii=False).encode('utf-8')
     r.set(dict_name, json_result_dict)
 

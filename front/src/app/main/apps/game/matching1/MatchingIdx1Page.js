@@ -11,7 +11,7 @@ import React, { useEffect,useState }  from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import * as Actions from 'app/store/actions';
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
@@ -61,6 +61,23 @@ export default function MatchingIdx1() {
       var problemIdId = problemId.id;
       var problemTitle = problemId.title;
    }
+
+   const dispatch = useDispatch();
+   const [posts, setPosts] = useState([]);
+
+	useEffect(() => {
+
+		axios
+		.get(`https://cors-anywhere.herokuapp.com/http://203.246.112.32:8000/api/v1/problem/${id2}`, {
+      headers: header
+    })
+		.then(response => {
+			
+      setPosts(response.data);
+ 
+    })
+    
+	},[dispatch]);
   
 
 
@@ -401,7 +418,7 @@ export default function MatchingIdx1() {
                                     color="inherit"
                                     className="text-32 mx-4 font-light leading-none"
                                  >
-                                    <div><img src={`assets/images/games/${problemIdId}.jpg`} alt="user profile"/></div>
+                                    <div><img src={posts.thumbnail} alt="user profile"/></div>
                                  </Typography>
                               </div>
                            </div>
