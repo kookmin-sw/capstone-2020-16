@@ -46,9 +46,9 @@ const navigationConfig = [
 						icon:'play_circle_filled',
 					},
 					{
-						id: 'game-selfBattle',
-						title: 'SelfBattle',
-						translate: 'Self Battle',
+						id: 'game-VSMyCodes',
+						title: 'VSMyCodes',
+						translate: 'vs My Codes',
 						type: 'item',
 						url: '/SelfBattle',
 						icon:'touch_app',
