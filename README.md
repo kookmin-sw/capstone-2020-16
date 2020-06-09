@@ -48,6 +48,11 @@
 
 [![Video Label](http://img.youtube.com/vi/0Gv2LHSX710/0.jpg)](https://www.youtube.com/watch?v=0Gv2LHSX710&feature=youtu.be)
 
+
+최종 시행영상
+
+url 
+
 ## III. 팀 소개
 
 ![CJS](https://user-images.githubusercontent.com/17774917/77532770-ea3bcb80-6ed8-11ea-84f3-f43deccd5432.JPG)
@@ -142,10 +147,43 @@
 
 ## IV. 사용법
 
-수정 예정
+### API 서버
+```
+      1. pip install requirements.txt 를 사용하여 필요한 모듈을 설치한다.
+      2. capstone-2020-16/api 위치에서 다음 명령어를 실행한다.
+      3. python3.6 manage.py runserver 0.0.0.0:port
+      4. 설정한 포트로 API서버를 배포할 수 있다.
+```
 
+### Core 서버
+```
+      1. Docker, Celery와 redis를 설치한다.
+      2. capstone-2020-16/core 디렉토리에서 sudo docker build -t core . 명령어를 통해 docker imgae를 생성한다.
+      3. 터미널 창에서 redis-server를 통해 redis를 켠다
+      4. capstone-2020-16/core 디렉토리에서 Celery -A tasks worker –loglevel=info 명령어를 통해 Celery를 실행한다.
+```
+
+### 클라이언트 서버
+```
+      * Installation
+            # clone the repo
+            $ git clone https://github.com/kookmin-sw/capstone-2020-16.git
+            # go to app's directory
+            $ cd capstone-2020-16/front/
+            # install app's dependencies
+            $ yarn install
+```
+      
+```
+      * Create React App
+        # dev server  with hot reload at http://localhost:3000
+        $ yarn start
+```
+
+```
+      * Build
+        # build for production with minification
+        $ yarn build
+```
 
 ## V. 기타
-
-
-수정 예정
