@@ -63,13 +63,8 @@ url
 
 📌 **Role**   : 지도교수
 
-
-
-
-
-
-
-
+<br/><br/>
+<br/><br/>
 ![CMS](https://user-images.githubusercontent.com/17774917/77533673-a8ac2000-6eda-11ea-8002-33fac8a50e5a.JPG)
 
 ### 최명서
@@ -81,12 +76,8 @@ url
 📌 **Role**   : 프로젝트 팀장, Core로직 구현, DB설계, Docker Container 구현
 
 
-
-
-
-
-
-
+<br/><br/>
+<br/><br/>
 ![CJW](https://user-images.githubusercontent.com/17774917/77534006-44d62700-6edb-11ea-8e9b-9e3a26521161.png)
 
 ### 최지욱
@@ -98,14 +89,9 @@ url
 📌 **Role**   : Front-End 개발, 리플레이 UI/UX 구현
 
 
-
-
-
-
-
-
+<br/><br/>
+<br/><br/>
 ![baco](https://user-images.githubusercontent.com/17774917/77658505-2430ce80-6fba-11ea-9edd-5469ba88a299.jpg)
-
 
 ### 박호준
 
@@ -116,12 +102,8 @@ url
 📌 **Role**   : Front-End 개발, Docker Container구현
 
 
-
-
-
-
-
-
+<br/><br/>
+<br/><br/>
 ![WHW](https://user-images.githubusercontent.com/17774917/77534210-95e61b00-6edb-11ea-9cbc-736274139e3a.jpg)
 
 ### 우현웅
@@ -133,14 +115,9 @@ url
 📌 **Role**   : API개발, DB 설계 및 구현, Front-End 개발
 
 
-
-
-
-
-
-
+<br/><br/>
+<br/><br/>
 ![KSR](https://user-images.githubusercontent.com/17774917/77534252-a4cccd80-6edb-11ea-8460-0364b64a4a94.png)
-
 
 ### 강수련
 
@@ -151,12 +128,8 @@ url
 📌 **Role**   : Front-End 개발, UI/UX 디자인
 
 
-
-
-
-
-
-
+<br/><br/>
+<br/><br/>
 ![KRD](https://user-images.githubusercontent.com/17774917/77534337-ce85f480-6edb-11ea-9ce9-bfeb89ccbad5.jpg)
 
 ### 칼리드
@@ -167,8 +140,8 @@ url
 
 📌 **Role**   : Front-End 개발
 
-
-
+<br/><br/>
+<br/><br/>
 ## IV. 사용법
 
 ### API 서버
