@@ -167,7 +167,7 @@ url
 * Installation
 ```
   ```python
-  # clone the repo</span>
+    # clone the repo
   ```
   $ git clone https://github.com/kookmin-sw/capstone-2020-16.git
   <span style="color:#d3d3d3"># go to app's directory</span>
