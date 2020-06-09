@@ -168,8 +168,10 @@ url
 ```
   # clone the repo
   $ git clone https://github.com/kookmin-sw/capstone-2020-16.git
+  
   # go to app's directory
   $ cd capstone-2020-16/front/
+  
   # install app's dependencies
   $ yarn install
 ```
