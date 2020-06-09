@@ -52,6 +52,7 @@ class rank(APIView):
             data[i]["username"] = user.username
 
             rank_data = {
+                "user": user.pk,
                 "username": user.username,
                 "tier": data[i]["tier"],
                 "score": data[i]["score"]
