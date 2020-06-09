@@ -68,13 +68,13 @@ function Courses(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-					Self Battle
+					Me vs My Codes
 					</Typography>
 				</FuseAnimate>
 				<FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
-						Welcome to Self Battle Mode. Choose a Game to Play!
+						Welcome to Me vs My Codes. Choose a Game to Play!
 						</span>
 					</Typography>
 				</FuseAnimate>

@@ -33,7 +33,7 @@ class Execution:
 
             if '<' in command:
                 while not os.path.isfile("placement.txt"):
-                    time.sleep(0.3)
+                    pass
                 with open(os.path.join(path + '/placement.txt'), 'r') as fp:
                     pos = fp.readline()
                 os.remove("placement.txt")

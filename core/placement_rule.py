@@ -33,7 +33,7 @@ class PlacementRule:
 
     def check_placement_rule(self, data, board, placement):
         self.setting(data, board, placement)
-
+        # print('end setting')
         # 룰에 맞는 함수들 리스트에 추가
         self.check_game_type()
         
@@ -60,6 +60,7 @@ class PlacementRule:
 
     def setting(self, data, board, placement):
         self.data = data
+        print(self.board)
         try:
             if '>' in placement:
                 self.x1 = list(map(int, placement.split('>')[0].split()))[0]
@@ -116,29 +117,31 @@ class PlacementRule:
         if self.placement_type == 'move':
             if (self.x < 0 or self.x > self.data.board_size) or (self.y < 0 or self.y > self.data.board_size):
                 self.placement_message = f'out of the board : {self.x, self.y}. {self.x1, self.y1} > {self.x, self.y}'
-                return False
+                raise Exception(self.placement_message)
             elif self.board[self.x1][self.y1] == 0:
                 self.placement_message = f'There is no stone : {self.x1, self.y1}. {self.x1, self.y1} > {self.x, self.y}'
-                return False
+                raise Exception(self.placement_message)
             elif int(self.obj_number) < 0:
                 self.placement_message = f'It is not your stone : {self.x1, self.y1}'
+                raise Exception(self.placement_message)
         elif self.placement_type == 'add':
             if (self.x < 0 or self.x > self.data.board_size) or (self.y < 0 or self.y > self.data.board_size):
                 self.placement_message = f'out of the board : {self.x, self.y}'
-                return False
+                raise Exception(self.placement_message)
             elif int(self.obj_number) < 0 :
                 self.placement_message = f'It is not your stone : {self.x1, self.y1}'
-                return False
+                raise Exception(self.placement_message)
         if self.board[self.x][self.y] > 0:
             self.placement_message = f'There is already a stone {self.x, self.y}'
-            return False
-
+            raise Exception(self.placement_message)
+        print(2, self.obj_option)
         if self.board[self.x][self.y] < 0:  # and (2 not in self.data.action_rule[self.obj_number][2]):
             if self.obj_option:
                 if 1 in self.obj_option:
                     return True
             else:
                 self.placement_message = f'There is already a enemy stone {self.x, self.y}'
+                raise Exception(self.placement_message)
                 return False
 
     def add_rule_method(self):

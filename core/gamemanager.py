@@ -238,11 +238,12 @@ class GameManager:
                 print(self.error_msg)
                 break
             print(is_ending, '\n')
-            
+
             if i == 0:
                 print('# After user action board')
                 print(self.board)
                 self.add_data(self.board, output) 
+
             else:
                 self.add_data(self.board*(-1), output)
                 print('# After Code action board')
@@ -250,7 +251,7 @@ class GameManager:
 
             # End game
             if is_ending is True:
-                print('End Game')
+                print('End Game', winner)
                 if winner == 1:
                     winner = self.check_turn
                 elif winner == -1:
@@ -262,6 +263,9 @@ class GameManager:
                     winner = 'draw'
                 match_result = 'finish'
                 self.error_msg = 'no error'
+                if winner == 'challenger':
+                    self.add_data(self.board, output)
+                break
 
             elif is_ending is False:
                 self.check_turn = 'challenger' if self.check_turn == 'opposite' else 'opposite'
