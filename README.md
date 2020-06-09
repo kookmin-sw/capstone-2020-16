@@ -66,8 +66,6 @@ url
 
 ![CMS](https://user-images.githubusercontent.com/17774917/77533673-a8ac2000-6eda-11ea-8002-33fac8a50e5a.JPG)
 
-
-
 ### 최명서
 
 👨‍💻 **Student ID**    : 20143107
@@ -189,4 +187,8 @@ url
   $ yarn build
 ```
 
+* 사용자 메뉴얼
+```
+  ![manual](https://github.com/kookmin-sw/capstone-2020-16/blob/master/docs/%EC%82%AC%EC%9A%A9%EC%9E%90%20%EB%A9%94%EB%89%B4%EC%96%BC.pdf)
+```
 ## V. 기타
