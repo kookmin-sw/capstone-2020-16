@@ -164,8 +164,8 @@ url
 ```
 
 ### 클라이언트 서버
+* Installation
 ```
-      * Installation
             # clone the repo
             $ git clone https://github.com/kookmin-sw/capstone-2020-16.git
             # go to app's directory
@@ -174,14 +174,15 @@ url
             $ yarn install
 ```
       
+* Create React App
 ```
-      * Create React App
         # dev server  with hot reload at http://localhost:3000
         $ yarn start
 ```
 
+
+* Build
 ```
-      * Build
         # build for production with minification
         $ yarn build
 ```
