@@ -3,7 +3,7 @@ import tasks
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework.permissions import IsAuthenticated
 from onepanman_api.models import UserInformationInProblem, Problem, Code
 
 from onepanman_api.permissions import selfBattlePermission
@@ -11,7 +11,7 @@ from onepanman_api.permissions import selfBattlePermission
 
 class SelfBattle(APIView):
 
-    permission_classes = [selfBattlePermission]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
 
