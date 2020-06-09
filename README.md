@@ -183,7 +183,7 @@ url
 
 * Build
 ```
-  <span style="color:#d3d3d3"># build for production with minification</span>
+  <span style="color:#d3d3d3"> # build for production with minification </span>
   $ yarn build
 ```
 
