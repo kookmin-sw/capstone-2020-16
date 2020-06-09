@@ -1,47 +1,49 @@
-## Online Algorithm Battle Service
+## Code on Board
 
 
 ## I. 프로젝트 소개
 
 
 
-![ㅇㅅㅇ](https://user-images.githubusercontent.com/17774917/77642086-6fd67e80-6fa0-11ea-8b34-dde4db31fe73.JPG)
+![캡처](https://user-images.githubusercontent.com/17774917/83146930-ed9a4000-a131-11ea-9035-8ee1bd74d214.JPG)
+
 
 팀페이지주소 : https://kookmin-sw.github.io/capstone-2020-16/
 
 
-**온라인 알고리즘 대전 서비스(Online Algorithm Battle Service)**
+**알고리즘 보드게임 플랫폼 코드 온 보드(Code on board)**
 
 
-  근 몇 년간 AI 열풍이 불면서 알고리즘에 대한 관심도 높아졌다. 초중고 교육 현장에서는 sw교육 열풍이 불고 있고 전공자를 비롯한 많은 사람들이 백준과 프로그래머스 같은 알고리즘 트레이닝 사이트를 통해 알고리즘 트레이닝을 시작했다. 
+본 프로젝트는 일정수준의 코딩이 가능하고 기본적인 알고리즘이 숙지된 사람들을 대상으로 한다.
+8x8 보드판에서 게임에 대한 알고리즘 대전을 제공하는 웹사이트를 개발하는 것이 목표다.
+사용자는 본 서비스를 통해 작성한 코드로 사람들과의 대전을 하고 점수 경쟁을 통해 알고리즘 트레이닝을 지속할 수 있는 동기를 얻을 수 있다.
+또한 리플레이 기능과 내 코드와의 대전을 통해 자신의 코드를 리뷰할 수 있는 기회를 시각적으로 얻을 수 있다.
 
-
-![readme img1](https://user-images.githubusercontent.com/17774917/77534955-07729900-6edd-11ea-8764-affc5b9d1807.JPG)
-
-  하지만 이 사람들 중에 꾸준하게 알고리즘 트레이닝을 하는 사람들은 얼마나 될까. 가입한 사람들에 비해 적은 것은 자명하다. 그렇다면 이렇게 적은 수의 사람들만 꾸준하게 하는 이유는 무엇일까. 우리 팀의 결론은 지속적인 동력이 부족하다는 것이고 이러한 동력을 재미와 경쟁심으로 채워나갈 수 있다고 판단했다.
-재미와 경쟁심을 동력으로 이용한 가장 효과적인 방법이 무엇인지 생각해 봤을 때 게임을 가장 쉽게 떠올릴 수 있었다. 단순히 문제에 대한 알고리즘을 짠 후에 테스트 케이스에 맞는지 채점 받는 자기만족에서 끝나는 것이 아닌 재미가 있는 게임, 다른 사람들의 알고리즘과의 경쟁을 통해 재미와 경쟁심을 동력으로 제공함으로써 지속적인 알고리즘 트레이닝을 할 수 있는 환경을 제공하기로 하였다. 
-
-  본 프로젝트는 일정수준의 코딩이 가능하고 기본적인 알고리즘 공부가 된 사람들에게 게임에 대한 알고리즘을 작성하고 다른 사람들과 경쟁해 볼 수 있는 환경을 제공하는 웹사이트를 개발하는 것이다. 프로젝트는 총 세개의 서버로 나뉘어져 있으며, 클라이언트 서버, api서버, 유저들의 코드를 대전시키는 core서버가 있다.
   
   
-  
-**Online Algorithm Battle Service**
+**Algorithm Board Game Platform Code On Board**
 
- Recently, as the AI boom has increased, interest in algorithms has also increased. In elementary, middle and high curriculum, software education mandatory plans were enforced, and many people, including majors, started practicing algorithm problem solving through algorithm training sites such as Baekjun and programmers.
-
- But how many of these people are still doing algorithm training? It is obvious that there are fewer people who are consistently doing it than those who are registered. So why do we keep so few people? Our team's conclusion is that there is not enough sustained motivation. And we think this motivation is fun and competation. When we think about what the most effective way to use fun and competition as motivation, we could naturally think of the game.
- 
- The project is to develop a website that offers an environment for people who are available to code to a certain level and who have been basic algorithms to create algorithms for games and compte with others.The project is divided into three servers, a client server, an api server, and a core server that charges the user's code.
+The goal of this project is to develop a web service that provides algorithm warfare for games on 8x8 board to people who can code at a certain level and have studied basic algorithms.
+With codes written through this service, users can have an incentive to compete against people and to continue algorithm training through score competitions, and to review their codes visually through replays and battle with my codes.
 
 
 
 
-## II. 소개영상
+## II. 소개영상 및 중간 시행영상
 
+소개 영상
 
 [![Video Label](http://img.youtube.com/vi/onwGQSGU9kc/0.jpg)](https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be)
-https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be
 
+
+중간 시행영상
+
+[![Video Label](http://img.youtube.com/vi/0Gv2LHSX710/0.jpg)](https://www.youtube.com/watch?v=0Gv2LHSX710&feature=youtu.be)
+
+
+최종 시행영상
+
+[![Video Label](http://img.youtube.com/vi/HUIAYqjYGPI/0.jpg)](https://www.youtube.com/watch?v=HUIAYqjYGPI&feature=youtu.be) 
 
 ## III. 팀 소개
 
@@ -53,10 +55,9 @@ https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be
 
 📌 **Role**   : 지도교수
 
-
+<br/><br/>
+<br/><br/>
 ![CMS](https://user-images.githubusercontent.com/17774917/77533673-a8ac2000-6eda-11ea-8002-33fac8a50e5a.JPG)
-
-
 
 ### 최명서
 
@@ -64,11 +65,11 @@ https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be
 
 📧 **E-Mail** : tyms0503@kookmin.ac.kr
 
-📌 **Role**   : 프로젝트 팀장, DB설계, Docker Container 구현
+📌 **Role**   : 프로젝트 팀장, Core로직 구현, DB설계, Docker Container 구현
 
 
-
-
+<br/><br/>
+<br/><br/>
 ![CJW](https://user-images.githubusercontent.com/17774917/77534006-44d62700-6edb-11ea-8e9b-9e3a26521161.png)
 
 ### 최지욱
@@ -80,10 +81,9 @@ https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be
 📌 **Role**   : Front-End 개발, 리플레이 UI/UX 구현
 
 
-
-
+<br/><br/>
+<br/><br/>
 ![baco](https://user-images.githubusercontent.com/17774917/77658505-2430ce80-6fba-11ea-9edd-5469ba88a299.jpg)
-
 
 ### 박호준
 
@@ -94,8 +94,8 @@ https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be
 📌 **Role**   : Front-End 개발, Docker Container구현
 
 
-
-
+<br/><br/>
+<br/><br/>
 ![WHW](https://user-images.githubusercontent.com/17774917/77534210-95e61b00-6edb-11ea-9cbc-736274139e3a.jpg)
 
 ### 우현웅
@@ -104,13 +104,12 @@ https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be
 
 📧 **E-Mail** : dngusdnd@kookmin.ac.kr
 
-📌 **Role**   : API개발, DB 설계 및 구현
+📌 **Role**   : API개발, DB 설계 및 구현, Front-End 개발
 
 
-
-
+<br/><br/>
+<br/><br/>
 ![KSR](https://user-images.githubusercontent.com/17774917/77534252-a4cccd80-6edb-11ea-8460-0364b64a4a94.png)
-
 
 ### 강수련
 
@@ -121,8 +120,8 @@ https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be
 📌 **Role**   : Front-End 개발, UI/UX 디자인
 
 
-
-
+<br/><br/>
+<br/><br/>
 ![KRD](https://user-images.githubusercontent.com/17774917/77534337-ce85f480-6edb-11ea-9ce9-bfeb89ccbad5.jpg)
 
 ### 칼리드
@@ -133,14 +132,56 @@ https://www.youtube.com/watch?v=onwGQSGU9kc&feature=youtu.be
 
 📌 **Role**   : Front-End 개발
 
-
-
+<br/><br/>
+<br/><br/>
 ## IV. 사용법
 
-수정 예정
+### API 서버
+```
+  1. pip install requirements.txt 를 사용하여 필요한 모듈을 설치한다.
+  2. capstone-2020-16/api 위치에서 다음 명령어를 실행한다.
+  3. python3.6 manage.py runserver 0.0.0.0:port
+  4. 설정한 포트로 API서버를 배포할 수 있다.
+```
+
+### Core 서버
+```
+  1. Docker, Celery와 redis를 설치한다.
+  2. capstone-2020-16/core 디렉토리에서 sudo docker build -t core . 명령어를 통해 docker imgae를 생성한다.
+  3. 터미널 창에서 redis-server를 통해 redis를 켠다
+  4. capstone-2020-16/core 디렉토리에서 Celery -A tasks worker –loglevel=info 명령어를 통해 Celery를 실행한다.
+```
+
+### 클라이언트 서버
+* Installation
+```
+  # clone the repo
+  $ git clone https://github.com/kookmin-sw/capstone-2020-16.git
+  
+  # go to app's directory
+  $ cd capstone-2020-16/front/
+  
+  # install app's dependencies
+  $ yarn install
+```
+      
+* Create React App
+```
+  # dev server with hot reload at http://localhost:3000
+  $ yarn start
+```
+
+
+* Build
+```
+  # build for production with minification
+  $ yarn build
+```
+
+* 사용자 메뉴얼
+
+  __Click__ ===>
+  [manual](https://github.com/kookmin-sw/capstone-2020-16/blob/master/docs/%EC%82%AC%EC%9A%A9%EC%9E%90%20%EB%A9%94%EB%89%B4%EC%96%BC.pdf)
 
 
 ## V. 기타
-
-
-수정 예정
