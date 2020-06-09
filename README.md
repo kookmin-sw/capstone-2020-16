@@ -77,6 +77,10 @@ url
 
 
 
+
+
+
+
 ![CJW](https://user-images.githubusercontent.com/17774917/77534006-44d62700-6edb-11ea-8e9b-9e3a26521161.png)
 
 ### 최지욱
@@ -86,6 +90,10 @@ url
 📧 **E-Mail** : boo106@kookmin.ac.kr
 
 📌 **Role**   : Front-End 개발, 리플레이 UI/UX 구현
+
+
+
+
 
 
 
@@ -104,6 +112,10 @@ url
 
 
 
+
+
+
+
 ![WHW](https://user-images.githubusercontent.com/17774917/77534210-95e61b00-6edb-11ea-9cbc-736274139e3a.jpg)
 
 ### 우현웅
@@ -113,6 +125,10 @@ url
 📧 **E-Mail** : dngusdnd@kookmin.ac.kr
 
 📌 **Role**   : API개발, DB 설계 및 구현, Front-End 개발
+
+
+
+
 
 
 
@@ -127,6 +143,10 @@ url
 📧 **E-Mail** : srkang0913@kookmin.ac.kr
 
 📌 **Role**   : Front-End 개발, UI/UX 디자인
+
+
+
+
 
 
 
@@ -189,7 +209,7 @@ url
 
 * 사용자 메뉴얼
 
-![manual](https://github.com/kookmin-sw/capstone-2020-16/blob/master/docs/%EC%82%AC%EC%9A%A9%EC%9E%90%20%EB%A9%94%EB%89%B4%EC%96%BC.pdf)
+[manual](https://github.com/kookmin-sw/capstone-2020-16/blob/master/docs/%EC%82%AC%EC%9A%A9%EC%9E%90%20%EB%A9%94%EB%89%B4%EC%96%BC.pdf)
 
 
 ## V. 기타
