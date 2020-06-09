@@ -14,25 +14,17 @@
 **알고리즘 보드게임 플랫폼 코드 온 보드(Code on board)**
 
 
-  근 몇 년간 AI 열풍이 불면서 알고리즘에 대한 관심도 높아졌다. 초중고 교육 현장에서는 sw교육 열풍이 불고 있고 전공자를 비롯한 많은 사람들이 백준과 프로그래머스 같은 알고리즘 트레이닝 사이트를 통해 알고리즘 트레이닝을 시작했다. 
+본 프로젝트는 일정수준의 코딩이 가능하고 기본적인 알고리즘이 숙지된 사람들을 대상으로 한다.
+8x8 보드판에서 게임에 대한 알고리즘 대전을 제공하는 웹사이트를 개발하는 것이 목표다.
+사용자는 본 서비스를 통해 작성한 코드로 사람들과의 대전을 하고 점수 경쟁을 통해 알고리즘 트레이닝을 지속할 수 있는 동기를 얻을 수 있다.
+또한 리플레이 기능과 내 코드와의 대전을 통해 자신의 코드를 리뷰할 수 있는 기회를 시각적으로 얻을 수 있다.
 
-
-![readme img1](https://user-images.githubusercontent.com/17774917/77534955-07729900-6edd-11ea-8764-affc5b9d1807.JPG)
-
-  하지만 이 사람들 중에 꾸준하게 알고리즘 트레이닝을 하는 사람들은 얼마나 될까. 가입한 사람들에 비해 적은 것은 자명하다. 그렇다면 이렇게 적은 수의 사람들만 꾸준하게 하는 이유는 무엇일까. 우리 팀의 결론은 지속적인 동력이 부족하다는 것이고 이러한 동력을 재미와 경쟁심으로 채워나갈 수 있다고 판단했다.
-재미와 경쟁심을 동력으로 이용한 가장 효과적인 방법이 무엇인지 생각해 봤을 때 게임을 가장 쉽게 떠올릴 수 있었다. 단순히 문제에 대한 알고리즘을 짠 후에 테스트 케이스에 맞는지 채점 받는 자기만족에서 끝나는 것이 아닌 재미가 있는 게임, 다른 사람들의 알고리즘과의 경쟁을 통해 재미와 경쟁심을 동력으로 제공함으로써 지속적인 알고리즘 트레이닝을 할 수 있는 환경을 제공하기로 하였다. 
-
-  본 프로젝트는 일정수준의 코딩이 가능하고 기본적인 알고리즘 공부가 된 사람들에게 게임에 대한 알고리즘을 작성하고 다른 사람들과 경쟁해 볼 수 있는 환경을 제공하는 웹사이트를 개발하는 것이다. 프로젝트는 총 세개의 서버로 나뉘어져 있으며, 클라이언트 서버, api서버, 유저들의 코드를 대전시키는 core서버가 있다.
-  
   
   
 **Algorithm Board Game Platform Code On Board**
 
- Recently, as the AI boom has increased, interest in algorithms has also increased. In elementary, middle and high curriculum, software education mandatory plans were enforced, and many people, including majors, started practicing algorithm problem solving through algorithm training sites such as Baekjun and programmers.
-
- But how many of these people are still doing algorithm training? It is obvious that there are fewer people who are consistently doing it than those who are registered. So why do we keep so few people? Our team's conclusion is that there is not enough sustained motivation. And we think this motivation is fun and competation. When we think about what the most effective way to use fun and competition as motivation, we could naturally think of the game.
- 
- The project is to develop a website that offers an environment for people who are available to code to a certain level and who have been basic algorithms to create algorithms for games and compte with others.The project is divided into three servers, a client server, an api server, and a core server that charges the user's code.
+The goal of this project is to develop a web service that provides algorithm warfare for games on 8x8 board to people who can code at a certain level and have studied basic algorithms.
+With codes written through this service, users can have an incentive to compete against people and to continue algorithm training through score competitions, and to review their codes visually through replays and battle with my codes.
 
 
 
@@ -51,7 +43,7 @@
 
 최종 시행영상
 
-url 
+[![Video Label](http://img.youtube.com/vi/HUIAYqjYGPI/0.jpg)](https://www.youtube.com/watch?v=HUIAYqjYGPI&feature=youtu.be) 
 
 ## III. 팀 소개
 
