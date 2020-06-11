@@ -159,7 +159,7 @@ function Courses(props) {
                                        className="flex flex-shrink-0 items-center justify-between px-24 h-64"
                                     >
                                        <Typography className="font-medium truncate" color="primary">
-                                          <h2>{`${course.title} 대전기록 vs ${getOppositeName(course.challenger_name, course.opposite_name)}`}</h2>
+                                          <h2>{`${course.title} 대전기록 vs ${course.opposite_name}`}</h2>
                                           <h3>{`게임시각 : ${getGameTime(course.date)}`}</h3>
                                        </Typography>
                                        <Typography className="font-medium truncate" color="inherit">
