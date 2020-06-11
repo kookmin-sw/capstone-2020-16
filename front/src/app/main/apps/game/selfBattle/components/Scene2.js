@@ -398,11 +398,7 @@ class Scene2 extends Phaser.Scene {
           this.myChacksoo.setText(moveInfo);
         }
       } else{
-        if(true){
-          this.myChacksoo.setText("0,0");
-          // let moveInfo = this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][2] + "," + this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][4];
-          // this.myChacksoo.setText(moveInfo);
-        }
+        this.myChacksoo.setText("0,0");
       }
       this.yourChacksoo.setText("ready");
     } else if(this.boardStatus.boardIdx%3 === 0 && this.boardStatus.boardIdx > 0){
@@ -413,6 +409,8 @@ class Scene2 extends Phaser.Scene {
           let moveInfo = this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][2] + "," + this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][4];
           this.yourChacksoo.setText(moveInfo);
         }
+      } else{
+        this.yourChacksoo.setText("0,0");
       }
       this.myChacksoo.setText("ready");
       // this.yourChacksoo.setText(this.boardStatus.oppositePlacement);
