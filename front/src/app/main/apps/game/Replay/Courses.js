@@ -32,10 +32,11 @@ const useStyles = makeStyles(theme => ({
 function Courses(props) {
    const dispatch = useDispatch();
    const classes = useStyles(props);
+   const [pk, setPk] = useState(parseInt(window.localStorage.getItem('pk')));
    var header = {
       'Authorization' : 'jwt ' + window.localStorage.getItem('jwt_access_token')
      }
-    const pk = window.localStorage.getItem('pk');
+   //  const pk = window.localStorage.getItem('pk');
    //  console.log(pk);
    const [posts, setPosts] = useState([]);
    useEffect(() => {
@@ -76,16 +77,16 @@ function Courses(props) {
       return date[0];
    }
    function getWinner(challenger, opposite, winner){
-      if(challenger === parseInt(window.localStorage.getItem("pk")) && winner === "challenger"){
+      if(challenger === pk && winner === "challenger"){
          return 'WIN!';
       }
-      else if(opposite === parseInt(window.localStorage.getItem("pk")) && winner === "opposite"){
+      else if(opposite === pk && winner === "opposite"){
          return 'WIN!';
       }
-      else if(challenger === parseInt(window.localStorage.getItem("pk")) && winner === "opposite"){
+      else if(challenger === pk && winner === "opposite"){
          return 'LOSE!';
       }
-      else if(opposite === parseInt(window.localStorage.getItem("pk")) && winner === "challenger"){
+      else if(opposite === pk && winner === "challenger"){
          return 'LOSE!';
       }
       else{
@@ -93,14 +94,14 @@ function Courses(props) {
       }
    }
    function getScoreFlu(challenger_name, opposite_name, challenger_score_flu, opposite_score_flu){
-      if(challenger_name ===  parseInt(window.localStorage.getItem("pk"))){
+      if(challenger_name ===  pk){
          if(challenger_score_flu > 0){
             return '+' + challenger_score_flu;
          } else{
          return challenger_score_flu;
          }
       }
-      else if(opposite_name ===  parseInt(window.localStorage.getItem("pk"))){
+      else if(opposite_name ===  pk){
          if(opposite_score_flu > 0){
             return '+' + opposite_score_flu;
          } else{
@@ -112,10 +113,10 @@ function Courses(props) {
       }
    }
    function getScore(challenger_name, opposite_name, challenger_score, opposite_score){
-      if(challenger_name ===  parseInt(window.localStorage.getItem("pk"))){
+      if(challenger_name ===  pk){
             return challenger_score;
       }
-      else if(opposite_name ===  parseInt(window.localStorage.getItem("pk"))){
+      else if(opposite_name ===  pk){
          return opposite_score;
       }
       else{
@@ -159,7 +160,7 @@ function Courses(props) {
                                        className="flex flex-shrink-0 items-center justify-between px-24 h-64"
                                     >
                                        <Typography className="font-medium truncate" color="primary">
-                                          <h2>{`${course.title} 대전기록 vs ${course.opposite_name}`}</h2>
+                                          <h2>{`${course.title} 대전기록 vs ${course.challenger === pk ? course.opposite_name : course.challenger_name}`}</h2>
                                           <h3>{`게임시각 : ${getGameTime(course.date)}`}</h3>
                                        </Typography>
                                        <Typography className="font-medium truncate" color="inherit">
