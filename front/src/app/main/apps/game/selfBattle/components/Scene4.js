@@ -124,7 +124,7 @@ class Scene4 extends Phaser.Scene {
                 } else if(response.data.result === "challenger_error"){
                   this.boardStatus.errMsg = "challenger_error";
                 } else if(response.data.result === "opposite_error"){
-                  this.boardStatus.errMsg = "challenger_error";
+                  this.boardStatus.errMsg = "opposite_error";
                 } else{
                   this.boardStatus.errMsg = "";
                 }
@@ -489,19 +489,27 @@ class Scene4 extends Phaser.Scene {
 
       // placement info
       if(this.boardStatus.boardIdx%3 === 1){
-        if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)].length > 6){
-          this.myChacksoo.setText(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)]);
+        if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)] !== undefined){
+          if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)].length > 6){
+            this.myChacksoo.setText(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)]);
+          } else{
+            let moveInfo = this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][2] + "," + this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][4];
+            this.myChacksoo.setText(moveInfo);
+          }
         } else{
-          let moveInfo = this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][2] + "," + this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)][4];
-          this.myChacksoo.setText(moveInfo);
+          this.myChacksoo.setText("0,0");
         }
         this.yourChacksoo.setText("ready");
       } else if(this.boardStatus.boardIdx%3 === 0 && this.boardStatus.boardIdx > 0){
-        if(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)].length > 6){
-          this.yourChacksoo.setText(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)]);
+        if(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)] !== undefined){
+          if(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)].length > 6){
+            this.yourChacksoo.setText(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)]);
+          } else{
+            let moveInfo = this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][2] + "," + this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][4];
+            this.yourChacksoo.setText(moveInfo);
+          }
         } else{
-          let moveInfo = this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][2] + "," + this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][4];
-          this.yourChacksoo.setText(moveInfo);
+          this.yourChacksoo.setText("0,0");
         }
         this.myChacksoo.setText("ready");
         // this.yourChacksoo.setText(this.boardStatus.oppositePlacement);
