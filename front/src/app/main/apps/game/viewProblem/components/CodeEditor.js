@@ -115,7 +115,6 @@ function CodeEditor() {
     });
 
     function changeMode(event) {
-      console.log(event.target.value + "<<<<<<<<");
         if(event.target.value === "select"){
           if(window.sessionStorage.getItem("SS_editMode") === "true"){
             setCode(prevCode);
@@ -154,7 +153,7 @@ function CodeEditor() {
           } else{
             setCode("def solve(board): \n\tx = 0\n\ty = 0\n\t# solve!!\n\tprint(1, x, y)\n\nif __name__ == '__main__':\n\tboard = []\n\tfor i in range(8):\n\t\tline = input()\n\t\tboard.append(list(map(int, line.strip('\\n').split())))\n\tsolve(board)");
           }
-          window.localStorage.setItem('language_id', 1); window.localStorage.setItem('editor_type', 'python');
+          window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
         }
         setOption({
             mode: event.target.value,
@@ -183,8 +182,8 @@ function CodeEditor() {
         window.localStorage.setItem('editor_type', 'select');
         return "select";
       } else{
-        window.localStorage.setItem('editor_type', 'python');
-        return "python";
+        window.localStorage.setItem('editor_type', 'select');
+        return "select";
       }
     }
 
