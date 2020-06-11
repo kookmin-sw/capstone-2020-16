@@ -402,11 +402,13 @@ class Scene2 extends Phaser.Scene {
       }
       this.yourChacksoo.setText("ready");
     } else if(this.boardStatus.boardIdx%3 === 0 && this.boardStatus.boardIdx > 0){
-      if(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)].length > 6){
-        this.yourChacksoo.setText(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)]);
-      } else{
-        let moveInfo = this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][2] + "," + this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][4];
-        this.yourChacksoo.setText(moveInfo);
+      if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)] !== undefined){
+        if(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)].length > 6){
+          this.yourChacksoo.setText(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)]);
+        } else{
+          let moveInfo = this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][2] + "," + this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)][4];
+          this.yourChacksoo.setText(moveInfo);
+        }
       }
       this.myChacksoo.setText("ready");
       // this.yourChacksoo.setText(this.boardStatus.oppositePlacement);
