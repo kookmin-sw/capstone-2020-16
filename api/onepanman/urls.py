@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'api/(?P<version>v1)/', include('onepanman_api.url')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^rest-auth/', include('rest_auth.urls')),
-    # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('rest-auth/registration/', onepanman_api.views.api.user.RegisterView.as_view(), name='registration'),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    # path('rest-auth/registration/', onepanman_api.views.api.user.RegisterView.as_view(), name='registration'),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
