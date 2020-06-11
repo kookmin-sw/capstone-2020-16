@@ -169,7 +169,11 @@ class Scene2 extends Phaser.Scene {
               }
 
               this.boardStatus.boardIdx = this.boardStatus.realChacksoo.length - 1;
-              this.boardStatus.placement = response.data.placement_code.split(/\n/);
+              if(response.data.placement_code !== null){
+                this.boardStatus.placement = response.data.placement_code.split(/\n/);
+              } else{
+                this.boardStatus.placement = "0 0 0";
+              }
               this.boardStatus.idxLen = this.boardStatus.realChacksoo.length - 1;
             })
             .catch((error) => {
@@ -402,7 +406,7 @@ class Scene2 extends Phaser.Scene {
       }
       this.yourChacksoo.setText("ready");
     } else if(this.boardStatus.boardIdx%3 === 0 && this.boardStatus.boardIdx > 0){
-      if(this.boardStatus.challengerPlacement[parseInt((this.boardStatus.boardIdx-1)/3)] !== undefined){
+      if(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)] !== undefined){
         if(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)].length > 6){
           this.yourChacksoo.setText(this.boardStatus.oppositePlacement[parseInt((this.boardStatus.boardIdx-2)/3)]);
         } else{
