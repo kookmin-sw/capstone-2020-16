@@ -101,9 +101,28 @@ function RankingTable(props) {
                         window.localStorage.setItem("SelectedProblemId", row.language);
                         window.sessionStorage.setItem("SS_editMode", true);
                         window.sessionStorage.setItem("SS_codeId", row.id);
-                        console.log(window.localStorage.getItem("SelectedProblemId"));
-                        console.log(window.sessionStorage.getItem("SS_editMode"));
-                        console.log(window.sessionStorage.getItem("SS_codeId"));
+                        window.sessionStorage.setItem("SS_languageId", PL);
+                        switch(parseInt(row.language)){
+                          case 1:
+                            window.localStorage.setItem("language_id", 1);
+                            window.localStorage.setItem('editor_type', 'python');
+                            break;
+                          case 2:
+                            window.localStorage.setItem("language_id", 2);
+                            window.localStorage.setItem('editor_type', 'clike');
+                            break;
+                          case 3:
+                            window.localStorage.setItem("language_id", 3);
+                            window.localStorage.setItem('editor_type', 'clike');
+                            break;
+                          default:
+                            window.localStorage.setItem("language_id", 0);
+                            window.localStorage.setItem('editor_type', 'select');
+                            break;
+                        }
+                        // console.log(window.localStorage.getItem("SelectedProblemId"));
+                        // console.log(window.sessionStorage.getItem("SS_editMode"));
+                        // console.log(window.sessionStorage.getItem("SS_codeId"));
                       }}>
                       Edit
                     </Button>
