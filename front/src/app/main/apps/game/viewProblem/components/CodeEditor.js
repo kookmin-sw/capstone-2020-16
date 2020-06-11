@@ -104,6 +104,7 @@ function CodeEditor() {
         window.sessionStorage.removeItem("SS_codeId");
         window.sessionStorage.removeItem("SS_editMode");
         window.localStorage.removeItem("language_id");
+        window.localStorage.removeItem('editor_type');
       }
     }, []);
 
@@ -123,18 +124,35 @@ function CodeEditor() {
           window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
         }
         else if(event.target.value === "python"){
-          setCode("def solve(board): \n\tx = 0\n\ty = 0\n\t# solve!!\n\tprint(1, x, y)\n\nif __name__ == '__main__':\n\tboard = []\n\tfor i in range(8):\n\t\tline = input()\n\t\tboard.append(list(map(int, line.strip('\\n').split())))\n\tsolve(board)");
+          if(window.sessionStorage.getItem("SS_editMode") === "true" && window.sessionStorage.getItem("SS_languageId") === "Python"){
+            setCode(prevCode);
+          } else{
+            setCode("def solve(board): \n\tx = 0\n\ty = 0\n\t# solve!!\n\tprint(1, x, y)\n\nif __name__ == '__main__':\n\tboard = []\n\tfor i in range(8):\n\t\tline = input()\n\t\tboard.append(list(map(int, line.strip('\\n').split())))\n\tsolve(board)");
+          }
           window.localStorage.setItem('language_id', 1); window.localStorage.setItem('editor_type', 'python');
         }
         else if(event.target.value === "cpp"){
-          setCode("#include <iostream>\n\nusing namespace std;\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\tcout << 1 << x << y;\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tcin >> board[i][j];\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
+          if(window.sessionStorage.getItem("SS_editMode") === "true" && window.sessionStorage.getItem("SS_languageId") === "CPP"){
+            setCode(prevCode);
+          } else{
+            setCode("#include <iostream>\n\nusing namespace std;\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\tcout << 1 << x << y;\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tcin >> board[i][j];\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
+          }
           window.localStorage.setItem('language_id', 3); window.localStorage.setItem('editor_type', 'clike');
         }
         else if(event.target.value === "c"){
-          setCode("#include <stdio.h>\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\tprintf(\"%d %d\", x, y);\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tscanf(\"%d\", &board[i][j]);\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
+          if(window.sessionStorage.getItem("SS_editMode") === "true" && window.sessionStorage.getItem("SS_languageId") === "C"){
+            setCode(prevCode);
+          } else{
+            setCode("#include <stdio.h>\n\nint board[8][8];\n\nvoid solve()\n{\n\tint x = 0;\n\tint y = 0;\n\t// solve!\n\tprintf(\"%d %d\", x, y);\n}\n\nint main(void)\n{\n\tint i, j;\n\tfor(i=0; i<8; i++)\n\t{\n\t\tfor(j=0; j<8; j++)\n\t\t{\n\t\t\tscanf(\"%d\", &board[i][j]);\n\t\t}\n\t}\n\tsolve();\n\treturn 0;\n}");
+          }
           window.localStorage.setItem('language_id', 2); window.localStorage.setItem('editor_type', 'clike');
         }
         else{
+          if(window.sessionStorage.getItem("SS_editMode") === "true"){
+            setCode(prevCode);
+          } else{
+            setCode("def solve(board): \n\tx = 0\n\ty = 0\n\t# solve!!\n\tprint(1, x, y)\n\nif __name__ == '__main__':\n\tboard = []\n\tfor i in range(8):\n\t\tline = input()\n\t\tboard.append(list(map(int, line.strip('\\n').split())))\n\tsolve(board)");
+          }
           window.localStorage.setItem('language_id', 0); window.localStorage.setItem('editor_type', 'select');
         }
         setOption({
@@ -150,16 +168,19 @@ function CodeEditor() {
     };
 
     function setLanguageSelect(){
-      let codeId = parseInt(window.localStorage.getItem("language_id"));
-      if(codeId === 1){
+      let codeId = window.localStorage.getItem("language_id");
+      if(codeId === "1"){
         window.localStorage.setItem('editor_type', 'python');
         return "python";
-      } else if(codeId === 3){
+      } else if(codeId === "3"){
         window.localStorage.setItem('editor_type', 'clike');
         return "cpp";
-      } else if (codeId === 2){
+      } else if (codeId === "2"){
         window.localStorage.setItem('editor_type', 'clike');
         return "c";
+      } else if(codeId === "0"){
+        window.localStorage.setItem('editor_type', 'select');
+        return "select";
       } else{
         window.localStorage.setItem('editor_type', 'select');
         return "select";
