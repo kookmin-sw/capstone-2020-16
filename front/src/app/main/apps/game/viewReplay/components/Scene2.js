@@ -35,8 +35,9 @@ class Scene2 extends Phaser.Scene {
         // console.log(response)
         this.boardStatus.isError = response.data.error_msg;
         this.boardStatus.chacksoo = response.data.record.replace(/\n/gi, '').split(/ /);
+        console.log(this.boardStatus.chacksoo);
         this.boardStatus.placement = response.data.placement_record.split(/\n/);
-        this.boardStatus.idxLen = this.boardStatus.chacksoo.length/64;
+        this.boardStatus.idxLen = this.boardStatus.chacksoo.length/64 - 2;
         this.boardStatus.challengerId = response.data.challenger;
         this.boardStatus.oppositeId = response.data.opposite;
       })
@@ -335,7 +336,7 @@ class Scene2 extends Phaser.Scene {
         this.boardStatus.boardIdx = parseInt(this.sliderDot.slider.value * this.boardStatus.idxLen + 0.00001);
       }
 
-      if(this.boardStatus.boardIdx >= (this.boardStatus.idxLen -2) && this.boardStatus.isAuto){
+      if(this.boardStatus.boardIdx >= (this.boardStatus.idxLen) && this.boardStatus.isAuto){
         this.boardStatus.idxIncrement = false;
         this.sliderDot.slider.value = 0;
       }
