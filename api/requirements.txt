@@ -23,7 +23,7 @@ Django>=2.2.13
 django-allauth==0.41.0
 django-filter==2.0.0
 django-rest-auth==0.9.5
-djangorestframework==3.9.1
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 docutils==0.14
 drf-yasg==1.11.0
