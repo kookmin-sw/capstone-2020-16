@@ -88,7 +88,7 @@
     "pdfjs": "^2.3.5",
     "perfect-scrollbar": "1.5.0",
     "phaser": "^3.22.0",
-    "prismjs": "1.19.0",
+    "prismjs": "1.24.0",
     "prop-types": "15.7.2",
     "qs": "6.9.1",
     "raw-loader": "4.0.0",
