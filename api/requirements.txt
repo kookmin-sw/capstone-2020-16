@@ -61,7 +61,7 @@ multiprocess==0.70.7
 mysqlclient==1.4.6
 numpy==1.16.3
 oauthlib==3.0.1
-opencv-python==4.0.0.21
+opencv-python==4.2.0.32
 osqp==0.5.0
 pandas==0.24.2
 Pillow>=6.2.2
